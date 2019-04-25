@@ -71,4 +71,18 @@
         <property name="exposeRequestAttributes" value="true" />
         <property name="exposeSessionAttributes" value="true" />
     </bean>
+
+    <!-- 支付配置 -->
+    <bean class="com.jzy.api.service.pay.impl.PaywayProvider">
+        <property name="payWayMap">
+            <map>
+                <entry key="0">
+                    <bean class="com.jzy.api.service.pay.impl.WxPayServiceImpl"/>
+                </entry>
+                <entry key="1">
+                    <bean class="com.jzy.api.service.pay.impl.AliPayServiceImpl"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
 </beans>
