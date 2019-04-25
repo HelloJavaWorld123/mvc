@@ -1,8 +1,8 @@
 package com.jzy.framework.service.impl;
 
 import com.jzy.framework.bean.model.GenericModel;
-import com.jzy.framework.dao.BaseMapper;
-import com.jzy.framework.service.BaseService;
+import com.jzy.framework.dao.GenericMapper;
+import com.jzy.framework.service.GenericService;
 
 import java.util.Date;
 
@@ -15,7 +15,7 @@ import java.util.Date;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190425&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;邓冲&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
-public abstract class GenericBaseService<T extends GenericModel> implements BaseService<T> {
+public abstract class GenericServiceImpl<T extends GenericModel> implements GenericService<T> {
 
     /**
      * <b>功能描述：</b>新增<br>
@@ -27,7 +27,7 @@ public abstract class GenericBaseService<T extends GenericModel> implements Base
         t.setDelflg(0);
         t.setCreateTime(new Date());
         t.setModifyTime(t.getCreateTime());
-        return getBaseMapper().insert(t);
+        return getGenericMapper().insert(t);
     }
 
     /**
@@ -37,7 +37,7 @@ public abstract class GenericBaseService<T extends GenericModel> implements Base
      */
     @Override
     public int update(T t) {
-        return getBaseMapper().update(t);
+        return getGenericMapper().update(t);
     }
 
     /**
@@ -47,7 +47,7 @@ public abstract class GenericBaseService<T extends GenericModel> implements Base
      */
     @Override
     public int delete(Long id, Integer dealerId) {
-        return getBaseMapper().delete(id, dealerId);
+        return getGenericMapper().delete(id, dealerId);
     }
 
     /**
@@ -57,7 +57,7 @@ public abstract class GenericBaseService<T extends GenericModel> implements Base
      */
     @Override
     public T queryById(Long id, Integer dealerId) {
-        return getBaseMapper().queryById(id, dealerId);
+        return getGenericMapper().queryById(id, dealerId);
     }
 
     /**
@@ -65,5 +65,5 @@ public abstract class GenericBaseService<T extends GenericModel> implements Base
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    protected abstract BaseMapper<T> getBaseMapper();
+    protected abstract GenericMapper<T> getGenericMapper();
 }

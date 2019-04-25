@@ -72,8 +72,8 @@ public class MyRealm extends AuthorizingRealm {
         // 根据用户id获取账户信息
 
         User user = new User();
-        user.setId(1L);
-        user.setUsername("dc");
+        user.setId(2L);
+        user.setUsername("xt");
         user.setPassword("e10adc3949ba59abbe56e057f20f883e");
 
         SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(

@@ -1,5 +1,6 @@
 package com.jzy.api.model;
 
+import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
 
 /**
@@ -7,7 +8,7 @@ import lombok.Data;
  * 用户模型
  */
 @Data
-public class User {
+public class User extends GenericModel {
 
     private String user_id;
     private String username;//用户名

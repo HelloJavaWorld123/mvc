@@ -1,4 +1,4 @@
-package com.jzy.framework.service;
+package com.jzy.framework.dao;
 
 import com.jzy.framework.bean.model.GenericModel;
 
@@ -11,7 +11,7 @@ import com.jzy.framework.bean.model.GenericModel;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190425&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;刘宏超$&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
-public interface BaseService<T extends GenericModel> {
+public interface GenericMapper<T extends GenericModel> {
 
     /**
      * <b>功能描述：</b>新增<br>
