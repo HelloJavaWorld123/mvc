@@ -13,7 +13,7 @@
         <param-value>
             classpath:/config/applicationContext.xml
             classpath:/config/applicationContext-shiro.xml
-            <!--classpath:/config/applicationContext-db.xml-->
+           <!-- classpath:/config/applicationContext-db.xml-->
         </param-value>
     </context-param>
 

@@ -4,6 +4,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:redisson="http://redisson.org/schema/redisson"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
@@ -20,11 +21,17 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
+    <import resource="applicationContext-empty.xml"/>
+    <import resource="applicationContext-db.xml"/>
+
     <!-- 引入文件属性 -->
-    <context:property-placeholder location="classpath:config/jdbc.properties" />
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:config/jdbc.properties"/>
-    </bean>
+<!--
+    <context:property-placeholder location="classpath:config/applicationContext-empty.xml" />
+-->
+<!--    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:config/applicationContext-empty.xml"/>
+    </bean>-->
+
 
     <!-- JNDI DataSource for J2EE environments -->
     <bean id="mySqlDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">

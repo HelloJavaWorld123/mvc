@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:redisson="http://redisson.org/schema/redisson"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://redisson.org/schema/redisson http://redisson.org/schema/redisson/redisson.xsd"
+       default-lazy-init="true">
+
+    <description>S1 数据库配置</description>
+
+    <redisson:client>
+        <redisson:single-server
+                address="redis://${redis.ip}:${redis.port}"
+                password="${redis.pwd}"
+                idle-connection-timeout="10000"
+                ping-timeout="1000"
+                connect-timeout="10000"
+                timeout="3000"
+                retry-attempts="3"
+                retry-interval="1500"
+                subscriptions-per-connection="5"
+                client-name="none"
+                subscription-connection-minimum-idle-size="1"
+                subscription-connection-pool-size="50"
+                connection-minimum-idle-size="10"
+                connection-pool-size="64"
+                database="${redis.db.index}"
+        />
+    </redisson:client>
+
+
+
+</beans>
