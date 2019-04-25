@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <!-- 控制台输出 -->
+    <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.out"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-4r %-5p [%t] %37c %15M %3x - %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- 所有文件输出 -->
+    <appender name="AllFileAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+        <param name="encoding" value="UTF-8"/>
+        <param name="file" value="${catalina.home}/logs/catalina.log"/>
+        <param name="Threshold" value="ALL"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-4r %-5p [%t] %37c %15M %3x - %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- 错误日志文件输出 -->
+    <appender name="ErrorFileAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+        <param name="encoding" value="UTF-8"/>
+        <param name="file" value="${catalina.home}/logs/error.log"/>
+        <param name="Threshold" value="ERROR"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-4r %-5p [%t] %37c %15M %3x - %m%n"/>
+        </layout>
+    </appender>
+
+
+    <!-- 大众点评CAT输出 -->
+    <appender name="CatAppender" class="com.dianping.cat.log4j.CatAppender">
+    </appender>
+
+    <logger name="com.jzy.api">
+        <level value="DEBUG"/>
+    </logger>
+
+
+    <logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <level value="WARN"/>
+        <appender-ref ref="ConsoleAppender"/>
+    </logger>
+
+    <logger name="org.springframework.web">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="com.dianping.api.location" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="CatAppender"/>
+    </logger>
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="ConsoleAppender"/>
+        <appender-ref ref="AllFileAppender"/>
+        <appender-ref ref="ErrorFileAppender"/>
+        <appender-ref ref="CatAppender"/>
+    </root>
+
+</log4j:configuration>

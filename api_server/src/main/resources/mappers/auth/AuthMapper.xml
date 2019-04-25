@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- 
+	SQL映射文件名称：权限业务
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190424	邓冲	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.auth.AuthMapper">
+
+    <!--  根据用户id获取角色信息 -->
+    <select id="queryRoleList" resultType="com.jzy.api.model.auth.Role">
+        SELECT
+        role.id,
+        role. NAME
+        FROM
+        sys_role role
+        WHERE
+            EXISTS (
+                SELECT
+                  1
+                FROM
+                sys_user_role userRole
+                WHERE
+                    userRole.role_id = role.id
+                AND userRole.user_id = #{userId}
+            )
+    </select>
+
+    <!-- 根据角色id获取所有权限信息  -->
+    <select id="queryPermissionList" resultType="java.lang.String">
+        SELECT
+        auth.url
+        FROM
+        sys_auth auth
+        WHERE
+        auth.id IN (
+        SELECT
+        auth_id
+        FROM
+        sys_role_auth
+        WHERE
+        role_id IN
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+        )
+    </select>
+
+</mapper>
