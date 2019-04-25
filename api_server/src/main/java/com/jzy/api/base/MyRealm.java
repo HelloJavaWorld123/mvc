@@ -3,6 +3,7 @@ package com.jzy.api.base;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.auth.User;
 import com.jzy.api.service.auth.AuthService;
+import com.jzy.framework.exception.BusException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -41,7 +42,7 @@ public class MyRealm extends AuthorizingRealm {
         // 根据用户id获取用户所对应的角色列表
         Set<Role> roleList = authService.queryRoleList(user.getId());
         if (roleList == null || roleList.isEmpty()) {
-            throw new RuntimeException("当前用户没有角色设置！");
+            throw new BusException("当前用户没有角色设置！");
         }
         Set<String> roleNames = new HashSet<>();
         List<Long> roleIds = new ArrayList<>();
@@ -52,7 +53,7 @@ public class MyRealm extends AuthorizingRealm {
         // 根据角色id查询权限列表信息
         Set<String> permissionList = authService.queryPermissionList(roleIds);
         if (permissionList == null || permissionList.isEmpty()) {
-            throw new RuntimeException("当前用户没有权限设置！");
+            throw new BusException("当前用户没有权限设置！");
         }
         simpleAuthorizationInfo.setRoles(roleNames);
         simpleAuthorizationInfo.setStringPermissions(permissionList);
