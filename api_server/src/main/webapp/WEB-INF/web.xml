@@ -84,9 +84,6 @@
     <context-param>
         <!-- 日志配置文件路径 -->
         <param-name>log4jConfigLocation</param-name>
-<!--
-        <param-value>classpath:config/log4j.properties</param-value>
--->
         <param-value>classpath:config/log4j.xml</param-value>
     </context-param>
     <context-param>
