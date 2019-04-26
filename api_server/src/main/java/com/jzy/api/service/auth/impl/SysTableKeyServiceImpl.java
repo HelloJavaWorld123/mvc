@@ -48,22 +48,7 @@ public class SysTableKeyServiceImpl {
 
     public long newkey(String tableName, String columnName, int centerId) {
 
-        final String lockStr = "PK_Lock:".concat(tableName).concat(columnName);
-        RLock lock = null;// 加上同步锁，防止并发请求数据异常
-        try {
-            lock = redissonClient.getLock(lockStr);
-            lock.lock(10, TimeUnit.SECONDS);
-            return getAutoSequenceCode(centerId, tableName, columnName);
-        } finally {
-
-
-            if (lock != null) {
-                try {
-                    lock.unlock();
-                } catch (Exception ignored) {
-                }
-            }
-        }
+        return getAutoSequenceCode(centerId, tableName, columnName);
     }
 
 
@@ -97,7 +82,7 @@ public class SysTableKeyServiceImpl {
 
     private Long increasing(String tableName, String columnName, Integer centerId) {
         Long curVal = 1L;
-        final String tableKey = "PK_Sys:".concat(tableName).concat(columnName);
+        final String tableKey = "PK_Sys:".concat(tableName).concat("_").concat(columnName);
         RAtomicLong pkIndex = redissonClient.getAtomicLong(tableKey);
 
         if (pkIndex.isExists()) {
