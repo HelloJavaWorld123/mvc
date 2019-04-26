@@ -22,7 +22,7 @@ public class ApiResult<T> {
     /**
      * 错误编码
      */
-    private Integer code;
+    private String code = "";
     /**
      * 错误信息
      */
@@ -30,7 +30,7 @@ public class ApiResult<T> {
     /**
      * 返回数据
      */
-    private T data;
+    private T data = null;
 
     public ApiResult() {
     }
@@ -54,9 +54,9 @@ public class ApiResult<T> {
         return this;
     }
 
-    public ApiResult fail(String msg) {
+    public ApiResult fail(String code) {
         this.result = 0;
-        this.msg = msg;
+        this.code = code;
         return this;
     }
 }
