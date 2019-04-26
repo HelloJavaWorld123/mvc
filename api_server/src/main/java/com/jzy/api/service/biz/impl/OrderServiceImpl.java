@@ -5,6 +5,7 @@ import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190426&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;邓冲&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
+@Service
 public class OrderServiceImpl extends GenericServiceImpl<Order> implements OrderService {
 
     @Resource

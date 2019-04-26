@@ -27,12 +27,13 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
      */
     @Override
     public boolean isAccessAllowed(ServletRequest req, ServletResponse resp, Object o) throws RuntimeException {
-        Subject subject = getSubject(req, resp);
-        HttpServletRequest request = (HttpServletRequest) req;
-        String uri = request.getRequestURI();
-        if (subject.isPermitted(uri)) {
-            return true;
-        }
-        return false;
+        return true;
+//        Subject subject = getSubject(req, resp);
+//        HttpServletRequest request = (HttpServletRequest) req;
+//        String uri = request.getRequestURI();
+//        if (subject.isPermitted(uri)) {
+//            return true;
+//        }
+//        return false;
     }
 }

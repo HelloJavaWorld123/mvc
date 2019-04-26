@@ -4,12 +4,14 @@ import com.jzy.api.cnd.biz.PayCnd;
 import com.jzy.api.cnd.biz.WatiPayCnd;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
-import org.springframework.stereotype.Controller;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-//@Controller
+@Slf4j
+@RestController
+@RequestMapping(path = "/pay")
 public class PayController extends GenericController {
 
     /**
@@ -17,11 +19,10 @@ public class PayController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190419&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @ResponseBody
-    @RequestMapping
+    @RequestMapping(path = "/waitPay")
     public ApiResult waitPay(@RequestBody WatiPayCnd watiPayCnd) {
-
-        return null;
+        log.debug("waitPay");
+        return new ApiResult();
     }
 
     /**
@@ -29,9 +30,8 @@ public class PayController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190419&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @ResponseBody
-    @RequestMapping
-    public ApiResult pay(@RequestBody PayCnd payCnd) {
+    @RequestMapping("/pay")
+    public String pay(@RequestBody PayCnd payCnd) {
 
         return null;
     }

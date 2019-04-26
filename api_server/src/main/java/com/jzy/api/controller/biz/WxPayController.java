@@ -21,6 +21,7 @@ import javax.annotation.Resource;
  * </ul>
  */
 @Controller
+@RequestMapping(path="/wxPay")
 public class WxPayController extends GenericController {
 
     @Resource
@@ -31,8 +32,8 @@ public class WxPayController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping
     @ResponseBody
+    @RequestMapping(path="/wxOAuth")
     public ApiResult wxOAuth(@RequestBody WxOAuthCnd wxOAuthCnd) {
 
         return new ApiResult();

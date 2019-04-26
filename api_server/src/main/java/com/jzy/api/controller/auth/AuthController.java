@@ -1,5 +1,6 @@
 package com.jzy.api.controller.auth;
 
+import com.jzy.framework.controller.GenericController;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
