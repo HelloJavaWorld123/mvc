@@ -24,7 +24,7 @@ public abstract class GenericServiceImpl<T extends GenericModel> implements Gene
      */
     @Override
     public int insert(T t) {
-        t.setDelflg(0);
+        t.setDelFlag(0);
         t.setCreateTime(new Date());
         t.setModifyTime(t.getCreateTime());
         return getGenericMapper().insert(t);
