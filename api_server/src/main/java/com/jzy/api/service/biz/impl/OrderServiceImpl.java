@@ -28,7 +28,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     /**
      * <b>功能描述：</b>订单列表查询<br>
      * <b>修订记录：</b><br>
-     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nb
+     * sp;创建方法</li><br>
      */
     @Override
     public List<Order> queryOrderList() {

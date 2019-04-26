@@ -26,7 +26,7 @@ public class ApiResult<T> {
     /**
      * 错误信息
      */
-    private String msg;
+    private String msg = "";
     /**
      * 返回数据
      */
@@ -43,5 +43,20 @@ public class ApiResult<T> {
     public ApiResult(T t) {
         super();
         this.data = t;
+    }
+
+    public ApiResult success() {
+        return this;
+    }
+
+    public ApiResult success(T t) {
+        this.data = t;
+        return this;
+    }
+
+    public ApiResult fail(String msg) {
+        this.result = 0;
+        this.msg = msg;
+        return this;
     }
 }
