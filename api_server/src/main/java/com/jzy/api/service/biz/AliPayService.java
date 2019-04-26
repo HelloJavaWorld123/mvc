@@ -1,4 +1,4 @@
-package com.jzy.api.service.pay;
+package com.jzy.api.service.biz;
 
 /**
  * <b>功能：</b>支付宝支付业务处理<br>

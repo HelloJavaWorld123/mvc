@@ -1,6 +1,6 @@
-package com.jzy.api.service.pay.impl;
+package com.jzy.api.service.biz.impl;
 
-import com.jzy.api.service.pay.PayService;
+import com.jzy.api.service.biz.PayService;
 
 import java.util.Map;
 

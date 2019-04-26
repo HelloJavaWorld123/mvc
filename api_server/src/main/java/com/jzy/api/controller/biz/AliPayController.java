@@ -1,10 +1,13 @@
 package com.jzy.api.controller.biz;
 
+import com.jzy.api.service.biz.AliPayService;
 import com.jzy.framework.controller.GenericController;
 import org.springframework.stereotype.Controller;
 
+import javax.annotation.Resource;
+
 /**
- * <b>功能：</b>订单业务处理<br>
+ * <b>功能：</b>支付宝支付<br>
  * <b>Copyright JZY</b>
  * <ul>
  * <li>版本&nbsp;&nbsp;&nbsp;&nbsp;修改日期&nbsp;&nbsp;&nbsp;&nbsp;部　　门&nbsp;&nbsp;&nbsp;&nbsp;作　者&nbsp;&nbsp;&nbsp;&nbsp;变更内容</li>
@@ -13,7 +16,10 @@ import org.springframework.stereotype.Controller;
  * </ul>
  */
 @Controller
-public class OrderController extends GenericController {
+public class AliPayController extends GenericController {
+
+    @Resource
+    private AliPayService aliPayService;
 
 
 

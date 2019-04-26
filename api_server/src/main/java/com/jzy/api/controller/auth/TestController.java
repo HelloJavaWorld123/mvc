@@ -1,17 +1,23 @@
 package com.jzy.api.controller.auth;
 
+import com.jzy.api.service.auth.impl.SysTableKeyServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
 
 @Controller
 @RequestMapping("/test")
 public class TestController {
 
+    @Resource
+    private SysTableKeyServiceImpl sysTableKeyService;
+
     @ResponseBody
     @RequestMapping("/test1")
     public String test1() {
-
+        sysTableKeyService.newkey("order", "id", 1000);
         return "test/test1";
     }
 
@@ -32,7 +38,7 @@ public class TestController {
     @ResponseBody
     @RequestMapping("/test4")
     public String test4() {
-
+        sysTableKeyService.newkey("order", "id", 1000);
         return "test/test4";
     }
 
@@ -53,7 +59,7 @@ public class TestController {
     @ResponseBody
     @RequestMapping("/test7")
     public String test7() {
-
+        sysTableKeyService.newkey("order", "id", 1000);
         return "test/test7";
     }
 

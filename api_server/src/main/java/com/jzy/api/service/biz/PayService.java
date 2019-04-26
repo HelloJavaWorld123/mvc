@@ -1,4 +1,4 @@
-package com.jzy.api.service.pay;
+package com.jzy.api.service.biz;
 
 import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.BaseService;
