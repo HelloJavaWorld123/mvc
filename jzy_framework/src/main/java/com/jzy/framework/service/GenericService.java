@@ -28,17 +28,10 @@ public interface GenericService<T extends GenericModel>  {
     int update(T t);
 
     /**
-     * <b>功能描述：</b>删除<br>
-     * <b>修订记录：</b><br>
-     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    int delete(Long id, Integer dealerId);
-
-    /**
      * <b>功能描述：</b>根据id查询详情<br>
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    T queryById(Long id, Integer dealerId);
+    T queryById(Long id);
 
 }

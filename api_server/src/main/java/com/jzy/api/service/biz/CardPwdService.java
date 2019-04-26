@@ -14,6 +14,13 @@ import com.jzy.framework.service.GenericService;
  */
 public interface CardPwdService extends GenericService<CardPwd> {
 
-
+    /**
+     * <b>功能描述：</b>查询卡密<br>
+     * <b>修订记录：</b><br>
+     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param id 主键
+     */
+    String queryCardPwd(Long id);
 
 }

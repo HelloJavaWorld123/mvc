@@ -37,17 +37,8 @@ public abstract class GenericServiceImpl<T extends GenericModel> implements Gene
      */
     @Override
     public int update(T t) {
+        t.setModifyTime(new Date());
         return getGenericMapper().update(t);
-    }
-
-    /**
-     * <b>功能描述：</b>删除<br>
-     * <b>修订记录：</b><br>
-     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    @Override
-    public int delete(Long id, Integer dealerId) {
-        return getGenericMapper().delete(id, dealerId);
     }
 
     /**
@@ -56,8 +47,8 @@ public abstract class GenericServiceImpl<T extends GenericModel> implements Gene
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public T queryById(Long id, Integer dealerId) {
-        return getGenericMapper().queryById(id, dealerId);
+    public T queryById(Long id) {
+        return getGenericMapper().queryById(id);
     }
 
     /**

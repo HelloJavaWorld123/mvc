@@ -25,6 +25,17 @@ public class CardPwdServiceImpl extends GenericServiceImpl<CardPwd> implements C
     @Resource
     private CardPwdMapper cardPwdMapper;
 
+    /**
+     * <b>功能描述：</b>查询卡密<br>
+     * <b>修订记录：</b><br>
+     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param id 主键
+     */
+    @Override
+    public String queryCardPwd(Long id) {
+        return cardPwdMapper.queryCardPwd(id);
+    }
 
     @Override
     protected GenericMapper<CardPwd> getGenericMapper() {

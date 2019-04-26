@@ -13,5 +13,53 @@
 
 <mapper namespace="com.jzy.api.dao.biz.TradeRecordMapper">
 
+    <!-- 新增交易记录 -->
+    <insert id="insert" parameterType="com.jzy.api.model.biz.TradeRecord">
+        INSERT INTO trade_record (
+        id, mark_id, operator_id, req_time, req_url, req_data, status, type, resp_time,
+        resp_data, trusteeship, bg_resp_time, bg_resp_data,
+        del_flag, creator_id, modifier_id, create_time, modify_time
+        )
+        VALUES(
+        #{id}, #{markId}, #{operatorId}, #{reqTime}, #{reqUrl}, #{reqData}, #{status}, #{type}, #{respTime},
+        #{respData}, #{trusteeship}, #{bgRespTime}, #{bgRespData},
+        #{delFlag}, #{creatorId}, #{modifierId}, #{createTime}, #{modifyTime}
+        )
+    </insert>
+
+    <!-- 更新交易记录 -->
+    <update id="update" parameterType="com.jzy.api.model.biz.TradeRecord">
+        UPDATE
+        trade_record
+        SET mark_id = #{markId},
+        status = #{status},
+        resp_time = #{respTime},
+        resp_data = #{respData},
+        bg_resp_time = #{bgRespTime},
+        bg_resp_data = #{bgRespData}
+        WHERE
+        id = #{id}
+    </update>
+
+    <!-- 查询交易详情 -->
+    <select id="queryById" resultType="com.jzy.api.model.biz.TradeRecord">
+        SELECT
+         id,
+         mark_id,
+         operator_id,
+         req_time,
+         req_url,
+         req_data,
+         status,
+         type,
+         resp_time,
+         resp_data,
+         trusteeship,
+         bg_resp_time,
+         bg_resp_data
+         FROM trade_record
+         WHERE
+         id = #{id}
+    </select>
 
 </mapper>
