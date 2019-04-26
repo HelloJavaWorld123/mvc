@@ -14,7 +14,7 @@
 <mapper namespace="com.jzy.api.dao.biz.CardPwdMapper">
 
     <!-- 新增卡密 -->
-    <insert id="insert" parameterType="">
+    <insert id="insert" parameterType="com.jzy.api.model.biz.CardPwd">
         INSERT INTO order_cardkey (
         id, order_id, user_id, card_no, card_pwd, payoff_price_total, gmt_expired, remark,
         del_flag, creator_id, modifier_id, create_time, modify_time
