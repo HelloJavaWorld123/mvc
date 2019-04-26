@@ -1,6 +1,9 @@
 package com.jzy.api.service.biz;
 
+import com.jzy.api.model.biz.Order;
 import com.jzy.framework.service.BaseService;
+
+import java.util.Map;
 
 /**
  * <b>功能：</b>SUP业务相关<br>
@@ -12,7 +15,12 @@ import com.jzy.framework.service.BaseService;
  * </ul>
  */
 public interface SupService extends BaseService {
-
-
+    
+    /**
+     * <b>功能描述：</b>SUP充值接口数据生成<br>
+     * <b>修订记录：</b><br>
+     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    String orderReceive(Order order);
 
 }
