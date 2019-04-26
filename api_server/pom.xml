@@ -43,6 +43,12 @@
             <groupId>com.dianping.cat</groupId>
             <artifactId>cat-client</artifactId>
             <version>3.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-all</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
