@@ -363,6 +363,12 @@
             <version>3.2.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>3.4.49.ALL</version>
+        </dependency>
+
     </dependencies>
 
     <!-- 配置经编译插件 -->

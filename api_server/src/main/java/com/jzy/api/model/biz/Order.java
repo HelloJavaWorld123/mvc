@@ -124,4 +124,7 @@ public class Order extends GenericModel {
      * 商户id
      */
     private Integer dealerId;
+
+
+    private String appName;
 }
