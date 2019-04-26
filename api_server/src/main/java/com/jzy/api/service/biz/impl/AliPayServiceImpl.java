@@ -1,5 +1,6 @@
 package com.jzy.api.service.biz.impl;
 
+import com.jzy.api.service.biz.AliPayService;
 import com.jzy.api.service.biz.WxPayService;
 import com.jzy.framework.result.ApiResult;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
  * </ul>
  */
 @Service
-public class AliPayServiceImpl implements WxPayService {
+public class AliPayServiceImpl implements AliPayService {
 
     @Override
     public ApiResult pay() {
