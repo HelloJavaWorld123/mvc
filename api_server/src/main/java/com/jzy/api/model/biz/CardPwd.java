@@ -4,10 +4,9 @@ import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
- * <b>功能：</b>SUP充值记录<br>
+ * <b>功能：</b>卡密<br>
  * <b>Copyright JZY</b>
  * <ul>
  * <li>版本&nbsp;&nbsp;&nbsp;&nbsp;修改日期&nbsp;&nbsp;&nbsp;&nbsp;部　　门&nbsp;&nbsp;&nbsp;&nbsp;作　者&nbsp;&nbsp;&nbsp;&nbsp;变更内容</li>
@@ -16,49 +15,33 @@ import java.util.Date;
  * </ul>
  */
 @Data
-public class SupRecord extends GenericModel {
+public class CardPwd extends GenericModel {
     /**
      * 订单id
      */
     private Long orderId;
     /**
-     * 请求数据
+     * 用户id
      */
-    private String reqData;
+    private Long userId;
     /**
-     * 最新提交时间
+     * 卡号
      */
-    private String reqTime;
+    private String cardNo;
     /**
-     * 提交次数
+     * 密码
      */
-    private Integer reqAmount;
+    private String cardPwd;
     /**
-     * 同步返回数据
+     * sup系统和进货平台结算金额
      */
-    private String respData;
+    private BigDecimal payoffPriceTotal;
     /**
-     * 异步返回数据
+     * 卡密到期时间
      */
-    private String bgRespData;
-    /**
-     * 异步返回消息
-     */
-    private String bgRespMes;
-    /**
-     * 最新异步通知时间
-     */
-    private Date bgRespTime;
-    /**
-     * 异步通知次数
-     */
-    private Integer bgRespAmount;
+    private String gmtExpired;
     /**
      * 备注
      */
     private String remark;
-    /**
-     * 采购商的价格
-     */
-    private BigDecimal purchaserPrice;
 }
