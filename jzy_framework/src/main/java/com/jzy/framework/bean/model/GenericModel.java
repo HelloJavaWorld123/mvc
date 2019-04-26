@@ -22,7 +22,7 @@ public class GenericModel {
     /**
      * 是否删除
      */
-    protected Integer delflg = 0;
+    protected Integer delFlag = 0;
     /**
      * 创建时间
      */
