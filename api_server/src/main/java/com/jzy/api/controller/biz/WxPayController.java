@@ -4,7 +4,7 @@ import com.jzy.api.cnd.WxOAuthCnd;
 import com.jzy.api.service.biz.WxPayService;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
-import lombok.Data;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190426&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;邓冲&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
-@Data
+@Controller
 public class WxPayController extends GenericController {
 
     @Resource

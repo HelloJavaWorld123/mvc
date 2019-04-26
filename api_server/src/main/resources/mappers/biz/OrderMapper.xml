@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+	SQL映射文件名称：订单处理
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190426	邓冲	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.biz.OrderMapper">
+
+    <!-- 新增订单 -->
+    <insert id="insert">
+
+    </insert>
+
+    <!-- 更新订单 -->
+    <update id="update">
+
+    </update>
+
+    <!-- 删除订单 -->
+    <update id="updateOrderDelFlag">
+
+    </update>
+
+    <!-- 根据订单id查询订单详情 -->
+    <select id="queryOrderById" resultType="com.jzy.api.model.biz.Order">
+
+    </select>
+
+    <!-- 订单列表查询 -->
+    <select id="queryOrderList" resultType="com.jzy.api.model.biz.Order">
+
+    </select>
+
+    <!-- 根据订单id查询卡密 -->
+    <select id="queryCardPwdById" resultType="java.lang.String">
+
+    </select>
+
+    <!-- 根据订单id关闭订单 -->
+    <update id="updateOrderClose">
+
+    </update>
+
+</mapper>
