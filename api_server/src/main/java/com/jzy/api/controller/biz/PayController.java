@@ -3,6 +3,7 @@ package com.jzy.api.controller.biz;
 import com.jzy.api.cnd.biz.PayCnd;
 import com.jzy.api.cnd.biz.WatiPayCnd;
 import com.jzy.framework.controller.GenericController;
+import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,8 @@ public class PayController extends GenericController {
     @RequestMapping(path = "/waitPay")
     public ApiResult waitPay(@RequestBody WatiPayCnd watiPayCnd) {
         log.debug("waitPay");
-        return new ApiResult();
+        throw new BusException("123456");
+        // return new ApiResult();
     }
 
     /**

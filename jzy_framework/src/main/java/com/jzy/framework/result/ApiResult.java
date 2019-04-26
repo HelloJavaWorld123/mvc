@@ -54,9 +54,9 @@ public class ApiResult<T> {
         return this;
     }
 
-    public ApiResult fail(String code) {
+    public ApiResult fail(String msg) {
         this.result = 0;
-        this.code = code;
+        this.msg = msg;
         return this;
     }
 }
