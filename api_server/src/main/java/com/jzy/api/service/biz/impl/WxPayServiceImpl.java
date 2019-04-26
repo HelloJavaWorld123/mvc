@@ -1,5 +1,6 @@
 package com.jzy.api.service.biz.impl;
 
+import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.WxPayService;
 import com.jzy.framework.result.ApiResult;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class WxPayServiceImpl implements WxPayService {
 
     @Override
-    public ApiResult pay() {
+    public ApiResult pay(Order order) {
         return null;
     }
 }

@@ -1,5 +1,6 @@
 package com.jzy.api.service.biz;
 
+import com.jzy.api.model.biz.Order;
 import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.BaseService;
 
@@ -21,6 +22,6 @@ public interface PayService extends BaseService {
      * <b>修订记录：</b><br>
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    ApiResult pay();
+    ApiResult pay(Order order);
 
 }
