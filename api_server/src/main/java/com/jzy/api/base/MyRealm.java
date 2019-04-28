@@ -75,9 +75,7 @@ public class MyRealm extends AuthorizingRealm {
         String username = (String) authenticationToken.getPrincipal();
         // 根据用户id获取用户信息
         Emp emp = queryAdminByUsername(username);
-        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(
-                emp, emp.getPwd(), username);
-        return simpleAuthenticationInfo;
+        return new SimpleAuthenticationInfo(emp, emp.getPwd(), username);
     }
 
     /**
