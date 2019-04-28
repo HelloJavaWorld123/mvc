@@ -2,7 +2,7 @@ package com.jzy.api.controller.auth;
 
 import com.jzy.api.model.auth.Auth;
 import com.jzy.api.service.auth.AuthService;
-import com.jzy.api.vo.sys.AuthVo;
+import com.jzy.api.vo.auth.AuthVo;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
