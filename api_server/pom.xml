@@ -429,12 +429,7 @@
             <version>1.60</version>
         </dependency>
 
-        <!-- hibernate-validator -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>4.3.1.Final</version>
-        </dependency>
+
 
         <dependency>
             <groupId>com.github.pagehelper</groupId>

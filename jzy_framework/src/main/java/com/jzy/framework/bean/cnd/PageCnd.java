@@ -1,6 +1,6 @@
 package com.jzy.framework.bean.cnd;
 
-import com.sun.istack.internal.NotNull;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
