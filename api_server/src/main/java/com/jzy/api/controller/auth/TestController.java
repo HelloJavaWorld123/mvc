@@ -1,6 +1,7 @@
 package com.jzy.api.controller.auth;
 
-import com.jzy.api.service.auth.impl.SysTableKeyServiceImpl;
+import com.jzy.api.service.key.TableKeyService;
+import com.jzy.api.service.key.impl.TableKeyServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,12 +14,12 @@ import javax.annotation.Resource;
 public class TestController {
 
     @Resource
-    private SysTableKeyServiceImpl sysTableKeyService;
+    private TableKeyService tableKeyService;
 
     @ResponseBody
     @RequestMapping("/test1")
     public String test1() {
-        sysTableKeyService.newkey("order", "id", 1000);
+        tableKeyService.newKey("order", "id", 1000);
         return "test/test1";
     }
 
@@ -41,19 +42,19 @@ public class TestController {
     public String test4() {
         for (int i =0; i< 10000; i++) {
             for (int j =0; j< 10000; j++) {
-                sysTableKeyService.newkey("order_test1", "id", 1000);
-                sysTableKeyService.newkey("order_test2", "id", 1000);
-                sysTableKeyService.newkey("order_test3", "id", 1000);
-                sysTableKeyService.newkey("order_test4", "id", 1000);
-                sysTableKeyService.newkey("order_test5", "id", 1000);
-                sysTableKeyService.newkey("order_test6", "id", 1000);
-                sysTableKeyService.newkey("order_test7", "id", 1000);
-                sysTableKeyService.newkey("order_test8", "id", 1000);
-                sysTableKeyService.newkey("order_test9", "id", 1000);
-                sysTableKeyService.newkey("order_test0", "id", 1000);
-                sysTableKeyService.newkey("order_test11", "id", 1000);
-                sysTableKeyService.newkey("order_test12", "id", 1000);
-                sysTableKeyService.newkey("order_test13", "id", 1000);
+                tableKeyService.newKey("order_test1", "id", 1000);
+                tableKeyService.newKey("order_test2", "id", 1000);
+                tableKeyService.newKey("order_test3", "id", 1000);
+                tableKeyService.newKey("order_test4", "id", 1000);
+                tableKeyService.newKey("order_test5", "id", 1000);
+                tableKeyService.newKey("order_test6", "id", 1000);
+                tableKeyService.newKey("order_test7", "id", 1000);
+                tableKeyService.newKey("order_test8", "id", 1000);
+                tableKeyService.newKey("order_test9", "id", 1000);
+                tableKeyService.newKey("order_test0", "id", 1000);
+                tableKeyService.newKey("order_test11", "id", 1000);
+                tableKeyService.newKey("order_test12", "id", 1000);
+                tableKeyService.newKey("order_test13", "id", 1000);
             }
             log.debug("sysTableKeyService i =  " + i);
         }
