@@ -1,7 +1,9 @@
 package com.jzy.api.controller.sys;
 
 import com.jzy.api.cnd.admin.LoginCnd;
+import com.jzy.api.model.sys.Emp;
 import com.jzy.api.service.sys.EmpService;
+import com.jzy.api.vo.sys.EmpVo;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
@@ -37,9 +39,12 @@ public class LoginController extends GenericController {
     @ResponseBody
     @RequestMapping(path="/managerLogin")
     public ApiResult managerLogin(@RequestBody LoginCnd loginCnd){
-        ApiResult apiResult = new ApiResult();
-        userService.login(loginCnd.getUsername(), loginCnd.getPwd());
-        return apiResult.success();
+        ApiResult<EmpVo> apiResult = new ApiResult<>();
+        Emp emp = userService.login(loginCnd.getUsername(), loginCnd.getPwd());
+        EmpVo empVo = new EmpVo();
+        empVo.setName(emp.getName());
+        empVo.setDutyId(emp.getDutyId());
+        return apiResult.success(empVo);
     }
 
 }

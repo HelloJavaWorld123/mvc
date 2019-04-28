@@ -43,7 +43,7 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
      * @param pwd 密码
      */
     @Override
-    public void login(String username, String pwd) {
+    public Emp login(String username, String pwd) {
         UsernamePasswordToken token = new UsernamePasswordToken(username, pwd);
         token.setRememberMe(false);
         Subject subject = SecurityUtils.getSubject();
@@ -56,6 +56,7 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
         }catch (AuthenticationException e) {
             throw new BusException("其他的登录错误");
         }
+        return queryEmpByUsername(username);
     }
 
     /**

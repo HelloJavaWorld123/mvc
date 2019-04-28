@@ -1,10 +1,10 @@
-package com.jzy.api.model.sys;
+package com.jzy.api.vo.sys;
 
-import com.jzy.framework.bean.model.GenericModel;
+import com.jzy.framework.bean.vo.GenericVo;
 import lombok.Data;
 
 /**
- * <b>功能：</b>渠道商员工<br>
+ * <b>功能：</b>后台管理返回vo<br>
  * <b>Copyright JZY</b>
  * <ul>
  * <li>版本&nbsp;&nbsp;&nbsp;&nbsp;修改日期&nbsp;&nbsp;&nbsp;&nbsp;部　　门&nbsp;&nbsp;&nbsp;&nbsp;作　者&nbsp;&nbsp;&nbsp;&nbsp;变更内容</li>
@@ -13,21 +13,13 @@ import lombok.Data;
  * </ul>
  */
 @Data
-public class Emp extends GenericModel {
+public class EmpVo extends GenericVo {
     /**
      * 用户名
      */
     private String name;
     /**
-     * 密码
-     */
-    private String pwd;
-    /**
      * 职务id
      */
     private Long dutyId;
-    /**
-     * 商户id
-     */
-    private Integer dealerId;
 }

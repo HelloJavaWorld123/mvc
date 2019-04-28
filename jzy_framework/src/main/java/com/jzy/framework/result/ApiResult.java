@@ -19,10 +19,10 @@ public class ApiResult<T> {
      * 1：成功
      */
     private Integer result = 1;
-    /**
-     * 错误编码
-     */
-    private String code = "";
+//    /**
+//     * 错误编码
+//     */
+//    private String code = "";
     /**
      * 错误信息
      */

@@ -29,7 +29,7 @@
         <property name="filterChainDefinitions">
             <value>
                 /logout = logout
-                /login/login = anon
+                /login/managerLogin = anon
                 /test/* = permissions[/test/*]
                 /** = authc
             </value>

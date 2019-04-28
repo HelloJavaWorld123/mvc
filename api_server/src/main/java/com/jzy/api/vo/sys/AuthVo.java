@@ -1,6 +1,5 @@
-package com.jzy.api.vo;
+package com.jzy.api.vo.sys;
 
-import com.jzy.api.model.auth.Auth;
 import com.jzy.framework.bean.vo.GenericVo;
 import lombok.Data;
 

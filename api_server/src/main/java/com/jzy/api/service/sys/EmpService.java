@@ -22,7 +22,7 @@ public interface EmpService extends GenericService<Emp> {
      * @param username 用户名
      * @param pwd 密码
      */
-    void login(String username, String pwd);
+    Emp login(String username, String pwd);
 
     /**
      * <b>功能描述：</b>根据用户名查询用户<br>

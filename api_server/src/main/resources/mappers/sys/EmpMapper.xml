@@ -17,13 +17,14 @@
     <select id="queryEmpByUsername" resultType="com.jzy.api.model.sys.Emp">
         SELECT
         id,
-        username,
+        name,
         pwd,
+        duty_id,
         dealer_id
         FROM
         sys_emp
         WHERE
-        username = #{username}
+        name = #{username}
     </select>
 
 </mapper>
