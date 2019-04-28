@@ -18,7 +18,7 @@ public class ApiResult<T> {
      * 0：失败
      * 1：成功
      */
-    private Integer result = 1;
+    private Integer code = 1;
 //    /**
 //     * 错误编码
 //     */
@@ -55,7 +55,7 @@ public class ApiResult<T> {
     }
 
     public ApiResult fail(String msg) {
-        this.result = 0;
+        this.code = 0;
         this.msg = msg;
         return this;
     }
