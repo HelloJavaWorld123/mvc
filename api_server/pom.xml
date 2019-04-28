@@ -434,7 +434,7 @@
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
-            <version>4.1.4</version>
+            <version>4.1.2</version>
         </dependency>
 
         <!-- 下载的PageHelper4.1.0以前版本需要jsqlparser0.9.1版本 -->
