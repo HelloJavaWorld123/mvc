@@ -81,7 +81,7 @@ public class SysTableKeyServiceImpl {
      */
 
     private Long increasing(String tableName, String columnName, Integer centerId) {
-        Long curVal = 1L;
+        Long curVal = 10000L;
         final String tableKey = "PK_Sys:".concat(tableName).concat("_").concat(columnName);
         RAtomicLong pkIndex = redissonClient.getAtomicLong(tableKey);
         if (pkIndex.isExists()) {
