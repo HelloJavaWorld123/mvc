@@ -37,17 +37,17 @@ public class ProjectHandlerExceptionResolver implements HandlerExceptionResolver
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object o, Exception e) {
         if (e instanceof BusException) {
-            log.debug("业务异常");
+            log.error("业务异常" + e);
             ajaxJson(new ApiResult().fail(e.getMessage()), response);
             return null;
         }
         if (e instanceof PayException) {
-            log.debug("支付异常");
+            log.error("支付异常");
             ajaxJson(new ApiResult().fail(e.getMessage()), response);
             return null;
         }
         if (e instanceof ExcelException) {
-            log.debug("Excel导出异常");
+            log.error("Excel导出异常");
             ajaxJson(new ApiResult().fail(e.getMessage()), response);
             return null;
         }
