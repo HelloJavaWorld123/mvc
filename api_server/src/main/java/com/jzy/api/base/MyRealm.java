@@ -85,7 +85,7 @@ public class MyRealm extends AuthorizingRealm {
      * <b>修订记录：</b><br>
      * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    public Emp queryAdminByUsername(String username) {
+    private Emp queryAdminByUsername(String username) {
         Emp emp = empService.queryEmpByUsername(username);
         if (emp == null) {
             throw new BugException("当前用户不存在");
