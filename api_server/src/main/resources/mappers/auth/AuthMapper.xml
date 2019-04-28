@@ -13,6 +13,11 @@
 
 <mapper namespace="com.jzy.api.dao.auth.AuthMapper">
 
+    <!--  获取资源列表 -->
+    <select id="queryMenuList" resultType="com.jzy.api.model.auth.Auth">
+
+    </select>
+
     <!--  根据用户id获取角色信息 -->
     <select id="queryRoleList" resultType="com.jzy.api.model.auth.Role">
         SELECT

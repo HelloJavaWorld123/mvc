@@ -19,6 +19,17 @@ public class AuthServiceImpl implements AuthService {
     private AuthMapper authMapper;
 
     /**
+     * <b>功能描述：</b>获取菜单栏列表<br>
+     * <b>修订记录：</b><br>
+     * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public List<Auth> queryMenuList() {
+        Long dealerId = 0L;
+        return authMapper.queryMenuList(dealerId);
+    }
+
+    /**
      * <b>功能描述：</b>根据用户id获取角色信息<br>
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
@@ -36,19 +47,6 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Set<String> queryPermissionList(List<Long> roleIds) {
         return authMapper.queryPermissionList(roleIds);
-    }
-
-    /**
-     * <b>功能描述：</b>获取用户资源列表<br>
-     * <b>修订记录：</b><br>
-     * <li>20190424&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     *
-     * @param userId 用户id
-     */
-    @Override
-    public List<Auth> getResource(Long userId) {
-        log.error("123456");
-        return null;
     }
 
 }
