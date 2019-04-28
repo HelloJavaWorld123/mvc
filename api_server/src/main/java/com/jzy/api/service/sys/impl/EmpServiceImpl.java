@@ -1,8 +1,8 @@
-package com.jzy.api.service.dealer.impl;
+package com.jzy.api.service.sys.impl;
 
-import com.jzy.api.dao.dealer.EmpMapper;
-import com.jzy.api.model.dealer.Emp;
-import com.jzy.api.service.dealer.EmpService;
+import com.jzy.api.dao.sys.EmpMapper;
+import com.jzy.api.model.sys.Emp;
+import com.jzy.api.service.sys.EmpService;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.service.impl.GenericServiceImpl;

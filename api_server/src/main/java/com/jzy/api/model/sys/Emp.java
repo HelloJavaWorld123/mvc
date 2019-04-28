@@ -1,4 +1,4 @@
-package com.jzy.api.model.dealer;
+package com.jzy.api.model.sys;
 
 import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;

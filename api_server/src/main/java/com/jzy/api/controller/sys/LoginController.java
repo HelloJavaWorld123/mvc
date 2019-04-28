@@ -1,7 +1,7 @@
-package com.jzy.api.controller.dealer;
+package com.jzy.api.controller.sys;
 
 import com.jzy.api.cnd.admin.LoginCnd;
-import com.jzy.api.service.dealer.EmpService;
+import com.jzy.api.service.sys.EmpService;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;

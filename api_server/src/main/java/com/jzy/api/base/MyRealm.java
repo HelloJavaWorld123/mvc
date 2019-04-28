@@ -1,8 +1,8 @@
 package com.jzy.api.base;
 
-import com.jzy.api.model.dealer.Emp;
+import com.jzy.api.model.sys.Emp;
 import com.jzy.api.model.auth.Role;
-import com.jzy.api.service.dealer.EmpService;
+import com.jzy.api.service.sys.EmpService;
 import com.jzy.api.service.auth.AuthService;
 import com.jzy.framework.exception.BusException;
 import freemarker.core.BugException;
