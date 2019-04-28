@@ -78,14 +78,17 @@
 
     <!-- 配置和mybatis的整合 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 设置数据源 -->
         <property name="dataSource" ref="mySqlDataSource"></property>
-        <!-- mybatis配置文件 -->
+        <!-- 设置映射文件 -->
         <property name="mapperLocations">
             <list>
                 <value>classpath*:/mappers/*.xml</value>
                 <value>classpath*:/mappers/**/*.xml</value>
             </list>
         </property>
+        <!--设置pageHelper-->
+        <property name="configLocation" value="classpath:config/mybatis-config.xml"></property>
     </bean>
     <!-- 配置扫描器 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

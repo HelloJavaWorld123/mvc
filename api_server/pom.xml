@@ -436,6 +436,19 @@
             <version>4.3.1.Final</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>4.1.4</version>
+        </dependency>
+
+        <!-- 下载的PageHelper4.1.0以前版本需要jsqlparser0.9.1版本 -->
+        <dependency>
+            <groupId>com/github/jsqlparser</groupId>
+            <artifactId>jsqlparser</artifactId>
+            <version>0.9.4</version>
+        </dependency>
+
     </dependencies>
 
     <!-- 配置经编译插件 -->

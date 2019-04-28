@@ -15,7 +15,12 @@
 
     <!--  获取资源列表 -->
     <select id="queryMenuList" resultType="com.jzy.api.model.auth.Auth">
-
+        select
+        id,
+        name,
+        type
+        from
+        sys_auth
     </select>
 
     <!--  根据用户id获取角色信息 -->

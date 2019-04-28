@@ -1,5 +1,7 @@
 package com.jzy.api.service.auth.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.jzy.api.dao.auth.AuthMapper;
 import com.jzy.api.model.auth.Auth;
 import com.jzy.api.model.auth.Role;
@@ -26,6 +28,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public List<Auth> queryMenuList() {
         Long dealerId = 0L;
+        Page<Auth> page = PageHelper.startPage(1, 3);
         return authMapper.queryMenuList(dealerId);
     }
 

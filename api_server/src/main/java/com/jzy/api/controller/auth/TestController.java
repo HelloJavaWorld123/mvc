@@ -1,20 +1,36 @@
 package com.jzy.api.controller.auth;
 
+import com.jzy.api.model.auth.Auth;
+import com.jzy.api.service.auth.AuthService;
 import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.service.key.impl.TableKeyServiceImpl;
+import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
+
 @Slf4j
 @Controller
 @RequestMapping("/test")
 public class TestController {
 
     @Resource
+    private AuthService authService;
+
+    @Resource
     private TableKeyService tableKeyService;
+
+    @ResponseBody
+    @RequestMapping("/testPage")
+    public ApiResult testPage() {
+        ApiResult<List<Auth>> apiResult = new ApiResult<>();
+        List<Auth> authList = authService.queryMenuList();
+        return apiResult.success(authList);
+    }
 
     @ResponseBody
     @RequestMapping("/test1")
