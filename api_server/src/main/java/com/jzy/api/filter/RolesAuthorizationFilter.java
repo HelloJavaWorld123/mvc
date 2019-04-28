@@ -13,7 +13,7 @@ public class RolesAuthorizationFilter extends AuthorizationFilter {
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
-     * @param o 例如：/test/** = roles[admin]  o的值就为admin
+     * @param o 例如：/test/** = roles[dealer]  o的值就为admin
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest req, ServletResponse resp, Object o) {

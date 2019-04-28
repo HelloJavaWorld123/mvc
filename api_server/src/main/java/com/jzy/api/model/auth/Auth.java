@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class Auth<T> {
+public class Auth {
     /**
      * 节点ID
      */
@@ -34,5 +34,5 @@ public class Auth<T> {
     /**
      * 子节点信息
      */
-    private List<Auth<T>> children = new ArrayList<>();
+    private List<Auth> children = new ArrayList<>();
 }
