@@ -1,7 +1,10 @@
 package com.jzy.api.controller.sys;
 
 import com.jzy.api.cnd.admin.LoginCnd;
+import com.jzy.api.dao.auth.AuthMapper;
+import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.sys.Emp;
+import com.jzy.api.service.auth.AuthService;
 import com.jzy.api.service.sys.EmpService;
 import com.jzy.api.vo.sys.EmpVo;
 import com.jzy.framework.controller.GenericController;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <b>功能：</b>后台管理<br>
@@ -31,6 +36,9 @@ public class LoginController extends GenericController {
     @Resource
     private EmpService userService;
 
+    @Resource
+    private AuthService authService;
+
     /**
      * <b>功能描述：</b>获取用户资源列表<br>
      * <b>修订记录：</b><br>
@@ -43,7 +51,11 @@ public class LoginController extends GenericController {
         Emp emp = userService.login(loginCnd.getUsername(), loginCnd.getPwd());
         EmpVo empVo = new EmpVo();
         empVo.setName(emp.getName());
-        empVo.setDutyId(emp.getDutyId());
+        // TODO: 2019/4/28 目前只返回一个角色名即可
+        List<Role> roleList = new ArrayList<>(emp.getRoles());
+        if (!roleList.isEmpty()) {
+            empVo.setRoleName(roleList.get(0).getName());
+        }
         return apiResult.success(empVo);
     }
 

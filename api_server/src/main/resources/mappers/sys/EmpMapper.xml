@@ -19,7 +19,6 @@
         id,
         name,
         pwd,
-        duty_id,
         dealer_id
         FROM
         sys_emp

@@ -1,7 +1,10 @@
 package com.jzy.api.vo.sys;
 
+import com.jzy.api.model.auth.Role;
 import com.jzy.framework.bean.vo.GenericVo;
 import lombok.Data;
+
+import java.util.Set;
 
 /**
  * <b>功能：</b>后台管理返回vo<br>
@@ -21,5 +24,5 @@ public class EmpVo extends GenericVo {
     /**
      * 职务id
      */
-    private Long dutyId;
+    private String roleName;
 }

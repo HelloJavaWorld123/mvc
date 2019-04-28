@@ -39,15 +39,19 @@ public class ProjectHandlerExceptionResolver implements HandlerExceptionResolver
         if (e instanceof BusException) {
             log.debug("业务异常");
             ajaxJson(new ApiResult().fail(e.getMessage()), response);
+            return null;
         }
         if (e instanceof PayException) {
             log.debug("支付异常");
             ajaxJson(new ApiResult().fail(e.getMessage()), response);
+            return null;
         }
         if (e instanceof ExcelException) {
             log.debug("Excel导出异常");
             ajaxJson(new ApiResult().fail(e.getMessage()), response);
+            return null;
         }
+        ajaxJson(new ApiResult<>().fail(e.getMessage()), response);
         return null;
     }
     

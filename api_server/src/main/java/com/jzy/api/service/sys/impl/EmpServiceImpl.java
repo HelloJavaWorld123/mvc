@@ -2,8 +2,10 @@ package com.jzy.api.service.sys.impl;
 
 import com.jzy.api.constant.ApiRedisCacheContant;
 import com.jzy.api.dao.sys.EmpMapper;
+import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.cache.EmpCache;
 import com.jzy.api.model.sys.Emp;
+import com.jzy.api.service.auth.AuthService;
 import com.jzy.api.service.sys.EmpService;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
@@ -21,6 +23,7 @@ import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Set;
 
 /**
  * <b>功能：</b>登录<br>
@@ -37,6 +40,9 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
 
     @Resource
     private EmpMapper empMapper;
+
+    @Resource
+    private AuthService authService;
 
     @Resource
     private RedissonClient redissonClient;
@@ -66,6 +72,8 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
         Emp emp = queryEmpByUsername(username);
         // 缓存渠道商员工信息
         cacheDealerEmp(emp);
+        Set<Role> roles = authService.queryRoleList(emp.getId());
+        emp.setRoles(roles);
         return emp;
     }
 

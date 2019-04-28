@@ -30,10 +30,10 @@
                 SELECT
                   1
                 FROM
-                sys_user_role userRole
+                sys_emp_role empRole
                 WHERE
-                    userRole.role_id = role.id
-                AND userRole.user_id = #{userId}
+                    empRole.role_id = role.id
+                AND empRole.emp_id = #{empId}
             )
     </select>
 

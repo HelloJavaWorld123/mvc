@@ -1,7 +1,10 @@
 package com.jzy.api.model.sys;
 
+import com.jzy.api.model.auth.Role;
 import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
+
+import java.util.Set;
 
 /**
  * <b>功能：</b>渠道商员工<br>
@@ -25,7 +28,7 @@ public class Emp extends GenericModel {
     /**
      * 职务id
      */
-    private Long dutyId;
+    private Set<Role> roles;
     /**
      * 商户id
      */

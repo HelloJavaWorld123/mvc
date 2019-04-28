@@ -35,8 +35,8 @@ public class AuthServiceImpl implements AuthService {
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public Set<Role> queryRoleList(Long userId) {
-        return authMapper.queryRoleList(userId);
+    public Set<Role> queryRoleList(Long empId) {
+        return authMapper.queryRoleList(empId);
     }
 
     /**
