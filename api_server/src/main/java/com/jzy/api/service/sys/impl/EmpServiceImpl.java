@@ -1,6 +1,6 @@
 package com.jzy.api.service.sys.impl;
 
-import com.jzy.api.constant.ApiRedisCacheContant;
+import com.jzy.api.constant.ApiRedisCacheConstant;
 import com.jzy.api.dao.sys.EmpMapper;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.cache.EmpCache;
@@ -84,7 +84,7 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
      * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     private void cacheDealerEmp(Emp emp) {
-        String cacheDealerEmp = ApiRedisCacheContant.CACHE_DEALER_EMP + emp.getId();
+        String cacheDealerEmp = ApiRedisCacheConstant.CACHE_DEALER_EMP + emp.getId();
         String token = MD5Util.string2MD5(cacheDealerEmp);
         RBucket<EmpCache> bucket = redissonClient.getBucket(token);
         EmpCache empCache = new EmpCache();

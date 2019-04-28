@@ -9,7 +9,7 @@ package com.jzy.api.constant;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190428&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;邓冲&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
-public class ApiRedisCacheContant {
+public class ApiRedisCacheConstant {
     /**
      * 版本
      */
