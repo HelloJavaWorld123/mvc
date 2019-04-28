@@ -439,7 +439,7 @@
 
         <!-- 下载的PageHelper4.1.0以前版本需要jsqlparser0.9.1版本 -->
         <dependency>
-            <groupId>com/github/jsqlparser</groupId>
+            <groupId>com.github.jsqlparser</groupId>
             <artifactId>jsqlparser</artifactId>
             <version>0.9.4</version>
         </dependency>
