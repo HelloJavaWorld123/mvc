@@ -7,6 +7,7 @@ import com.jzy.api.model.cache.EmpCache;
 import com.jzy.api.model.sys.Emp;
 import com.jzy.api.service.auth.AuthService;
 import com.jzy.api.service.sys.EmpService;
+import com.jzy.api.util.MD5Util;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.service.impl.GenericServiceImpl;
@@ -84,12 +85,13 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
      */
     private void cacheDealerEmp(Emp emp) {
         String cacheDealerEmp = ApiRedisCacheContant.CACHE_DEALER_EMP + emp.getId();
-        RBucket<EmpCache> bucket = redissonClient.getBucket(ApiRedisCacheContant.CACHE_DEALER_EMP + emp.getId());
+        String token = MD5Util.string2MD5(cacheDealerEmp);
+        RBucket<EmpCache> bucket = redissonClient.getBucket(token);
         EmpCache empCache = new EmpCache();
         empCache.setEmpId(emp.getId());
         empCache.setDealerId(emp.getDealerId());
         bucket.set(empCache);
-        emp.setDEALER_EMP_TOKEN(cacheDealerEmp);
+        emp.setApiEmpToken(token);
     }
 
     /**

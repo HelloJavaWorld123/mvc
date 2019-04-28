@@ -25,4 +25,8 @@ public class EmpVo extends GenericVo {
      * 职务id
      */
     private String roleName;
+    /**
+     * token
+     */
+    private String apiEmpToken;
 }

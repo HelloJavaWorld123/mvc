@@ -34,7 +34,10 @@ public class Emp extends GenericModel {
      */
     private Integer dealerId;
 
-    //---------------------渠道商员工信息缓存虚列--------------------------
+    //---------------------虚列--------------------------
 
-    private String DEALER_EMP_TOKEN;
+    /**
+     * 渠道商员工信息缓存token
+     */
+    private String apiEmpToken;
 }

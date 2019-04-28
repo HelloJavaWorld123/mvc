@@ -56,6 +56,7 @@ public class LoginController extends GenericController {
         if (!roleList.isEmpty()) {
             empVo.setRoleName(roleList.get(0).getName());
         }
+        empVo.setApiEmpToken(emp.getApiEmpToken());
         return apiResult.success(empVo);
     }
 

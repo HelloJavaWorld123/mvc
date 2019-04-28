@@ -17,6 +17,6 @@ public class ApiRedisCacheContant {
     /**
      * 渠道商员工信息缓存
      */
-    public static final String CACHE_DEALER_EMP = "cache_dealer_emp" + VERSION + ":";
+    public static final String CACHE_DEALER_EMP = "cache_dealer_emp_" + VERSION + ":";
 
 }
