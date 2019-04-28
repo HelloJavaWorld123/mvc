@@ -4,10 +4,14 @@ import com.jzy.api.dao.dealer.EmpMapper;
 import com.jzy.api.model.dealer.Emp;
 import com.jzy.api.service.dealer.EmpService;
 import com.jzy.framework.dao.GenericMapper;
+import com.jzy.framework.exception.BusException;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import freemarker.core.BugException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
@@ -42,8 +46,17 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
     public void login(String username, String pwd) {
         UsernamePasswordToken token = new UsernamePasswordToken("username", "pwd");
         Subject subject = SecurityUtils.getSubject();
-        subject.login(token);
         token.setRememberMe(false);
+        try {
+            subject.login(token);
+        } catch (UnknownAccountException ex) {
+            throw new BusException("用户名没有找到");
+        } catch (IncorrectCredentialsException ex) {
+            throw new BusException("用户名密码不匹配");
+        }catch (AuthenticationException e) {
+            throw new BusException("其他的登录错误");
+        }
+
     }
 
     /**
