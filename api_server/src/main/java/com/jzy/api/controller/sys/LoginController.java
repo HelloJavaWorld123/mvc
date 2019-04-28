@@ -35,8 +35,8 @@ public class LoginController extends GenericController {
      * <li>20190424&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @ResponseBody
-    @RequestMapping(path="/login")
-    public ApiResult login(@RequestBody LoginCnd loginCnd){
+    @RequestMapping(path="/managerLogin")
+    public ApiResult managerLogin(@RequestBody LoginCnd loginCnd){
         ApiResult apiResult = new ApiResult();
         userService.login(loginCnd.getUsername(), loginCnd.getPwd());
         return apiResult.success();
