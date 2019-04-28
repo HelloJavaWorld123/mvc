@@ -1,6 +1,8 @@
 package com.jzy.api.service.sys.impl;
 
+import com.jzy.api.constant.ApiRedisCacheContant;
 import com.jzy.api.dao.sys.EmpMapper;
+import com.jzy.api.model.cache.EmpCache;
 import com.jzy.api.model.sys.Emp;
 import com.jzy.api.service.sys.EmpService;
 import com.jzy.framework.dao.GenericMapper;
@@ -14,6 +16,8 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.redisson.api.RBucket;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,6 +37,9 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
 
     @Resource
     private EmpMapper empMapper;
+
+    @Resource
+    private RedissonClient redissonClient;
 
     /**
      * <b>功能描述：</b>登录<br>
@@ -56,7 +63,25 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
         }catch (AuthenticationException e) {
             throw new BusException("其他的登录错误");
         }
-        return queryEmpByUsername(username);
+        Emp emp = queryEmpByUsername(username);
+        // 缓存渠道商员工信息
+        cacheDealerEmp(emp);
+        return emp;
+    }
+
+    /**
+     * <b>功能描述：</b>缓存渠道商员工信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private void cacheDealerEmp(Emp emp) {
+        String cacheDealerEmp = ApiRedisCacheContant.CACHE_DEALER_EMP + emp.getId();
+        RBucket<EmpCache> bucket = redissonClient.getBucket(ApiRedisCacheContant.CACHE_DEALER_EMP + emp.getId());
+        EmpCache empCache = new EmpCache();
+        empCache.setEmpId(emp.getId());
+        empCache.setDealerId(emp.getDealerId());
+        bucket.set(empCache);
+        emp.setDEALER_EMP_TOKEN(cacheDealerEmp);
     }
 
     /**
