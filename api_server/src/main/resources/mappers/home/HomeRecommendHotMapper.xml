@@ -21,7 +21,7 @@
          SELECT
             group_id AS groupeId,
             f_get_app_cate_name (group_id) AS groupeName,
-            group_sort
+            group_sort  as groupSort
         FROM
             home_recommend_hot
         WHERE
@@ -37,21 +37,21 @@
             resultType="com.jzy.api.model.Home.HomeRecommendHot">
         SELECT
             `id`,
-            `dealer_id`,
-            `rci_name`,
-            `image_id`,
-            `go_type`,
-            `go_id`,
-            `go_name`,
+            `dealer_id` as dealerId,
+            `rci_name` as rciName,
+            `image_id` as imageId,
+            `go_type` as goType,
+            `go_id` as goId,
+            `go_name` as goName,
             `state`,
-            `creator_id`,
-            `modifier_id`,
-            `create_time`,
-            `modify_time`,
+            `creator_id` as creatorId,
+            modifier_id as modifierId ,
+            `create_time` as createTime,
+            `modify_time` as modifyName,
             `position`,
-            group_id,
-            f_get_app_cate_name (group_id),
-            `group_sort`
+            group_id as groupId,
+            f_get_app_cate_name (group_id) as cateName,
+            `group_sort` as groupSort
         FROM
             home_recommend_hot
         WHERE
@@ -72,7 +72,7 @@
                 apt. NAME AS typeName,
                 apt.unit AS typeUnit,
                 dapi.price,
-                dapi.pay_price,
+                dapi.pay_price as payPrice,
                 dapi.discount
             FROM
                 app_price_type apt
