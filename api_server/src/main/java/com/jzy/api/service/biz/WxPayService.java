@@ -10,4 +10,23 @@ package com.jzy.api.service.biz;
  * </ul>
  */
 public interface WxPayService extends PayService {
+
+    /**
+     * <b>功能描述：</b>根据授权类型获取授权的url地址<br>
+     * <b>修订记录：</b><br>
+     * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param oauthType "oauth":内置网页授权, "qroauth":网站应用授权
+     */
+    String getUrlByAuthType(String oauthType);
+
+    /**
+     * <b>功能描述：</b>根据授权类型和url获取授权的url地址<br>
+     * <b>修订记录：</b><br>
+     * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param oauthType "oauth":内置网页授权, "qroauth":网站应用授权
+     */
+    String getUrlByAuthType(String oauthType, String uri);
+
 }
