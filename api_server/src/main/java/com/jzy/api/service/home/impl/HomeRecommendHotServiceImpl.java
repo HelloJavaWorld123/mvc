@@ -33,9 +33,6 @@ import java.util.List;
 public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommendHot> implements HomeRecommendHotService {
 
     @Resource
-    private JdbcTemplate jdbcTemplate;
-
-    @Resource
     private HomeRecommendHotMapper homeRecommendHotMapper;
 
     /**

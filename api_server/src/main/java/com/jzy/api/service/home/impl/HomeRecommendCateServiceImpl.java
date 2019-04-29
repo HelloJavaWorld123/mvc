@@ -27,9 +27,6 @@ import java.util.List;
 public class HomeRecommendCateServiceImpl extends GenericServiceImpl<HomeRecommendCate> implements HomeRecommendCateService {
 
     @Resource
-    private JdbcTemplate jdbcTemplate;
-
-    @Resource
     private HomeRecommendCateMapper homeRecommendCateMapper;
 
     /**

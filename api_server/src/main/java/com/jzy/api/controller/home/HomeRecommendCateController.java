@@ -28,8 +28,8 @@ import java.util.List;
 @RequestMapping("admin/home/recommend/cate")
 public class HomeRecommendCateController {
 
-    @Resource
-    private DealerService iDealerService;
+    // @Resource
+    //private DealerService iDealerService;
 
     @Resource
     private HomeRecommendCateService homeRecommendCateService;
