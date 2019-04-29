@@ -57,7 +57,7 @@
         </tx:attributes>
     </tx:advice>
 
-    <!-- 配置事务切面 -->
+    <!-- 配置事务切面  其中第一个*代表返回值，第二*代表service下子包，第三个*代表方法名，“（..）”代表方法参数。 -->
     <aop:config>
         <aop:advisor pointcut="execution(* com.jzy.framework.service..*.*(..))"
                      advice-ref="txAdvice"/>
