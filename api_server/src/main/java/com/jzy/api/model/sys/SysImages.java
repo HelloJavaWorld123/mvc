@@ -17,11 +17,6 @@ import lombok.Data;
 public class SysImages extends GenericModel {
 
     /**
-     * 主键
-     */
-    private String id;
-
-    /**
      * 关联业务表
      */
     private String relId;
