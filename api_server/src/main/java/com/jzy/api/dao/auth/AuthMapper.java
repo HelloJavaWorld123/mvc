@@ -34,4 +34,6 @@ public interface AuthMapper {
      */
     Set<String> queryPermissionList(@Param("roleIds") List<Long> roleIds);
 
+    int insert();
+
 }

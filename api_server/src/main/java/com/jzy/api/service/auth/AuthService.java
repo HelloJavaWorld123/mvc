@@ -42,4 +42,6 @@ public interface AuthService {
      */
     Set<String> queryPermissionList(List<Long> roleIds);
 
+    int insert();
+
 }
