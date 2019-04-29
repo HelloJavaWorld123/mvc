@@ -34,8 +34,8 @@ public class TestController {
 
     @ResponseBody
     @RequestMapping("/test1")
-    public String test1() {
-        tableKeyService.newKey("order", "id", 1000);
+    public String testTransaction() {
+        authService.insert();
         return "test/test1";
     }
 

@@ -52,4 +52,10 @@ public class AuthServiceImpl implements AuthService {
         return authMapper.queryPermissionList(roleIds);
     }
 
+    @Override
+    public int insert() {
+        authMapper.insert();
+        int index = 1 / 0;
+        return index;
+    }
 }

@@ -68,7 +68,7 @@
     </update>
 
     <!-- 更新交易记录_(微信)退款通知 -->
-    <update id="updateBgRespByIdStatus">
+    <update id="updateBgRespByOperatorStatus">
 
     </update>
 
