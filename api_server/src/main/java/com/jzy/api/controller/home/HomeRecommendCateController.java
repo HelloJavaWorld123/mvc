@@ -1,7 +1,6 @@
 package com.jzy.api.controller.home;
 
 import com.jzy.api.cnd.home.HomeRecommendHotListCnd;
-import com.jzy.api.service.dealer.DealerService;
 import com.jzy.api.service.home.HomeRecommendCateService;
 import com.jzy.api.vo.home.HomeRecommendCateVo;
 import com.jzy.framework.result.ApiResult;
