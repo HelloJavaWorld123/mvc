@@ -14,13 +14,40 @@
 <mapper namespace="com.jzy.api.dao.biz.OrderMapper">
 
     <!-- 新增订单 -->
-    <insert id="insert">
-
+    <insert id="insert" parameterType="com.jzy.api.model.biz.Order">
+        INSERT INTO `order`(
+        id, code, out_trade_no, user_id, app_id, sup_no, sup_price, sup_status, discount,
+        price, number, status, type, total_fee, price_type_name, price_type_unit,
+        acct_type, account, game_account, game_area, game_serv, trade_method, trade_code,
+        trade_fee, trade_status, invoice_status, remark, dealer_id,
+        del_flag, creator_id, modifier_id, create_time, modify_time
+        )
+        VALUES (
+        #{id}, #{code}, #{outTradeNo}, #{userId}, #{appId}, #{supNo}, #{supPrice}, #{supStatus}, #{discount},
+        #{price}, #{number}, #{status}, #{type}, #{totalFee}, #{priceTypeName}, #{priceTypeUnit},
+        #{acctType}, #{account}, #{gameAccount}, #{gameArea}, #{gameServ}, #{tradeMethod}, #{tradeCode},
+        #{trade_fee}, #{trade_status}, #{invoiceStatus}, #{remark}, #{dealerId},
+        #{delFlag}, #{creatorId}, #{modifierId}, #{createTime}, #{modifyTime}
+        )
     </insert>
 
     <!-- 更新订单 -->
     <update id="update">
-
+        UPDATE
+        `order`
+        SET
+        sup_status = #{supStatus},
+        status = #{status},
+        trade_method = #{tradeMethod},
+        trade_code = #{tradeCode},
+        trade_fee = #{tradeFee},
+        trade_status = #{tradeStatus},
+        del_flag = #{delFlag},
+        invoice_status = #{invoiceStatus},
+        remark = #{remark},
+        <include refid="updateCommon" />
+        WHERE
+        id = #{id}
     </update>
 
     <!-- 删除订单 -->
@@ -47,5 +74,79 @@
     <update id="updateOrderClose">
 
     </update>
+
+    <!-- 更新订单状态 -->
+    <update id="updateStatus">
+        UPDATE
+        `order`
+        SET
+        status = #{status}
+        WHERE
+        id = #{id}
+    </update>
+
+    <!-- 更新订单交易状态 -->
+    <update id="updateTradeStatus">
+        UPDATE
+        `order`
+        SET
+        trade_status = #{tradeStatus}
+        WHERE
+        id = #{id}
+    </update>
+
+    <!-- 更新支付状态 -->
+    <update id="updateStatusTradeStatusSupStatus">
+        UPDATE
+        `order`
+        SET
+        status = #{status},
+        trade_status = #{tradeStatus},
+        sup_status = #{supStatus}
+        WHERE
+        id = #{id}
+    </update>
+
+    <update id="updateStatusTrade">
+        UPDATE
+        `order`
+        SET
+        status = #{status},
+        trade_code = #{tradeCode},
+        trade_fee = #{tradeFee},
+        trade_status = #{tradeStatus}
+        WHERE
+        id = #{id}
+    </update>
+
+    <update id="updateStatusSupStatusTrade">
+        UPDATE
+        `order`
+        SET
+        status = #{status},
+        sup_status = #{supStatus},
+        trade_code = #{tradeCode},
+        trade_fee = #{tradeFee},
+        trade_status = #{tradeStatus}
+        WHERE
+        id = #{id}
+    </update>
+
+    <!-- 更新订单的支付方式，流水号，交易状态 -->
+    <update id="updateStatusTradeMethod">
+        UPDATE
+        `order`
+        SET
+        status = #{status},
+        trade_method = #{tradeMethod},
+        out_trade_no = #{outTradeNo}
+        WHERE
+        id = #{id}
+    </update>
+
+    <!-- 共同更新参数 -->
+    <sql id="updateCommon">
+        modifier_id = #{modifierId}, modify_time = #{modifyTime}
+    </sql>
 
 </mapper>
