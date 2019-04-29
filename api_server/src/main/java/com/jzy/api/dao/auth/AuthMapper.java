@@ -3,6 +3,7 @@ package com.jzy.api.dao.auth;
 import com.jzy.api.model.auth.Auth;
 import com.jzy.api.model.auth.Role;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.access.method.P;
 
 import java.util.List;
 import java.util.Set;
@@ -34,6 +35,6 @@ public interface AuthMapper {
      */
     Set<String> queryPermissionList(@Param("roleIds") List<Long> roleIds);
 
-    int insert();
+    int insert(@Param("id") Long id, @Param("name") String name);
 
 }
