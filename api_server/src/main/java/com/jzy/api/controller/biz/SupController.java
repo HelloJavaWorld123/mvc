@@ -8,6 +8,7 @@ import com.jzy.api.model.biz.SupRecord;
 import com.jzy.api.service.biz.CardPwdService;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.service.biz.SupService;
+import com.jzy.api.service.biz.TradeRecordService;
 import com.jzy.api.util.MyEncrypt;
 import com.jzy.framework.controller.GenericController;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +47,9 @@ public class SupController extends GenericController {
 
     @Resource
     private SupService supService;
+
+    @Resource
+    private TradeRecordService tradeRecordService;
 
     /**
      * <b>功能描述：</b>SUP下单异步通知<br>
@@ -113,7 +117,7 @@ public class SupController extends GenericController {
                 }
             }
             // 更新支付状态
-            // orderService.updateStatusTradeStatusSupStatus(order.getId(), 2, Order.TradeStatusConst.FINISHED,2);
+            // tradeRecordService.updateBgRespByOperatorStatus(order.getId(), 2, Order.TradeStatusConst.FINISHED,2);
         } else {
             // SUP充值失败，进行支付宝或微信退单
             // orderService.tradeRefund(order);
