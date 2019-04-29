@@ -41,7 +41,8 @@ public class HomeRecommendCateController {
      */
     @RequestMapping("list.shtml")
     public ApiResult getList(@RequestBody HomeRecommendHotListCnd homeRecommendHotListCnd, HttpServletRequest request) {
-        Integer dealerId = iDealerService.queryByUseridOrDefault(request.getSession()).getId();
+        Integer dealerId = null;
+        //iDealerService.queryByUseridOrDefault(request.getSession()).getId();
         Integer type = homeRecommendHotListCnd.getType();
         List<HomeRecommendCateVo> homeRecommendHotVoList = homeRecommendCateService.getList(type, dealerId.toString());
         return new ApiResult<>(homeRecommendHotVoList);

@@ -1,19 +1,16 @@
 package com.jzy.api.service.home.impl;
 
 
+import com.jzy.api.dao.home.HomeRecommendHotMapper;
 import com.jzy.api.model.Home.GroupeDetail;
 import com.jzy.api.model.Home.HomeRecommendHot;
 import com.jzy.api.model.Home.HomeRecommendHotDetail;
 import com.jzy.api.model.Home.HotAppInfoDetail;
 import com.jzy.api.service.home.HomeRecommendHotService;
 import com.jzy.api.vo.home.HomeRecommendHotVo;
-import com.mall.dao.impl.BaseDao;
-import com.mall.mapper.GroupeDetail;
-import com.mall.mapper.HomeRecommendHotDetail;
-import com.mall.mapper.HomeRecommendHot;
-import com.mall.mapper.HotAppInfoDetail;
-import com.mall.pc.service.HomeRecommendHotService;
-import com.mall.vo.HomeRecommendHotVo;
+import com.jzy.framework.dao.GenericMapper;
+import com.jzy.framework.service.GenericService;
+import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -33,10 +30,13 @@ import java.util.List;
  * </ul>
  */
 @Service
-public class HomeRecommendHotServiceImpl extends BaseDao implements HomeRecommendHotService {
+public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommendHot> implements HomeRecommendHotService {
 
     @Resource
     private JdbcTemplate jdbcTemplate;
+
+    @Resource
+    private HomeRecommendHotMapper homeRecommendHotMapper;
 
     /**
      * <b>功能描述：</b>首页查询商品推荐列表<br>
@@ -48,10 +48,10 @@ public class HomeRecommendHotServiceImpl extends BaseDao implements HomeRecommen
 
         List<HomeRecommendHotVo> homeRecommendHotVoList = new ArrayList<>();
         //查询分组信息
-        List<GroupeDetail> groupeDetailList = jdbcTemplate.query(sqlMap("home_recommend_hot.getGroupe"),
-                BeanPropertyRowMapper.newInstance(GroupeDetail.class), dealerId);
-        List<HomeRecommendHot> HomeRecommendHots = jdbcTemplate.query(sqlMap("home_recommend_hot.list"),
-                BeanPropertyRowMapper.newInstance(HomeRecommendHot.class), dealerId);
+        List<GroupeDetail> groupeDetailList = homeRecommendHotMapper.getGroupeDetailList(dealerId);
+
+
+        List<HomeRecommendHot> HomeRecommendHots = homeRecommendHotMapper.queryHotList(dealerId);
         //拼装数据
         for (GroupeDetail groupeDetail : groupeDetailList) {
             HomeRecommendHotVo homeRecommendHotVo = new HomeRecommendHotVo();
@@ -78,7 +78,7 @@ public class HomeRecommendHotServiceImpl extends BaseDao implements HomeRecommen
                 HomeRecommendHotDetail homeRecommendHotDetail = new HomeRecommendHotDetail();
                 BeanUtils.copyProperties(HomeRecommendHot, homeRecommendHotDetail);
                 //获取商品信息
-                HotAppInfoDetail hotAppInfoDetail = jdbcTemplate.queryForObject(sqlMap("dealer_app_price_info_getOne"), BeanPropertyRowMapper.newInstance(HotAppInfoDetail.class), dealerId, goId);
+                HotAppInfoDetail hotAppInfoDetail = homeRecommendHotMapper.getHotAppInfoDetail(dealerId, goId);
                 if (null != hotAppInfoDetail) {
                     homeRecommendHotDetail.setHotAppInfoDetail(hotAppInfoDetail);
                 }
@@ -86,5 +86,10 @@ public class HomeRecommendHotServiceImpl extends BaseDao implements HomeRecommen
             }
         }
         return homeRecommendHotDetails;
+    }
+
+    @Override
+    protected GenericMapper<HomeRecommendHot> getGenericMapper() {
+        return homeRecommendHotMapper;
     }
 }

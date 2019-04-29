@@ -1,6 +1,8 @@
 package com.jzy.api.service.home;
 
+import com.jzy.api.model.Home.HomeRecommendHot;
 import com.jzy.api.vo.home.HomeRecommendHotVo;
+import com.jzy.framework.service.GenericService;
 
 import java.util.List;
 
@@ -13,7 +15,7 @@ import java.util.List;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190428&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;唐永刚&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
-public interface HomeRecommendHotService {
+public interface HomeRecommendHotService extends GenericService<HomeRecommendHot> {
 
 
     /**

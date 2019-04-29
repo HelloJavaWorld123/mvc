@@ -18,12 +18,6 @@ import java.util.Date;
 @Data
 public class HomeRecommendCate extends GenericModel {
 
-
-    /**
-     * 主键
-     */
-    private String id;
-
     /**
      * 渠道商Id
      */

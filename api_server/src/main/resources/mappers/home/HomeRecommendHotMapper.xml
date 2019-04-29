@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	SQL映射文件名称：渠道商首页推荐轮播图和推荐分类
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190429	唐永刚	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.home.HomeRecommendHotMapper">
+
+
+    <!--   查询分组信息-->
+    <select id="getGroupeDetailList"
+            resultType="com.jzy.api.model.Home.GroupeDetail">
+
+         SELECT
+            group_id AS groupeId,
+            f_get_app_cate_name (group_id) AS groupeName,
+            group_sort
+        FROM
+            home_recommend_hot
+        WHERE
+            dealer_id =#{dealerId}
+        GROUP BY
+            group_id
+
+</select>
+
+
+    <!--   查询分组信息-->
+    <select id="queryHotList"
+            resultType="com.jzy.api.model.Home.HomeRecommendHot">
+        SELECT
+            `id`,
+            `dealer_id`,
+            `rci_name`,
+            `image_id`,
+            `go_type`,
+            `go_id`,
+            `go_name`,
+            `state`,
+            `creator_id`,
+            `modifier_id`,
+            `create_time`,
+            `modify_time`,
+            `position`,
+            group_id,
+            f_get_app_cate_name (group_id),
+            `group_sort`
+        FROM
+            home_recommend_hot
+        WHERE
+            dealer_id =#{dealerId}
+        AND state = 1
+        ORDER BY
+            group_sort ASC
+
+</select>
+
+
+    <!--   获取当前分组下的某个商品信息-->
+    <select id="getHotAppInfoDetail"
+            resultType="com.jzy.api.model.Home.HotAppInfoDetail">
+            SELECT
+                ai.`name` AS appName,
+                ai.icon AS appIcon,
+                apt. NAME AS typeName,
+                apt.unit AS typeUnit,
+                dapi.price,
+                dapi.pay_price,
+                dapi.discount
+            FROM
+                app_price_type apt
+            LEFT JOIN dealer_app_price_info dapi ON apt.id = dapi.apt_id
+            AND dapi.ai_id = apt.ai_id
+            LEFT JOIN app_info ai ON apt.ai_id = ai.id
+            WHERE
+                1 = 1
+            AND dapi.dealer_id =#{dealerId}
+            AND dapi.ai_id =#{goId}
+            AND dapi. STATUS = 1
+            LIMIT 1
+
+   </select>
+
+</mapper>

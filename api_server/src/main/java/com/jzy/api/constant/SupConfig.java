@@ -1,7 +1,7 @@
 package com.jzy.api.constant;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jzy.api.model.arch.Dealer;
+import com.jzy.api.model.dealer.Dealer;
 import com.jzy.api.util.*;
 
 import java.util.Map;
@@ -61,9 +61,9 @@ public class SupConfig {
      */
     public static String common(String url, String urlData, Map<String, Object> postMap , String dealerId) {
         Dealer dealer = new Dealer(); // iDealerService.queryInfo(Integer.valueOf(dealerId));
-        String apiBusinessId =  dealer.getSupApiBusinessid();
-        String apiDes =  dealer.getSupApiDes();
-        String apiKey =  dealer.getSupApiKey();
+        String apiBusinessId = dealer.getSupBusinessid();
+        String apiDes = dealer.getPubkey();
+        String apiKey = dealer.getPrikey();
 
         // 时间戳
         String timeStamp = DateUtils.getIntTimeStamp(null);

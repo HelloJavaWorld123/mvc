@@ -63,10 +63,7 @@ public class Dealer extends GenericModel implements Serializable {
 
 
     private String remark;
-
-    public Integer getId() {
-        return id;
-    }
+    
 
     public void setId(Integer id) {
         this.id = id;
