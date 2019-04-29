@@ -19,12 +19,51 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-
     </context:component-scan>
+
     <context:component-scan base-package="com.jzy.api.aop"/>
     <aop:aspectj-autoproxy/>
+
     <import resource="applicationContext-empty.xml"/>
     <import resource="applicationContext-db.xml"/>
+
+    <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="mySqlDataSource" />
+    </bean>
+
+    <!-- 配置开启基于注解的声明式事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- 配置事务通知属性 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!-- 定义事务传播属性 -->
+        <tx:attributes>
+            <tx:method name="login*" propagation="REQUIRED" />
+            <tx:method name="insert*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="edit*" propagation="REQUIRED" />
+            <tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="new*" propagation="REQUIRED" />
+            <tx:method name="set*" propagation="REQUIRED" />
+            <tx:method name="remove*" propagation="REQUIRED" />
+            <tx:method name="delete*" propagation="REQUIRED" />
+            <tx:method name="change*" propagation="REQUIRED" />
+            <tx:method name="get*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="find*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="load*" propagation="REQUIRED" read-only="true" />
+            <!--<tx:method name="*" propagation="REQUIRED" read-only="true" />-->
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 配置事务切面 -->
+    <aop:config>
+        <aop:advisor pointcut="execution(* com.jzy.framework.service..*.*(..))"
+                     advice-ref="txAdvice"/>
+        <aop:advisor pointcut="execution(* com.jzy.api.service..*.*(..))"
+                     advice-ref="txAdvice"/>
+    </aop:config>
 
     <!-- 引入文件属性 -->
 <!--
@@ -96,38 +135,5 @@
         <property name="basePackage" value="com.jzy.api.dao"></property>
     </bean>
 
-    <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
-    <bean id="transactionManager"
-          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="mySqlDataSource" />
-    </bean>
 
-    <!-- 配置事务通知属性 -->
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <!-- 定义事务传播属性 -->
-        <tx:attributes>
-            <tx:method name="login*" propagation="REQUIRED" />
-            <tx:method name="insert*" propagation="REQUIRED" />
-            <tx:method name="update*" propagation="REQUIRED" />
-            <tx:method name="edit*" propagation="REQUIRED" />
-            <tx:method name="save*" propagation="REQUIRED" />
-            <tx:method name="add*" propagation="REQUIRED" />
-            <tx:method name="new*" propagation="REQUIRED" />
-            <tx:method name="set*" propagation="REQUIRED" />
-            <tx:method name="remove*" propagation="REQUIRED" />
-            <tx:method name="delete*" propagation="REQUIRED" />
-            <tx:method name="change*" propagation="REQUIRED" />
-            <tx:method name="get*" propagation="REQUIRED" read-only="true" />
-            <tx:method name="find*" propagation="REQUIRED" read-only="true" />
-            <tx:method name="load*" propagation="REQUIRED" read-only="true" />
-            <tx:method name="*" propagation="REQUIRED" read-only="true" />
-        </tx:attributes>
-    </tx:advice>
-
-    <!-- 配置事务切面 -->
-    <aop:config>
-        <aop:pointcut id="serviceOperation"
-                      expression="execution(* com.jzy.api.service.*.*(..))" />
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation" />
-    </aop:config>
 </beans>

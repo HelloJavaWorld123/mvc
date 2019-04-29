@@ -64,7 +64,7 @@
 
     <insert id="insert">
         insert into sys_role(id, name)
-        values (4, "123")
+        values (#{id}, #{name})
     </insert>
 
 </mapper>

@@ -7,6 +7,9 @@ import com.jzy.api.service.key.impl.TableKeyServiceImpl;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -32,10 +35,11 @@ public class TestController {
         return apiResult.success(authList);
     }
 
+
     @ResponseBody
     @RequestMapping("/test1")
     public String testTransaction() {
-        authService.insert();
+        authService.insertA(4L, "dcg");
         return "test/test1";
     }
 

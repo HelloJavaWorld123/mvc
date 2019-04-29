@@ -8,6 +8,9 @@ import com.jzy.api.model.auth.Role;
 import com.jzy.api.service.auth.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -52,10 +55,10 @@ public class AuthServiceImpl implements AuthService {
         return authMapper.queryPermissionList(roleIds);
     }
 
+    @Transactional(propagation= Propagation.REQUIRED,rollbackFor=Exception.class,timeout=1,isolation= Isolation.DEFAULT)
     @Override
-    public int insert() {
-        authMapper.insert();
-        int index = 1 / 0;
-        return index;
+    public int insertA(Long id, String name) {
+        authMapper.insert(id, name);
+        throw new RuntimeException();
     }
 }
