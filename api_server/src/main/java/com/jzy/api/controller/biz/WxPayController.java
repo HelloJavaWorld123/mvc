@@ -1,6 +1,6 @@
 package com.jzy.api.controller.biz;
 
-import com.jzy.api.cnd.WxOAuthCnd;
+import com.jzy.api.cnd.biz.WxOAuthCnd;
 import com.jzy.api.service.biz.WxPayService;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;

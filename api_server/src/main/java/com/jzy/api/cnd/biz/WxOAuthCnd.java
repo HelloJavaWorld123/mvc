@@ -1,4 +1,4 @@
-package com.jzy.api.cnd;
+package com.jzy.api.cnd.biz;
 
 import com.jzy.framework.bean.cnd.GenericCnd;
 import lombok.Data;

@@ -14,5 +14,13 @@ import com.jzy.framework.dao.GenericMapper;
  */
 public interface SupRecordMapper extends GenericMapper<SupRecord> {
 
+    /**
+     * <b>功能描述：</b>根据订单id查询sup交易记录<br>
+     * <b>修订记录：</b><br>
+     * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param orderId 订单id
+     */
+    SupRecord querySupRecordByOrderId(Long orderId);
     
 }

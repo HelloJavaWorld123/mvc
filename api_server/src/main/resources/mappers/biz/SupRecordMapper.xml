@@ -11,7 +11,61 @@
 	陕西佳之易网络科技有限公司 版本所有
  -->
 
-<mapper namespace="com.jzy.api.dao.biz.SupRecorMapper">
+<mapper namespace="com.jzy.api.dao.biz.SupRecordMapper">
 
+    <!-- 新增SUP交易记录 -->
+    <insert id="insert" parameterType="com.jzy.api.model.biz.SupRecord">
+        INSERT INTO order_sup_record (
+        id, order_id, req_data, req_time, req_amount, resp_data, remark, purchaser_price,
+        del_flag, creator_id, modifier_id, create_time, modify_time
+        )
+        VALUES (
+        #{id}, #{orderId}, #{reqData}, #{reqTime}, #{reqAmount}, #{respData}, #{remark}, #{purchaserPrice},
+        #{delFlag}, #{creatorId}, #{modifierId}, #{createTime}, #{modifyTime}
+        )
+    </insert>
+
+    <!-- 更新SUP交易记录 -->
+    <update id="update" parameterType="com.jzy.api.model.biz.SupRecord">
+        UPDATE
+        order_sup_record
+        SET req_data = #{reqData},
+        req_time = #{reqTime},
+        req_amount = #{reqAmount},
+        resp_data = #{respData},
+        bg_resp_data = #{bgRespData},
+        bg_resp_mes = #{bgRespMes},
+        bg_resp_time = #{bgRespTime},
+        bg_resp_amount = #{bgRespAmount},
+        remark = #{remark},
+        purchaser_price = #{purchaserPrice},
+        <include refid="updateCommon" />
+        WHERE
+        order_id = #{orderId}
+    </update>
+
+    <select id="querySupRecordByOrderId" resultType="com.jzy.api.model.biz.SupRecord">
+        SELECT
+        supRecord.id,
+        supRecord.order_id,
+        supRecord.req_data,
+        supRecord.req_time,
+        supRecord.req_amount,
+        supRecord.resp_data,
+        supRecord.bg_resp_data,
+        supRecord.bg_resp_mes,
+        supRecord.bg_resp_time,
+        supRecord.bg_resp_amount,
+        supRecord.remark,
+        supRecord.purchaser_price
+        FROM order_sup_record supRecord
+        WEHRE
+        osr.order_id = #{orderId}
+    </select>
+
+    <!-- 共同更新参数 -->
+    <sql id="updateCommon">
+        modifier_id = #{modifierId}, modify_time = #{modifyTime}
+    </sql>
 
 </mapper>

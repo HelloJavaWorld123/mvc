@@ -31,8 +31,8 @@ public class ProjectHandlerExceptionResolver implements HandlerExceptionResolver
     @Resource
     private JsonConverter jsonConverter;
 
-    @Resource
-    private MessageSource messageSource;
+//    @Resource
+//    private MessageSource messageSource;
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object o, Exception e) {

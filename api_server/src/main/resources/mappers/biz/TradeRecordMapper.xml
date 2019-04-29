@@ -62,4 +62,24 @@
          id = #{id}
     </select>
 
+    <!-- 更新交易记录 -->
+    <update id="updateBgRespByIdStatus">
+
+    </update>
+
+    <!-- 更新交易记录_(微信)退款通知 -->
+    <update id="updateBgRespByIdStatus">
+
+    </update>
+
+    <!-- 更新交易记录_(支付宝)支付完成回调 -->
+    <update id="updateRespByOperatorStatus">
+
+    </update>
+
+    <!-- 查询 -->
+    <select id="queryOperator" resultType="com.jzy.api.model.biz.TradeRecord">
+
+    </select>
+
 </mapper>
