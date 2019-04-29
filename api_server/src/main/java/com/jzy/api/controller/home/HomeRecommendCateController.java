@@ -5,9 +5,7 @@ import com.jzy.api.service.home.HomeRecommendCateService;
 import com.jzy.api.vo.home.HomeRecommendCateVo;
 import com.jzy.framework.result.ApiResult;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -38,12 +36,14 @@ public class HomeRecommendCateController {
      * <b>修订记录：</b><br>
      * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("list.shtml")
+    @CrossOrigin
+    @ResponseBody
+    @RequestMapping(value = "/list.shtml")
     public ApiResult getList(@RequestBody HomeRecommendHotListCnd homeRecommendHotListCnd, HttpServletRequest request) {
         Integer dealerId = null;
         //iDealerService.queryByUseridOrDefault(request.getSession()).getId();
         Integer type = homeRecommendHotListCnd.getType();
-        List<HomeRecommendCateVo> homeRecommendHotVoList = homeRecommendCateService.getList(type, dealerId.toString());
+        List<HomeRecommendCateVo> homeRecommendHotVoList = homeRecommendCateService.getList(type, Long.valueOf("1001"));
         return new ApiResult<>(homeRecommendHotVoList);
     }
 

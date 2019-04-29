@@ -26,6 +26,6 @@ public interface HomeRecommendCateService extends GenericService<HomeRecommendCa
      *
      * @return
      */
-    List<HomeRecommendCateVo> getList(Integer type, String dealerId);
+    List<HomeRecommendCateVo> getList(Integer type, Long  dealerId);
 
 }

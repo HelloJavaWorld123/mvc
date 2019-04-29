@@ -37,7 +37,7 @@ public class HomeRecommendCateServiceImpl extends GenericServiceImpl<HomeRecomme
      * @return
      */
     @Override
-    public List<HomeRecommendCateVo> getList(Integer type, String dealerId) {
+    public List<HomeRecommendCateVo> getList(Integer type, Long dealerId) {
         List<HomeRecommendCateVo> homeRecommendCateVos=  homeRecommendCateMapper.getList(type,dealerId);
         return homeRecommendCateVos;
 

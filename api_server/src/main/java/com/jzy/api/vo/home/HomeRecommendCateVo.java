@@ -1,6 +1,8 @@
 package com.jzy.api.vo.home;
 
 
+import lombok.Data;
+
 /**
  * <b>功能：</b>渠道商首页推荐轮播图和推荐分类返回参数<br>
  * <b>Copyright JZY</b>
@@ -10,6 +12,7 @@ package com.jzy.api.vo.home;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190428&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;唐永刚&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
+@Data
 public class HomeRecommendCateVo {
 
     /**
@@ -44,52 +47,4 @@ public class HomeRecommendCateVo {
      */
     private String goName;
 
-
-    public String getRciName() {
-        return rciName;
-    }
-
-    public void setRciName(String rciName) {
-        this.rciName = rciName;
-    }
-
-    public Integer getSortDesc() {
-        return sortDesc;
-    }
-
-    public void setSortDesc(Integer sortDesc) {
-        this.sortDesc = sortDesc;
-    }
-
-    public String getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(String imageId) {
-        this.imageId = imageId;
-    }
-
-    public Integer getGoType() {
-        return goType;
-    }
-
-    public void setGoType(Integer goType) {
-        this.goType = goType;
-    }
-
-    public String getGoId() {
-        return goId;
-    }
-
-    public void setGoId(String goId) {
-        this.goId = goId;
-    }
-
-    public String getGoName() {
-        return goName;
-    }
-
-    public void setGoName(String goName) {
-        this.goName = goName;
-    }
 }

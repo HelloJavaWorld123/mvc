@@ -15,16 +15,14 @@
 
 
     <!--    渠道商首页推荐轮播图和推荐分类-->
-    <select id="" resultType="com.jzy.api.vo.home.HomeRecommendCateVo">
+    <select id="getList" resultType="com.jzy.api.vo.home.HomeRecommendCateVo">
         SELECT
-            rci_name,
-            sort_desc,
-            image_id,
-            go_type,
-            go_id,
-            go_name,
-            `state`,
-            `type`
+            rci_name  as rciName ,
+            sort_desc  as sortDesc,
+            image_id as imageId,
+            go_type  as goType,
+            go_id as goId,
+            go_name as goName
         FROM
             home_recommend_cate
         WHERE
