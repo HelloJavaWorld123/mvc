@@ -50,4 +50,21 @@ public class TradeRecord extends GenericModel {
     private Date bgRespTime;
     private String bgRespData;
 
+    public class RecordConst {
+        /* ---------------------- status ---------------------- */
+        public static final String STATUS_SENDED = "sended";
+        public static final String STATUS_WAITED = "waited";
+        public static final String STATUS_REFUSHED = "refushed";
+        public static final String STATUS_FAILED = "failed";
+        public static final String STATUS_PASSED = "passed";
+        public static final String STATUS_NORESPONSE = "noresponse";
+        public static final String STATUS_WRONG = "wrong";
+        /* ---------------------- type ---------------------- */
+        public static final String TYPE_PAY = "pay";
+        public static final String TYPE_REFUND = "refund";
+        /* ---------------------- trusteeship ---------------------- */
+        public static final String TRUSTEESHIP_WECHAT = "wechat";
+        public static final String TRUSTEESHIP_ALIPAY = "Alipay";
+    }
+
 }
