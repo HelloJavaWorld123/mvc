@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	SQL映射文件名称：渠道商首页推荐轮播图和推荐分类
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190429	唐永刚	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.home.HomeRecommendCateMapper">
+
+
+    <!--    渠道商首页推荐轮播图和推荐分类-->
+    <select id="" resultType="com.jzy.api.vo.home.HomeRecommendCateVo">
+        SELECT
+            rci_name,
+            sort_desc,
+            image_id,
+            go_type,
+            go_id,
+            go_name,
+            `state`,
+            `type`
+        FROM
+            home_recommend_cate
+        WHERE
+            1 = 1
+        AND dealer_id =#{dealerId}
+        AND type =#{type}
+        AND state = 1
+
+</select>
+    
+</mapper>
