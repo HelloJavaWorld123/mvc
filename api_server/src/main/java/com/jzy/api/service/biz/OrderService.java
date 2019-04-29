@@ -39,7 +39,7 @@ public interface OrderService extends GenericService<Order> {
      *
      * @param id 订单id
      */
-    Order queryOrderById(Long id);
+    Order queryOrderById(String id);
 
     /**
      * <b>功能描述：</b>根据订单id查询卡密<br>

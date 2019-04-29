@@ -127,4 +127,31 @@ public class Order extends GenericModel {
 
 
     private String appName;
+
+    /**
+     * 订单交易状态
+     */
+    public class TradeStatusConst {
+
+        /** 待支付 */
+        public static final String WAIT_PAY = "wait_pay";
+
+        /** 已支付可以退款 */
+        public static final String PAY_SUCCESS = "pay_success";
+        /** 支付失败 */
+        public static final String PAY_FAI = "pay_fai";
+
+        /** 待退款 */
+        public static final String WAIT_REFUND = "wait_refund";
+
+        /** 已退款 */
+        public static final String REFUND_SICCESS = "refund_success";
+
+        /** 退款驳回 */
+        public static final String REFUND_REJECT = "refund_reject";
+
+        /** 完成不可以退款 */
+        public static final String FINISHED = "finished";
+
+    }
 }

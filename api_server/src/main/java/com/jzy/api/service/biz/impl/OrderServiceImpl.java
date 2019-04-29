@@ -56,7 +56,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param id 订单id
      */
     @Override
-    public Order queryOrderById(Long id) {
+    public Order queryOrderById(String id) {
         return null;
     }
 

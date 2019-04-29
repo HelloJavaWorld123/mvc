@@ -62,7 +62,7 @@ public class OrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/queryOrderById")
     public ApiResult queryOrderById(@RequestBody IdCnd idCnd) {
-        orderService.queryOrderById(idCnd.getId());
+        orderService.queryOrderById(idCnd.getId() + "");
         return null;
     }
 
