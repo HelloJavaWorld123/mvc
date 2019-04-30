@@ -33,7 +33,7 @@ public interface AppInfoService extends GenericService<AppInfo> {
      * @param appInfo {@link AppInfo}
      * @return true/false
      */
-    Boolean save(AppInfo appInfo);
+    void save(AppInfo appInfo);
 
 
     /**

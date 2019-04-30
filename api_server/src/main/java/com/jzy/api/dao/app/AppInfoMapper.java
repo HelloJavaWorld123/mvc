@@ -62,4 +62,12 @@ public interface AppInfoMapper extends GenericMapper<AppInfo> {
     int getMaxCode();
 
 
+    /**
+     * <b>功能描述：</b>查询名称列表<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<AppInfo> listName(@Param("name") String name);
+
+
 }

@@ -54,6 +54,56 @@
         </if>
 
     </select>
+    <!--insert-->
+    <insert id="insert" parameterType="com.jzy.api.model.app.AppInfo">
+            INSERT INTO app_info (
+            id,
+            `code`,
+            cate_id,
+            acct_id,
+            acp_id,
+            game_id,
+            type_id,
+            `name`,
+            icon,
+            label,
+            first_letter,
+            spll_letter,
+            recharge_mode,
+            `status`,
+            sort,
+            `describe`,
+            page_path,
+            remark,
+            delflag,
+            is_hot,
+            is_reco
+        )
+        VALUES
+            (
+            #{id}，
+            #{code}，
+            #{cateId}，
+            #{acctId}，
+            #{acpId}，
+            #{gameId}，
+            #{typeId}，
+            #{name}，
+            #{icon}，
+            #{label}，
+            #{firstLetter}，
+            #{spllLetter}，
+            #{rechargeMode}，
+            #{status}，
+            #{sort}，
+            #{describe}，
+            #{pagePath}，
+            #{remark}，
+            #{delflag}，
+            #{isHot}，
+            #{isReco}
+            )
+    </insert>
 
 
     <!-- 查询商品信息-->
@@ -111,6 +161,21 @@
         MAX( cast(`code` AS SIGNED INTEGER) ) max_code
         FROM
         app_info
+    </select>
+
+    <!--    查询名称列表-->
+    <select id="listName" resultType="com.jzy.api.model.app.AppInfo">
+        SELECT
+                id,
+                `code`,
+                `name`,
+                icon,
+                label
+            FROM
+                app_info ai
+            WHERE
+                1 = 1
+                AND ai.name = #{name}
     </select>
 
 

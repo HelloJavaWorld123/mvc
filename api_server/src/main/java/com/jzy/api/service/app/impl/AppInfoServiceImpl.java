@@ -15,6 +15,7 @@ import com.jzy.api.service.app.AppPriceTypeService;
 import com.jzy.api.vo.app.AppInfoDetailVo;
 import com.jzy.api.vo.app.AppInfoListVo;
 import com.jzy.framework.dao.GenericMapper;
+import com.jzy.framework.exception.BusException;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
@@ -69,11 +70,28 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
         return this.getAppInfoMapper(aiId);
     }
 
+    /**
+     * <b>功能描述：</b>商品信息保存<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
     @Override
-    public Boolean save(AppInfo appInfo) {
-        return null;
+    public void save(AppInfo appInfo) {
+        List<AppInfo> list = listName(appInfo.getName());
+        if (list != null && list.size() > 0) {
+            throw new BusException("商品名称重复：".concat(appInfo.getName()));
+        }
+        appInfoMapper.insert(appInfo);
     }
 
+    /**
+     * <b>功能描述：</b>查询名称列表<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    public List<AppInfo> listName(String name) {
+        return  appInfoMapper.listName(name);
+    }
 
     /**
      * <b>功能描述：</b>商品批量修改状态<br>
@@ -106,9 +124,9 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-  public   int getMaxCode(){
+    public int getMaxCode() {
 
-     return appInfoMapper.getMaxCode();
+        return appInfoMapper.getMaxCode();
 
     }
 
