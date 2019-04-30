@@ -51,6 +51,33 @@ public class TradeRecord extends GenericModel {
     private Date bgRespTime;
     private String bgRespData;
 
+    public TradeRecord() {
+    }
+
+    public TradeRecord(String id, String operator, Date reqTime, String reqUrl, String reqData, String status, String type, String trusteeship) {
+        this.tradeRecordId = id;
+        this.operator = operator;
+        this.reqTime = reqTime;
+        this.reqUrl = reqUrl;
+        this.reqData = reqData;
+        this.status = status;
+        this.type = type;
+        this.trusteeship = trusteeship;
+    }
+
+    public TradeRecord(String id, String operator, Date reqTime, String reqUrl, String reqData, String status, String type, Date respTime, String respData, String trusteeship) {
+        this.tradeRecordId = id;
+        this.operator = operator;
+        this.reqTime = reqTime;
+        this.reqUrl = reqUrl;
+        this.reqData = reqData;
+        this.status = status;
+        this.type = type;
+        this.respTime = respTime;
+        this.respData = respData;
+        this.trusteeship = trusteeship;
+    }
+
     public class RecordConst {
         /* ---------------------- status ---------------------- */
         public static final String STATUS_SENDED = "sended";

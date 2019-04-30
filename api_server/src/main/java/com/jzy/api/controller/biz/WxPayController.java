@@ -4,9 +4,11 @@ import com.jzy.api.cnd.biz.WxOAuthCnd;
 import com.jzy.api.constant.WXPayConfig;
 import com.jzy.api.model.biz.WXPay;
 import com.jzy.api.service.biz.WxPayService;
+import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.MyHttp;
 import com.jzy.api.util.WXPayUtil;
 import com.jzy.framework.controller.GenericController;
+import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -48,8 +50,12 @@ public class WxPayController extends GenericController {
     @ResponseBody
     @RequestMapping(path="/wxOAuth")
     public ApiResult wxOAuth(@RequestBody WxOAuthCnd wxOAuthCnd) {
-
-        return new ApiResult();
+        if (!CommUtils.exist(new String[]{"oauth", "qroauth"}, wxOAuthCnd.getType())) {
+            throw new BusException("授权类型不存在");
+        }
+        String authorizeUrl = wxPayService.getUrlByAuthType(wxOAuthCnd.getType());
+        log.debug("authorizeUrl  -- " + authorizeUrl);
+        return new ApiResult<>(authorizeUrl);
     }
 
     /**

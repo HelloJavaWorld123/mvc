@@ -3,22 +3,29 @@ package com.jzy.api.service.biz.impl;
 import com.jzy.api.constant.WXPayConfig;
 import com.jzy.api.constant.WXPayConstants;
 import com.jzy.api.model.biz.Order;
+import com.jzy.api.model.biz.TradeRecord;
+import com.jzy.api.service.biz.TradeRecordService;
 import com.jzy.api.service.biz.WxPayService;
 import com.jzy.api.service.wx.WXPay;
 import com.jzy.api.util.CommUtils;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.jzy.api.constant.WXPayConstants.REFUND_URL_SUFFIX;
-import static com.jzy.api.constant.WXPayConstants.SANDBOX_REFUND_URL_SUFFIX;
+import static com.jzy.api.constant.WXPayConstants.*;
+import static com.jzy.api.constant.WechatConstant.*;
+import static com.jzy.api.model.biz.TradeRecord.RecordConst.*;
 
 /**
  * <b>功能：</b>支付宝支付业务处理<br>
@@ -51,6 +58,9 @@ public class WxPayServiceImpl implements WxPayService {
     @Value("${wx_app_secret}")
     private String appSecret;
 
+    @Resource
+    private TradeRecordService tradeRecordService;
+
     /**
      * <b>功能描述：</b>支付<br>
      * <b>修订记录：</b><br>
@@ -81,12 +91,33 @@ public class WxPayServiceImpl implements WxPayService {
 
     @Override
     public String getUrlByAuthType(String oauthType) {
-        return null;
+        return getUrlByAuthType(oauthType, null);
     }
 
     @Override
     public String getUrlByAuthType(String oauthType, String uri) {
-        return null;
+        String authorizeUrl = null;
+        switch (oauthType) {
+            case "baseoauth":
+                authorizeUrl = authorize_url.replace("APPID", appId)
+                        .replace("REDIRECT_URI", URLEncoder.encode(uri))
+                        .replace("SCOPE", SCOPE_SNSAPI_BASE)
+                        .replace("STATE", Base64.encodeBase64String("900Mall".getBytes()));
+                break;
+            case "oauth":
+                authorizeUrl = authorize_url.replace("APPID", appId)
+                        .replace("REDIRECT_URI", URLEncoder.encode(wxRedirectUri))
+                        .replace("SCOPE", SCOPE_SNSAPI_USERINFO)
+                        .replace("STATE", Base64.encodeBase64String("900Mall".getBytes()));
+                break;
+            case "qroauth":
+                authorizeUrl = website_oauth_url.replace("APPID", appId)
+                        .replace("REDIRECT_URI", URLEncoder.encode(wxRedirectUri))
+                        .replace("SCOPE", SCOPE_SNSAPI_LOGIN)
+                        .replace("STATE", Base64.encodeBase64String("900Mall".getBytes()));
+                break;
+        }
+        return authorizeUrl;
     }
 
     private Map<String, String> refundOrderwx(String out_trade_no, BigDecimal total_fee) {
@@ -114,7 +145,7 @@ public class WxPayServiceImpl implements WxPayService {
             respmap.put("trade_record_id", CommUtils.lowerUUID());
 
             String refundUrl = wxpay.isUseSandbox() ? SANDBOX_REFUND_URL_SUFFIX : REFUND_URL_SUFFIX;
-            // iTradeRecordService.insert(new TradeRecordMapper(respmap.get("trade_record_id"), params.get("out_refund_no"), new Date(), refundUrl, params.toString(), resultStatus ? STATUS_WAITED : STATUS_FAILED, TYPE_REFUND, new Date(), respmap.toString(), TRUSTEESHIP_WECHAT));
+            tradeRecordService.insert(new TradeRecord(respmap.get("trade_record_id"), params.get("out_refund_no"), new Date(), refundUrl, params.toString(), resultStatus ? STATUS_WAITED : STATUS_FAILED, TYPE_REFUND, new Date(), respmap.toString(), TRUSTEESHIP_WECHAT));
         } catch (Exception e) {
             log.error("：：：Err - Wechat Refund 申请退款.", e);
 
@@ -122,5 +153,4 @@ public class WxPayServiceImpl implements WxPayService {
         }
         return respmap;
     }
-
 }
