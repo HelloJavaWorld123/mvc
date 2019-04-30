@@ -72,6 +72,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
             orderService.update(order);
             // sup同步返回失败
         } else {
+            // 退单
             tradeRefund(order);
         }
         // SUP充值记录

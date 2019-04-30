@@ -1,6 +1,7 @@
 package com.jzy.api.controller.biz;
 
 import com.jzy.api.cnd.biz.WxOAuthCnd;
+import com.jzy.api.model.biz.SecurityToken;
 import com.jzy.api.service.biz.WxPayService;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.MyHttp;
@@ -10,10 +11,8 @@ import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -55,14 +54,29 @@ public class WxPayController extends GenericController {
     }
 
     /**
-     * <b>功能描述：</b>H5支付同步回调返回,  中间确认页<br>
+     * <b>功能描述：</b>授权回调<br>
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("wx/webapp_return.shtml")
-    public ModelAndView wxWebappReturn(HttpServletRequest req, HttpServletResponse resp, @RequestParam String orderId) {
-        return new ModelAndView("/home/wxpay_webapp.jsp?orderId=".concat(orderId));
+    @RequestMapping(path = "callback.shtml", method = RequestMethod.GET)
+    public ModelAndView wechatCallback(@RequestParam(defaultValue = "") String code,
+                                       HttpServletRequest req, HttpServletResponse resp, ModelMap model) {
+        ModelAndView view = new ModelAndView("login");
+        // LoginUserMapper loginUser = LoginUserMapper.getLoginUser(req.getSession());
+        model.put("wechat_oauth_url", wxPayService.getUrlByAuthType("oauth"));
+        // 是否为微信内置浏览器
+        model.put("isWechat", CommUtils.iswechat(req));
+        if (!"authdeny".equals(code)) {
+            // 通过code换取网页授权access_token
+            SecurityToken securityToken = wxPayService.querySecurityToken(code);
+            return view;
+        }
+        // 用户未授权返回提示用户取消授权
+        log.error("微信网页授权获取用户信息失败-----------------------");
+        model.put("errmsg", "用户取消授权");
+        return view;
     }
+
 
     /**
      * <b>功能描述：</b>支付异步回调<br>
@@ -74,5 +88,16 @@ public class WxPayController extends GenericController {
         Map<String, String> notifyMap = WXPayUtil.xmlToMap(MyHttp.readRequestData(req));
         return wxPayService.updateWxCallBack(notifyMap);
     }
+
+    /**
+     * <b>功能描述：</b>H5支付同步回调返回,  中间确认页<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("wx/webapp_return.shtml")
+    public ModelAndView wxWebappReturn(HttpServletRequest req, HttpServletResponse resp, @RequestParam String orderId) {
+        return new ModelAndView("/home/wxpay_webapp.jsp?orderId=".concat(orderId));
+    }
+
 
 }

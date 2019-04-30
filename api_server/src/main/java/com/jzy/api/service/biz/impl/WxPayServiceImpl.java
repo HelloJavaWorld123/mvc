@@ -1,10 +1,13 @@
 package com.jzy.api.service.biz.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jzy.api.constant.SupConfig;
 import com.jzy.api.constant.WXPayConfig;
 import com.jzy.api.constant.WXPayConstants;
+import com.jzy.api.constant.WechatConstant;
 import com.jzy.api.dao.biz.OrderMapper;
 import com.jzy.api.model.biz.Order;
+import com.jzy.api.model.biz.SecurityToken;
 import com.jzy.api.model.biz.TradeRecord;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.service.biz.SupService;
@@ -12,6 +15,8 @@ import com.jzy.api.service.biz.TradeRecordService;
 import com.jzy.api.service.biz.WxPayService;
 import com.jzy.api.service.wx.WXPay;
 import com.jzy.api.util.CommUtils;
+import com.jzy.api.util.DateUtils;
+import com.jzy.api.util.MyHttp;
 import com.jzy.api.util.WXPayUtil;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.exception.PayException;
@@ -134,30 +139,94 @@ public class WxPayServiceImpl implements WxPayService {
         return returnXML(returnCode);
     }
 
-
     /**
-     * <b>功能描述：</b>xxx<br>
+     * <b>功能描述：</b>根据code获取token<br>
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    private String notifySuccessPay(String orderId, String transactionId, BigDecimal payTotalFee) {
-        String result = null;
-        try {
-            Order order = orderService.queryOrderById(orderId);
-            if (order.getSupStatus() != 0) {
-                return SupConfig.SUP_STATUS_03;
+    @Override
+    public SecurityToken querySecurityToken(String code) {
+        if (code == null) {
+            return getAccessToken();
+        }
+        return getOAuthToken(code);
+    }
+
+    /**
+     * <b>功能描述：</b>通过code换取网页授权access_token<br>
+     * <b>修订记录：</b><br>
+     * <li>20190423&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private SecurityToken getOAuthToken(String code) {
+        SecurityToken oAuthToken = null;
+        String requestUrl = WechatConstant.oauth_url.replace("APPID", appId).replace("SECRET", appSecret)
+                .replace("CODE", code);
+        log.debug("oauthurl:" + requestUrl);
+        JSONObject result = JSONObject.parseObject(MyHttp.sendGet(requestUrl, null));
+        if (!StringUtils.isEmpty(result)) {
+            if (null == result.getString(WechatConstant.ERRCODE)) {
+                oAuthToken = new SecurityToken(CommUtils.upperUUID(), result.getString(WechatConstant.ACCESS_TOKEN),
+                        result.getInteger(WechatConstant.EXPIRES_IN), result.getString(WechatConstant.REFRESH_TOKEN),
+                        result.getString(WechatConstant.OPENID), result.getString(WechatConstant.SCOPE), 1, new Date());
+                // iRedisService.setValue(OAUTH_WX_WEBSITE.concat(code), oAuthToken, result.getInteger(WechatConstant.EXPIRES_IN));
+            } else {
+                log.error("：：：Wechat website failed to get oauth_token - errcode:" + result.getString(WechatConstant.ERRCODE) + ", errmsg:"
+                        + result.getString(WechatConstant.ERRMSG));
             }
-            order.setStatus(1);
-            order.setTradeCode(transactionId);
-            order.setTradeFee(payTotalFee);
-            order.setTradeStatus(Order.TradeStatusConst.PAY_SUCCESS);
-            orderService.update(order);
+        }
+        return oAuthToken;
+    }
+
+    /**
+     * <b>功能描述：</b>请求获取普通access_token<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private SecurityToken getAccessToken() {
+        SecurityToken accessToken = null;
+        String requestUrl = WechatConstant.token_url.replace("APPID", appId).replace("APPSECRET", appSecret);
+        JSONObject result = null;
+        try {
+            result = JSONObject.parseObject(MyHttp.sendGet(requestUrl, null));
+        } catch (Exception e) {
+            log.error("：：：Wechat gets access_token exception", e);
+        }
+        if (!StringUtils.isEmpty(result)) {
+            if (StringUtils.isEmpty(result.get(WechatConstant.ERRCODE))) {
+                accessToken = new SecurityToken(CommUtils.upperUUID(), result.getString(WechatConstant.ACCESS_TOKEN),
+                        result.getInteger(WechatConstant.EXPIRES_IN), 0, new Date());
+                // iRedisService.setValue(OAUTH_WX_UNIFIED, accessToken, accessToken.getExpiresIn());
+            } else {
+                log.error("：：：Wechat failed to get access_token - errcode:" + result.getString(WechatConstant.ERRCODE) + ", errmsg:"
+                        + result.getString(WechatConstant.ERRMSG));
+            }
+        }
+        return accessToken;
+    }
+
+    /**
+     * <b>功能描述：</b>验证订单并提交订单到SUP<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private void notifySuccessPay(String orderId, String transactionId, BigDecimal payTotalFee) {
+        // 判断是否重复提交订单
+        Order order = orderService.queryOrderById(orderId);
+        if (order.getSupStatus() != 0) {
+            return;
+        }
+        order.setStatus(1);
+        order.setTradeCode(transactionId);
+        order.setTradeFee(payTotalFee);
+        order.setTradeStatus(Order.TradeStatusConst.PAY_SUCCESS);
+        orderService.update(order);
+        try{
             // 提交订单到SUP
             supService.commitOrderToSup(order);
         } catch (Exception e) {
-            log.error("支付成功订单提交失败,订单id:".concat(orderId).concat("异常信息:"), e);
+            log.error("提交订单到SUP失败，异常信息为：", e);
+            throw new BusException("提交订单到SUP失败，异常信息为：" + e.getMessage());
         }
-        return result;
     }
 
     /**

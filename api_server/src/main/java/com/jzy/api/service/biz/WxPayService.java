@@ -1,5 +1,7 @@
 package com.jzy.api.service.biz;
 
+import com.jzy.api.model.biz.SecurityToken;
+
 import java.util.Map;
 
 /**
@@ -39,5 +41,12 @@ public interface WxPayService extends PayService {
      * @param oauthType "oauth":内置网页授权, "qroauth":网站应用授权
      */
     String getUrlByAuthType(String oauthType, String uri);
+
+    /**
+     * <b>功能描述：</b>根据code获取token<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    SecurityToken querySecurityToken(String code);
 
 }
