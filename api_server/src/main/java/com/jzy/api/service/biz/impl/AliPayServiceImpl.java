@@ -6,6 +6,7 @@ import com.jzy.api.service.biz.AliPayService;
 import com.jzy.api.util.AlipayUtil;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -23,6 +24,9 @@ import java.util.Map;
 @Slf4j
 @Service
 public class AliPayServiceImpl implements AliPayService {
+
+    @Value("${basic_site_dns}")
+    private String domainUrl;
 
     /**
      * <b>功能描述：</b>支付<br>
@@ -42,7 +46,7 @@ public class AliPayServiceImpl implements AliPayService {
         Map<String, String> payMap = new HashMap<>();
         payMap.put("alipayUrl", url);
         payMap.put("tradeMethod", "1");
-//        payMap.put("aliWebappReturnUrl", iConfigService.domainUrl().concat("/pay/ali/webapp_return.shtml?orderId=".concat(order.getId())));
+        payMap.put("aliWebappReturnUrl", domainUrl.concat("/pay/ali/webapp_return.shtml?orderId=".concat(order.getOrderId())));
         return new ApiResult<>(payMap);
     }
 
