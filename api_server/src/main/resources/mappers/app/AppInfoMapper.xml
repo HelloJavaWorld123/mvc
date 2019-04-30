@@ -103,6 +103,15 @@
         SET delflag =1
         WHERE
         id =#{aiId}
-</update>
+    </update>
+
+    <!--    获取商品编号-->
+    <select id="getMaxCode" resultType="Integer">
+        SELECT
+        MAX( cast(`code` AS SIGNED INTEGER) ) max_code
+        FROM
+        app_info
+    </select>
+
 
 </mapper>

@@ -16,7 +16,7 @@ public class AppPage {
     /**
      * 商品Id
      */
-    private String aiId;
+    private Long aiId;
     /**
      * 商品描述
      */

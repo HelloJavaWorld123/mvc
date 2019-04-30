@@ -42,4 +42,15 @@ public class SysImages extends GenericModel {
      */
     private int type;
 
+    public SysImages( Long id,String relId, String fileName, String fileType, String fileUrl, int type) {
+        this.relId = relId;
+        this.fileName = fileName;
+        this.fileType = fileType;
+        this.fileUrl = fileUrl;
+        this.type = type;
+        this.id=id;
+    }
+
+    public SysImages(Long s, Long id, String fileOrignName, String contentType, String icon, int type) {
+    }
 }

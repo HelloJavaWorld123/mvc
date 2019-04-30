@@ -38,7 +38,7 @@ public class AppPriceTypeServiceImpl extends GenericServiceImpl<AppPriceType> im
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
     public void saveAppPriceTypeList(SaveAppPriceTypeListCnd saveAppPriceTypeListCnd) {
-        String aiId = saveAppPriceTypeListCnd.getAiId();
+        Long aiId = saveAppPriceTypeListCnd.getAiId();
         //物理删除当前商品下的所有充值类型
         // jdbcTemplate.update(sqlMap("app_price_type.delete"), aiId);
 //        List<Object[]> objects = new ArrayList<>(10);

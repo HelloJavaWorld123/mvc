@@ -24,7 +24,7 @@ public interface SysImagesService {
      * <b>修订记录：</b><br>
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    SysImages getImageByaiId(String aiId);
+    SysImages getImageByaiId(Long aiId);
 
     /**
      * <b>功能描述：</b>修改图片信息<br>

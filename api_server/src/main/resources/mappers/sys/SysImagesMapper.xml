@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	SQL映射文件名称：图片
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190430	唐永刚	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.sys.SysImagesMapper">
+
+    <!--添加-->
+    <insert id="insert" parameterType="com.jzy.api.model.sys.SysImages">
+			INSERT INTO sys_images (
+			`id`,
+			`rel_id`,
+			`file_name`,
+			`file_type`,
+			`file_url`,
+			`type` )
+			VALUES
+			(#{id},
+			#{relId},
+			#{fileName},
+			#{fileType},
+			#{fileUrl},
+			#{type}
+			)
+    </insert>
+    <!--修改-->
+    <update id="update" parameterType="com.jzy.api.model.sys.SysImages">
+			UPDATE
+			sys_images
+			SET
+			 file_name =#{fileName},
+			 file_type =#{fileType},
+			 file_url =#{fileUrl}
+			WHERE
+			rel_id =#{relId}
+    </update>
+    <!--	获取当前商品的图片信息-->
+    <select id="getImageByaiId" resultType="com.jzy.api.model.sys.SysImages">
+	SELECT
+		`id`,
+		`rel_id`,
+		`file_name`,
+		`file_type`,
+		`file_url`,
+		`type`
+	FROM
+		sys_images
+	WHERE
+		rel_id =#{aiId}
+	</select>
+
+</mapper>

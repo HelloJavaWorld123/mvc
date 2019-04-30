@@ -101,6 +101,16 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
 
     }
 
+    /**
+     * <b>功能描述：</b>获取商品编号<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+  public   int getMaxCode(){
+
+     return appInfoMapper.getMaxCode();
+
+    }
 
     /**
      * <b>功能描述：</b>分页查询商品列表<br>

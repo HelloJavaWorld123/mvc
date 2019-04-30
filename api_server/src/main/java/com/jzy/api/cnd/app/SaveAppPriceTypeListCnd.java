@@ -24,7 +24,7 @@ public class SaveAppPriceTypeListCnd implements Serializable {
     /**
      * 商品的主键
      */
-    private String aiId;
+    private Long aiId;
 
     /**
      * 充值类型列表

@@ -451,6 +451,13 @@
             <version>2.1.5.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+
+
     </dependencies>
 
     <!-- 配置经编译插件 -->
