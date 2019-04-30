@@ -14,6 +14,7 @@ import com.jzy.framework.controller.GenericController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +56,7 @@ public class SupController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    //@GetMapping("sup_receive_callback")
+    @RequestMapping("sup_receive_callback")
     public String supReceiveCallBack(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String outTradeNo = request.getParameter("userOrderId");
         String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);

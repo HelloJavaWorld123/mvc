@@ -73,7 +73,6 @@ public class WxPayController extends GenericController {
      */
     @RequestMapping("wx/notify.shtml")
     public String wxCallback(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String returnCode = FAIL;
         Map<String, String> notifyMap = WXPayUtil.xmlToMap(MyHttp.readRequestData(req));
         return wxPayService.updateWxCallBack(notifyMap);
     }

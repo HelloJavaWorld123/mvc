@@ -13,6 +13,13 @@ import java.util.Map;
  */
 public interface WxPayService extends PayService {
 
+    /**
+     * <b>功能描述：</b>微信支付回调<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param notifyMap 微信支付返回参数
+     */
     String updateWxCallBack(Map<String, String> notifyMap) throws Exception;
 
     /**

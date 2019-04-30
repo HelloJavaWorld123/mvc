@@ -17,6 +17,13 @@ import java.util.List;
 public interface OrderService extends GenericService<Order> {
 
     /**
+     * <b>功能描述：</b>根据流水查询订单号<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    Order queryOrderByOutTradeNo(String outTradeNo);
+
+    /**
      * <b>功能描述：</b>新增或修改订单<br>
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
