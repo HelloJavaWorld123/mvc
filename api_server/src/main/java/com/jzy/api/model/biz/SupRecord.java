@@ -20,7 +20,7 @@ public class SupRecord extends GenericModel {
     /**
      * 订单id
      */
-    private Long orderId;
+    private String orderId;
     /**
      * 请求数据
      */
@@ -28,7 +28,7 @@ public class SupRecord extends GenericModel {
     /**
      * 最新提交时间
      */
-    private String reqTime;
+    private Date reqTime;
     /**
      * 提交次数
      */
@@ -61,4 +61,19 @@ public class SupRecord extends GenericModel {
      * 采购商的价格
      */
     private BigDecimal purchaserPrice;
+
+    public SupRecord() {
+    }
+
+
+    public SupRecord(String id, String orderId, String reqData, Date reqTime, Integer reqAmount, String respData, String remark) {
+        this.orderId = id;
+        this.orderId = orderId;
+        this.reqData = reqData;
+        this.reqTime = reqTime;
+        this.reqAmount = reqAmount;
+        this.respData = respData;
+        this.remark = remark;
+    }
+
 }

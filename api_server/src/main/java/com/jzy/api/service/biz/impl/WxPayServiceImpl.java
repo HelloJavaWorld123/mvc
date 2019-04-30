@@ -1,17 +1,24 @@
 package com.jzy.api.service.biz.impl;
 
+import com.jzy.api.constant.SupConfig;
 import com.jzy.api.constant.WXPayConfig;
 import com.jzy.api.constant.WXPayConstants;
+import com.jzy.api.dao.biz.OrderMapper;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.model.biz.TradeRecord;
+import com.jzy.api.service.biz.OrderService;
+import com.jzy.api.service.biz.SupService;
 import com.jzy.api.service.biz.TradeRecordService;
 import com.jzy.api.service.biz.WxPayService;
 import com.jzy.api.service.wx.WXPay;
 import com.jzy.api.util.CommUtils;
+import com.jzy.api.util.WXPayUtil;
 import com.jzy.framework.exception.BusException;
+import com.jzy.framework.exception.PayException;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -59,7 +66,89 @@ public class WxPayServiceImpl implements WxPayService {
     private String appSecret;
 
     @Resource
+    private OrderService orderService;
+
+    @Resource
     private TradeRecordService tradeRecordService;
+
+    @Resource
+    private SupService supService;
+
+    @Override
+    public String updateWxCallBack(Map<String, String> notifyMap) throws Exception {
+        String returnCode = FAIL;
+        WXPay wxpay = new WXPay(WXPayConfig.getInstance(), true);
+        // 加密信息，仅申请退款结果通知时有该参数
+        String reqInfo = notifyMap.get("req_info");
+        if (StringUtils.isEmpty(reqInfo)) {
+            if (wxpay.isPayResultNotifySignatureValid(notifyMap)) { // 签名正确
+                String outTradeNo = notifyMap.get("out_trade_no");
+                String transactionId = notifyMap.get("transaction_id");
+                String totalFee = notifyMap.get("total_fee");
+                BigDecimal tradeFee =  new BigDecimal(WXPayUtil.changeF2Y(totalFee));
+                String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
+                tradeRecordService.updateBgRespByIdStatus(transactionId, notifyMap.get("result_code").equalsIgnoreCase(SUCCESS) ? STATUS_PASSED : STATUS_FAILED, notifyMap.toString(), notifyMap.get("attach"), STATUS_WAITED);
+                // 业务处理
+                // 注意特殊情况：订单已经退款，但收到了支付结果成功的通知，不应把商户侧订单状态从退款改成支付成功
+                if (notifyMap.get("result_code").equalsIgnoreCase(SUCCESS)) {
+                    notifySuccessPay(orderId, transactionId, tradeFee);
+                } else {
+                    orderService.tradeRefund(orderService.queryOrderById(orderId));
+                }
+                returnCode = SUCCESS;
+                log.debug("：：：Wechat Notify Sign Verify Success.".concat(notifyMap.toString()));
+            } else { // 签名错误，如果数据里没有sign字段，也认为是签名错误
+                log.debug("：：：Wechat Notify Sign Verify Failed. " + notifyMap.toString());
+                throw new PayException(notifyMap.toString());
+            }
+        } else {
+            // 解密req_info
+            String decryptReqInfo = WXPayUtil.decrypt(reqInfo);
+            Map<String, String> reqInfoMap = WXPayUtil.xmlToMap(decryptReqInfo);
+            log.debug("：：：Wechat Refund Notify Result. ".concat(decryptReqInfo));
+            boolean refundStatus = reqInfoMap.get("refund_status").equalsIgnoreCase(SUCCESS);
+            String outRefundNo = reqInfoMap.get("out_refund_no");
+            String outTradeNo = reqInfoMap.get("out_trade_no");
+            String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
+            tradeRecordService.updateBgRespByOperatorStatus(reqInfoMap.get("refund_id"), refundStatus ? STATUS_PASSED : STATUS_FAILED, reqInfoMap.toString(), outRefundNo, STATUS_WAITED);
+
+            if (refundStatus) {
+                orderService.updateTradeStatus(orderId, Order.TradeStatusConst.REFUND_SICCESS);
+                returnCode = SUCCESS;
+            } else {
+                // 重新提交退款申请(一笔退款失败后重新提交，请不要更换退款单号，请使用原商户退款单号)
+                refundOrderwx(reqInfoMap.get("out_trade_no"), outRefundNo, new BigDecimal(reqInfoMap.get("total_fee")), new BigDecimal(reqInfoMap.get("refund_fee")));
+                log.info("：：：微信退款失败，重新申请退款.退款单号:" + outRefundNo);
+            }
+        }
+        return returnXML(returnCode);
+    }
+
+
+    /**
+     * <b>功能描述：</b>xxx<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private String notifySuccessPay(String orderId, String transactionId, BigDecimal payTotalFee) {
+        String result = null;
+        try {
+            Order order = orderService.queryOrderById(orderId);
+            if (order.getSupStatus() != 0) {
+                return SupConfig.SUP_STATUS_03;
+            }
+            order.setStatus(1);
+            order.setTradeCode(transactionId);
+            order.setTradeFee(payTotalFee);
+            order.setTradeStatus(Order.TradeStatusConst.PAY_SUCCESS);
+            orderService.update(order);
+            // 提交订单到SUP
+            supService.commitOrderToSup(order);
+        } catch (Exception e) {
+            log.error("支付成功订单提交失败,订单id:".concat(orderId).concat("异常信息:"), e);
+        }
+        return result;
+    }
 
     /**
      * <b>功能描述：</b>支付<br>
@@ -153,4 +242,14 @@ public class WxPayServiceImpl implements WxPayService {
         }
         return respmap;
     }
+
+    /**
+     * wechat:返回给微信服务端的Xml
+     * @param returnCode [SUCCESS,FAIL]
+     * @return
+     */
+    private String returnXML(String returnCode) {
+        return "<xml><return_code><![CDATA[".concat(returnCode).concat("]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>");
+    }
+
 }

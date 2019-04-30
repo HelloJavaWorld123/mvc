@@ -21,6 +21,8 @@ public interface SupRecordMapper extends GenericMapper<SupRecord> {
      *
      * @param orderId 订单id
      */
-    SupRecord querySupRecordByOrderId(Long orderId);
+    SupRecord querySupRecordByOrderId(String orderId);
+
+    int updateWhereOrderId(SupRecord osr);
     
 }

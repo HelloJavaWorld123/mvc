@@ -1,5 +1,7 @@
 package com.jzy.api.service.biz;
 
+import java.util.Map;
+
 /**
  * <b>功能：</b>微信支付业务处理<br>
  * <b>Copyright JZY</b>
@@ -10,6 +12,8 @@ package com.jzy.api.service.biz;
  * </ul>
  */
 public interface WxPayService extends PayService {
+
+    String updateWxCallBack(Map<String, String> notifyMap) throws Exception;
 
     /**
      * <b>功能描述：</b>根据授权类型获取授权的url地址<br>

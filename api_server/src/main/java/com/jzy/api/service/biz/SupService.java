@@ -16,7 +16,9 @@ import java.util.Map;
  * </ul>
  */
 public interface SupService extends BaseService {
-    
+
+    void commitOrderToSup(Order order) throws Exception;
+
     /**
      * <b>功能描述：</b>SUP充值接口数据生成<br>
      * <b>修订记录：</b><br>
@@ -31,6 +33,6 @@ public interface SupService extends BaseService {
      *
      * @param orderId 订单id
      */
-    SupRecord querySupRecordByOrderId(Long orderId);
+    SupRecord querySupRecordByOrderId(String orderId);
 
 }
