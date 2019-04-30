@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+	SQL映射文件名称：权限业务
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190424	邓冲	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.app.AppInfoMapper">
+
+
+    <!--    分页查询商品列表-->
+    <select id="listPage" parameterType="com.jzy.api.cnd.app.AppInfoListCnd"
+            resultType="com.jzy.api.vo.app.AppInfoListVo">
+
+        SELECT
+        ai.id  as aiId,
+        ai.`code`  as aiCode,
+        ai.`name`  as aiName,
+        ai.icon  as aiIcon,
+        ai.recharge_mode  as aiRechargeMode,
+        ai.`status`  as aiStatus,
+        ai.gmt_modified  as modifyTime,
+        ac.`name`  as acName,
+        `at`.`name` as atName,
+        acp.`name`  as acpName
+        FROM
+        app_info ai
+        LEFT JOIN app_cate ac ON ai.cate_id = ac.id
+        LEFT JOIN app_type `at` ON ai.type_id = `at`.id
+        LEFT JOIN app_company acp ON ai.acp_id = acp.id
+        WHERE
+        1 = 1
+        AND ai.delflag = 0
+        <if test="cateId!=null">
+            AND ai.cate_id = #{cateId}
+        </if>
+        <if test="acpId!=null">
+            AND ai.acp_id = #{acpId}
+        </if>
+        <if test="typeId">
+            AND ai.type_id = #{typeId}
+        </if>
+        <if test="rechargeMode!=null">
+            AND ai.recharge_mode = #{rechargeMode}
+        </if>
+        <if test="status!=null">
+            and ai.status = #{status}
+        </if>
+
+    </select>
+
+
+</mapper>

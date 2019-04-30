@@ -1,9 +1,12 @@
 package com.jzy.api.service.app;
 
+import com.jzy.api.cnd.app.AppInfoListCnd;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPage;
 import com.jzy.api.vo.app.AppInfoDetailVo;
+import com.jzy.api.vo.app.AppInfoListVo;
 import com.jzy.framework.service.GenericService;
+
 import java.util.List;
 import java.util.Map;
 
@@ -103,18 +106,11 @@ public interface AppInfoService extends GenericService<AppInfo> {
     int getMaxCode();
 
     /**
-     * 分页列表
-     *
-     * @param cateId       分类id
-     * @param acpId        厂商id
-     * @param typeId       类型id
-     * @param rechargeMode 到账模式
-     * @param status       状态
-     * @param query        模糊查询条件（商品编号，商品名称）
-     * @param pageNo       当前页
-     * @param pageSize     页数据大小
+     * <b>功能描述：</b>查询商品列表<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    void listPage(Integer cateId, Integer acpId, Integer typeId, Integer rechargeMode, Integer status, String query, int pageNo, int pageSize);
+    List<AppInfoListVo> listPage(AppInfoListCnd appInfoListCnd);
 
     /**
      * 清空redis缓存
