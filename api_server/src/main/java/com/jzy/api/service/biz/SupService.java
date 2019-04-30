@@ -17,7 +17,19 @@ import java.util.Map;
  */
 public interface SupService extends BaseService {
 
+    /**
+     * <b>功能描述：</b>提交订单到SUP<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
     void commitOrderToSup(Order order) throws Exception;
+
+    /**
+     * <b>功能描述：</b>更新sup回调<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void updateSupCallBack();
 
     /**
      * <b>功能描述：</b>SUP充值接口数据生成<br>

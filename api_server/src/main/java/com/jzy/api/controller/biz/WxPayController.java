@@ -21,8 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
-import static com.jzy.api.constant.WXPayConstants.FAIL;
-
 /**
  * <b>功能：</b>微信支付<br>
  * <b>Copyright JZY</b>
