@@ -49,6 +49,9 @@ public class WxPayServiceImpl implements WxPayService {
 
     private static final String SYSTEM_OPERATION = "System Operation";
 
+    @Value("${basic_site_dns}")
+    private String domainUrl;
+
     /**
      * 微信appId
      */
@@ -202,13 +205,13 @@ public class WxPayServiceImpl implements WxPayService {
                 break;
             case "oauth":
                 authorizeUrl = authorize_url.replace("APPID", appId)
-                        .replace("REDIRECT_URI", URLEncoder.encode(wxRedirectUri))
+                        .replace("REDIRECT_URI", URLEncoder.encode(domainUrl.concat(wxRedirectUri)))
                         .replace("SCOPE", SCOPE_SNSAPI_USERINFO)
                         .replace("STATE", Base64.encodeBase64String("900Mall".getBytes()));
                 break;
             case "qroauth":
                 authorizeUrl = website_oauth_url.replace("APPID", appId)
-                        .replace("REDIRECT_URI", URLEncoder.encode(wxRedirectUri))
+                        .replace("REDIRECT_URI", URLEncoder.encode(domainUrl.concat(wxRedirectUri)))
                         .replace("SCOPE", SCOPE_SNSAPI_LOGIN)
                         .replace("STATE", Base64.encodeBase64String("900Mall".getBytes()));
                 break;
