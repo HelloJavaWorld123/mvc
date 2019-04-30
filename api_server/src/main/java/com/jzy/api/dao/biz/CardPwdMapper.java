@@ -2,6 +2,8 @@ package com.jzy.api.dao.biz;
 
 import com.jzy.api.model.biz.CardPwd;
 import com.jzy.framework.dao.GenericMapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.security.access.method.P;
 
 /**
  * <b>功能：</b>卡密<br>
@@ -23,4 +25,10 @@ public interface CardPwdMapper extends GenericMapper<CardPwd> {
      */
     String queryCardPwd(Long id);
 
+    /**
+     * <b>功能描述：</b>是否存在该订单的卡号<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    boolean isExist(@Param("orderId") String orderId, @Param("cardNo") String cardNo);
 }

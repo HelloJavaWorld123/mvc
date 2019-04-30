@@ -17,9 +17,13 @@ import java.math.BigDecimal;
 @Data
 public class CardPwd extends GenericModel {
     /**
+     * 主键
+     */
+    private String cardPwdId;
+    /**
      * 订单id
      */
-    private Long orderId;
+    private String orderId;
     /**
      * 用户id
      */
