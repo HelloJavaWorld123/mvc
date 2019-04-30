@@ -11,11 +11,11 @@
 	陕西佳之易网络科技有限公司 版本所有
  -->
 
-<mapper namespace="com.jzy.api.dao.app.AppInfoMapper">
+<mapper namespace="com.jzy.api.dao.app.AppPageMapper">
 
 
     <!--    获取商品富文本-->
-    <select id="" resultType="com.jzy.api.model.app.AppPage">
+    <select id="getPageInfoByAiId" resultType="com.jzy.api.model.app.AppPage">
         SELECT
             ai_id as aiId,
             content

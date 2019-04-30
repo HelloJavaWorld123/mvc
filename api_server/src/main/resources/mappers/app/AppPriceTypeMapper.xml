@@ -27,8 +27,7 @@
             `subscription_ratio` as subscriptionRatio ,
             `gmt_create`  as createTime,
             `gmt_modified` as modifyTime,
-            `modifier_id` as modifierId,
-            `creator_id as creatorId`
+            `modifier_id` as modifierId
         FROM
             app_price_type
         WHERE
