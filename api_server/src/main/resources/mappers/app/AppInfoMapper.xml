@@ -19,16 +19,16 @@
             resultType="com.jzy.api.vo.app.AppInfoListVo">
 
         SELECT
-        ai.id  as aiId,
-        ai.`code`  as aiCode,
-        ai.`name`  as aiName,
-        ai.icon  as aiIcon,
-        ai.recharge_mode  as aiRechargeMode,
-        ai.`status`  as aiStatus,
-        ai.gmt_modified  as modifyTime,
-        ac.`name`  as acName,
+        ai.id as aiId,
+        ai.`code` as aiCode,
+        ai.`name` as aiName,
+        ai.icon as aiIcon,
+        ai.recharge_mode as aiRechargeMode,
+        ai.`status` as aiStatus,
+        ai.gmt_modified as modifyTime,
+        ac.`name` as acName,
         `at`.`name` as atName,
-        acp.`name`  as acpName
+        acp.`name` as acpName
         FROM
         app_info ai
         LEFT JOIN app_cate ac ON ai.cate_id = ac.id
@@ -52,6 +52,40 @@
         <if test="status!=null">
             and ai.status = #{status}
         </if>
+
+    </select>
+
+
+    <!-- 查询商品信息-->
+    <select id="queryById" resultType="com.jzy.api.model.app.AppInfo">
+
+            SELECT
+            id,
+            `code`,
+            cate_id  as cateId,
+            acct_id  as acctId,
+            acp_id  as acpId,
+            game_id as gameId,
+            type_id typeId,
+            `name`,
+            icon,
+            label,
+            first_letter as firstLetter,
+            spll_letter as spllLetter,
+            recharge_mode  as rechargeCode,
+            STATUS,
+            sort,
+            `describe`,
+            page_path as pagePath,
+            remark,
+            is_hot  as isHot,
+            is_reco as isReco
+        FROM
+            app_info ai
+        WHERE
+            1 = 1
+    AND ai.id = #{aiId}
+
 
     </select>
 

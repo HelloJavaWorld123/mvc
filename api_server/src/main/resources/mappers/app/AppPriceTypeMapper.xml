@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	SQL映射文件名称：充值类型
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190430	唐永刚	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.app.AppPriceTypeMapper">
+
+    <!--    查询当前商品充值类型列表-->
+    <select id="getAppPriceTypelist"
+            resultType="com.jzy.api.model.app.AppPriceType">
+        SELECT
+            `id`,
+            `ai_id` as aiId,
+            `name`,
+            `unit`,
+            `maxmum`,
+            `minmum`,
+            `multiple`,
+            `subscription_ratio` as subscriptionRatio ,
+            `gmt_create`  as createTime,
+            `gmt_modified` as modifyTime,
+            `modifier_id` as modifierId,
+            `creator_id as creatorId`
+        FROM
+            app_price_type
+        WHERE
+            1 = 1
+        AND delflag = 0
+        AND ai_id =#{aiId}
+</select>
+
+
+</mapper>

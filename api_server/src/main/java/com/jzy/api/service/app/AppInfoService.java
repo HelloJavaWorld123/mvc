@@ -23,41 +23,8 @@ public interface AppInfoService extends GenericService<AppInfo> {
      *
      * @param appInfoId 基础商品id
      */
-    AppInfoDetailVo getAppInfo(String appInfoId);
+    AppInfoDetailVo getAppInfo(Long appInfoId);
 
-    /**
-     * 查询
-     *
-     * @param id 主键
-     * @return {@link AppInfo}
-     */
-    AppInfo queryAppById(String id);
-
-    /**
-     * 查询
-     *
-     * @param name 名称
-     * @return {@link AppInfo}
-     */
-    AppInfo getName(String name);
-
-    List<AppInfo> listName(String name);
-
-    /**
-     * 查询商品列表
-     *
-     * @param statusNotEqual null：查询所有状态， not null:查询条件是不等于条件， 例子：2：删除，查询!=2的商品信息
-     * @return List
-     */
-    List<AppInfo> list(Integer statusNotEqual);
-
-    /**
-     * 多个id查询数据
-     *
-     * @param ids id数组
-     * @return List
-     */
-    List<AppInfo> list(String[] ids);
 
     /**
      * 新增商品
@@ -66,15 +33,6 @@ public interface AppInfoService extends GenericService<AppInfo> {
      * @return true/false
      */
     Boolean save(AppInfo appInfo);
-
-    /**
-     * 更新商品状态
-     *
-     * @param aiId   商品id
-     * @param status 修改的状态(0下架，1上架，2删除)
-     * @return true/false
-     */
-    Boolean updateStatus(String aiId, Integer status);
 
     /**
      * 批量更新状态
@@ -90,20 +48,7 @@ public interface AppInfoService extends GenericService<AppInfo> {
      */
     Boolean deleteBatch(List<Object[]> values);
 
-    /**
-     * 批量从SUP初始化商品
-     *
-     * @param values
-     * @return true/false
-     */
-    Boolean saveBatchInit(List<Object[]> values);
 
-    /**
-     * 查询最大值code
-     *
-     * @return max_code
-     */
-    int getMaxCode();
 
     /**
      * <b>功能描述：</b>查询商品列表<br>
@@ -111,12 +56,6 @@ public interface AppInfoService extends GenericService<AppInfo> {
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     List<AppInfoListVo> listPage(AppInfoListCnd appInfoListCnd);
-
-    /**
-     * 清空redis缓存
-     */
-    void deleteRedisKey();
-
 
     /**
      * <b>功能描述：</b>保存富文本信息<br>

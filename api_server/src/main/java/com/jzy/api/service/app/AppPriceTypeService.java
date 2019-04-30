@@ -31,6 +31,6 @@ public interface AppPriceTypeService  extends GenericService<AppPriceType> {
    * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
    */
 
-  List<AppPriceType> getAppPriceTypelist(String id);
+  List<AppPriceType> getAppPriceTypelist(Long id);
 
 }
