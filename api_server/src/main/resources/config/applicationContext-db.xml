@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
        xmlns:redisson="http://redisson.org/schema/redisson"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/data/mongo
-       http://www.springframework.org/schema/data/mongo/spring-mongo-2.0.xsd">
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://redisson.org/schema/redisson http://redisson.org/schema/redisson/redisson.xsd
+    http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-2.0.xsd"
        default-lazy-init="true">
 
     <description>S1 数据库配置</description>
@@ -30,7 +30,7 @@
         />
     </redisson:client>
 
-    <mongo:mongo-client id="mongo" replica-set="${mongo.hosts}" credentials="${mongo.username}:${mongo.password}@${mongo.gfsdatabasename}">
+    <mongo:mongo-client id="mongo" replica-set="${mongo.hosts}">
         <mongo:client-options
                 connections-per-host="${mongo.connectionsPerHost}"
                 threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
