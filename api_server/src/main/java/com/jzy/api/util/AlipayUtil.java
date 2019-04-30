@@ -1,5 +1,6 @@
 package com.jzy.api.util;
 
+import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
@@ -12,7 +13,9 @@ import com.alipay.api.response.AlipayTradeFastpayRefundQueryResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
+import com.jzy.framework.exception.PayException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -40,6 +43,10 @@ public class AlipayUtil {
      * 请求网关地址
      */
     public static final String URL = "https://openapi.alipay.com/gateway.do";
+    /**
+     * basic_site_dns
+     */
+    private static final String domainUrl = "http://admin.iteming.wang";
     /**
      * 服务器异步通知页面路径 需http://或者https://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
      */
@@ -110,9 +117,8 @@ public class AlipayUtil {
      */
     public static String tradeWapPay(Map<String, String> params) {
         AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();
-//        alipayRequest.setReturnUrl(config.domainUrl().concat(return_url));
-//        alipayRequest.setNotifyUrl(config.domainUrl().concat(notify_url));
-//        String tradeRecordId = CommUtils.lowerUUID();
+        alipayRequest.setReturnUrl(domainUrl.concat(return_url));
+        alipayRequest.setNotifyUrl(domainUrl.concat(notify_url));
         alipayRequest.setBizContent("{" +
                 " \"out_trade_no\":\"" + params.get("out_trade_no") + "\"," +
 //                " \"request_from_url\":\"" + params.get("request_from_url") + "\"," +
@@ -123,12 +129,12 @@ public class AlipayUtil {
         String linkStr = "";
         try {
             AlipayTradeWapPayResponse alipayTradeWapPayResponse = client.pageExecute(alipayRequest, "GET");
-            // logger.debug(JSON.toJSONString(alipayTradeWapPayResponse));
+            log.debug(JSON.toJSONString(alipayTradeWapPayResponse));
             linkStr = alipayTradeWapPayResponse.getBody();
             // 新增支付记录
-            // iTradeRecordService.insert(new TradeRecordMapper(tradeRecordId, params.get("out_trade_no"), new Date(), URL.concat("?method=").concat("alipay.trade.wap.pay"), linkStr, STATUS_WAITED, TYPE_PAY, "alipay"));
         } catch (AlipayApiException e) {
-            // logger.error("：：：支付宝手机支付请求异常.", e);
+            log.error("：：：支付宝手机支付请求异常.", e);
+            throw new PayException("支付宝手机支付请求异常", e);
         }
         return linkStr;
     }

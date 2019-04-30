@@ -2,13 +2,18 @@ package com.jzy.api.service.biz.impl;
 
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.jzy.api.model.biz.Order;
+import com.jzy.api.model.biz.TradeRecord;
 import com.jzy.api.service.biz.AliPayService;
+import com.jzy.api.service.biz.TradeRecordService;
 import com.jzy.api.util.AlipayUtil;
+import com.jzy.api.util.CommUtils;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +33,12 @@ public class AliPayServiceImpl implements AliPayService {
     @Value("${basic_site_dns}")
     private String domainUrl;
 
+    @Value("${ali_pay_url}")
+    private String aliPayUrl;
+
+    @Resource
+    private TradeRecordService tradeRecordService;
+
     /**
      * <b>功能描述：</b>支付<br>
      * <b>修订记录：</b><br>
@@ -42,6 +53,18 @@ public class AliPayServiceImpl implements AliPayService {
         data.put("subject", "玖佰充值商城" + "-" + order.getAppName());
         // 支付
         String url = AlipayUtil.tradeWapPay(data);
+        // 新增交易记录
+        TradeRecord tradeRecord = new TradeRecord();
+        String tradeRecordId = CommUtils.lowerUUID();
+        tradeRecord.setTradeRecordId(tradeRecordId);
+        tradeRecord.setOperator(order.getOutTradeNo());
+        tradeRecord.setReqTime(new Date());
+        tradeRecord.setReqUrl(aliPayUrl.concat("?method=").concat("alipay.trade.wap.pay"));
+        tradeRecord.setReqData(url);
+        tradeRecord.setStatus(TradeRecord.RecordConst.STATUS_WAITED);
+        tradeRecord.setType(TradeRecord.RecordConst.TYPE_PAY);
+        tradeRecord.setTrusteeship("alipay");
+        tradeRecordService.insert(tradeRecord);
         // 支付返回参数
         Map<String, String> payMap = new HashMap<>();
         payMap.put("alipayUrl", url);

@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Data
 public class TradeRecord extends GenericModel {
+    private String tradeRecordId;
     /**
      * 交易记录标识(微信、支付宝交易流水号)
      */
@@ -14,7 +15,7 @@ public class TradeRecord extends GenericModel {
     /**
      * 操作订单号、操作人
      */
-    private Long operatorId;
+    private String operator;
     /**
      * 请求时间
      */
