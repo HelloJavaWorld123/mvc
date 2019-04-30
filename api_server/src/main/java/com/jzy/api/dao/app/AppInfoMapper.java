@@ -33,7 +33,7 @@ public interface AppInfoMapper extends GenericMapper<AppInfo> {
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    AppInfo queryById(@Param("id") Long aiId);
+    AppInfo queryById(@Param("aiId") Long aiId);
 
 
 }
