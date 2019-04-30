@@ -38,6 +38,11 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
     @Resource
     private OrderService orderService;
 
+    /**
+     * <b>功能描述：</b>提交订单到SUP<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
     @Override
     public void commitOrderToSup(Order order) throws Exception {
         String resultCode;

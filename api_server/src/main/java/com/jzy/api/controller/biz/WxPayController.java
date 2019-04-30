@@ -1,12 +1,6 @@
 package com.jzy.api.controller.biz;
 
 import com.jzy.api.cnd.biz.WxOAuthCnd;
-import com.jzy.api.constant.SupConfig;
-import com.jzy.api.constant.WXPayConfig;
-import com.jzy.api.model.biz.Order;
-import com.jzy.api.model.biz.WXPay;
-import com.jzy.api.service.biz.OrderService;
-import com.jzy.api.service.biz.TradeRecordService;
 import com.jzy.api.service.biz.WxPayService;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.MyHttp;
@@ -16,7 +10,6 @@ import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
-import static com.jzy.api.constant.WXPayConstants.*;
+import static com.jzy.api.constant.WXPayConstants.FAIL;
 
 /**
  * <b>功能：</b>微信支付<br>
@@ -46,12 +39,6 @@ public class WxPayController extends GenericController {
 
     @Resource
     private WxPayService wxPayService;
-
-    @Resource
-    private TradeRecordService tradeRecordService;
-
-    @Resource
-    private OrderService orderService;
 
     /**
      * <b>功能描述：</b>微信授权<br>
@@ -88,17 +75,7 @@ public class WxPayController extends GenericController {
     public String wxCallback(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String returnCode = FAIL;
         Map<String, String> notifyMap = WXPayUtil.xmlToMap(MyHttp.readRequestData(req));
-        returnCode = wxPayService.updateWxCallBack(notifyMap);
-        return returnXML(returnCode);
-    }
-
-    /**
-     * wechat:返回给微信服务端的Xml
-     * @param return_code [SUCCESS,FAIL]
-     * @return
-     */
-    private String returnXML(String return_code) {
-        return "<xml><return_code><![CDATA[".concat(return_code).concat("]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>");
+        return wxPayService.updateWxCallBack(notifyMap);
     }
 
 }
