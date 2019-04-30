@@ -1,6 +1,9 @@
 package com.jzy.api.controller.app;
 
+import com.jzy.api.cnd.app.AppBatchDeleteCnd;
 import com.jzy.api.cnd.app.AppInfoListCnd;
+import com.jzy.api.cnd.app.UpdateStatusBatchCnd;
+import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.service.app.AppInfoService;
 import com.jzy.api.service.app.AppPriceTypeService;
 import com.jzy.api.service.sys.SysImagesService;
@@ -8,6 +11,7 @@ import com.jzy.api.vo.app.AppInfoDetailVo;
 import com.jzy.api.vo.app.AppInfoListVo;
 import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.IdCnd;
+import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -67,7 +72,7 @@ public class AppInfoMgtController {
         }
         return new ApiResult<>(appInfoList);
     }
-    
+
     /**
      * <b>功能描述：</b>获取商品详情<br>
      * <b>修订记录：</b><br>
@@ -83,6 +88,48 @@ public class AppInfoMgtController {
             return new ApiResult(ResultEnum.OPERATION_FAILED);
         }
         return new ApiResult<>(appInfoDetailVo);
+    }
+
+
+    /**
+     * <b>功能描述：</b>商品批量修改状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("update_status_batch.shtml")
+    public ApiResult updateStatusBatch(@RequestBody UpdateStatusBatchCnd updateStatusBatchCnd){
+        try {
+            appInfoService.updateStatusBatch(updateStatusBatchCnd);
+        } catch (Exception e) {
+            logger.error("admin-产品ai_id{}修改状态{}错误,异常：{}", null, updateStatusBatchCnd.getStatus(), e);
+            return new ApiResult(ResultEnum.OPERATION_FAILED);
+        }
+        return new ApiResult<>();
+    }
+
+    /**
+     * <b>功能描述：</b>商品列表页面批量逻辑删除商品操作<br>
+     * <b>修订记录：</b><br>
+     * <li>20190418&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @return {@l}ink ApiResult
+     */
+    @RequestMapping("delete_batch.shtml")
+    public ApiResult deleteBatch(@RequestBody AppBatchDeleteCnd appBatchDeleteCnd) {
+        try {
+            List<Long> newAiIds =appBatchDeleteCnd.getAiIds();
+            for (Long  aiId : newAiIds) {
+                AppInfo appinfo = appInfoService.queryAppById(aiId);
+                if (appinfo.getStatus() != 0) {
+                    throw new BusException("存在商品未禁用，不能进行批量删除！");
+                }
+            }
+            appInfoService.deleteBatch(newAiIds);
+        }  catch (Exception e) {
+            logger.error("admin-产品ai_id{}逻辑删除{}错误,异常：{}", null, 1, e);
+            return new ApiResult(ResultEnum.OPERATION_FAILED);
+        }
+        return new ApiResult<>();
     }
 
 

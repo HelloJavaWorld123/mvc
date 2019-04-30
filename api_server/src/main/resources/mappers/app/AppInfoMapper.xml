@@ -85,9 +85,24 @@
         WHERE
             1 = 1
     AND ai.id = #{aiId}
-
-
     </select>
 
+    <!--    商品批量修改状态-->
+    <update id="updateStatusBatch">
+        UPDATE
+        app_info
+        SET status =#{status}
+        WHERE
+        id =#{aiId}
+    </update>
+
+    <!--    批量逻辑删除-->
+    <update id="deleteBatch">
+        UPDATE
+        app_info
+        SET delflag =1
+        WHERE
+        id =#{aiId}
+</update>
 
 </mapper>

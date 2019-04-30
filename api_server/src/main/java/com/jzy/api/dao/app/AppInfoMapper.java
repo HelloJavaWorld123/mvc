@@ -1,6 +1,7 @@
 package com.jzy.api.dao.app;
 
 import com.jzy.api.cnd.app.AppInfoListCnd;
+import com.jzy.api.cnd.app.UpdateStatusBatchCnd;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.vo.app.AppInfoListVo;
 import com.jzy.framework.dao.GenericMapper;
@@ -20,7 +21,6 @@ import java.util.List;
  */
 public interface AppInfoMapper extends GenericMapper<AppInfo> {
 
-
     /**
      * <b>功能描述：</b>分页查询商品列表<br>
      * <b>修订记录：</b><br>
@@ -34,6 +34,25 @@ public interface AppInfoMapper extends GenericMapper<AppInfo> {
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     AppInfo queryById(@Param("aiId") Long aiId);
+
+
+    /**
+     * <b>功能描述：</b>商品批量修改状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param aiId   商品主键
+     * @param status 启用/禁用
+     */
+    Boolean updateStatusBatch(@Param("aiId") Long aiId, @Param("status") Integer status);
+
+
+    /**
+     * <b>功能描述：</b>批量逻辑删除<br>
+     * <b>修订记录：</b><br>
+     * <li>20190418&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void deleteBatch(@Param("aiId") Long aiId);
 
 
 }

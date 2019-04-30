@@ -1,6 +1,7 @@
 package com.jzy.api.service.app;
 
 import com.jzy.api.cnd.app.AppInfoListCnd;
+import com.jzy.api.cnd.app.UpdateStatusBatchCnd;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPage;
 import com.jzy.api.vo.app.AppInfoDetailVo;
@@ -34,20 +35,20 @@ public interface AppInfoService extends GenericService<AppInfo> {
      */
     Boolean save(AppInfo appInfo);
 
+
     /**
-     * 批量更新状态
-     *
-     * @return
+     * <b>功能描述：</b>批量更新启用禁用状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    Boolean updateStatusBatch(List<Object[]> values);
+    void updateStatusBatch(UpdateStatusBatchCnd updateStatusBatchCnd);
 
     /**
      * <b>功能描述：</b>批量逻辑删除<br>
      * <b>修订记录：</b><br>
      * <li>20190418&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    Boolean deleteBatch(List<Object[]> values);
-
+    void deleteBatch(List<Long> newAiIds);
 
 
     /**
@@ -70,5 +71,13 @@ public interface AppInfoService extends GenericService<AppInfo> {
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     Boolean updateAppPage(AppPage AppPage);
+
+
+    /**
+     * <b>功能描述：</b>查询商品信息，用于确定是否能删除商品<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    AppInfo queryAppById(Long aiId);
 
 }

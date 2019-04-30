@@ -3,6 +3,7 @@ package com.jzy.api.service.app.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jzy.api.cnd.app.AppInfoListCnd;
+import com.jzy.api.cnd.app.UpdateStatusBatchCnd;
 import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.dao.app.AppPageMapper;
 import com.jzy.api.model.app.AppInfo;
@@ -46,7 +47,7 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
         AppInfo appInfoMapper = getAppInfoMapper(aiId);
         List<AppPriceType> appPriceTypeMappers = appPriceTypeService.getAppPriceTypelist(aiId);
         //获取商品富文本
-       AppPage appPage= appPageMapper.getPageInfoByAiId(aiId);
+        AppPage appPage = appPageMapper.getPageInfoByAiId(aiId);
         return new AppInfoDetailVo(appInfoMapper, appPriceTypeMappers, appPage);
     }
 
@@ -59,6 +60,14 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
         return appInfoMapper.queryById(id);
     }
 
+    /**
+     * <b>功能描述：</b>查询商品信息，用于确定是否能删除商品<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    public AppInfo queryAppById(Long aiId) {
+        return this.getAppInfoMapper(aiId);
+    }
 
     @Override
     public Boolean save(AppInfo appInfo) {
@@ -66,14 +75,30 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
     }
 
 
+    /**
+     * <b>功能描述：</b>商品批量修改状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
     @Override
-    public Boolean updateStatusBatch(List<Object[]> values) {
-        return null;
+    public void updateStatusBatch(UpdateStatusBatchCnd updateStatusBatchCnd) {
+        Integer status = updateStatusBatchCnd.getStatus();
+        for (Long aiId : updateStatusBatchCnd.getAiIds()) {
+            appInfoMapper.updateStatusBatch(aiId, status);
+        }
     }
 
+    /**
+     * <b>功能描述：</b>批量逻辑删除<br>
+     * <b>修订记录：</b><br>
+     * <li>20190418&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
     @Override
-    public Boolean deleteBatch(List<Object[]> values) {
-        return null;
+    public void deleteBatch(List<Long> newAiIds) {
+        for (Long aiId : newAiIds) {
+            appInfoMapper.deleteBatch(aiId);
+        }
+
     }
 
 
