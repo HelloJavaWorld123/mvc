@@ -1,4 +1,4 @@
-package com.jzy.api.service.biz.impl;
+package com.jzy.api.service.wx;
 
 import com.jzy.api.constant.WXPayConfig;
 import com.jzy.api.util.IWXPayDomain;

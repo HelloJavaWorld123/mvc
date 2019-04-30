@@ -14,6 +14,7 @@ import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -141,7 +142,7 @@ public class AlipayUtil {
      * @param refund_amount  本次退款金额(需要退款的金额，该金额不能大于订单金额,单位为元，支持两位小数)
      * @return 关键出参{refund_fee:该笔交易已退款的总金额}
      */
-    public static AlipayTradeRefundResponse tradeRefund(String out_trade_no, String trade_no, double refund_amount) {
+    public static AlipayTradeRefundResponse tradeRefund(String out_trade_no, String trade_no, BigDecimal refund_amount) {
         AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
         request.setBizContent("{" +
                 " \"out_trade_no\":\"" + out_trade_no + "\"," +
@@ -170,9 +171,7 @@ public class AlipayUtil {
              * }
              */
             response = client.execute(request);
-
-            boolean b = refund_amount == Double.valueOf(response.getRefundFee());
-            // iTradeRecordService.insert(new TradeRecordMapper(CommUtils.lowerUUID(), out_trade_no, new Date(), URL.concat("?method=").concat("alipay.trade.refund"), request.getTextParams().toString(), b ? STATUS_PASSED:STATUS_WRONG, TYPE_REFUND, new Date(), response.getParams().toString(),"alipay"));
+            boolean b =  new BigDecimal(response.getRefundFee()).equals(refund_amount);
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }

@@ -14,12 +14,11 @@
     <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
     <mvc:annotation-driven />
 
-    <!-- 自动扫描且只扫描@Controller -->
-    <context:component-scan base-package="com.jzy.api.controller" use-default-filters="false">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>
+    <!-- 使用注解的包，包括子集 -->
+    <context:component-scan base-package="com.jzy.api.controller" />
 
     <import resource="applicationContext-empty.xml"/>
+    <import resource="applicationContext-db.xml"/>
 
     <!-- 解决js,css,images访问不到的问题-->
     <mvc:resources mapping="/js/**" location="/js/" />
@@ -73,19 +72,6 @@
         <property name="exposeSessionAttributes" value="true" />
     </bean>
 
-    <!-- 支付配置 -->
-    <bean class="com.jzy.api.service.biz.impl.PaywayProvider">
-        <property name="payWayMap">
-            <map>
-                <entry key="0">
-                    <bean class="com.jzy.api.service.biz.impl.WxPayServiceImpl"/>
-                </entry>
-                <entry key="1">
-                    <bean class="com.jzy.api.service.biz.impl.AliPayServiceImpl"/>
-                </entry>
-            </map>
-        </property>
-    </bean>
 
     <!-- 统一异常处理类 -->
     <bean id="handlerExceptionResolver" class="com.jzy.api.base.ProjectHandlerExceptionResolver"/>

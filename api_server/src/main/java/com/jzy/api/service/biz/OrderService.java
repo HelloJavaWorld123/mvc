@@ -15,7 +15,21 @@ import java.util.List;
  * </ul>
  */
 public interface OrderService extends GenericService<Order> {
-    
+
+    /**
+     * <b>功能描述：</b>新增或修改订单<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void insertOrUpdateOrder(Order order);
+
+    /**
+     * <b>功能描述：</b>订单退款<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int tradeRefund(Order order);
+
     /**
      * <b>功能描述：</b>订单列表查询<br>
      * <b>修订记录：</b><br>
@@ -58,5 +72,49 @@ public interface OrderService extends GenericService<Order> {
      * @param id 订单id
      */
     int updateOrderClose(Long id);
+
+    /**
+     * <b>功能描述：</b>更新订单充值状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param id     主键id
+     * @param status 0等待支付,1充值中,2充值成功,3充值失败,4订单关闭
+     */
+    int updateStatus(String id, Integer status);
+
+    /**
+     * <b>功能描述：</b>更新订单交易状态(异步退款通知的时候更改交易状态)<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param id          主键id
+     * @param tradeStatus 订单交易状态 {@link OrderMapper.TradeStatusConst}
+     */
+    int updateTradeStatus(String id, String tradeStatus);
+
+    /**
+     * <b>功能描述：</b>这里写功能描述<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param status      充值状态 0等待支付,1充值中,2充值成功,3充值失败,4订单关闭
+     * @param tradeStatus 交易状态 {@link OrderMapper.TradeStatusConst}
+     * @param supStatus   sup状态
+     * @param id          主键id
+     */
+    int updateStatusTradeStatusSupStatus(String id, Integer status, String tradeStatus, Integer supStatus);
+
+    /**
+     * <b>功能描述：</b>更新订单充值状态和支付方式(主要用户唤醒支付时候,更新支付方式,流水号,状态)<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param id          主键id
+     * @param status      充值状态
+     * @param tradeMethod 支付方式
+     * @param outTradeNo  订单流水号
+     */
+    int updateStatusTradeMethod(String id, Integer status, Integer tradeMethod, String outTradeNo);
 
 }

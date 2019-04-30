@@ -1,14 +1,14 @@
-package com.jzy.api.model.biz;
+package com.jzy.api.service.wx;
 
 import com.jzy.api.constant.WXPayConfig;
 import com.jzy.api.constant.WXPayConstants;
-import com.jzy.api.service.wx.WXPayRequest;
 import com.jzy.api.util.WXPayUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class WXPay {
+
     private WXPayConfig config;
     private WXPayConstants.SignType signType;
     private boolean autoReport;
@@ -688,4 +688,5 @@ public class WXPay {
     public boolean isUseSandbox() {
         return useSandbox;
     }
+
 }

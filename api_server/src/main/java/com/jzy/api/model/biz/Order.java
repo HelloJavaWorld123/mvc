@@ -17,6 +17,10 @@ import java.math.BigDecimal;
 @Data
 public class Order extends GenericModel {
     /**
+     * 订单id
+     */
+    private String orderId;
+    /**
      * 订单编号:时间戳+6位随机数
      */
     private String code;
@@ -67,7 +71,7 @@ public class Order extends GenericModel {
     /**
      * 订单应付总金额
      */
-    private Double totalFee;
+    private BigDecimal totalFee;
     /**
      * 充值类型名称
      */

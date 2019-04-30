@@ -24,4 +24,11 @@ public interface PayService extends BaseService {
      */
     ApiResult pay(Order order);
 
+    /**
+     * <b>功能描述：</b>退单<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    boolean orderBack(Order order);
+
 }
