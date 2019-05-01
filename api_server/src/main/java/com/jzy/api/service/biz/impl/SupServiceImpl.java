@@ -75,13 +75,13 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         }
         // SUP充值记录
         SupRecord supRecord = supRecordMapper.querySupRecordByOrderId(order.getOrderId());
-        if (Objects.isNull(supRecord)) {
+        if (supRecord == null) {
             supRecordMapper.insert(new SupRecord(CommUtils.uniqueOrderStr(), order.getOrderId(), requestData, new Date(), 1, JSON.toJSONString(resultMap), ""));
         } else {
             supRecord.setReqAmount(supRecord.getReqAmount() + 1);
             supRecord.setReqTime(new Date());
             supRecord.setReqData(supRecord.getReqData() + ";" + requestData);
-            supRecordMapper.updateWhereOrderId(supRecord);
+            supRecordMapper.update(supRecord);
         }
     }
 

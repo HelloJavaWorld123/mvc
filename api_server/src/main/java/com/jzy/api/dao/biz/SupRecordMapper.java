@@ -23,6 +23,4 @@ public interface SupRecordMapper extends GenericMapper<SupRecord> {
      */
     SupRecord querySupRecordByOrderId(String orderId);
 
-    int updateWhereOrderId(SupRecord osr);
-    
 }
