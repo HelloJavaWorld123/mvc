@@ -43,7 +43,7 @@ public class WxPayController extends GenericController {
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @ResponseBody
-    @RequestMapping(path="/wxOAuth")
+    @RequestMapping(path="/wxOAuth", method = RequestMethod.POST)
     public ApiResult wxOAuth(@RequestBody WxOAuthCnd wxOAuthCnd) {
         if (!CommUtils.exist(new String[]{"oauth", "qroauth"}, wxOAuthCnd.getType())) {
             throw new BusException("授权类型不存在");
@@ -59,7 +59,7 @@ public class WxPayController extends GenericController {
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping(path = "callback.shtml", method = RequestMethod.GET)
-    public ModelAndView wechatCallback(@RequestParam(defaultValue = "") String code,
+    public ModelAndView wxCallback(@RequestParam(defaultValue = "") String code,
                                        HttpServletRequest req, HttpServletResponse resp, ModelMap model) {
         ModelAndView view = new ModelAndView("login");
         // LoginUserMapper loginUser = LoginUserMapper.getLoginUser(req.getSession());

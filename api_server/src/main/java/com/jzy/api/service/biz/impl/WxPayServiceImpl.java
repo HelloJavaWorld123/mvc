@@ -257,11 +257,25 @@ public class WxPayServiceImpl implements WxPayService {
         return false;
     }
 
+    /**
+     * <b>功能描述：</b>根据授权类型获取跳转url地址<br>
+     * <b>修订记录：</b><br>
+     * <li>20190501&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param oauthType "oauth":内置网页授权, "qroauth":网站应用授权
+     */
     @Override
     public String getUrlByAuthType(String oauthType) {
         return getUrlByAuthType(oauthType, null);
     }
 
+    /**
+     * <b>功能描述：</b>根据授权类型获取跳转url地址<br>
+     * <b>修订记录：</b><br>
+     * <li>20190501&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param oauthType "oauth":内置网页授权, "qroauth":网站应用授权
+     */
     @Override
     public String getUrlByAuthType(String oauthType, String uri) {
         String authorizeUrl = null;
