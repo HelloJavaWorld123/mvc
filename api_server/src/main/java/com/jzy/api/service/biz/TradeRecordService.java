@@ -25,7 +25,7 @@ public interface TradeRecordService extends GenericService<TradeRecord> {
      * @param id 交易唯一标识trade_record_id
      * @param oldStatus
      */
-    boolean updateBgRespByIdStatus(String markId, String status, String bgRespData, String id, String oldStatus);
+    boolean updateBgRespByIdStatus(String markId, Integer status, String bgRespData, String id, Integer oldStatus);
 
     /**
      * 更新交易记录
@@ -33,12 +33,12 @@ public interface TradeRecordService extends GenericService<TradeRecord> {
      * 1:(微信)退款通知
      *
      * @param markid     第三方支付订单号
-     * @param status     [refushed、failed、passed、noresponse]
+     * @param status     状态(0 sended、1 waited、2 wrong、3 failed、4 passed、5 refushed、6 noresponse)
      * @param bgRespData 异步通知数据
      * @param operator   交易唯一标识trade_record_operator
      * @return
      */
-    boolean updateBgRespByOperatorStatus(String markid, String status, String bgRespData, String operator, String oldStatus);
+    boolean updateBgRespByOperatorStatus(String markId, Integer status, String bgRespData, String operator, Integer oldStatus);
 
     /**
      * <b>功能描述：</b>更新交易记录<br>
@@ -52,7 +52,7 @@ public interface TradeRecordService extends GenericService<TradeRecord> {
      * @param operator
      * @param oldStatus
      */
-    boolean updateRespByOperatorStatus(String markid, String status, String respData, String operator, String oldStatus);
+    boolean updateRespByOperatorStatus(String markId, Integer status, String respData, String operator, Integer oldStatus);
 
     /**
      * <b>功能描述：</b>查询<br>
@@ -63,5 +63,5 @@ public interface TradeRecordService extends GenericService<TradeRecord> {
      * @param type 交易类型(支付:pay、退款:refund)
      * @param status 交易状态
      */
-    TradeRecord queryOperator(String operator, String type , String status);
+    TradeRecord queryOperator(String operator, String type , Integer status);
 }

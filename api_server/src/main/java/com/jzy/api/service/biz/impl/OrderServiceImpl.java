@@ -81,7 +81,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         // 是否临时订单
         boolean isTempOrder = false;
         // TODO: 2019/4/30 是否进行登录
-        if (orderId == null) {
+        if (StringUtils.isEmpty(orderId)) {
             isTempOrder = true;
             order.setOrderId(CommUtils.uniqueOrderStr());
             order.setCode(DateUtils.date2TimeStr(new Date()).concat(CommUtils.authCode()));

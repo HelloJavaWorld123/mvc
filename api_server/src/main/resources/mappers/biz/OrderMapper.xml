@@ -26,7 +26,7 @@
         #{orderId}, #{code}, #{outTradeNo}, #{userId}, #{appId}, #{supNo}, #{supPrice}, #{supStatus}, #{discount},
         #{price}, #{number}, #{status}, #{type}, #{totalFee}, #{priceTypeName}, #{priceTypeUnit},
         #{acctType}, #{account}, #{gameAccount}, #{gameArea}, #{gameServ}, #{tradeMethod}, #{tradeCode},
-        #{trade_fee}, #{trade_status}, #{invoiceStatus}, #{remark}, #{rechargeMode}, #{dealerId},
+        #{tradeFee}, #{tradeStatus}, #{invoiceStatus}, #{remark}, #{rechargeMode}, #{dealerId},
         #{delFlag}, #{creatorId}, #{modifierId}, #{createTime}, #{modifyTime}
         )
     </insert>

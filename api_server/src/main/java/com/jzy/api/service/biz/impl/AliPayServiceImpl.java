@@ -50,7 +50,7 @@ public class AliPayServiceImpl implements AliPayService {
         // 构造支付请求参数
         Map<String, String> data = new HashMap<>();
         data.put("out_trade_no", order.getOutTradeNo());
-        data.put("total_amount", order.getTotalFee().toString());
+        data.put("total_amount", order.getTradeFee().toString());
         data.put("subject", "玖佰充值商城" + "-" + order.getAppName());
         // 支付
         String url = AlipayUtil.tradeWapPay(data);
@@ -62,9 +62,9 @@ public class AliPayServiceImpl implements AliPayService {
         tradeRecord.setReqTime(new Date());
         tradeRecord.setReqUrl(aliPayUrl.concat("?method=").concat("alipay.trade.wap.pay"));
         tradeRecord.setReqData(url);
-        tradeRecord.setStatus(TradeRecord.RecordConst.STATUS_WAITED);
-        tradeRecord.setType(TradeRecord.RecordConst.TYPE_PAY);
-        tradeRecord.setTrusteeship("alipay");
+        tradeRecord.setStatus(1);
+        tradeRecord.setType(0);
+        tradeRecord.setTrusteeship(1);
         tradeRecordService.insert(tradeRecord);
         // 支付返回参数
         Map<String, String> payMap = new HashMap<>();

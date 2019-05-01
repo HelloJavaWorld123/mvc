@@ -116,7 +116,7 @@ public class Order extends GenericModel {
     /**
      * 实付总金额
      */
-    private BigDecimal tradeFee;
+    private BigDecimal tradeFee = BigDecimal.ZERO;
     /**
      * 支付交易状态
      */

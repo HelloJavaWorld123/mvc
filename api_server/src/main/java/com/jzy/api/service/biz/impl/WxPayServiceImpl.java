@@ -103,7 +103,7 @@ public class WxPayServiceImpl implements WxPayService {
                 String totalFee = notifyMap.get("total_fee");
                 BigDecimal tradeFee =  new BigDecimal(WXPayUtil.changeF2Y(totalFee));
                 String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
-                tradeRecordService.updateBgRespByIdStatus(transactionId, notifyMap.get("result_code").equalsIgnoreCase(SUCCESS) ? STATUS_PASSED : STATUS_FAILED, notifyMap.toString(), notifyMap.get("attach"), STATUS_WAITED);
+                tradeRecordService.updateBgRespByIdStatus(transactionId, notifyMap.get("result_code").equalsIgnoreCase(SUCCESS) ? 4 : 3, notifyMap.toString(), notifyMap.get("attach"), 1);
                 // 业务处理
                 // 注意特殊情况：订单已经退款，但收到了支付结果成功的通知，不应把商户侧订单状态从退款改成支付成功
                 if (notifyMap.get("result_code").equalsIgnoreCase(SUCCESS)) {
@@ -126,7 +126,7 @@ public class WxPayServiceImpl implements WxPayService {
             String outRefundNo = reqInfoMap.get("out_refund_no");
             String outTradeNo = reqInfoMap.get("out_trade_no");
             String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
-            tradeRecordService.updateBgRespByOperatorStatus(reqInfoMap.get("refund_id"), refundStatus ? STATUS_PASSED : STATUS_FAILED, reqInfoMap.toString(), outRefundNo, STATUS_WAITED);
+            tradeRecordService.updateBgRespByOperatorStatus(reqInfoMap.get("refund_id"), refundStatus ? 4 : 3, reqInfoMap.toString(), outRefundNo, 1);
 
             if (refundStatus) {
                 orderService.updateTradeStatus(orderId, Order.TradeStatusConst.REFUND_SICCESS);
@@ -304,7 +304,7 @@ public class WxPayServiceImpl implements WxPayService {
         boolean resultStatus = SUCCESS.equalsIgnoreCase(map.get("result_code"));
         log.debug("：：：wechat unified order result.".concat(map.toString())); // 平台记录交易
         String reqUrl = wxpay.isUseSandbox() ? SANDBOX_UNIFIEDORDER_URL_SUFFIX : UNIFIEDORDER_URL_SUFFIX;
-        tradeRecordService.insert(new TradeRecord(params.get("attach"), params.get("out_trade_no"), DateUtils.timeStr2Date(params.get("time_start")), reqUrl, params.toString(), resultStatus ? STATUS_WAITED : STATUS_WRONG, "pay", new Date(), map.toString(), TRUSTEESHIP_WECHAT));
+        tradeRecordService.insert(new TradeRecord(params.get("attach"), params.get("out_trade_no"), DateUtils.timeStr2Date(params.get("time_start")), reqUrl, params.toString(), resultStatus ? 1 : 2, 0, new Date(), map.toString(), 0));
         return map;
     }
 
@@ -398,7 +398,7 @@ public class WxPayServiceImpl implements WxPayService {
             respmap.put("trade_record_id", CommUtils.lowerUUID());
 
             String refundUrl = wxpay.isUseSandbox() ? SANDBOX_REFUND_URL_SUFFIX : REFUND_URL_SUFFIX;
-            tradeRecordService.insert(new TradeRecord(respmap.get("trade_record_id"), params.get("out_refund_no"), new Date(), refundUrl, params.toString(), resultStatus ? STATUS_WAITED : STATUS_FAILED, TYPE_REFUND, new Date(), respmap.toString(), TRUSTEESHIP_WECHAT));
+            tradeRecordService.insert(new TradeRecord(respmap.get("trade_record_id"), params.get("out_refund_no"), new Date(), refundUrl, params.toString(), resultStatus ? 1 : 3, 1, new Date(), respmap.toString(), 0));
         } catch (Exception e) {
             log.error("：：：Err - Wechat Refund 申请退款.", e);
 

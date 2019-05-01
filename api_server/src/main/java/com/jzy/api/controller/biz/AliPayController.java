@@ -58,7 +58,7 @@ public class AliPayController extends GenericController {
             log.info("：：：Alipay return result - success");
             String outTradeNo = respMap.get("out_trade_no");
             String tradeNo = respMap.get("trade_no");
-            tradeRecordService.updateRespByOperatorStatus(tradeNo, STATUS_WAITED, respMap.toString(), outTradeNo, STATUS_WAITED);
+            tradeRecordService.updateRespByOperatorStatus(tradeNo, 1, respMap.toString(), outTradeNo, 1);
             // TODO 验签成功后，按照支付结果异步通知中的描述，对支付结果中的业务内容进行二次校验，校验成功后在response中返回success并继续商户自身业务处理，校验失败返回failure
             Order order = orderService.queryOrderByOutTradeNo(outTradeNo);
             view = synchroSuccessPay(order, 1);
@@ -86,8 +86,8 @@ public class AliPayController extends GenericController {
             String tradeStatus = respMap.get("trade_status");
             boolean rststatus = "TRADE_SUCCESS".equals(tradeStatus);
             String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
-            String status = rststatus ? STATUS_PASSED : STATUS_FAILED;
-            tradeRecordService.updateBgRespByOperatorStatus(tradeNo, status, respMap.toString(), outTradeNo, STATUS_WAITED);
+            Integer status = rststatus ? 4 : 3;
+            tradeRecordService.updateBgRespByOperatorStatus(tradeNo, status, respMap.toString(), outTradeNo, 1);
             // TODO 验签成功后，按照支付结果异步通知中的描述，对支付结果中的业务内容进行二次校验，校验成功后在response中返回success并继续商户自身业务处理，校验失败返回failure
             if (rststatus) {
                 notifySuccessPay(orderId ,tradeNo ,Double.valueOf(respMap.get("total_amount")));

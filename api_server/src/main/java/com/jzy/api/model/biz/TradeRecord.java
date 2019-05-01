@@ -29,13 +29,15 @@ public class TradeRecord extends GenericModel {
      */
     private String reqData;
     /**
-     * 状态(0 sended、1 waited、2 wrong、3 failed、4 passed、5 refushed、6 noresponse)
+     * 状态
+     * (0 sended、1 waited、2 wrong、3 failed、4 passed、5 refushed、6 noresponse)
      */
-    private String status;
+    private Integer status = 0;
     /**
-     * 交易类型(0 支付:pay、1 退款:refund)
+     * 交易类型
+     * (0 支付:pay、1 退款:refund)
      */
-    private String type;
+    private Integer type;
     /**
      * 返回时间
      */
@@ -45,27 +47,19 @@ public class TradeRecord extends GenericModel {
      */
     private String respData;
     /**
-     * 渠道(0 微信、1 支付宝) 服务标识(微信、支付宝、乐信通)
+     * 渠道(0 微信、1 支付宝)
+     * 服务标识(微信、支付宝、乐信通)
      */
-    private String trusteeship;
+    private Integer trusteeship;
+
     private Date bgRespTime;
+
     private String bgRespData;
 
     public TradeRecord() {
     }
 
-    public TradeRecord(String id, String operator, Date reqTime, String reqUrl, String reqData, String status, String type, String trusteeship) {
-        this.tradeRecordId = id;
-        this.operator = operator;
-        this.reqTime = reqTime;
-        this.reqUrl = reqUrl;
-        this.reqData = reqData;
-        this.status = status;
-        this.type = type;
-        this.trusteeship = trusteeship;
-    }
-
-    public TradeRecord(String id, String operator, Date reqTime, String reqUrl, String reqData, String status, String type, Date respTime, String respData, String trusteeship) {
+    public TradeRecord(String id, String operator, Date reqTime, String reqUrl, String reqData, Integer status, Integer type, Date respTime, String respData, Integer trusteeship) {
         this.tradeRecordId = id;
         this.operator = operator;
         this.reqTime = reqTime;
@@ -76,23 +70,6 @@ public class TradeRecord extends GenericModel {
         this.respTime = respTime;
         this.respData = respData;
         this.trusteeship = trusteeship;
-    }
-
-    public class RecordConst {
-        /* ---------------------- status ---------------------- */
-        public static final String STATUS_SENDED = "sended";
-        public static final String STATUS_WAITED = "waited";
-        public static final String STATUS_REFUSHED = "refushed";
-        public static final String STATUS_FAILED = "failed";
-        public static final String STATUS_PASSED = "passed";
-        public static final String STATUS_NORESPONSE = "noresponse";
-        public static final String STATUS_WRONG = "wrong";
-        /* ---------------------- type ---------------------- */
-        public static final String TYPE_PAY = "pay";
-        public static final String TYPE_REFUND = "refund";
-        /* ---------------------- trusteeship ---------------------- */
-        public static final String TRUSTEESHIP_WECHAT = "wechat";
-        public static final String TRUSTEESHIP_ALIPAY = "Alipay";
     }
 
 }

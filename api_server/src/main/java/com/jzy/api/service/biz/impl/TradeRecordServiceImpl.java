@@ -36,7 +36,7 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
      * @param oldStatus
      */
     @Override
-    public boolean updateBgRespByIdStatus(String markId, String status, String bgRespData, String id, String oldStatus) {
+    public boolean updateBgRespByIdStatus(String markId, Integer status, String bgRespData, String id, Integer oldStatus) {
         return false;
     }
 
@@ -45,14 +45,14 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
      * <p>
      * 1:(微信)退款通知
      *
-     * @param markid     第三方支付订单号
+     * @param markId     第三方支付订单号
      * @param status     [refushed、failed、passed、noresponse]
      * @param bgRespData 异步通知数据
      * @param operator   交易唯一标识trade_record_operator
      * @return
      */
     @Override
-    public boolean updateBgRespByOperatorStatus(String markid, String status, String bgRespData, String operator, String oldStatus) {
+    public boolean updateBgRespByOperatorStatus(String markId, Integer status, String bgRespData, String operator, Integer oldStatus) {
         return false;
     }
 
@@ -62,14 +62,14 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
      * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
      * 1:(支付宝)支付完成回调
-     * @param markid
+     * @param markId
      * @param status
      * @param respData
      * @param operator
      * @param oldStatus
      */
     @Override
-    public boolean updateRespByOperatorStatus(String markid, String status, String respData, String operator, String oldStatus) {
+    public boolean updateRespByOperatorStatus(String markId, Integer status, String respData, String operator, Integer oldStatus) {
         return false;
     }
 
@@ -83,7 +83,7 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
      * @param status 交易状态
      */
     @Override
-    public TradeRecord queryOperator(String operator, String type, String status) {
+    public TradeRecord queryOperator(String operator, String type, Integer status) {
         return null;
     }
 

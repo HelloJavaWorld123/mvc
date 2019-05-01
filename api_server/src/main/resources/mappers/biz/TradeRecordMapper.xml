@@ -16,12 +16,12 @@
     <!-- 新增交易记录 -->
     <insert id="insert" parameterType="com.jzy.api.model.biz.TradeRecord">
         INSERT INTO trade_record (
-        id, mark_id, operator_id, req_time, req_url, req_data, status, type, resp_time,
+        id, mark_id, operator, req_time, req_url, req_data, status, type, resp_time,
         resp_data, trusteeship, bg_resp_time, bg_resp_data,
         del_flag, creator_id, modifier_id, create_time, modify_time
         )
         VALUES(
-        #{id}, #{markId}, #{operatorId}, #{reqTime}, #{reqUrl}, #{reqData}, #{status}, #{type}, #{respTime},
+        #{tradeRecordId}, #{markId}, #{operator}, #{reqTime}, #{reqUrl}, #{reqData}, #{status}, #{type}, #{respTime},
         #{respData}, #{trusteeship}, #{bgRespTime}, #{bgRespData},
         #{delFlag}, #{creatorId}, #{modifierId}, #{createTime}, #{modifyTime}
         )

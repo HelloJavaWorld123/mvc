@@ -52,6 +52,7 @@ public class PayController extends GenericController {
             order.setTradeMethod(payCnd.getTradeMethod());
         }
         order.setTotalFee(payCnd.getTotalFee());
+        order.setPrice(payCnd.getTotalFee());
         order.setTradeFee(payCnd.getTradeFee());
         order.setDiscount(payCnd.getDiscount());
         order.setSupPrice(payCnd.getSupPrice());
