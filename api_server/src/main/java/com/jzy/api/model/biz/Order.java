@@ -33,6 +33,11 @@ public class Order extends GenericModel {
      */
     private Long userId;
     /**
+     * 充值模式
+     * 0直充 1 卡密
+     */
+    private Integer rechargeMode;
+    /**
      * 商品id
      */
     private Long appId;
@@ -43,7 +48,7 @@ public class Order extends GenericModel {
     /**
      * sup商品提交金额
      */
-    private Double supPrice;
+    private BigDecimal supPrice;
     /**
      * sup状态，0未提交;1已提交;2成功;3失败
      */

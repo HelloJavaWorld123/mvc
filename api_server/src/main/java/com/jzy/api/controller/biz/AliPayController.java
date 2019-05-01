@@ -3,17 +3,16 @@ package com.jzy.api.controller.biz;
 import com.alibaba.fastjson.JSONObject;
 import com.jzy.api.constant.SupConfig;
 import com.jzy.api.model.biz.Order;
-import com.jzy.api.service.biz.AliPayService;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.service.biz.TradeRecordService;
 import com.jzy.api.util.AlipayUtil;
 import com.jzy.api.util.MyHttp;
 import com.jzy.framework.controller.GenericController;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -36,11 +35,9 @@ import static com.jzy.api.model.biz.TradeRecord.RecordConst.*;
  * </ul>
  */
 @Slf4j
-@Controller
+@RestController
+@RequestMapping(path = "/ali")
 public class AliPayController extends GenericController {
-
-    @Resource
-    private AliPayService aliPayService;
 
     @Resource
     private TradeRecordService tradeRecordService;
@@ -52,7 +49,7 @@ public class AliPayController extends GenericController {
      * alipay:页面跳转同步通知页面路径
      * @return
      */
-    @RequestMapping("ali/return.shtml")
+    @RequestMapping("/return.shtml")
     public ModelAndView aliRetrunUrl(HttpServletRequest req, HttpServletResponse resp) {
         Map<String, String> respMap = MyHttp.currentreadforMap(req);
         ModelAndView view = new ModelAndView();
@@ -78,7 +75,7 @@ public class AliPayController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("ali/notify.shtml")
+    @RequestMapping("notify.shtml")
     public void aliNotifyUrl(HttpServletRequest req, HttpServletResponse resp) {
         Map<String, String> respMap = MyHttp.currentreadforMap(req);
         log.info("：：：Alipay notify result - " + respMap);

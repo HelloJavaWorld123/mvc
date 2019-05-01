@@ -40,6 +40,11 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     private PaywayProvider paywayProvider;
 
     /**
+     * 订单超时时间
+     */
+    private static final int TIMEOUT = 15 * 60;
+
+    /**
      * <b>功能描述：</b>根据流水查询订单号<br>
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
@@ -55,17 +60,24 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public String insertOrUpdateOrder(HttpServletRequest request, Order order) {
+    public String insertOrUpdateOrder(HttpServletRequest request, Order order, Integer payWayId) {
         String orderId = order.getOrderId();
         if (!StringUtils.isEmpty(orderId)) {
+            log.debug("current order is not null, order id is " + orderId);
             order = orderMapper.queryOrderById(order.getOrderId());
             if (order == null) {
                 throw new BusException("订单不存在！");
             }
-            if (order.getStatus() == 0) {
+            if (order.getStatus() != 0) {
                 throw new BusException("订单已支付！");
             }
+            // 校验订单是否已超过15分钟失效时间
+            if (new Date().getTime() - order.getCreateTime().getTime() > TIMEOUT) {
+                throw new BusException("订单已超时，请重新选择商品进行支付！");
+            }
         }
+        // 设置支付方式，防止重新支付，更换支付方式
+        order.setTradeMethod(payWayId);
         // 是否临时订单
         boolean isTempOrder = false;
         // TODO: 2019/4/30 是否进行登录
@@ -75,9 +87,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             order.setCode(DateUtils.date2TimeStr(new Date()).concat(CommUtils.authCode()));
         }
         order.setOutTradeNo(order.getOrderId().concat(CommUtils.getStringRandom(7)));
-
         // 获取具体的支付方式
-        PayService payService = paywayProvider.getPayService(order.getTradeMethod());
+        PayService payService = paywayProvider.getPayService(payWayId);
         // 支付
         ApiResult apiResult;
         try {
@@ -92,7 +103,6 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             // 更新订单的支付方式，流水号，交易状态
             updateStatusTradeMethod(order.getOrderId(), order.getStatus(), order.getTradeMethod(), order.getOutTradeNo());
         }
-
         return apiResult.getData().toString();
     }
 
@@ -174,7 +184,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
     @Override
     public int updateTradeStatus(String id, String tradeStatus) {
-        return orderMapper.updateTradeStatus(id, Integer.parseInt(tradeStatus));
+        return orderMapper.updateTradeStatus(id, tradeStatus);
     }
 
     @Override

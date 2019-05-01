@@ -29,7 +29,7 @@ public interface OrderService extends GenericService<Order> {
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    String insertOrUpdateOrder(HttpServletRequest request, Order order);
+    String insertOrUpdateOrder(HttpServletRequest request, Order order, Integer payWayId);
 
     /**
      * <b>功能描述：</b>订单退款<br>

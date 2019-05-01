@@ -19,20 +19,20 @@
         id, code, out_trade_no, user_id, app_id, sup_no, sup_price, sup_status, discount,
         price, number, status, type, total_fee, price_type_name, price_type_unit,
         acct_type, account, game_account, game_area, game_serv, trade_method, trade_code,
-        trade_fee, trade_status, invoice_status, remark, dealer_id,
+        trade_fee, trade_status, invoice_status, remark, recharge_mode, dealer_id,
         del_flag, creator_id, modifier_id, create_time, modify_time
         )
         VALUES (
-        #{id}, #{code}, #{outTradeNo}, #{userId}, #{appId}, #{supNo}, #{supPrice}, #{supStatus}, #{discount},
+        #{orderId}, #{code}, #{outTradeNo}, #{userId}, #{appId}, #{supNo}, #{supPrice}, #{supStatus}, #{discount},
         #{price}, #{number}, #{status}, #{type}, #{totalFee}, #{priceTypeName}, #{priceTypeUnit},
         #{acctType}, #{account}, #{gameAccount}, #{gameArea}, #{gameServ}, #{tradeMethod}, #{tradeCode},
-        #{trade_fee}, #{trade_status}, #{invoiceStatus}, #{remark}, #{dealerId},
+        #{trade_fee}, #{trade_status}, #{invoiceStatus}, #{remark}, #{rechargeMode}, #{dealerId},
         #{delFlag}, #{creatorId}, #{modifierId}, #{createTime}, #{modifyTime}
         )
     </insert>
 
     <!-- 更新订单 -->
-    <update id="update">
+    <update id="update" parameterType="com.jzy.api.model.biz.Order">
         UPDATE
         `order`
         SET
@@ -47,7 +47,7 @@
         remark = #{remark},
         <include refid="updateCommon" />
         WHERE
-        id = #{id}
+        id = #{orderId}
     </update>
 
     <!-- 删除订单 -->

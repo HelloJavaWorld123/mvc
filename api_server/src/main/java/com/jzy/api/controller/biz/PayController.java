@@ -25,32 +25,52 @@ public class PayController extends GenericController {
     private OrderService orderService;
 
     /**
-     * <b>功能描述：</b>等待支付，校验订单是否已经过期<br>
-     * <b>修订记录：</b><br>
-     * <li>20190419&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    @RequestMapping(path = "/waitPay")
-    public ApiResult waitPay(@RequestBody WaitPayCnd waitPayCnd) {
-        log.debug("waitPay");
-        if (waitPayCnd.getId() != null) {
-
-        }
-        throw new BusException("123456");
-        // return new ApiResult();
-    }
-
-    /**
      * <b>功能描述：</b>请求支付下单,初始化/更新订单,调起微信/支付宝<br>
      * <b>修订记录：</b><br>
      * <li>20190419&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("/pay")
     public ApiResult pay(HttpServletRequest request, @RequestBody PayCnd payCnd) {
+        log.debug("支付请求参数为：" + payCnd.toString());
         ApiResult<String> apiResult = new ApiResult<>();
-        Order order = new Order();
-        String linkUrl = orderService.insertOrUpdateOrder(request, order);
+        Order order = getOrder(payCnd);
+        String linkUrl = orderService.insertOrUpdateOrder(request, order, payCnd.getTradeMethod());
         apiResult.setData(linkUrl);
+        log.debug("支付返回url地址为: " + linkUrl);
         return apiResult.success();
     }
 
+    /**
+     * <b>功能描述：</b>构建订单参数<br>
+     * <b>修订记录：</b><br>
+     * <li>20190501&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private Order getOrder(PayCnd payCnd) {
+        Order order = new Order();
+        order.setOrderId(payCnd.getOrderId());
+        if (order.getOrderId() != null) {
+            order.setTradeMethod(payCnd.getTradeMethod());
+        }
+        order.setTotalFee(payCnd.getTotalFee());
+        order.setTradeFee(payCnd.getTradeFee());
+        order.setDiscount(payCnd.getDiscount());
+        order.setSupPrice(payCnd.getSupPrice());
+        order.setSupNo(payCnd.getSupNo());
+        order.setNumber(payCnd.getNumber());
+        order.setType(payCnd.getType());
+        order.setPriceTypeName(payCnd.getPriceTypeName());
+        order.setPriceTypeUnit(payCnd.getPriceTypeUnit());
+        order.setAcctType(payCnd.getAcctType());
+        order.setAccount(payCnd.getAccount());
+        order.setGameAccount(payCnd.getGameAccount());
+        order.setGameArea(payCnd.getGameArea());
+        order.setGameServ(payCnd.getGameServ());
+        order.setAppId(payCnd.getAppId());
+        order.setAppName(payCnd.getAppName());
+        order.setRechargeMode(payCnd.getRechargeMode());
+        // 交易状态为待支付
+        order.setTradeStatus(Order.TradeStatusConst.WAIT_PAY);
+        return order;
+    }
+    
 }

@@ -74,7 +74,7 @@ public interface OrderMapper extends GenericMapper<Order> {
      * <b>修订记录：</b><br>
      * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    int updateTradeStatus(@Param("id") String id, @Param("tradeStatus") Integer tradeStatus);
+    int updateTradeStatus(@Param("id") String id, @Param("tradeStatus") String tradeStatus);
 
     /**
      * <b>功能描述：</b>更新支付状态<br>
@@ -86,11 +86,15 @@ public interface OrderMapper extends GenericMapper<Order> {
      * @param supStatus SUP返回的状态 sup状态，0未提交1已提交2成功3失败
      * @param tradeStatus 支付状态
      */
-    int updateStatusTradeStatusSupStatus(String id, Integer status, String tradeStatus, Integer supStatus);
+    int updateStatusTradeStatusSupStatus(@Param("id") String id, @Param("status") Integer status,
+                                         @Param("tradeStatus") String tradeStatus, @Param("supStatus") Integer supStatus);
 
-    int updateStatusTrade(String id, Integer status, String tradeCode, BigDecimal tradeFee, String tradeStatus);
+    int updateStatusTrade(@Param("id") String id, @Param("status") Integer status, @Param("tradeCode") String tradeCode,
+                          @Param("tradeFee") BigDecimal tradeFee, @Param("tradeStatus") String tradeStatus);
 
-    int updateStatusSupStatusTrade(String id, Integer status, Integer supStatus, String tradeCode, BigDecimal tradeFee, String tradeStatus);
+    int updateStatusSupStatusTrade(@Param("id") String id, @Param("status") Integer status, @Param("supStatus") Integer supStatus,
+                                   @Param("tradeCode") String tradeCode, @Param("tradeFee") BigDecimal tradeFee,
+                                   @Param("tradeStatus") String tradeStatus);
 
     /**
      * <b>功能描述：</b>更新订单的支付方式，流水号，交易状态<br>
@@ -102,7 +106,8 @@ public interface OrderMapper extends GenericMapper<Order> {
      * @param tradeMethod 支付方式；0：微信；1：支付宝
      * @param outTradeNo 流水号
      */
-    int updateStatusTradeMethod(String id, Integer status, Integer tradeMethod, String outTradeNo);
+    int updateStatusTradeMethod(@Param("id")String id, @Param("status")Integer status,
+                                @Param("tradeMethod")Integer tradeMethod, @Param("outTradeNo")String outTradeNo);
 
 
 
