@@ -23,8 +23,6 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import static com.jzy.api.model.biz.TradeRecord.RecordConst.*;
-
 /**
  * <b>功能：</b>支付宝支付<br>
  * <b>Copyright JZY</b>

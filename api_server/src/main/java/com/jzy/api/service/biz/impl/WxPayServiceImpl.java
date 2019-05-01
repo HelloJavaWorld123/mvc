@@ -1,7 +1,6 @@
 package com.jzy.api.service.biz.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jzy.api.service.wx.WXPayConfig;
 import com.jzy.api.constant.WXPayConstants;
 import com.jzy.api.constant.WechatConstant;
 import com.jzy.api.model.biz.Order;
@@ -12,10 +11,11 @@ import com.jzy.api.service.biz.SupService;
 import com.jzy.api.service.biz.TradeRecordService;
 import com.jzy.api.service.biz.WxPayService;
 import com.jzy.api.service.wx.WXPay;
+import com.jzy.api.service.wx.WXPayConfig;
+import com.jzy.api.service.wx.WXPayUtil;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.DateUtils;
 import com.jzy.api.util.MyHttp;
-import com.jzy.api.service.wx.WXPayUtil;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.exception.PayException;
 import com.jzy.framework.result.ApiResult;
@@ -37,7 +37,6 @@ import java.util.Map;
 
 import static com.jzy.api.constant.WXPayConstants.*;
 import static com.jzy.api.constant.WechatConstant.*;
-import static com.jzy.api.model.biz.TradeRecord.RecordConst.*;
 
 /**
  * <b>功能：</b>支付宝支付业务处理<br>
