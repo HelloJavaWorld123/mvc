@@ -15,6 +15,19 @@ import com.jzy.framework.service.GenericService;
 public interface TradeRecordService extends GenericService<TradeRecord> {
 
     /**
+     * <b>功能描述：</b>更新交易记录_支付宝支付完成回调<br>
+     * <b>修订记录：</b><br>
+     * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param markId 支付宝返回的流水号
+     * @param status 交易状态；3：失败；4：成功
+     * @param respData 支付宝返回的结果
+     * @param operator API的流水号，对应于订单Order表中的id
+     * @param oldStatus 支付原始状态
+     */
+    int updateAliPayCallbackStatus(String markId, Integer status, String respData, String operator, Integer oldStatus);
+
+    /**
      * <b>功能描述：</b>更新交易记录<br>
      * <b>修订记录：</b><br>
      * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
@@ -39,20 +52,6 @@ public interface TradeRecordService extends GenericService<TradeRecord> {
      * @return
      */
     int updateBgRespByOperatorStatus(String markId, Integer status, String bgRespData, String operator, Integer oldStatus);
-
-    /**
-     * <b>功能描述：</b>更新交易记录<br>
-     * <b>修订记录：</b><br>
-     * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     *
-     * 1:(支付宝)支付完成回调
-     * @param markid
-     * @param status
-     * @param respData
-     * @param operator
-     * @param oldStatus
-     */
-    int updateRespByOperatorStatus(String markId, Integer status, String respData, String operator, Integer oldStatus);
 
     /**
      * <b>功能描述：</b>查询<br>

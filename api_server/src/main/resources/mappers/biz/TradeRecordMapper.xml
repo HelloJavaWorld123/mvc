@@ -44,7 +44,7 @@
     <!-- 查询交易详情 -->
     <select id="queryById" resultType="com.jzy.api.model.biz.TradeRecord">
         SELECT
-         id,
+         id tradeRecordId,
          mark_id,
          operator_id,
          req_time,
@@ -61,6 +61,19 @@
          WHERE
          id = #{id}
     </select>
+
+    <!-- 更新交易记录_(支付宝)支付完成回调 -->
+    <update id="updateAliPayCallbackStatus">
+        UPDATE
+        trade_record
+        SET mark_id =  #{markId},
+        status =  #{status},
+        bg_resp_time =  now(),
+        bg_resp_data = #{respData}
+        WHERE
+        operator = #{operator}
+        AND status = #{oldStatus}
+    </update>
 
     <!-- 更新交易记录 -->
     <update id="updateBgRespByIdStatus">
@@ -80,18 +93,7 @@
         AND status =
     </update>
 
-    <!-- 更新交易记录_(支付宝)支付完成回调 -->
-    <update id="updateRespByOperatorStatus">
-        UPDATE
-        trade_record
-        SET mark_id =  #{markId},
-        status =  #{status},
-        bg_resp_time =  now(),
-        bg_resp_data = #{respData}
-        WHERE
-        operator = #{operator}
-        AND status = #{oldStatus}
-    </update>
+
 
     <!-- 查询 -->
     <select id="queryOperator" resultType="com.jzy.api.model.biz.TradeRecord">

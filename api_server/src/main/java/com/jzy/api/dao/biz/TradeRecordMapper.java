@@ -16,6 +16,21 @@ import org.apache.ibatis.annotations.Param;
 public interface TradeRecordMapper extends GenericMapper<TradeRecord> {
 
     /**
+     * <b>功能描述：</b>更新交易记录_(支付宝)支付完成回调<br>
+     * <b>修订记录：</b><br>
+     * <li>20190501&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param markId
+     * @param status
+     * @param respData
+     * @param operator
+     * @param oldStatus
+     */
+    int updateAliPayCallbackStatus(@Param("markId") String markId, @Param("status") Integer status,
+                                        @Param("respData") String respData, @Param("operator") String operator,
+                                        @Param("oldStatus") Integer oldStatus);
+
+    /**
      * <b>功能描述：</b>更新交易记录<br>
      * <b>修订记录：</b><br>
      * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
@@ -43,20 +58,7 @@ public interface TradeRecordMapper extends GenericMapper<TradeRecord> {
                                      @Param("bgRespData") String bgRespData, @Param("operator") String operator,
                                      @Param("oldStatus") Integer oldStatus);
 
-    /**
-     * <b>功能描述：</b>更新交易记录_(支付宝)支付完成回调<br>
-     * <b>修订记录：</b><br>
-     * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     *
-     * @param markId
-     * @param status
-     * @param respData
-     * @param operator
-     * @param oldStatus
-     */
-    int updateRespByOperatorStatus(@Param("markId") String markId, @Param("status") Integer status,
-                                   @Param("respData") String respData, @Param("operator") String operator,
-                                   @Param("oldStatus") Integer oldStatus);
+
 
     /**
      * <b>功能描述：</b>查询<br>

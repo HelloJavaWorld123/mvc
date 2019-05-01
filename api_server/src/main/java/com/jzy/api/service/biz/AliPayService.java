@@ -1,5 +1,8 @@
 package com.jzy.api.service.biz;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * <b>功能：</b>支付宝支付业务处理<br>
  * <b>Copyright JZY</b>
@@ -10,4 +13,12 @@ package com.jzy.api.service.biz;
  * </ul>
  */
 public interface AliPayService extends PayService {
+
+    /**
+     * <b>功能描述：</b>处理支付宝回调结果<br>
+     * <b>修订记录：</b><br>
+     * <li>20190501&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void updateAliPayCallback(HttpServletRequest req, HttpServletResponse resp);
+
 }
