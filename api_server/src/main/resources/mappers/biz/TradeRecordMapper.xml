@@ -69,12 +69,28 @@
 
     <!-- 更新交易记录_(微信)退款通知 -->
     <update id="updateBgRespByOperatorStatus">
-
+        UPDATE
+        trade_record
+        SET mark_id = #{markId},
+        status = #{status},
+        bg_resp_time = #{bgRespData},
+        bg_resp_data =
+        WHERE
+        operator =
+        AND status =
     </update>
 
     <!-- 更新交易记录_(支付宝)支付完成回调 -->
     <update id="updateRespByOperatorStatus">
-
+        UPDATE
+        trade_record
+        SET mark_id =  #{markId},
+        status =  #{status},
+        bg_resp_time =  now(),
+        bg_resp_data = #{respData}
+        WHERE
+        operator = #{operator}
+        AND status = #{oldStatus}
     </update>
 
     <!-- 查询 -->

@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -73,7 +74,7 @@ public class AliPayController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("/notify.shtml")
+    @RequestMapping(path = "/notify.shtml")
     public void aliNotifyUrl(HttpServletRequest req, HttpServletResponse resp) {
         Map<String, String> respMap = MyHttp.currentreadforMap(req);
         log.info("：：：Alipay notify result - " + respMap);
@@ -85,7 +86,7 @@ public class AliPayController extends GenericController {
             boolean rststatus = "TRADE_SUCCESS".equals(tradeStatus);
             String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
             Integer status = rststatus ? 4 : 3;
-            tradeRecordService.updateBgRespByOperatorStatus(tradeNo, status, respMap.toString(), outTradeNo, 1);
+            tradeRecordService.updateRespByOperatorStatus(tradeNo, status, respMap.toString(), outTradeNo, 1);
             // TODO 验签成功后，按照支付结果异步通知中的描述，对支付结果中的业务内容进行二次校验，校验成功后在response中返回success并继续商户自身业务处理，校验失败返回failure
             if (rststatus) {
                 notifySuccessPay(orderId ,tradeNo ,Double.valueOf(respMap.get("total_amount")));

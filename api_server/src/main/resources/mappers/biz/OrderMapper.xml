@@ -57,7 +57,16 @@
 
     <!-- 根据订单id查询订单详情 -->
     <select id="queryOrderById" resultType="com.jzy.api.model.biz.Order">
-
+        SELECT
+        id orderId, code, out_trade_no, user_id, app_id, sup_no, sup_price, sup_status, discount, trade_method,
+        price, number, status, type, total_fee, price_type_name, price_type_unit,
+        acct_type, account, game_account, game_area, game_serv, trade_method, trade_code,
+        trade_fee, trade_status, invoice_status, remark, recharge_mode, dealer_id,
+        del_flag, creator_id, modifier_id, create_time, modify_time
+        FROM
+        `order`
+        WHERE
+        id = #{orderId}
     </select>
 
     <!-- 订单列表查询 -->

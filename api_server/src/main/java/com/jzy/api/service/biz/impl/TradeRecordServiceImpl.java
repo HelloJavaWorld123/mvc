@@ -36,8 +36,8 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
      * @param oldStatus
      */
     @Override
-    public boolean updateBgRespByIdStatus(String markId, Integer status, String bgRespData, String id, Integer oldStatus) {
-        return false;
+    public int updateBgRespByIdStatus(String markId, Integer status, String bgRespData, String id, Integer oldStatus) {
+        return tradeRecordMapper.updateBgRespByIdStatus(markId, status, bgRespData, id, oldStatus);
     }
 
     /**
@@ -52,8 +52,8 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
      * @return
      */
     @Override
-    public boolean updateBgRespByOperatorStatus(String markId, Integer status, String bgRespData, String operator, Integer oldStatus) {
-        return false;
+    public int updateBgRespByOperatorStatus(String markId, Integer status, String bgRespData, String operator, Integer oldStatus) {
+        return tradeRecordMapper.updateBgRespByOperatorStatus(markId, status, bgRespData, operator, oldStatus);
     }
 
     /**
@@ -69,8 +69,8 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
      * @param oldStatus
      */
     @Override
-    public boolean updateRespByOperatorStatus(String markId, Integer status, String respData, String operator, Integer oldStatus) {
-        return false;
+    public int updateRespByOperatorStatus(String markId, Integer status, String respData, String operator, Integer oldStatus) {
+        return tradeRecordMapper.updateRespByOperatorStatus(markId, status, respData, operator, oldStatus);
     }
 
     /**
@@ -83,8 +83,8 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
      * @param status 交易状态
      */
     @Override
-    public TradeRecord queryOperator(String operator, String type, Integer status) {
-        return null;
+    public TradeRecord queryOperator(String operator, Integer type, Integer status) {
+        return tradeRecordMapper.queryOperator(operator, type, status);
     }
 
     @Override

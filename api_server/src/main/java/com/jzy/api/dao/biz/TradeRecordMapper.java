@@ -3,7 +3,6 @@ package com.jzy.api.dao.biz;
 import com.jzy.api.model.biz.TradeRecord;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.access.method.P;
 
 /**
  * <b>功能：</b>交易记录<br>
@@ -26,9 +25,9 @@ public interface TradeRecordMapper extends GenericMapper<TradeRecord> {
      * @param bgRespData 异步通知数据
      * @param id         交易唯一标识trade_record_id
      */
-    int updateBgRespByIdStatus(@Param("markId") String markId, @Param("status") String status,
+    int updateBgRespByIdStatus(@Param("markId") String markId, @Param("status") Integer status,
                                @Param("bgRespData") String bgRespData, @Param("id") String id,
-                               @Param("oldStatus") String oldStatus);
+                               @Param("oldStatus") Integer oldStatus);
 
     /**
      * <b>功能描述：</b>更新交易记录_(微信)退款通知<br>
@@ -40,9 +39,9 @@ public interface TradeRecordMapper extends GenericMapper<TradeRecord> {
      * @param bgRespData 异步通知数据
      * @param operator   交易唯一标识trade_record_operator
      */
-    int updateBgRespByOperatorStatus(@Param("markId") String markId, @Param("status") String status,
+    int updateBgRespByOperatorStatus(@Param("markId") String markId, @Param("status") Integer status,
                                      @Param("bgRespData") String bgRespData, @Param("operator") String operator,
-                                     @Param("oldStatus") String oldStatus);
+                                     @Param("oldStatus") Integer oldStatus);
 
     /**
      * <b>功能描述：</b>更新交易记录_(支付宝)支付完成回调<br>
@@ -55,9 +54,9 @@ public interface TradeRecordMapper extends GenericMapper<TradeRecord> {
      * @param operator
      * @param oldStatus
      */
-    int updateRespByOperatorStatus(@Param("markId") String markId, @Param("status") String status,
+    int updateRespByOperatorStatus(@Param("markId") String markId, @Param("status") Integer status,
                                    @Param("respData") String respData, @Param("operator") String operator,
-                                   @Param("oldStatus") String oldStatus);
+                                   @Param("oldStatus") Integer oldStatus);
 
     /**
      * <b>功能描述：</b>查询<br>
@@ -68,8 +67,8 @@ public interface TradeRecordMapper extends GenericMapper<TradeRecord> {
      * @param type 交易类型(支付:pay、退款:refund)
      * @param status 交易状态
      */
-    TradeRecordMapper queryOperator(@Param("operator") String operator,
-                                    @Param("type") String type ,
-                                    @Param("status") String status);
+    TradeRecord queryOperator(@Param("operator") String operator,
+                                    @Param("type") Integer type ,
+                                    @Param("status") Integer status);
 
 }
