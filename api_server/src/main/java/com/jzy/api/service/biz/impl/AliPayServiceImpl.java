@@ -115,6 +115,7 @@ public class AliPayServiceImpl implements AliPayService {
         if (!AlipayUtil.signatureValid(respMap)) {
             log.error("：：：Alipay notify result - faliure");
             aliReturn("failure", resp);
+            return;
         }
         log.debug("：：：Alipay notify result - success");
         String outTradeNo = respMap.get("out_trade_no");

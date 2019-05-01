@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jzy.api.constant.SupConfig;
+import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.dao.biz.SupRecordMapper;
 import com.jzy.api.model.biz.CardPwd;
 import com.jzy.api.model.biz.Order;
@@ -17,6 +18,7 @@ import com.jzy.api.service.wx.WXPayUtil;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -46,10 +48,10 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
     private DealerService dealerService;
 
     @Resource
-    private TradeRecordService tradeRecordService;
-
-    @Resource
     private CardPwdService cardPwdService;
+
+    @Value("${sup_callback_url}")
+    private String supCallbackUrl;
 
     /**
      * <b>功能描述：</b>提交订单到SUP<br>
@@ -67,7 +69,9 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         order.setTradeFee(order.getTradeFee());
         order.setTradeStatus(Order.TradeStatusConst.PAY_SUCCESS);
         orderService.update(order);
+        // 构造请求SUP参数
         String requestData = orderReceive(order);
+        // 向SUP发起请求
         String resultXml = MyHttp.sendPost(requestData, null);
         log.debug("提交SUP订单同步返回,订单id:".concat(order.getOrderId()).concat("返回结果:").concat(resultXml));
         Map<String, String> resultMap ;
@@ -202,7 +206,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         String supBusinessId =  null; //dealer.getSupBusinessid();
         String supKey = null; // dealer.getSupKey();
 
-        // AppInfoMapper ai  = iAppInfoService.queryAppById(order.getAiId());
+        AppInfoMapper ai  = null;//iAppInfoService.queryAppById(order.getAiId());
 
         // md5明文
         String md5Data = supBusinessId + order.getOutTradeNo() + order.getSupNo() + order.getSupPrice() + "" + supKey;
@@ -233,7 +237,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
                 .append("&gameType=").append(order.getPriceTypeName())
                 .append("&acctType=").append(order.getAcctType())
                 .append("&goodsNum=").append(order.getSupPrice())
-                // .append("&noticeUrl=").append(iConfigService.valueDomainUrl(SupConfig.SUP_RECEIVE_CALLBACK_URL))
+                .append("&noticeUrl=").append(this.supCallbackUrl)
                 .append("&sign=").append(sign);
         log.debug("sup充值提交请求:{}", SupConfig.SUP_ORDER_RECEIVE.concat(urlData.toString()));
         return SupConfig.SUP_ORDER_RECEIVE.concat(urlData.toString());
