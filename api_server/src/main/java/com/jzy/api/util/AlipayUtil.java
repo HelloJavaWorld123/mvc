@@ -109,21 +109,23 @@ public class AlipayUtil {
     }
 
     /**
-     * 手机H5支付
-     * 参照接口：https://docs.open.alipay.com/api_1/alipay.trade.wap.pay/
+     * <b>功能描述：</b>支付宝手机H5支付<br>
+     * <b>修订记录：</b><br>
+     * <li>20190501&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
-     * @param params [out_trade_no:商户订单号，需要保证不重复,total_amount:订单金额,subject:订单标题]
-     * @return
+     * @param outTradeNo 商户订单号，需要保证不重复
+     * @param totalAmount 订单金额
+     * @param subject 订单标题
      */
-    public static String tradeWapPay(Map<String, String> params) {
+    public static String tradeWapPay(String outTradeNo, BigDecimal totalAmount, String subject) {
         AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();
         alipayRequest.setReturnUrl(domainUrl.concat(return_url));
         alipayRequest.setNotifyUrl(domainUrl.concat(notify_url));
         alipayRequest.setBizContent("{" +
-                " \"out_trade_no\":\"" + params.get("out_trade_no") + "\"," +
+                " \"out_trade_no\":\"" + outTradeNo + "\"," +
 //                " \"request_from_url\":\"" + params.get("request_from_url") + "\"," +
-                " \"total_amount\":\"" + params.get("total_amount") + "\"," +
-                " \"subject\":\"" + params.get("subject") + "\"," +
+                " \"total_amount\":\"" + totalAmount + "\"," +
+                " \"subject\":\"" + subject + "\"," +
                 " \"product_code\":\"QUICK_WAP_PAY\"" +
                 " }");
         String linkStr = "";

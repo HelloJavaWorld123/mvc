@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,13 +48,9 @@ public class AliPayServiceImpl implements AliPayService {
      */
     @Override
     public ApiResult pay(HttpServletRequest request, Order order) {
-        // 构造支付请求参数
-        Map<String, String> data = new HashMap<>();
-        data.put("out_trade_no", order.getOutTradeNo());
-        data.put("total_amount", order.getTradeFee().toString());
-        data.put("subject", "玖佰充值商城" + "-" + order.getAppName());
+        String subject = "玖佰充值商城" + "-" + order.getAppName();
         // 支付
-        String url = AlipayUtil.tradeWapPay(data);
+        String url = AlipayUtil.tradeWapPay(order.getOutTradeNo(), order.getTradeFee(), subject);
         // 新增交易记录
         TradeRecord tradeRecord = new TradeRecord();
         String tradeRecordId = CommUtils.lowerUUID();

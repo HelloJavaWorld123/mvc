@@ -73,7 +73,7 @@ public class AliPayController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("notify.shtml")
+    @RequestMapping("/notify.shtml")
     public void aliNotifyUrl(HttpServletRequest req, HttpServletResponse resp) {
         Map<String, String> respMap = MyHttp.currentreadforMap(req);
         log.info("：：：Alipay notify result - " + respMap);
