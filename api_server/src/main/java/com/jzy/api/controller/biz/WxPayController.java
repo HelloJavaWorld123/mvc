@@ -5,7 +5,7 @@ import com.jzy.api.model.biz.SecurityToken;
 import com.jzy.api.service.biz.WxPayService;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.MyHttp;
-import com.jzy.api.util.WXPayUtil;
+import com.jzy.api.service.wx.WXPayUtil;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;

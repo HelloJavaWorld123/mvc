@@ -1,8 +1,6 @@
 package com.jzy.api.service.wx;
 
-import com.jzy.api.constant.WXPayConfig;
 import com.jzy.api.constant.WXPayConstants;
-import com.jzy.api.util.WXPayUtil;
 
 import java.util.HashMap;
 import java.util.Map;

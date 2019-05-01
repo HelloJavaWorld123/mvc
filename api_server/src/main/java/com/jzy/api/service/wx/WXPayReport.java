@@ -1,8 +1,6 @@
 package com.jzy.api.service.wx;
 
-import com.jzy.api.constant.WXPayConfig;
 import com.jzy.api.constant.WXPayConstants;
-import com.jzy.api.util.WXPayUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

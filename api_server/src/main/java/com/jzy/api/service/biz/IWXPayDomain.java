@@ -1,6 +1,6 @@
-package com.jzy.api.util;
+package com.jzy.api.service.biz;
 
-import com.jzy.api.constant.WXPayConfig;
+import com.jzy.api.service.wx.WXPayConfig;
 
 /**
  * 域名管理，实现主备域名自动切换

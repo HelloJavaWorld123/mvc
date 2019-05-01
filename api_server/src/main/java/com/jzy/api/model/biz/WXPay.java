@@ -1,9 +1,9 @@
 package com.jzy.api.model.biz;
 
-import com.jzy.api.constant.WXPayConfig;
+import com.jzy.api.service.wx.WXPayConfig;
 import com.jzy.api.constant.WXPayConstants;
 import com.jzy.api.service.wx.WXPayRequest;
-import com.jzy.api.util.WXPayUtil;
+import com.jzy.api.service.wx.WXPayUtil;
 
 import java.util.HashMap;
 import java.util.Map;

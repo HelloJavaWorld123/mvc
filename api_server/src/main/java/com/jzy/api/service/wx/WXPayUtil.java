@@ -1,7 +1,7 @@
-package com.jzy.api.util;
+package com.jzy.api.service.wx;
 
-import com.jzy.api.constant.WXPayConfig;
 import com.jzy.api.constant.WXPayConstants;
+import com.jzy.api.util.AESUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class AliPayServiceImpl implements AliPayService {
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public ApiResult pay(Order order) {
+    public ApiResult pay(HttpServletRequest request, Order order) {
         // 构造支付请求参数
         Map<String, String> data = new HashMap<>();
         data.put("out_trade_no", order.getOutTradeNo());

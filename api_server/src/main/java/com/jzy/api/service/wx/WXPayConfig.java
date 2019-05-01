@@ -1,23 +1,43 @@
-package com.jzy.api.constant;
+package com.jzy.api.service.wx;
 
-import com.jzy.api.base.CustomerContextAware;
-import com.jzy.api.service.sys.ConfigService;
-import com.jzy.api.util.IWXPayDomain;
-import com.jzy.api.util.WXPayDomainSimpleImpl;
+import com.jzy.api.service.biz.IWXPayDomain;
+import com.jzy.api.service.biz.impl.WXPayDomainSimpleImpl;
+import lombok.Data;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.*;
 
+@Data
 public class WXPayConfig {
+    /**
+     * 微信appId
+     */
+    @Value("${wx_app_id}")
+    private String appId;
+    /**
+     * 微信key
+     */
+    @Value("${wx_key}")
+    private String wxKey;
+    /**e
+     * 微信回调地址
+     */
+    @Value("${wx_notify_url}")
+    private String wxNotifyUri;
+    /**
+     * 商户id
+     */
+    @Value("${wx_mch_id}")
+    private String wxMchId;
 
     private static Logger logger = Logger.getLogger(WXPayConfig.class);
-    private static ConfigService config = (ConfigService) CustomerContextAware.getBean(ConfigService.class);
     private static final WXPayConfig instance = new WXPayConfig();
     private byte[] certData;
 
     private WXPayConfig() {
         try {
-            String certPath = this.getClass().getResource("").getPath().concat(config.value("wx_mch_id").concat("_apiclient_cert.p12"));
+            String certPath = this.getClass().getResource("").getPath().concat(this.wxMchId.concat("_apiclient_cert.p12"));
 
             File file = new File(certPath);
 
@@ -43,7 +63,7 @@ public class WXPayConfig {
      * @return App ID wx7e2e50acd39b08bf
      */
     public String getAppID() {
-        return config.value("wx_appid");
+        return this.appId;
     }
 
 
@@ -53,7 +73,7 @@ public class WXPayConfig {
      * @return Mch ID 1516797471
      */
     public String getMchID() {
-        return config.value("wx_mch_id");
+        return this.wxMchId;
     }
 
 
@@ -63,7 +83,7 @@ public class WXPayConfig {
      * @return API密钥
      */
     public String getKey() {
-        return config.value("wx_key");
+        return this.wxKey;
     }
 
     /**
@@ -72,7 +92,7 @@ public class WXPayConfig {
      * @return notify_url
      */
     public String getNotifyUrl() {
-        return config.valueDomainUrl("wx_notify_url");
+        return this.wxNotifyUri;
     }
 
     /**

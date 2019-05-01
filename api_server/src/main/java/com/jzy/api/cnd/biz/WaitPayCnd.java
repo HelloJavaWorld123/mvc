@@ -13,7 +13,7 @@ import lombok.Data;
  * </ul>
  */
 @Data
-public class WatiPayCnd extends GenericCnd {
+public class WaitPayCnd extends GenericCnd {
     /**
      * 订单id
      */

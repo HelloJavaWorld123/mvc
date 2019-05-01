@@ -1,6 +1,7 @@
-package com.jzy.api.util;
+package com.jzy.api.service.biz.impl;
 
-import com.jzy.api.constant.WXPayConfig;
+import com.jzy.api.service.biz.IWXPayDomain;
+import com.jzy.api.service.wx.WXPayConfig;
 import com.jzy.api.constant.WXPayConstants;
 import org.apache.http.conn.ConnectTimeoutException;
 

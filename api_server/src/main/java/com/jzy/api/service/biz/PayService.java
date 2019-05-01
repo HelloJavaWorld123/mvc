@@ -22,7 +22,7 @@ public interface PayService extends BaseService {
      * <b>修订记录：</b><br>
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    ApiResult pay(Order order);
+    ApiResult pay(HttpServletRequest request, Order order);
 
     /**
      * <b>功能描述：</b>退单<br>

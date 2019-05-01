@@ -1,4 +1,4 @@
-package com.jzy.api.util;
+package com.jzy.api.service.wx;
 
 import org.w3c.dom.Document;
 

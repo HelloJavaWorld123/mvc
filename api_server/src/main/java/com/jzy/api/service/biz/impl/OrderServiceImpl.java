@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void insertOrUpdateOrder(Order order) {
+    public String insertOrUpdateOrder(HttpServletRequest request, Order order) {
         String orderId = order.getOrderId();
         if (!StringUtils.isEmpty(orderId)) {
             order = orderMapper.queryOrderById(order.getOrderId());
@@ -80,7 +81,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         // 支付
         ApiResult apiResult;
         try {
-            apiResult = payService.pay(order);
+            apiResult = payService.pay(request, order);
         } catch (Exception e) {
             throw new PayException("支付异常");
         }
@@ -91,6 +92,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             // 更新订单的支付方式，流水号，交易状态
             updateStatusTradeMethod(order.getOrderId(), order.getStatus(), order.getTradeMethod(), order.getOutTradeNo());
         }
+
+        return apiResult.getData().toString();
     }
 
     /**
