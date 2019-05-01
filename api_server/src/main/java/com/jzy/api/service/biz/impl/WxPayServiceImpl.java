@@ -146,7 +146,7 @@ public class WxPayServiceImpl implements WxPayService {
      */
     @Override
     public SecurityToken querySecurityToken(String code) {
-        if (code == null) {
+        if (StringUtils.isEmpty(code)) {
             return getAccessToken();
         }
         return getOAuthToken(code);
