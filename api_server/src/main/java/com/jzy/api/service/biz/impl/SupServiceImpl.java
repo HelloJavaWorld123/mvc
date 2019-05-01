@@ -57,13 +57,27 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void commitOrderToSup(Order order) throws Exception {
-        String resultCode;
+    public void commitOrderToSup(String orderId, String transactionId, BigDecimal payTotalFee) {
+        Order order = orderService.queryOrderById(orderId);
+        if (order.getSupStatus() != 0) {
+            return;
+        }
+        order.setStatus(1);
+        order.setTradeCode(order.getTradeCode());
+        order.setTradeFee(order.getTradeFee());
+        order.setTradeStatus(Order.TradeStatusConst.PAY_SUCCESS);
+        orderService.update(order);
         String requestData = orderReceive(order);
         String resultXml = MyHttp.sendPost(requestData, null);
         log.debug("提交SUP订单同步返回,订单id:".concat(order.getOrderId()).concat("返回结果:").concat(resultXml));
-        Map<String, String> resultMap = WXPayUtil.xmlToMap(resultXml);
-        resultCode = resultMap.get("result");
+        Map<String, String> resultMap ;
+        try {
+            resultMap = WXPayUtil.xmlToMap(resultXml);
+        } catch (Exception e) {
+            log.error("SUP返回结果解析异常", e);
+            return;
+        }
+        String resultCode = resultMap.get("result");
         // sup同步返回成功
         if (SupConfig.SUP_STATUS_01.equals(resultCode)) {
             order.setSupStatus(1);

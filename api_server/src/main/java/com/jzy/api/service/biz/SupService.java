@@ -6,6 +6,7 @@ import com.jzy.framework.service.BaseService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -24,7 +25,7 @@ public interface SupService extends BaseService {
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    void commitOrderToSup(Order order) throws Exception;
+    void commitOrderToSup(String orderId, String transactionId, BigDecimal payTotalFee);
 
     /**
      * <b>功能描述：</b>更新sup回调<br>

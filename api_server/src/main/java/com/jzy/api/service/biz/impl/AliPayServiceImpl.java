@@ -112,51 +112,22 @@ public class AliPayServiceImpl implements AliPayService {
     public void updateAliPayCallback(HttpServletRequest req, HttpServletResponse resp) {
         Map<String, String> respMap = MyHttp.currentreadforMap(req);
         log.debug("：：：Alipay notify result - " + respMap);
-        if (AlipayUtil.signatureValid(respMap)) {
-            log.info("：：：Alipay notify result - success");
-            String outTradeNo = respMap.get("out_trade_no");
-            String tradeNo = respMap.get("trade_no");
-            String tradeStatus = respMap.get("trade_status");
-            boolean isSuccess = "TRADE_SUCCESS".equals(tradeStatus);
-            String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
-            Integer status = isSuccess ? 4 : 3;
-            tradeRecordService.updateAliPayCallbackStatus(tradeNo, status, respMap.toString(), outTradeNo, 1);
-            if (isSuccess) {
-                notifySuccessPay(orderId ,tradeNo , new BigDecimal(respMap.get("total_amount")));
-            }
-            aliReturn("success", resp);
-        } else {
-            log.info("：：：Alipay notify result - faliure");
+        if (!AlipayUtil.signatureValid(respMap)) {
+            log.error("：：：Alipay notify result - faliure");
             aliReturn("failure", resp);
         }
-    }
-    
-    /**
-     * <b>功能描述：</b>异步支付成功给sup发送订单请求<br>
-     * <b>修订记录：</b><br>
-     * <li>20190501&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     *
-     * @param orderId 订单id
-     * @param transactionId 支付系统返回的交易
-     * @param payTotalFee 支付系统返回的实付金额
-     * @return 01:SUP订单提交成功, 02:SUP订单提交失败 , 03:订单已提交,重复订单
-     */
-    private void notifySuccessPay(String orderId, String transactionId, BigDecimal payTotalFee) {
-        Order order = orderService.queryOrderById(orderId);
-        if (order.getSupStatus() != 0) {
-            return;
+        log.debug("：：：Alipay notify result - success");
+        String outTradeNo = respMap.get("out_trade_no");
+        String tradeNo = respMap.get("trade_no");
+        String tradeStatus = respMap.get("trade_status");
+        boolean isSuccess = "TRADE_SUCCESS".equals(tradeStatus);
+        String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
+        Integer status = isSuccess ? 4 : 3;
+        tradeRecordService.updateAliPayCallbackStatus(tradeNo, status, respMap.toString(), outTradeNo, 1);
+        if (isSuccess) {
+            supService.commitOrderToSup(orderId, tradeNo, new BigDecimal(respMap.get("total_amount")));
         }
-        order.setStatus(1);
-        order.setTradeCode(transactionId);
-        order.setTradeFee(payTotalFee);
-        order.setTradeStatus(Order.TradeStatusConst.PAY_SUCCESS);
-        orderService.update(order);
-        // 提交订单到SUP
-        try {
-            supService.commitOrderToSup(order);
-        } catch (Exception e) {
-            log.error("提交订单到SUP失败，异常信息为：", e);
-        }
+        aliReturn("success", resp);
     }
 
     /**

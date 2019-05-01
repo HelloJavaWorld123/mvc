@@ -96,7 +96,8 @@ public class WxPayServiceImpl implements WxPayService {
         // 加密信息，仅申请退款结果通知时有该参数
         String reqInfo = notifyMap.get("req_info");
         if (StringUtils.isEmpty(reqInfo)) {
-            if (wxpay.isPayResultNotifySignatureValid(notifyMap)) { // 签名正确
+            // 签名正确
+            if (wxpay.isPayResultNotifySignatureValid(notifyMap)) {
                 String outTradeNo = notifyMap.get("out_trade_no");
                 String transactionId = notifyMap.get("transaction_id");
                 String totalFee = notifyMap.get("total_fee");
@@ -106,7 +107,7 @@ public class WxPayServiceImpl implements WxPayService {
                 // 业务处理
                 // 注意特殊情况：订单已经退款，但收到了支付结果成功的通知，不应把商户侧订单状态从退款改成支付成功
                 if (notifyMap.get("result_code").equalsIgnoreCase(SUCCESS)) {
-                    notifySuccessPay(orderId, transactionId, tradeFee);
+                    supService.commitOrderToSup(orderId, transactionId, tradeFee);
                 } else {
                     orderService.tradeRefund(orderService.queryOrderById(orderId));
                 }
@@ -126,7 +127,6 @@ public class WxPayServiceImpl implements WxPayService {
             String outTradeNo = reqInfoMap.get("out_trade_no");
             String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
             tradeRecordService.updateBgRespByOperatorStatus(reqInfoMap.get("refund_id"), refundStatus ? 4 : 3, reqInfoMap.toString(), outRefundNo, 1);
-
             if (refundStatus) {
                 orderService.updateTradeStatus(orderId, Order.TradeStatusConst.REFUND_SICCESS);
                 returnCode = SUCCESS;
@@ -202,31 +202,6 @@ public class WxPayServiceImpl implements WxPayService {
             }
         }
         return accessToken;
-    }
-
-    /**
-     * <b>功能描述：</b>验证订单并提交订单到SUP<br>
-     * <b>修订记录：</b><br>
-     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    private void notifySuccessPay(String orderId, String transactionId, BigDecimal payTotalFee) {
-        // 判断是否重复提交订单
-        Order order = orderService.queryOrderById(orderId);
-        if (order.getSupStatus() != 0) {
-            return;
-        }
-        order.setStatus(1);
-        order.setTradeCode(transactionId);
-        order.setTradeFee(payTotalFee);
-        order.setTradeStatus(Order.TradeStatusConst.PAY_SUCCESS);
-        orderService.update(order);
-        try{
-            // 提交订单到SUP
-            supService.commitOrderToSup(order);
-        } catch (Exception e) {
-            log.error("提交订单到SUP失败，异常信息为：", e);
-            throw new BusException("提交订单到SUP失败，异常信息为：" + e.getMessage());
-        }
     }
 
     /**
