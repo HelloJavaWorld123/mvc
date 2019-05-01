@@ -48,9 +48,6 @@ public class AliPayServiceImpl implements AliPayService {
     private TradeRecordService tradeRecordService;
 
     @Resource
-    private OrderService orderService;
-
-    @Resource
     private SupService supService;
 
     /**

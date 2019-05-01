@@ -35,13 +35,24 @@ import java.util.Map;
 public class AliPayController extends GenericController {
 
     @Resource
-    private TradeRecordService tradeRecordService;
-
-    @Resource
     private OrderService orderService;
 
     @Resource
     private AliPayService aliPayService;
+
+    @Resource
+    private TradeRecordService tradeRecordService;
+
+    /**
+     * <b>功能描述：</b>服务器异步通知页面路径<br>
+     * <b>修订记录：</b><br>
+     * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping(path = "/notify.shtml")
+    public void aliNotifyUrl(HttpServletRequest req, HttpServletResponse resp) {
+        // 处理支付宝回调结果
+        aliPayService.updateAliPayCallback(req, resp);
+    }
 
     /**
      * alipay:页面跳转同步通知页面路径
@@ -66,17 +77,6 @@ public class AliPayController extends GenericController {
             view.setViewName("/order/result/fail");
         }
         return view;
-    }
-
-    /**
-     * <b>功能描述：</b>服务器异步通知页面路径<br>
-     * <b>修订记录：</b><br>
-     * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    @RequestMapping(path = "/notify.shtml")
-    public void aliNotifyUrl(HttpServletRequest req, HttpServletResponse resp) {
-        // 处理支付宝回调结果
-        aliPayService.updateAliPayCallback(req, resp);
     }
 
     /**
