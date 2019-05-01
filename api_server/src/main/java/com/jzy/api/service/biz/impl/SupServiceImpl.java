@@ -68,9 +68,8 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         if (SupConfig.SUP_STATUS_01.equals(resultCode)) {
             order.setSupStatus(1);
             orderService.update(order);
-            // sup同步返回失败
         } else {
-            // 退单
+            // sup同步返回失败，退单
             tradeRefund(order);
         }
         // SUP充值记录
