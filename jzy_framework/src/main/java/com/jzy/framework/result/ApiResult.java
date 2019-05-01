@@ -26,7 +26,7 @@ public class ApiResult<T> {
     /**
      * 错误信息
      */
-    private String msg = "";
+    private String msg = "SUCCESS";
     /**
      * 返回数据
      */

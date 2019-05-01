@@ -48,7 +48,7 @@ public class AppInfoListVo {
     /**
      * 启用/禁用
      */
-    private Integer status;
+    private Integer aiStatus;
 
     /**
      * 最后修改时间

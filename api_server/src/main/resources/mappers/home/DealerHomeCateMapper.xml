@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+	SQL映射文件名称：权限业务
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190424	邓冲	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.home.DealerHomeCateMapper">
+    <!--    分页查询商品列表-->
+    <select id="listPage" parameterType="com.jzy.api.cnd.home.DealerHomeCateListCnd"
+            resultType="com.jzy.api.vo.home.DealerHomeCateVo">
+
+        SELECT
+
+        hrc.id as id,
+        hrc.dealer_id as dealerId,
+        hrc.sort_desc as sortDesc,
+        hrc.rci_name as rciName,
+        img.file_url as imageUrl,
+        hrc.go_type as goType,
+        hrc.go_id as goId,
+        hrc.go_name as goName,
+        hrc.modify_time as modifyTime,
+        hrc.state as status,
+        hrc.type as type
+        FROM home_recommend_cate hrc
+        LEFT JOIN sys_images as img ON img.type = 3 AND img.rel_id = hrc.id
+        WHERE 1=1
+        <if test="status!=null">
+            and hrc.status = #{status}
+        </if>
+        <if test="type!=null">
+            and hrc.`type` = #{type}
+        </if>
+        <if test="dealerId!=null">
+            and hrc.dealer_id = #{dealerId}
+        </if>
+        ORDER BY hrc.create_time, hrc.sort_desc
+
+    </select>
+    <select id="listPageCount" parameterType="com.jzy.api.cnd.home.DealerHomeCateListCnd"
+            resultType="java.lang.Integer">
+
+        SELECT
+        COUNT(1)
+        FROM home_recommend_cate hrc
+        LEFT JOIN sys_images as img ON img.type = 3 AND img.rel_id = hrc.id
+        WHERE 1=1
+        <if test="status!=null">
+            and hrc.status = #{status}
+        </if>
+        <if test="type!=null">
+            and hrc.`type` = #{type}
+        </if>
+        <if test="dealerId!=null">
+            and hrc.dealer_id = #{dealerId}
+        </if>
+
+    </select>
+    <!--    商品批量修改状态-->
+    <update id="updateStatusBatch">
+        UPDATE
+        home_recommend_cate
+        SET state =#{status}
+        WHERE
+        id =#{id}
+    </update>
+    <!--    批量逻辑删除-->
+    <delete id="deleteBatch">
+        delete
+        from
+        home_recommend_cate
+        WHERE
+        id =#{id}
+    </delete>
+
+
+    <select id="getById" resultType="com.jzy.api.vo.home.DealerHomeCateVo">
+        SELECT
+        hrc.id as id,
+        hrc.dealer_id as dealerId,
+        hrc.sort_desc as sortDesc,
+        hrc.rci_name as rciName,
+        img.file_url as imageUrl,
+        hrc.go_type as goType,
+        hrc.go_id as goId,
+        hrc.go_name as goName,
+        hrc.modify_time as modifyTime,
+        hrc.state as status,
+        hrc.type as type
+        FROM home_recommend_cate hrc
+        LEFT JOIN sys_images as img ON img.type = 3 AND img.rel_id = hrc.id
+        WHERE 1=1
+        AND hrc.id = #{id}
+    </select>
+
+    <!--insert-->
+    <insert id="insert" >
+        INSERT INTO `home_recommend_cate` (
+            `id`,
+            `dealer_id`,
+            `rci_name`,
+            `sort_desc`,
+            `go_type`,
+            `go_id`,
+            `go_name`,
+            `state`,
+            `type`
+        )
+        VALUES
+        (
+            #{id},
+            #{dealerId},
+            #{rciName},
+            #{sortDesc},
+            #{goType},
+            #{goId},
+            #{goName},
+            #{state},
+            #{type}
+        )
+    </insert>
+
+    <!--update-->
+    <update id="update" >
+        UPDATE `home_recommend_cate`
+        SET `dealer_id` = #{dealerId},
+         `rci_name` = #{rciName},
+         `sort_desc` = #{sortDesc},
+         `go_type` = #{goType},
+         `go_id` = #{goId},
+         `go_name` = #{goName},
+         `state` = #{state},
+         `type` = #{type}
+        WHERE `id` = #{id}
+    </update>
+</mapper>

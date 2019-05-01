@@ -24,6 +24,7 @@ import com.jzy.framework.result.ApiResult;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -81,7 +82,7 @@ public class AppInfoMgtController {
             result.setRows(appInfoService.listPage(appInfoListCnd));
         } catch (Exception e) {
             logger.error("admin产品列表异常:{}", e);
-            return new ApiResult(ResultEnum.OPERATION_FAILED);
+            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
         }
         return new ApiResult<>(result);
     }
@@ -98,7 +99,7 @@ public class AppInfoMgtController {
             appInfoDetailVo = appInfoService.getAppInfo(idCnd.getId());
         } catch (Exception e) {
             logger.error("admin-app_info_id={},获取基础商品详情异常:{}", idCnd.getId(), e);
-            return new ApiResult(ResultEnum.OPERATION_FAILED);
+            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
         }
         return new ApiResult<>(appInfoDetailVo);
     }
@@ -160,7 +161,7 @@ public class AppInfoMgtController {
             }
         } catch (Exception e) {
             logger.error("admin添加产品异常:{}", e);
-            return new ApiResult(ResultEnum.OPERATION_FAILED);
+            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
         }
         return new ApiResult<>();
     }
@@ -210,7 +211,7 @@ public class AppInfoMgtController {
             appInfoService.updateStatusBatch(updateStatusBatchCnd);
         } catch (Exception e) {
             logger.error("admin-产品ai_id{}修改状态{}错误,异常：{}", null, updateStatusBatchCnd.getStatus(), e);
-            return new ApiResult(ResultEnum.OPERATION_FAILED);
+            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
         }
         return new ApiResult<>();
     }
@@ -235,10 +236,66 @@ public class AppInfoMgtController {
             appInfoService.deleteBatch(newAiIds);
         } catch (Exception e) {
             logger.error("admin-产品ai_id{}逻辑删除{}错误,异常：{}", null, 1, e);
-            return new ApiResult(ResultEnum.OPERATION_FAILED);
+            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
         }
         return new ApiResult<>();
     }
 
 
+    /**
+     * <b>功能描述：</b>图片的上传功能<br>
+     * <b>修订记录：</b><br>
+     * <li>20190422&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("uploadfile.shtml")
+    public ApiResult uploadFile(@RequestParam(value = "file", required = false) MultipartFile mfile) {
+        String fileUrl = "";
+        try {
+            if (mfile != null) {
+                fileUrl = iMongoService.uploadFile(mfile);
+            }
+        } catch (Exception e) {
+            logger.error("图片上传失败！:{}", e);
+            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
+        }
+
+        return new ApiResult<>(new FileInfo(fileUrl, mfile.getOriginalFilename(), mfile.getContentType()));
+    }
+
+    /**
+     * <b>功能描述：</b>获取图片信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param icon 商品图标地址名称（mongo地址）
+     */
+    @RequestMapping("down.shtml")
+    public ApiResult downFile(@RequestParam(value = "icon") String icon, HttpServletResponse response) {
+        try {
+            this.downPicture(icon, response);
+        } catch (Exception e) {
+            logger.error("图片下载异常！:{}", e);
+            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
+        }
+        return new ApiResult<>();
+    }
+
+    /**
+     * <b>功能描述：</b>文件上传<br>
+     * <b>修订记录：</b><br>
+     * <li>20190422&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private void downPicture(String icon, HttpServletResponse response) {
+        try {
+            GridFsResource ds = iMongoService.downFile(icon);
+            //设置response头信息
+            response.reset();
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-disposition", "attachment; filename=" + icon);
+            IOUtils.copy(ds.getInputStream(), response.getOutputStream());
+        } catch (IOException e) {
+            logger.error("文件上传失败！");
+            e.printStackTrace();
+        }
+    }
 }
