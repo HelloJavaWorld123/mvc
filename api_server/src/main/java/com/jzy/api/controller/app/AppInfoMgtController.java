@@ -18,6 +18,7 @@ import com.jzy.api.vo.app.AppInfoDetailVo;
 import com.jzy.api.vo.app.AppInfoListVo;
 import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.IdCnd;
+import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
 import org.apache.commons.io.IOUtils;
@@ -69,18 +70,20 @@ public class AppInfoMgtController {
      * <b>功能描述：</b>商品列表分页查询<br>
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     * <li>2019.05.01&nbsp;&nbsp;|&nbsp;&nbsp;贾昭凯&nbsp;&nbsp;|&nbsp;&nbsp;修改SQL对于新数据库的错误，添加分页实体结构</li><br>
      */
     @RequestMapping("index.shtml")
     public ApiResult index(@RequestBody AppInfoListCnd appInfoListCnd) {
-
-        List<AppInfoListVo> appInfoList;
+        PageVo<AppInfoListVo> result = new PageVo<>();
         try {
-            appInfoList = appInfoService.listPage(appInfoListCnd);
+            // TODO: 为分页功能添加总条数
+            result.setTotalCount(100);
+            result.setRows(appInfoService.listPage(appInfoListCnd));
         } catch (Exception e) {
             logger.error("admin产品列表异常:{}", e);
             return new ApiResult(ResultEnum.OPERATION_FAILED);
         }
-        return new ApiResult<>(appInfoList);
+        return new ApiResult<>(result);
     }
 
     /**

@@ -21,7 +21,10 @@ public class AppInfoListVo {
      * 商品主键
      */
     private String aiId;
-
+    /**
+     * 商品排序
+     */
+    private String aiSort;
     /**
      * 商品编码
      */

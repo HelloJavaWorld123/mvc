@@ -20,23 +20,21 @@
 
         SELECT
         ai.id as aiId,
+        ai.sort as aiSort,
         ai.`code` as aiCode,
         ai.`name` as aiName,
         ai.icon as aiIcon,
         ai.recharge_mode as aiRechargeMode,
         ai.`status` as aiStatus,
-        ai.gmt_modified as modifyTime,
+        ai.modify_time as modifyTime,
         ac.`name` as acName,
         `at`.`name` as atName,
         acp.`name` as acpName
-        FROM
-        app_info ai
+        FROM app_info ai
         LEFT JOIN app_cate ac ON ai.cate_id = ac.id
         LEFT JOIN app_type `at` ON ai.type_id = `at`.id
         LEFT JOIN app_company acp ON ai.acp_id = acp.id
-        WHERE
-        1 = 1
-        AND ai.delflag = 0
+        WHERE 1 = 1 AND ai.del_flag = 0
         <if test="cateId!=null">
             AND ai.cate_id = #{cateId}
         </if>
@@ -52,6 +50,7 @@
         <if test="status!=null">
             and ai.status = #{status}
         </if>
+        ORDER BY ai.create_time, ai.sort
 
     </select>
     <!--insert-->

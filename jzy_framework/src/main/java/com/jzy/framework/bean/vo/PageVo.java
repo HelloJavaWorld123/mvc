@@ -26,7 +26,11 @@ public class PageVo<T>  extends  GenericVo{
      */
     private Integer limit;
     /**
+     * 总条数
+     */
+    private Integer totalCount;
+    /**
      * 分页返回列表数据
      */
-    private List<T> itemList = new ArrayList<>();
+    private List<T> rows = new ArrayList<>();
 }
