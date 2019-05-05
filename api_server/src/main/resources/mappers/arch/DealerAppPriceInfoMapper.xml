@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	SQL映射文件名称：渠道商基础信息
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190505	唐永刚	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.arch.DealerAppPriceInfoMapper">
+
+    <!-- 前台查询商品价格接口-->
+
+    <select id="getPrice" resultType="com.jzy.api.po.arch.DealerAppPriceInfoPo">
+            select
+            apt_id as typeId,
+                price,
+                pay_price  as payPrice,
+                sup_price as supPrice,
+                sup_no as supNo,
+                number,
+                discount,
+                dealer_price as dealerPrice
+            FROM
+            dealer_app_price_info
+            where
+            1=1
+            and dealer_id=#{dealerId}
+            and  apt_id=#{aptId}
+            and ai_id=#{aiId}
+            and status=1
+
+    </select>
+
+</mapper>
