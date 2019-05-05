@@ -10,6 +10,7 @@ import com.jzy.api.service.biz.TradeRecordService;
 import com.jzy.api.util.AlipayUtil;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.MyHttp;
+import com.jzy.framework.exception.PayException;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -94,10 +95,11 @@ public class AliPayServiceImpl implements AliPayService {
         AlipayTradeRefundResponse aliRes = AlipayUtil.tradeRefund(order.getOutTradeNo(), order.getTradeCode(), order.getTotalFee());
         if (aliRes.isSuccess()) {
             order.setTradeStatus(Order.TradeStatusConst.REFUND_SICCESS);
-        } else {
-            log.error(order.getId() + "订单支付宝申请退款失败:" + aliRes.getSubCode() + "/" + aliRes.getSubMsg());
+            return true;
         }
-        return false;
+        String errMsg = order.getId() + "订单支付宝申请退款失败:" + aliRes.getSubCode() + "/" + aliRes.getSubMsg();
+        log.error(errMsg);
+        throw new PayException(errMsg);
     }
 
     /**

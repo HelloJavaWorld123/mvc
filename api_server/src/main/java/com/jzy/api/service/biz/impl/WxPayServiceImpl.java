@@ -133,7 +133,7 @@ public class WxPayServiceImpl implements WxPayService {
             } else {
                 // 重新提交退款申请(一笔退款失败后重新提交，请不要更换退款单号，请使用原商户退款单号)
                 refundOrderwx(reqInfoMap.get("out_trade_no"), outRefundNo, new BigDecimal(reqInfoMap.get("total_fee")), new BigDecimal(reqInfoMap.get("refund_fee")));
-                log.info("：：：微信退款失败，重新申请退款.退款单号:" + outRefundNo);
+                log.debug("：：：微信退款失败，重新申请退款.退款单号:" + outRefundNo);
             }
         }
         return returnXML(returnCode);
@@ -294,12 +294,11 @@ public class WxPayServiceImpl implements WxPayService {
         Map<String, String> wxResult = refundOrderwx(order.getOutTradeNo(), order.getTotalFee());
         if (WXPayConstants.SUCCESS.equals(wxResult.get(WXPayConstants.RESULT_CODE))) {
             order.setTradeStatus(Order.TradeStatusConst.WAIT_REFUND);
-        } else {
-            String errMgs = order.getOrderId() + "订单微信申请退款失败:" + wxResult.get(WXPayConstants.ERR_CODE) + "/" + wxResult.get(WXPayConstants.ERR_CODE_DES);
-            log.error(errMgs);
-            throw new PayException(errMgs);
+            return true;
         }
-        return true;
+        String errMgs = order.getOrderId() + "订单微信申请退款失败:" + wxResult.get(WXPayConstants.ERR_CODE) + "/" + wxResult.get(WXPayConstants.ERR_CODE_DES);
+        log.error(errMgs);
+        throw new PayException(errMgs);
     }
 
     /**
