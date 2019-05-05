@@ -3,6 +3,7 @@ package com.jzy.api.service.arch.impl;
 import com.jzy.api.dao.arch.DealerParamMapper;
 import com.jzy.api.po.arch.DealerParamInfoPo;
 import com.jzy.api.service.arch.DealerParamService;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190505&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;唐永刚&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
+@Service
 public class DealerParamServiceImpl implements DealerParamService {
 
     @Resource

@@ -15,10 +15,10 @@
 
     <!-- 获取渠道商私钥  -->
     <select id="getAnalysisInfo"
-            resultType="com.jzy.api.po.arch.DealerParamInfoPo">
+            resultType="com.jzy.api.po.arch.DealerAnalysisInfoPo">
 
         SELECT
-             id,
+             id as dealerId,
             pubkey,
             prikey
         FROM
