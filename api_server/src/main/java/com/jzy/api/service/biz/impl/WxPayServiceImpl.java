@@ -142,7 +142,7 @@ public class WxPayServiceImpl implements WxPayService {
             order.setStatus(3);
             return new ApiResult<>(responseData.get("err_code_des"));
         }
-        return new ApiResult<>(payMap);
+        return new ApiResult<>().success(payMap.get("mweb_url"));
     }
 
     /**

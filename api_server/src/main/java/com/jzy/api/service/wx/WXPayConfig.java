@@ -2,10 +2,12 @@ package com.jzy.api.service.wx;
 
 import com.jzy.api.service.biz.IWXPayDomain;
 import com.jzy.api.service.biz.impl.WXPayDomainSimpleImpl;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 
+@Data
 @Slf4j
 public class WXPayConfig {
     /**
@@ -22,7 +24,7 @@ public class WXPayConfig {
      * 微信回调地址
      */
 //    @Value("${wx_notify_url}")
-    private String wxNotifyUri = "/pay/wx/notify.shtml";
+    private String wxNotifyUri = "http://xian-api.900sup.com/pay/wx/notify.shtml";
     /**
      * 商户id
      */
@@ -48,7 +50,7 @@ public class WXPayConfig {
 
             certStream.close();
         } catch (FileNotFoundException e2) {
-            log.error("wechat证书获取不到.", e2);
+//            log.error("wechat证书获取不到.", e2);
         } catch (IOException e) {
             log.error("wechat加载证书异常.", e);
         }

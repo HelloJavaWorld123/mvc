@@ -946,7 +946,8 @@ public class MyHttp {
         if (!StringUtils.isEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)) {
             return ip;
         }
-        return request.getRemoteAddr();
+        return "124.114.150.78";
+//        return request.getRemoteAddr();
     }
 
     public static boolean redirectSavedRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
