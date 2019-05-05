@@ -36,4 +36,36 @@
 
     </select>
 
+<!-- 获取前台商品详情信息-->
+
+    <select id="getFrontAppInfo" resultType="com.jzy.api.po.arch.AppDetailPo">
+             SELECT
+            ai.id AS appId,
+            ai. NAME AS appName,
+            ai.type_id as typeId,
+            ai.recharge_mode AS rechargeMode,
+            ap.content AS content,
+            dai.is_custom AS isCustom,
+            aa.main_name AS accMainName,
+            aa.main_regular AS accMainRegular,
+            aa.main_msg AS accMainMsg,
+            aa.sub_name AS accSubName,
+            aa.sub_regular AS accSubRegular,
+            aa.sub_msg AS accSubMsg
+        FROM
+            dealer_app_info dai
+        LEFT JOIN app_info ai ON dai.ai_id = ai.id
+        LEFT JOIN app_accttype aa ON ai.acct_id = aa.id
+        LEFT JOIN app_page ap ON ai.id = ap.ai_id
+        WHERE
+            dai.dealer_id = #{dealerId}
+        AND dai. STATUS = 1
+        and dai.ai_id=#{aiId}
+        and ai.status=1
+
+
+
+
+    </select>
+
 </mapper>

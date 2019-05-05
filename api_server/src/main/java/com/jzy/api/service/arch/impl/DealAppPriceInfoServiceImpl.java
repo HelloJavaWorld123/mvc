@@ -4,8 +4,10 @@ package com.jzy.api.service.arch.impl;
 import com.jzy.api.cnd.arch.GetPriceCnd;
 import com.jzy.api.dao.arch.DealerAppPriceInfoMapper;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
+import com.jzy.api.po.arch.AppDetailPo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
 import com.jzy.api.service.arch.DealAppPriceInfoService;
+import com.jzy.api.vo.app.AppDetailVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.springframework.stereotype.Service;
@@ -42,8 +44,22 @@ public class DealAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppPri
     public List<DealerAppPriceInfoPo> getPrice(GetPriceCnd getPriceCnd) {
         String aiId = getPriceCnd.getAiId();
         String aptId = getPriceCnd.getAptId();
-        String dealerId="1001";
+        String dealerId = "1001";
         List<DealerAppPriceInfoPo> dealerAppPriceInfoPoList = dealerAppPriceInfoMapper.getPrice(aiId, aptId, dealerId);
         return dealerAppPriceInfoPoList;
+    }
+
+    /**
+     * <b>功能描述：</b>前台查询商品详情<br>
+     * <b>修订记录：</b><br>
+     * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public AppDetailVo getAppDetail(String aiId) {
+        AppDetailVo appDetailVo = new AppDetailVo();
+        //获取前台商品详情信息
+        List<AppDetailPo> appDetailPos = dealerAppPriceInfoMapper.getFrontAppInfo(aiId, "1001");
+        appDetailVo.setAppDetailPoList(appDetailPos);
+        return appDetailVo;
     }
 }

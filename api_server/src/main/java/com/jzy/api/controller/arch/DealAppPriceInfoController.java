@@ -16,6 +16,7 @@ import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.service.sys.SysImagesService;
 import com.jzy.api.util.HanyuPinyinUtil;
 import com.jzy.api.util.RegexUtils;
+import com.jzy.api.vo.app.AppDetailVo;
 import com.jzy.api.vo.app.AppInfoDetailVo;
 import com.jzy.api.vo.app.AppInfoListVo;
 import com.jzy.common.enums.ResultEnum;
@@ -69,6 +70,17 @@ public class DealAppPriceInfoController {
     private ApiResult getPrice(@RequestBody GetPriceCnd getPriceCnd) {
         List<DealerAppPriceInfoPo> dealerAppPriceInfoPoList = dealAppPriceInfoService.getPrice(getPriceCnd);
         return new ApiResult<>(dealerAppPriceInfoPoList);
+    }
+
+    /**
+     * <b>功能描述：</b>前台查询商品详情<br>
+     * <b>修订记录：</b><br>
+     * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("app.detail.shtml")
+    private ApiResult getAppDetail(@RequestBody IdCnd idCnd) {
+        AppDetailVo appDetail = dealAppPriceInfoService.getAppDetail(idCnd.getId().toString());
+        return new ApiResult<>(appDetail);
     }
 
 

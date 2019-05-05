@@ -2,6 +2,7 @@ package com.jzy.api.dao.arch;
 
 import com.jzy.api.cnd.arch.GetPriceCnd;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
+import com.jzy.api.po.arch.AppDetailPo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
@@ -26,6 +27,13 @@ public interface DealerAppPriceInfoMapper extends GenericMapper<DealerAppPriceIn
      * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     List<DealerAppPriceInfoPo> getPrice(@Param("aiId") String aiId,@Param ("aptId")  String aptId,@Param ("dealerId") String dealerId);
+
+    /**
+     * <b>功能描述：</b>获取前台商品详情信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<AppDetailPo>  getFrontAppInfo(@Param("aiId")  String aiId, @Param("dealerId")  String dealerId);
 
 
 }

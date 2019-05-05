@@ -3,6 +3,8 @@ package com.jzy.api.service.arch;
 import com.jzy.api.cnd.arch.GetPriceCnd;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
+import com.jzy.api.vo.app.AppDetailVo;
+import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.GenericService;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +31,13 @@ public interface DealAppPriceInfoService extends GenericService<DealerAppPriceIn
      */
 
     List<DealerAppPriceInfoPo> getPrice(GetPriceCnd getPriceCnd);
+
+    /**
+     * <b>功能描述：</b>前台查询商品详情<br>
+     * <b>修订记录：</b><br>
+     * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    AppDetailVo getAppDetail(String aiId);
 
 
 }
