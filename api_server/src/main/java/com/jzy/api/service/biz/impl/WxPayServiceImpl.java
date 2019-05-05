@@ -100,7 +100,6 @@ public class WxPayServiceImpl implements WxPayService {
         data.put("time_start", DateUtils.date2TimeStr(date));
         // 订单失效时间为15分钟之后
         data.put("time_expire", DateUtils.date2TimeStr(new Date(date.getTime() + 15 * 60 * 1000)));
-        data.put("Referer", "http://mall.900sup.com");
 //        UserAuthsMapper userAuth = loginUser.getUamap().get(IDENTITY_WECHAT);
 //        String identifier = Objects.nonNull(userAuth) ? userAuth.getComment() : "";
         // 是否为微信内置浏览器
