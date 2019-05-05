@@ -30,6 +30,8 @@
             <value>
                 /logout = logout
                 /ali/* = anon
+                /wx/* = anon
+                /pay/* = anon
                 /login/managerLogin = anon
                 /test/* = permissions[/test/*]
                 /** = authc
