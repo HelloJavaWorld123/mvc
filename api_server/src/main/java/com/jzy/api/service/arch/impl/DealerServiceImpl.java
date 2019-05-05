@@ -1,8 +1,12 @@
 package com.jzy.api.service.arch.impl;
 
+import com.jzy.api.dao.arch.DealerMapper;
 import com.jzy.api.model.dealer.Dealer;
+import com.jzy.api.po.arch.DealerAnalysisInfoPo;
 import com.jzy.api.service.arch.DealerService;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * <b>功能：</b>渠道商业务处理类<br>
@@ -16,8 +20,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class DealerServiceImpl implements DealerService {
 
+    @Resource
+    private DealerMapper dealerMapper;
+
     @Override
     public Dealer queryDealer(Long userId) {
         return null;
+    }
+
+    /**
+     * <b>功能描述：</b>获取渠道商私钥<br>
+     * <b>修订记录：</b><br>
+     * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    public DealerAnalysisInfoPo getAnalysisInfo(String businessId) {
+        return dealerMapper.getAnalysisInfo(businessId);
+
     }
 }

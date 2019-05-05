@@ -19,4 +19,9 @@ public class ApiRedisCacheConstant {
      */
     public static final String CACHE_DEALER_EMP = "cache_dealer_emp_" + VERSION + ":";
 
+    /**
+     * 渠道商解析信息缓存
+     */
+    public static final String CACHE_DEALER_ANALYSIS_INFO = "cache_dealer_analysis_info_" + VERSION + ":";
+
 }

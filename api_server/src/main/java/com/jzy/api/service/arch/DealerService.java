@@ -1,6 +1,7 @@
 package com.jzy.api.service.arch;
 
 import com.jzy.api.model.dealer.Dealer;
+import com.jzy.api.po.arch.DealerAnalysisInfoPo;
 
 /**
  * <b>功能：</b>渠道商<br>
@@ -19,5 +20,18 @@ public interface DealerService {
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     Dealer queryDealer(Long userId);
+
+    /**
+     * <b>功能描述：</b>获取渠道商私钥<br>
+     * <b>修订记录：</b><br>
+     * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    DealerAnalysisInfoPo getAnalysisInfo(String businessId);
+
+
+
+
+
+
     
 }

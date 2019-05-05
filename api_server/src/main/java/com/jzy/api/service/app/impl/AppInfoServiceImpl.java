@@ -9,7 +9,6 @@ import com.jzy.api.dao.app.AppPageMapper;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPage;
 import com.jzy.api.model.app.AppPriceType;
-import com.jzy.api.model.auth.Auth;
 import com.jzy.api.service.app.AppInfoService;
 import com.jzy.api.service.app.AppPriceTypeService;
 import com.jzy.api.vo.app.AppInfoDetailVo;
@@ -17,7 +16,6 @@ import com.jzy.api.vo.app.AppInfoListVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.service.impl.GenericServiceImpl;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
