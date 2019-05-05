@@ -90,21 +90,24 @@ public class WxPayServiceImpl implements WxPayService {
     @Override
     public ApiResult pay(HttpServletRequest request, Order order) {
         Map<String, String> data = new HashMap<>();
-        Map<String, String> payMap = new HashMap<>();
-        // 是否为微信内置浏览器
-        boolean isWechat = CommUtils.iswechat(request);
         // 统一下单
         data.put("body", WXPayConstants.BODY + "-" + order.getAppName());
         data.put("out_trade_no", order.getOutTradeNo());
         // 金额转换
         data.put("total_fee", WXPayUtil.getMoney(order.getTotalFee().toString()));
         data.put("spbill_create_ip", MyHttp.getIpAddr(request));
-//        data.put("time_start", DateUtils.date2TimeStr(DateUtils.formatStrToDate(order.getCreateTime(), DateUtils.DF_Y_M_D_H_M_S)));
-//        data.put("time_expire", DateUtils.date2TimeStr(DateUtils.formatStrToDate(order.getCreateTime(), DateUtils.DF_Y_M_D_H_M_S)));
+        Date date = new Date();
+        data.put("time_start", DateUtils.date2TimeStr(date));
+        // 订单失效时间为15分钟之后
+        data.put("time_expire", DateUtils.date2TimeStr(new Date(date.getTime() + 15 * 60 * 1000)));
+        data.put("Referer", "http://mall.900sup.com");
 //        UserAuthsMapper userAuth = loginUser.getUamap().get(IDENTITY_WECHAT);
 //        String identifier = Objects.nonNull(userAuth) ? userAuth.getComment() : "";
-        data.put("trade_type", String.valueOf(isWechat ? WXPayConstants.TradeType.JSAPI : WXPayConstants.TradeType.MWEB));
+        // 是否为微信内置浏览器
+        boolean isWxInsideBrowser = CommUtils.iswechat(request);
+        data.put("trade_type", String.valueOf(isWxInsideBrowser ? WXPayConstants.TradeType.JSAPI : WXPayConstants.TradeType.MWEB));
 //        log.debug("：：：Wechat Openid - " + identifier);
+
 //        if (isWechat && !StringUtils.isEmpty(identifier)) {
 //            data.put("openid", identifier);
 //        }
@@ -116,9 +119,10 @@ public class WxPayServiceImpl implements WxPayService {
             log.debug("微信返回参数解析异常", e);
             throw new PayException("微信返回参数解析异常");
         }
-        payMap.clear();
+
         log.debug("：：：prepay_id : " + responseData.get("prepay_id"));
 
+        Map<String, String> payMap = new HashMap<>();
         payMap.put("appId", WXPayConfig.getInstance().getAppID());
         payMap.put("timeStamp", String.valueOf(WXPayUtil.getCurrentTimestamp()));
         payMap.put("nonceStr", WXPayUtil.generateNonceStr());
@@ -132,7 +136,7 @@ public class WxPayServiceImpl implements WxPayService {
             throw new PayException("微信签名异常！");
         }
         payMap.put("paySign", paySign);
-        payMap.put("mweb_url", StringUtils.isEmpty(responseData.get("mweb_url")) ? "" : responseData.get("mweb_url").concat("&redirect_url=").concat(getURLEncoderString(domainUrl.concat("/pay/wx/webapp_return.shtml?orderId=".concat(order.getOrderId())))));
+        payMap.put("mweb_url", StringUtils.isEmpty(responseData.get("mweb_url")) ? "" : responseData.get("mweb_url").concat("&redirect_url=").concat(getURLEncoderString(domainUrl.concat("/wxPay/wx/webapp_return.shtml?orderId=".concat(order.getOrderId())))));
         payMap.put("tradeMethod", "0");
         payMap.put("orderId", order.getOrderId());
         if (WXPayConstants.FAIL.equals(responseData.get("result_code"))) {

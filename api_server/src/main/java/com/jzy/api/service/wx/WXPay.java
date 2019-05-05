@@ -1,10 +1,12 @@
 package com.jzy.api.service.wx;
 
 import com.jzy.api.constant.WXPayConstants;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 public class WXPay {
 
     private WXPayConfig config;
@@ -348,7 +350,11 @@ public class WXPay {
         if (this.notifyUrl != null) {
             reqData.put("notify_url", this.notifyUrl);
         }
-        String respXml = this.requestWithoutCert(url, this.fillRequestData(reqData), connectTimeoutMs, readTimeoutMs);
+        Map<String, String> req = fillRequestData(reqData);
+        if (log.isDebugEnabled()) {
+            log.debug("微信请求参数为：" + req.toString());
+        }
+        String respXml = this.requestWithoutCert(url, req, connectTimeoutMs, readTimeoutMs);
         return this.processResponseXml(respXml);
     }
 

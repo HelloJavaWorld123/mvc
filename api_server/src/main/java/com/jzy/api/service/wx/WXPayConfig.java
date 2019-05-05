@@ -2,42 +2,41 @@ package com.jzy.api.service.wx;
 
 import com.jzy.api.service.biz.IWXPayDomain;
 import com.jzy.api.service.biz.impl.WXPayDomainSimpleImpl;
-import lombok.Data;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 
-@Data
+@Slf4j
 public class WXPayConfig {
     /**
      * 微信appId
      */
-    @Value("${wx_app_id}")
-    private String appId;
+//    @Value("${wx_app_id}")
+    private String appId = "wx006d469839a351ed";
     /**
      * 微信key
      */
-    @Value("${wx_key}")
-    private String wxKey;
+//    @Value("${wx_key}")
+    private String wxKey = "sx5eLeN6f4yunWQL7AKUT47GprC0MdvV";
     /**e
      * 微信回调地址
      */
-    @Value("${wx_notify_url}")
-    private String wxNotifyUri;
+//    @Value("${wx_notify_url}")
+    private String wxNotifyUri = "/pay/wx/notify.shtml";
     /**
      * 商户id
      */
-    @Value("${wx_mch_id}")
-    private String wxMchId;
+//    @Value("${wx_mch_id}")
+    private String wxMchId = "1395455402";
 
-    private static Logger logger = Logger.getLogger(WXPayConfig.class);
     private static final WXPayConfig instance = new WXPayConfig();
     private byte[] certData;
 
     private WXPayConfig() {
+        log.debug("WXPayConfig init");
         try {
-            String certPath = this.getClass().getResource("").getPath().concat(this.wxMchId.concat("_apiclient_cert.p12"));
+
+            String certPath = WXPayConfig.class.getResource("/").getPath().concat(this.wxMchId.concat("_apiclient_cert.p12"));
 
             File file = new File(certPath);
 
@@ -48,8 +47,10 @@ public class WXPayConfig {
             certStream.read(this.certData);
 
             certStream.close();
+        } catch (FileNotFoundException e2) {
+            log.error("wechat证书获取不到.", e2);
         } catch (IOException e) {
-            logger.error("wechat加载证书异常.", e);
+            log.error("wechat加载证书异常.", e);
         }
     }
 

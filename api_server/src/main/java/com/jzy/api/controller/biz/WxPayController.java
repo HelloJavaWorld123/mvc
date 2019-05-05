@@ -94,7 +94,7 @@ public class WxPayController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("wx/webapp_return.shtml")
+    @RequestMapping("/webapp_return.shtml")
     public ModelAndView wxWebappReturn(HttpServletRequest req, HttpServletResponse resp, @RequestParam String orderId) {
         return new ModelAndView("/home/wxpay_webapp.jsp?orderId=".concat(orderId));
     }
