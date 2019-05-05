@@ -1,5 +1,6 @@
 package com.jzy.api.service.biz.impl;
 
+import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.model.biz.TradeRecord;
@@ -15,6 +16,7 @@ import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -100,6 +102,30 @@ public class AliPayServiceImpl implements AliPayService {
         String errMsg = order.getId() + "订单支付宝申请退款失败:" + aliRes.getSubCode() + "/" + aliRes.getSubMsg();
         log.error(errMsg);
         throw new PayException(errMsg);
+    }
+
+    /**
+     * <b>功能描述：</b>获取订单状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public int queryOrderStatus(Order order) {
+        AlipayTradeQueryResponse aliResponse = AlipayUtil.tradeQuery(order.getOutTradeNo());
+        String aliTradeStatus = aliResponse.getTradeStatus();
+        log.debug("ali webapp_result,orderId=".concat(order.getOrderId()).concat(",out_trade_no=").concat(order.getOutTradeNo()).concat(",ali支付状态:") + aliTradeStatus);
+        if (StringUtils.isEmpty(aliTradeStatus) ||
+                AlipayUtil.TradeState.WAIT_BUYER_PAY.toString().equals(aliTradeStatus)) {
+            return 0;
+        }
+        if (AlipayUtil.TradeState.TRADE_SUCCESS.toString().equals(aliTradeStatus)
+                || AlipayUtil.TradeState.TRADE_FINISHED.toString().equals(aliTradeStatus)) {
+            return  1;
+        }
+        if (AlipayUtil.TradeState.TRADE_CLOSED.toString().equals(aliTradeStatus)) {
+            return  3;
+        }
+        return 0;
     }
 
     /**

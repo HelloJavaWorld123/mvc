@@ -31,4 +31,10 @@ public interface PayService extends BaseService {
      */
     boolean orderBack(Order order);
 
+    /**
+     * <b>功能描述：</b>获取订单状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int queryOrderStatus(Order order);
 }

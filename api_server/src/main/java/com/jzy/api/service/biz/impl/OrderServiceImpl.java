@@ -1,5 +1,6 @@
 package com.jzy.api.service.biz.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jzy.api.dao.biz.OrderMapper;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.OrderService;
@@ -13,7 +14,9 @@ import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -117,6 +120,28 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         payService.orderBack(order);
         return update(order);
     }
+
+    /**
+     * <b>功能描述：</b>查询订单状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param orderId 订单id
+     */
+    @Override
+    public int queryOrderStatus(String orderId) {
+        Order order = orderMapper.queryOrderById(orderId);
+        if (order == null) {
+            throw new BusException("订单不存在");
+        }
+        PayService payService = paywayProvider.getPayService(order.getTradeMethod());
+        // 查询支付状态
+        int status = payService.queryOrderStatus(order);
+        // 更新支付状态
+        orderMapper.updateStatus(order.getOrderId(), status);
+        return 0;
+    }
+
 
     /**
      * <b>功能描述：</b>订单列表查询<br>

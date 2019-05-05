@@ -1,6 +1,8 @@
 package com.jzy.api.controller.biz;
 
+import com.jzy.api.cnd.biz.CodeCnd;
 import com.jzy.api.cnd.biz.PayCnd;
+import com.jzy.api.cnd.biz.StatusVo;
 import com.jzy.api.cnd.biz.WaitPayCnd;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.OrderService;
@@ -38,6 +40,20 @@ public class PayController extends GenericController {
         apiResult.setData(linkUrl);
         log.debug("支付返回url地址为: " + linkUrl);
         return apiResult.success();
+    }
+
+    /**
+     * <b>功能描述：</b>请求支付下单,初始化/更新订单,调起微信/支付宝<br>
+     * <b>修订记录：</b><br>
+     * <li>20190419&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("/queryOrderStatus")
+    public ApiResult queryOrderStatus(@RequestBody CodeCnd codeCnd) {
+        ApiResult<StatusVo> apiResult = new ApiResult<>();
+        int status = orderService.queryOrderStatus(codeCnd.getCode());
+        StatusVo statusVo = new StatusVo();
+        statusVo.setStatus(status);
+        return apiResult.success(statusVo);
     }
 
     /**

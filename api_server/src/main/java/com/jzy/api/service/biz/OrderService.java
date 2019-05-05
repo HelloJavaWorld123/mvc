@@ -39,6 +39,15 @@ public interface OrderService extends GenericService<Order> {
     int tradeRefund(Order order);
 
     /**
+     * <b>功能描述：</b>查询订单状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param orderId 订单id
+     */
+    int queryOrderStatus(String orderId);
+
+    /**
      * <b>功能描述：</b>订单列表查询<br>
      * <b>修订记录：</b><br>
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>

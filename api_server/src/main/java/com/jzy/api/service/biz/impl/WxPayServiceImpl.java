@@ -83,6 +83,104 @@ public class WxPayServiceImpl implements WxPayService {
     private SupService supService;
 
     /**
+     * <b>功能描述：</b>支付<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public ApiResult pay(HttpServletRequest request, Order order) {
+        Map<String, String> data = new HashMap<>();
+        Map<String, String> payMap = new HashMap<>();
+        // 是否为微信内置浏览器
+        boolean isWechat = CommUtils.iswechat(request);
+        // 统一下单
+        data.put("body", WXPayConstants.BODY + "-" + order.getAppName());
+        data.put("out_trade_no", order.getOutTradeNo());
+        // 金额转换
+        data.put("total_fee", WXPayUtil.getMoney(order.getTotalFee().toString()));
+        data.put("spbill_create_ip", MyHttp.getIpAddr(request));
+//        data.put("time_start", DateUtils.date2TimeStr(DateUtils.formatStrToDate(order.getCreateTime(), DateUtils.DF_Y_M_D_H_M_S)));
+//        data.put("time_expire", DateUtils.date2TimeStr(DateUtils.formatStrToDate(order.getCreateTime(), DateUtils.DF_Y_M_D_H_M_S)));
+//        UserAuthsMapper userAuth = loginUser.getUamap().get(IDENTITY_WECHAT);
+//        String identifier = Objects.nonNull(userAuth) ? userAuth.getComment() : "";
+        data.put("trade_type", String.valueOf(isWechat ? WXPayConstants.TradeType.JSAPI : WXPayConstants.TradeType.MWEB));
+//        log.debug("：：：Wechat Openid - " + identifier);
+//        if (isWechat && !StringUtils.isEmpty(identifier)) {
+//            data.put("openid", identifier);
+//        }
+        // 返回支付标识并加签
+        Map<String, String> responseData ;
+        try {
+            responseData = unifiedOrderwx(data);
+        } catch (ParseException e) {
+            log.debug("微信返回参数解析异常", e);
+            throw new PayException("微信返回参数解析异常");
+        }
+        payMap.clear();
+        log.debug("：：：prepay_id : " + responseData.get("prepay_id"));
+
+        payMap.put("appId", WXPayConfig.getInstance().getAppID());
+        payMap.put("timeStamp", String.valueOf(WXPayUtil.getCurrentTimestamp()));
+        payMap.put("nonceStr", WXPayUtil.generateNonceStr());
+        payMap.put("package", "prepay_id=".concat(StringUtils.isEmpty(responseData.get("prepay_id")) ? "" : responseData.get("prepay_id")));
+        payMap.put("signType", MD5);
+        String paySign;
+        try {
+            paySign = WXPayUtil.generateSignature(payMap);
+        } catch (Exception e) {
+            log.error("微信签名异常！", e);
+            throw new PayException("微信签名异常！");
+        }
+        payMap.put("paySign", paySign);
+        payMap.put("mweb_url", StringUtils.isEmpty(responseData.get("mweb_url")) ? "" : responseData.get("mweb_url").concat("&redirect_url=").concat(getURLEncoderString(domainUrl.concat("/pay/wx/webapp_return.shtml?orderId=".concat(order.getOrderId())))));
+        payMap.put("tradeMethod", "0");
+        payMap.put("orderId", order.getOrderId());
+        if (WXPayConstants.FAIL.equals(responseData.get("result_code"))) {
+            order.setStatus(3);
+            return new ApiResult<>(responseData.get("err_code_des"));
+        }
+        return new ApiResult<>(payMap);
+    }
+
+    /**
+     * <b>功能描述：</b>获取订单状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public int queryOrderStatus(Order order) {
+        Map<String, String> queryMap = queryOrderwx(order.getOutTradeNo());
+        log.debug("：：：Wechat Notify Request." + queryMap.toString());
+        try {
+            WXPay wxpay = new WXPay(WXPayConfig.getInstance(), true);
+            if (wxpay.isPayResultNotifySignatureValid(queryMap)) {
+                log.debug("：：：Wechat Notify Sign Verify Success.".concat(queryMap.toString()));
+                // 业务处理
+                // 注意特殊情况：订单已经退款，但收到了支付结果成功的通知，不应把商户侧订单状态从退款改成支付成功
+                String wxTradeState = queryMap.get("trade_state");
+                log.info("wechat webapp_result,orderId=".concat(order.getOrderId()).concat(",out_trade_no=").concat(order.getOutTradeNo()).concat(",wechat支付状态:") + wxTradeState);
+                if (SUCCESS.equals(wxTradeState)) {
+                    return 1;
+                } else if (TradeState.NOTPAY.toString().equals(wxTradeState)) {
+                    return 0;
+                } else if (TradeState.REFUND.toString().equals(wxTradeState)) {
+                    return 3;
+                } else if (TradeState.CLOSED.toString().equals(wxTradeState) ||
+                        TradeState.PAYERROR.toString().equals(wxTradeState)) {
+                    return 4;
+                }
+            } else { // 签名错误，如果数据里没有sign字段，也认为是签名错误
+                log.info("：：：Wechat Notify Sign Verify Failed. " + queryMap.toString());
+                return 0;
+            }
+        } catch (Exception e) {
+            log.error("：：：Err - 微信支付回调异常.", e);
+            return 0;
+        }
+        return 0;
+    }
+
+    /**
      * <b>功能描述：</b>微信支付回调<br>
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
@@ -204,65 +302,7 @@ public class WxPayServiceImpl implements WxPayService {
         return accessToken;
     }
 
-    /**
-     * <b>功能描述：</b>支付<br>
-     * <b>修订记录：</b><br>
-     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    @Override
-    public ApiResult pay(HttpServletRequest request, Order order) {
-        Map<String, String> data = new HashMap<>();
-        Map<String, String> payMap = new HashMap<>();
-        // 是否为微信内置浏览器
-        boolean isWechat = CommUtils.iswechat(request);
-        // 统一下单
-        data.put("body", WXPayConstants.BODY + "-" + order.getAppName());
-        data.put("out_trade_no", order.getOutTradeNo());
-        // 金额转换
-        data.put("total_fee", WXPayUtil.getMoney(order.getTotalFee().toString()));
-        data.put("spbill_create_ip", MyHttp.getIpAddr(request));
-//        data.put("time_start", DateUtils.date2TimeStr(DateUtils.formatStrToDate(order.getCreateTime(), DateUtils.DF_Y_M_D_H_M_S)));
-//        data.put("time_expire", DateUtils.date2TimeStr(DateUtils.formatStrToDate(order.getCreateTime(), DateUtils.DF_Y_M_D_H_M_S)));
-//        UserAuthsMapper userAuth = loginUser.getUamap().get(IDENTITY_WECHAT);
-//        String identifier = Objects.nonNull(userAuth) ? userAuth.getComment() : "";
-        data.put("trade_type", String.valueOf(isWechat ? WXPayConstants.TradeType.JSAPI : WXPayConstants.TradeType.MWEB));
-//        log.debug("：：：Wechat Openid - " + identifier);
-//        if (isWechat && !StringUtils.isEmpty(identifier)) {
-//            data.put("openid", identifier);
-//        }
-        // 返回支付标识并加签
-        Map<String, String> responseData ;
-        try {
-            responseData = unifiedOrderwx(data);
-        } catch (ParseException e) {
-            log.debug("微信返回参数解析异常", e);
-            throw new PayException("微信返回参数解析异常");
-        }
-        payMap.clear();
-        log.debug("：：：prepay_id : " + responseData.get("prepay_id"));
 
-        payMap.put("appId", WXPayConfig.getInstance().getAppID());
-        payMap.put("timeStamp", String.valueOf(WXPayUtil.getCurrentTimestamp()));
-        payMap.put("nonceStr", WXPayUtil.generateNonceStr());
-        payMap.put("package", "prepay_id=".concat(StringUtils.isEmpty(responseData.get("prepay_id")) ? "" : responseData.get("prepay_id")));
-        payMap.put("signType", MD5);
-        String paySign;
-        try {
-            paySign = WXPayUtil.generateSignature(payMap);
-        } catch (Exception e) {
-            log.error("微信签名异常！", e);
-            throw new PayException("微信签名异常！");
-        }
-        payMap.put("paySign", paySign);
-        payMap.put("mweb_url", StringUtils.isEmpty(responseData.get("mweb_url")) ? "" : responseData.get("mweb_url").concat("&redirect_url=").concat(getURLEncoderString(domainUrl.concat("/pay/wx/webapp_return.shtml?orderId=".concat(order.getOrderId())))));
-        payMap.put("tradeMethod", "0");
-        payMap.put("orderId", order.getOrderId());
-        if (WXPayConstants.FAIL.equals(responseData.get("result_code"))) {
-            order.setStatus(3);
-            return new ApiResult<>(responseData.get("err_code_des"));
-        }
-        return new ApiResult<>(payMap);
-    }
 
     private Map<String, String> unifiedOrderwx(Map<String, String> params) throws ParseException {
         Map<String, String> map;
@@ -405,6 +445,24 @@ public class WxPayServiceImpl implements WxPayService {
      */
     private String returnXML(String returnCode) {
         return "<xml><return_code><![CDATA[".concat(returnCode).concat("]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>");
+    }
+
+    public Map<String, String> queryOrderwx(String out_trade_no) {
+        return this.queryOrderwx(out_trade_no, "");
+    }
+
+    public Map<String, String> queryOrderwx(String out_trade_no, String transaction_id) {
+        Map<String, String> respmap = null, params = new HashMap<>();
+        try {
+            params.put("out_trade_no", out_trade_no);
+            params.put("transaction_id", transaction_id);
+            WXPay wxpay = new WXPay(WXPayConfig.getInstance());
+            respmap = wxpay.orderQuery(params);
+        } catch (Exception e) {
+            log.error("：：：Err - Wechat Order Query 订单查询.", e);
+            throw new BusException("微信服务不可用");
+        }
+        return respmap;
     }
 
 }
