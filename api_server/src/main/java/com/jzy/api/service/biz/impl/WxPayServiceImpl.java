@@ -94,7 +94,7 @@ public class WxPayServiceImpl implements WxPayService {
         data.put("body", WXPayConstants.BODY + "-" + order.getAppName());
         data.put("out_trade_no", order.getOutTradeNo());
         // 金额转换
-        data.put("total_fee", WXPayUtil.getMoney(order.getTotalFee().toString()));
+        data.put("total_fee", WXPayUtil.getMoney(order.getTradeFee().toString()));
         data.put("spbill_create_ip", MyHttp.getIpAddr(request));
         Date date = new Date();
         data.put("time_start", DateUtils.date2TimeStr(date));
