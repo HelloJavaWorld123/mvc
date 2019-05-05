@@ -204,7 +204,7 @@ public class WxPayServiceImpl implements WxPayService {
                 String totalFee = notifyMap.get("total_fee");
                 BigDecimal tradeFee =  new BigDecimal(WXPayUtil.changeF2Y(totalFee));
                 String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
-                tradeRecordService.updateBgRespByIdStatus(transactionId, notifyMap.get("result_code").equalsIgnoreCase(SUCCESS) ? 4 : 3, notifyMap.toString(), notifyMap.get("attach"), 1);
+                tradeRecordService.updateWxCallbackStatus(transactionId, notifyMap.get("result_code").equalsIgnoreCase(SUCCESS) ? 4 : 3, notifyMap.toString(), notifyMap.get("attach"), 1);
                 // 业务处理
                 // 注意特殊情况：订单已经退款，但收到了支付结果成功的通知，不应把商户侧订单状态从退款改成支付成功
                 if (notifyMap.get("result_code").equalsIgnoreCase(SUCCESS)) {

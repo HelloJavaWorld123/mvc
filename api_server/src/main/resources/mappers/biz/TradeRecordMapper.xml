@@ -62,7 +62,7 @@
          id = #{id}
     </select>
 
-    <!-- 更新交易记录_(支付宝)支付完成回调 -->
+    <!-- 更新交易记录_支付宝支付完成回调 -->
     <update id="updateAliPayCallbackStatus">
         UPDATE
         trade_record
@@ -75,9 +75,17 @@
         AND status = #{oldStatus}
     </update>
 
-    <!-- 更新交易记录 -->
-    <update id="updateBgRespByIdStatus">
-
+    <!-- 更新交易记录_微信支付完成回调 -->
+    <update id="updateWxCallbackStatus">
+        UPDATE
+        trade_record
+        SET mark_id = #{markId},
+        status = #{status},
+        bg_resp_time = now(),
+        bg_resp_data = #{bgRespData}
+        WHERE
+        id = #{id}
+        AND status = #{oldStatus}
     </update>
 
     <!-- 更新交易记录_(微信)退款通知 -->

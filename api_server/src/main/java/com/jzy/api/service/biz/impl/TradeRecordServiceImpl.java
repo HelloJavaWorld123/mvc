@@ -41,7 +41,7 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
     }
 
     /**
-     * <b>功能描述：</b>更新交易记录<br>
+     * <b>功能描述：</b>更新交易记录_微信支付完成回调<br>
      * <b>修订记录：</b><br>
      * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
@@ -52,8 +52,8 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
      * @param oldStatus
      */
     @Override
-    public int updateBgRespByIdStatus(String markId, Integer status, String bgRespData, String id, Integer oldStatus) {
-        return tradeRecordMapper.updateBgRespByIdStatus(markId, status, bgRespData, id, oldStatus);
+    public int updateWxCallbackStatus(String markId, Integer status, String bgRespData, String id, Integer oldStatus) {
+        return tradeRecordMapper.updateWxCallbackStatus(markId, status, bgRespData, id, oldStatus);
     }
 
     /**

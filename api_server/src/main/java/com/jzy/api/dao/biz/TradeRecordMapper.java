@@ -40,7 +40,7 @@ public interface TradeRecordMapper extends GenericMapper<TradeRecord> {
      * @param bgRespData 异步通知数据
      * @param id         交易唯一标识trade_record_id
      */
-    int updateBgRespByIdStatus(@Param("markId") String markId, @Param("status") Integer status,
+    int updateWxCallbackStatus(@Param("markId") String markId, @Param("status") Integer status,
                                @Param("bgRespData") String bgRespData, @Param("id") String id,
                                @Param("oldStatus") Integer oldStatus);
 

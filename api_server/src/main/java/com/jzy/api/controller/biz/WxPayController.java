@@ -31,7 +31,7 @@ import java.util.Map;
  */
 @Slf4j
 @Controller
-@RequestMapping(path="/wxPay")
+@RequestMapping(path="/wx")
 public class WxPayController extends GenericController {
 
     @Resource
@@ -58,7 +58,7 @@ public class WxPayController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping(path = "callback.shtml", method = RequestMethod.GET)
+    @RequestMapping(path = "/callback.shtml", method = RequestMethod.GET)
     public ModelAndView wxCallback(@RequestParam(defaultValue = "") String code,
                                        HttpServletRequest req, HttpServletResponse resp, ModelMap model) {
         ModelAndView view = new ModelAndView("login");
@@ -83,7 +83,7 @@ public class WxPayController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("wx/notify.shtml")
+    @RequestMapping("/notify.shtml")
     public String wxCallback(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         Map<String, String> notifyMap = WXPayUtil.xmlToMap(MyHttp.readRequestData(req));
         return wxPayService.updateWxCallBack(notifyMap);

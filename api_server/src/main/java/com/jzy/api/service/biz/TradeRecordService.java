@@ -38,7 +38,7 @@ public interface TradeRecordService extends GenericService<TradeRecord> {
      * @param id 交易唯一标识trade_record_id
      * @param oldStatus
      */
-    int updateBgRespByIdStatus(String markId, Integer status, String bgRespData, String id, Integer oldStatus);
+    int updateWxCallbackStatus(String markId, Integer status, String bgRespData, String id, Integer oldStatus);
 
     /**
      * 更新交易记录
