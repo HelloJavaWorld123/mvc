@@ -38,7 +38,7 @@ public class FrontOrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/queryOrderList")
     public ApiResult queryOrderList(@RequestBody OrderListCnd orderListCnd) {
-        //orderService.queryOrderList();
+        orderService.queryFrontOrderList(orderListCnd.getPage(), orderListCnd.getLimit(), orderListCnd.getStatus());
         return null;
     }
 
@@ -50,7 +50,7 @@ public class FrontOrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/delete")
     public ApiResult delete(@RequestBody CodeCnd codeCnd) {
-        orderService.delete(codeCnd.getCode());
+        orderService.delete(codeCnd.getOrderId());
         return new ApiResult().success();
     }
 
@@ -62,7 +62,7 @@ public class FrontOrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/queryOrderById")
     public ApiResult queryOrderById(@RequestBody CodeCnd codeCnd) {
-        orderService.queryOrderById(codeCnd.getCode());
+        orderService.queryOrderById(codeCnd.getOrderId());
         return new ApiResult().success();
     }
 
@@ -74,7 +74,7 @@ public class FrontOrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/queryCardPwdById")
     public ApiResult queryCardPwdById(@RequestBody CodeCnd codeCnd) {
-        orderService.queryCardPwdById(codeCnd.getCode());
+        orderService.queryCardPwdById(codeCnd.getOrderId());
         return new ApiResult().success();
     }
 
@@ -86,7 +86,7 @@ public class FrontOrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/closeOrder")
     public ApiResult closeOrder(@RequestBody CodeCnd codeCnd) {
-        orderService.updateStatus(codeCnd.getCode(), 4);
+        orderService.updateStatus(codeCnd.getOrderId(), 4);
         return new ApiResult().success();
     }
 

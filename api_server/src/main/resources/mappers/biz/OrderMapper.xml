@@ -110,9 +110,28 @@
         id = #{orderId}
     </select>
 
-    <!-- 订单列表查询 -->
-    <select id="queryOrderList" resultType="com.jzy.api.model.biz.Order">
-
+    <!-- 前台订单列表查询 -->
+    <select id="queryFrontOrderList" resultType="com.jzy.api.model.biz.Order">
+        SELECT
+        o.id,
+        o.price,
+        o.status,
+        o.total_fee,
+        o.price_type_name,
+        o.account,
+        o.trade_fee,
+        o.create_time,
+        app.name appName,
+        app.icon appIcon
+        FROM
+        `order` o
+        INNER JOIN app_info app
+        WHERE
+        o.app_id = ai.id
+        AND o.user_id = #{userId}
+        <if test="status != null">
+            AND o.status = #{status}
+        </if>
     </select>
 
     <!-- 根据订单id查询卡密 -->
