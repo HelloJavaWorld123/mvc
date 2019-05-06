@@ -119,5 +119,5 @@ public interface OrderMapper extends GenericMapper<Order> {
      * @param id 订单id
      * @param supStatus sup状态，0未提交1已提交2成功3失败
      */
-    int updateSupStatus(String id, Integer supStatus);
+    int updateSupStatus(@Param("id") String id, @Param("supStatus") Integer supStatus);
 }
