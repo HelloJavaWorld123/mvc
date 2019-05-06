@@ -88,7 +88,12 @@
 
     <!-- 删除订单 -->
     <update id="updateOrderDelFlag">
-
+        UPDATE
+        `order`
+        SET
+        del_flag = 1
+        WHERE
+        id = #{id}
     </update>
 
     <!-- 根据订单id查询订单详情 -->
@@ -105,20 +110,39 @@
         id = #{orderId}
     </select>
 
-    <!-- 订单列表查询 -->
-    <select id="queryOrderList" resultType="com.jzy.api.model.biz.Order">
-
+    <!-- 前台订单列表查询 -->
+    <select id="queryFrontOrderList" resultType="com.jzy.api.model.biz.Order">
+        SELECT
+        o.id,
+        o.price,
+        o.status,
+        o.total_fee totalFee,
+        o.price_type_name priceTypeName,
+        o.account,
+        o.trade_fee tradeFee,
+        o.create_time createTime,
+        app.id appId,
+        app.name appName,
+        app.icon appIcon
+        FROM
+        `order` o
+        INNER JOIN app_info app
+        WHERE
+        o.app_id = ai.id
+        AND o.user_id = #{userId}
+        <if test="status != null">
+            AND o.status = #{status}
+        </if>
     </select>
 
     <!-- 根据订单id查询卡密 -->
     <select id="queryCardPwdById" resultType="java.lang.String">
-
+        SELECT
+        card_pwd
+        FROM
+        order_cardkey
+        WHERE id = #{id}
     </select>
-
-    <!-- 根据订单id关闭订单 -->
-    <update id="updateOrderClose">
-
-    </update>
 
     <!-- 更新订单状态 -->
     <update id="updateStatus">

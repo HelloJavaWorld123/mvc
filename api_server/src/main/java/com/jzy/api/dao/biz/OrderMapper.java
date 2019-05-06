@@ -3,7 +3,6 @@ package com.jzy.api.dao.biz;
 import com.jzy.api.model.biz.Order;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.access.method.P;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -32,8 +31,11 @@ public interface OrderMapper extends GenericMapper<Order> {
      * <b>功能描述：</b>订单列表查询<br>
      * <b>修订记录：</b><br>
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param status 0：等待支付,1：充值中,2：充值成功,3：充值失败,4：订单关闭
+     * @param userId 用户id
      */
-    List<Order> queryOrderList();
+    List<Order> queryFrontOrderList(@Param("status") Integer status, @Param("userId") Long userId);
 
     /**
      * <b>功能描述：</b>根据订单id查询卡密<br>
@@ -42,7 +44,7 @@ public interface OrderMapper extends GenericMapper<Order> {
      *
      * @param id 订单id
      */
-    String queryCardPwdById(Long id);
+    String queryCardPwdById(String id);
 
     /**
      * <b>功能描述：</b>根据订单id关闭订单<br>
@@ -51,7 +53,7 @@ public interface OrderMapper extends GenericMapper<Order> {
      *
      * @param id 订单id
      */
-    int updateOrderClose(Long id);
+    int updateOrderClose(String id);
 
     /**
      * <b>功能描述：</b>删除订单<br>
@@ -60,7 +62,7 @@ public interface OrderMapper extends GenericMapper<Order> {
      *
      * @param id 订单id
      */
-    int updateOrderDelFlag(Long id);
+    int updateOrderDelFlag(String id);
 
     /**
      * <b>功能描述：</b>更新订单状态<br>

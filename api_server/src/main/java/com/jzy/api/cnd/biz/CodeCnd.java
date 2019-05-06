@@ -17,6 +17,6 @@ public class CodeCnd extends GenericCnd {
     /**
      * 订单编号
      */
-    private String code;
+    private String orderId;
 
 }

@@ -50,7 +50,7 @@ public class PayController extends GenericController {
     @RequestMapping("/queryOrderStatus")
     public ApiResult queryOrderStatus(@RequestBody CodeCnd codeCnd) {
         ApiResult<StatusVo> apiResult = new ApiResult<>();
-        int status = orderService.queryOrderStatus(codeCnd.getCode());
+        int status = orderService.queryOrderStatus(codeCnd.getOrderId());
         StatusVo statusVo = new StatusVo();
         statusVo.setStatus(status);
         return apiResult.success(statusVo);

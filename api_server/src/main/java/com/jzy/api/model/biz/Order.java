@@ -37,10 +37,7 @@ public class Order extends GenericModel {
      * 0直充 1 卡密
      */
     private Integer rechargeMode;
-    /**
-     * 商品id
-     */
-    private Long appId;
+
     /**
      * sup商品提交分组编号
      */
@@ -134,8 +131,20 @@ public class Order extends GenericModel {
      */
     private Integer dealerId;
 
+    //--------------------序列-----------------------------
 
+    /**
+     * 商品id
+     */
+    private Long appId;
+    /**
+     * 商品名称
+     */
     private String appName;
+    /**
+     * 商品图片
+     */
+    private String appIcon;
 
     /**
      * 订单交易状态

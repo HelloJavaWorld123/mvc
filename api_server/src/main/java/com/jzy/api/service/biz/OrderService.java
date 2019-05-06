@@ -1,6 +1,7 @@
 package com.jzy.api.service.biz;
 
 import com.jzy.api.model.biz.Order;
+import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.service.GenericService;
 import org.apache.ibatis.annotations.Param;
 
@@ -53,7 +54,7 @@ public interface OrderService extends GenericService<Order> {
      * <b>修订记录：</b><br>
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<Order> queryOrderList();
+    PageVo<Order> queryFrontOrderList(Integer page, Integer limit, Integer status);
 
     /**
      * <b>功能描述：</b>根据订单id删除订单<br>
@@ -62,7 +63,7 @@ public interface OrderService extends GenericService<Order> {
      *
      * @param id 订单id
      */
-    int delete(Long id);
+    int delete(String id);
 
     /**
      * <b>功能描述：</b>根据订单id查询订单详情<br>
@@ -80,7 +81,7 @@ public interface OrderService extends GenericService<Order> {
      *
      * @param id 订单id
      */
-    String queryCardPwdById(Long id);
+    String queryCardPwdById(String id);
 
     /**
      * <b>功能描述：</b>根据订单id关闭订单<br>
@@ -89,7 +90,7 @@ public interface OrderService extends GenericService<Order> {
      *
      * @param id 订单id
      */
-    int updateOrderClose(Long id);
+    int updateOrderClose(String id);
 
     /**
      * <b>功能描述：</b>更新订单充值状态<br>

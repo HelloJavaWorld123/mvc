@@ -1,12 +1,14 @@
 package com.jzy.api.service.biz.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
 import com.jzy.api.dao.biz.OrderMapper;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.service.biz.PayService;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.DateUtils;
+import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.exception.PayException;
@@ -150,8 +152,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * sp;创建方法</li><br>
      */
     @Override
-    public List<Order> queryOrderList() {
-        return orderMapper.queryOrderList();
+    public PageVo<Order> queryFrontOrderList(Integer page, Integer limit, Integer status) {
+        PageHelper.startPage(page, limit);
+        List<Order> orderList = orderMapper.queryFrontOrderList(status, 0L);
+        return null;
     }
 
     /**
@@ -162,8 +166,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param id 订单id
      */
     @Override
-    public int delete(Long id) {
-        return 0;
+    public int delete(String id) {
+        return orderMapper.updateOrderDelFlag(id);
     }
 
     /**
@@ -186,7 +190,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param id 订单id
      */
     @Override
-    public String queryCardPwdById(Long id) {
+    public String queryCardPwdById(String id) {
         return orderMapper.queryCardPwdById(id);
     }
 
@@ -198,7 +202,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param id 订单id
      */
     @Override
-    public int updateOrderClose(Long id) {
+    public int updateOrderClose(String id) {
         return orderMapper.updateOrderClose(id);
     }
 
