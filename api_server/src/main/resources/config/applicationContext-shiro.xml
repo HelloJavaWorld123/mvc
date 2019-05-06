@@ -32,6 +32,7 @@
                 /HomeRecommendCate/* = anon
                 /HomeRecommendHot/* = anon
                 /DealAppPriceInfo/* = anon
+                /category/* = anon
                 /admin/appinfo/downFile = anon
 
                 /logout = logout
