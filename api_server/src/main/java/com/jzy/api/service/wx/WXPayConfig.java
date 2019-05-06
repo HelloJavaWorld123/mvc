@@ -38,7 +38,11 @@ public class WXPayConfig {
         log.debug("WXPayConfig init");
         try {
 
-            String certPath = WXPayConfig.class.getResource("/").getPath().concat(this.wxMchId.concat("_apiclient_cert.p12"));
+            String certPath = WXPayConfig.class.getResource("").getPath().concat(this.wxMchId.concat("_apiclient_cert.p12"));
+
+            certPath = "D:\\1395455402_apiclient_cert.p12";
+
+            log.debug("整数地址为：" + certPath);
 
             File file = new File(certPath);
 

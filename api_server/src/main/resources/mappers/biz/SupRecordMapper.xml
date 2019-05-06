@@ -13,6 +13,22 @@
 
 <mapper namespace="com.jzy.api.dao.biz.SupRecordMapper">
 
+    <resultMap id="supRecord" type="com.jzy.api.model.biz.SupRecord">
+        <result column="id" property="supRecordId" />
+        <result column="order_id" property="orderId" />
+        <result column="req_data" property="reqData" />
+        <result column="req_time" property="reqAmount" />
+        <result column="req_amount" property="respData" />
+        <result column="resp_data" property="respData" />
+        <result column="remark" property="remark" />
+        <result column="purchaser_price" property="purchaserPrice" />
+        <result column="del_flag" property="delFlag" />
+        <result column="creator_id" property="creatorId" />
+        <result column="modifier_id" property="modifierId" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+    </resultMap>
+
     <!-- 新增SUP交易记录 -->
     <insert id="insert" parameterType="com.jzy.api.model.biz.SupRecord">
         INSERT INTO order_sup_record (
@@ -20,7 +36,7 @@
         del_flag, creator_id, modifier_id, create_time, modify_time
         )
         VALUES (
-        #{id}, #{orderId}, #{reqData}, #{reqTime}, #{reqAmount}, #{respData}, #{remark}, #{purchaserPrice},
+        #{supRecordId}, #{orderId}, #{reqData}, #{reqTime}, #{reqAmount}, #{respData}, #{remark}, #{purchaserPrice},
         #{delFlag}, #{creatorId}, #{modifierId}, #{createTime}, #{modifyTime}
         )
     </insert>
@@ -44,7 +60,7 @@
         order_id = #{orderId}
     </update>
 
-    <select id="querySupRecordByOrderId" resultType="com.jzy.api.model.biz.SupRecord">
+    <select id="querySupRecordByOrderId" resultMap="supRecord">
         SELECT
         supRecord.id,
         supRecord.order_id,
@@ -59,8 +75,8 @@
         supRecord.remark,
         supRecord.purchaser_price
         FROM order_sup_record supRecord
-        WEHRE
-        osr.order_id = #{orderId}
+        WHERE
+        supRecord.order_id = #{orderId}
     </select>
 
     <!-- 共同更新参数 -->

@@ -18,6 +18,10 @@ import java.util.Date;
 @Data
 public class SupRecord extends GenericModel {
     /**
+     * 主键
+     */
+    private String supRecordId;
+    /**
      * 订单id
      */
     private String orderId;

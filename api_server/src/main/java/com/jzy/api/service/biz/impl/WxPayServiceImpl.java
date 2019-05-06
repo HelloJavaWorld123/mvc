@@ -334,14 +334,14 @@ public class WxPayServiceImpl implements WxPayService {
     public boolean orderBack(Order order) {
         order.setStatus(3);
         order.setSupStatus(3);
-        Map<String, String> wxResult = refundOrderwx(order.getOutTradeNo(), order.getTotalFee());
+        Map<String, String> wxResult = refundOrderwx(order.getOutTradeNo(), order.getTradeFee());
         if (WXPayConstants.SUCCESS.equals(wxResult.get(WXPayConstants.RESULT_CODE))) {
             order.setTradeStatus(Order.TradeStatusConst.WAIT_REFUND);
             return true;
         }
         String errMgs = order.getOrderId() + "订单微信申请退款失败:" + wxResult.get(WXPayConstants.ERR_CODE) + "/" + wxResult.get(WXPayConstants.ERR_CODE_DES);
         log.error(errMgs);
-        throw new PayException(errMgs);
+        return false;
     }
 
     /**
@@ -402,12 +402,12 @@ public class WxPayServiceImpl implements WxPayService {
         try {
             params.put("out_trade_no", out_trade_no);
             params.put("out_refund_no", StringUtils.isEmpty(out_refund_no) ? out_trade_no : out_refund_no);
-            params.put("total_fee", total_fee.multiply(new BigDecimal(100)) + "");
-            params.put("refund_fee", refund_fee.multiply(new BigDecimal(100)) + "");
+            params.put("total_fee", total_fee.multiply(new BigDecimal(100)).intValue() + "");
+            params.put("refund_fee", refund_fee.multiply(new BigDecimal(100)).intValue() + "");
             params.put("refund_desc", StringUtils.isEmpty(refund_desc) ? SYSTEM_OPERATION : refund_desc);
             WXPay wxpay = new WXPay(WXPayConfig.getInstance());
             respmap = wxpay.refund(params);
-            boolean resultStatus = WXPayConstants.SUCCESS.equalsIgnoreCase(respmap.get("result_code"));
+            boolean resultStatus = WXPayConstants.SUCCESS.equalsIgnoreCase(respmap.get("return_code"));
 
             log.debug("：：：wechat refund order result.".concat(respmap.toString()));
 
