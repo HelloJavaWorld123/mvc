@@ -116,11 +116,12 @@
         o.id,
         o.price,
         o.status,
-        o.total_fee,
-        o.price_type_name,
+        o.total_fee totalFee,
+        o.price_type_name priceTypeName,
         o.account,
-        o.trade_fee,
-        o.create_time,
+        o.trade_fee tradeFee,
+        o.create_time createTime,
+        app.id appId,
         app.name appName,
         app.icon appIcon
         FROM
