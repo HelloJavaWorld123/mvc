@@ -1,8 +1,5 @@
 package com.jzy.api.service.home.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.jzy.api.cnd.home.HomeAnalysisCnd;
 import com.jzy.api.po.arch.DataInfo;
 import com.jzy.api.po.arch.DealerAnalysisInfoPo;
@@ -13,15 +10,12 @@ import com.jzy.api.service.home.HomeAnalysisService;
 import com.jzy.api.util.DesUtil;
 import com.jzy.api.util.MyEncrypt;
 import com.jzy.api.vo.home.HomeAnalysisInfoVo;
-import com.mchange.v1.util.ArrayUtils;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
-import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

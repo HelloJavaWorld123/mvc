@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+	SQL映射文件名称：权限业务
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190424	邓冲	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.arch.DealerAppInfoMapper">
+
+    <!--    前台分页热搜查询-->
+    <select id="appSearchList" resultType="com.jzy.api.po.dealer.AppSearchPo">
+        SELECT
+        ai.id as aiId,
+        ai.name,
+        ai.icon
+        FROM
+        dealer_app_info dai
+        LEFT JOIN app_info ai ON dai.ai_id = ai.id
+        WHERE
+        dai.dealer_id = 1001
+        AND dai. STATUS = 1
+        AND ai.`status` = 1
+        <if test="keyword!=null">
+            AND (
+            ai. NAME LIKE CONCAT(CONCAT('%',#{keyword},'%'))
+            OR ai.label LIKE CONCAT(CONCAT('%',#{keyword},'%'))
+            OR ai.spll_letter LIKE CONCAT(CONCAT('%',#{keyword},'%'))
+            )
+        </if>
+
+    </select>
+
+
+</mapper>

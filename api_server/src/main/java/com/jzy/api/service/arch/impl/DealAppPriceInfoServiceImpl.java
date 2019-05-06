@@ -1,19 +1,24 @@
 package com.jzy.api.service.arch.impl;
 
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.jzy.api.cnd.app.AppSearchListCnd;
 import com.jzy.api.cnd.arch.GetPriceCnd;
 import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.dao.app.AppPriceTypeMapper;
+import com.jzy.api.dao.arch.DealerAppInfoMapper;
 import com.jzy.api.dao.arch.DealerAppPriceInfoMapper;
-import com.jzy.api.dao.arch.DealerMapper;
 import com.jzy.api.model.app.AppInfo;
-import com.jzy.api.model.app.AppPriceType;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
 import com.jzy.api.po.arch.AppDetailPo;
 import com.jzy.api.po.arch.AppPriceTypePo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
+import com.jzy.api.po.dealer.AppSearchPo;
 import com.jzy.api.service.arch.DealAppPriceInfoService;
 import com.jzy.api.vo.app.AppDetailVo;
+import com.jzy.api.vo.app.AppSearchListVo;
+import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.springframework.stereotype.Service;
@@ -44,6 +49,9 @@ public class DealAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppPri
 
     @Resource
     private AppPriceTypeMapper appPriceTypeMapper;
+
+    @Resource
+    private DealerAppInfoMapper dealerAppInfoMapper;
 
     @Override
     protected GenericMapper<DealerAppPriceInfo> getGenericMapper() {
@@ -82,6 +90,19 @@ public class DealAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppPri
         }
         appDetailVo.setAppDetailPoList(appDetailPos);
         return appDetailVo;
+    }
+
+    /**
+     * <b>功能描述：</b>渠道商商品热门搜索<br>
+     * <b>修订记录：</b><br>
+     * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public PageInfo appSearchList(AppSearchListCnd appSearchListCnd) {
+
+        PageHelper.startPage(appSearchListCnd.getPage(), appSearchListCnd.getLimit());
+        List<AppSearchPo> appSearchPos = dealerAppInfoMapper.appSearchList(appSearchListCnd.getKeyword());
+        return new PageInfo<>(appSearchPos);
     }
 
     /**

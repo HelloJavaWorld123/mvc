@@ -1,10 +1,13 @@
 package com.jzy.api.service.arch;
 
+import com.github.pagehelper.PageInfo;
+import com.jzy.api.cnd.app.AppSearchListCnd;
 import com.jzy.api.cnd.arch.GetPriceCnd;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
 import com.jzy.api.vo.app.AppDetailVo;
-import com.jzy.framework.bean.cnd.IdCnd;
+import com.jzy.api.vo.app.AppSearchListVo;
+import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.GenericService;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,4 +43,10 @@ public interface DealAppPriceInfoService extends GenericService<DealerAppPriceIn
     AppDetailVo getAppDetail(String aiId);
 
 
+    /**
+     * <b>功能描述：</b>渠道商商品热门搜索<br>
+     * <b>修订记录：</b><br>
+     * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    PageInfo appSearchList(AppSearchListCnd appSearchListCnd);
 }

@@ -1,6 +1,5 @@
 package com.jzy.api.dao.arch;
 
-import com.jzy.api.cnd.arch.GetPriceCnd;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
 import com.jzy.api.po.arch.AppDetailPo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;

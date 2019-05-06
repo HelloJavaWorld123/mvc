@@ -4,7 +4,6 @@ import com.jzy.api.model.app.AppPriceType;
 import com.jzy.api.po.arch.AppPriceTypePo;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 import java.util.List;
 
