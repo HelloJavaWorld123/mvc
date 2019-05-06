@@ -1,6 +1,7 @@
 package com.jzy.api.dao.app;
 
 import com.jzy.api.model.app.AppPriceType;
+import com.jzy.api.po.arch.AppPriceTypePo;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -24,5 +25,11 @@ public interface AppPriceTypeMapper extends GenericMapper<AppPriceType> {
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     List<AppPriceType> getAppPriceTypelist(@Param("aiId") Long aiId);
-
+    
+    /**
+     * <b>功能描述：</b>前台营业查询当前充值类型商品列表<br>
+     * <b>修订记录：</b><br>
+     * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<AppPriceTypePo> getAppPriceTypePolist(@Param("aiId") Long aiId);
 }

@@ -54,7 +54,7 @@ import java.util.stream.Collectors;
  */
 @Controller
 @ResponseBody
-@RequestMapping("dealer/app")
+@RequestMapping("DealAppPriceInfo")
 public class DealAppPriceInfoController {
 
 
@@ -66,7 +66,7 @@ public class DealAppPriceInfoController {
      * <b>修订记录：</b><br>
      * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("price.shtml")
+    @RequestMapping("getPrice")
     private ApiResult getPrice(@RequestBody GetPriceCnd getPriceCnd) {
         List<DealerAppPriceInfoPo> dealerAppPriceInfoPoList = dealAppPriceInfoService.getPrice(getPriceCnd);
         return new ApiResult<>(dealerAppPriceInfoPoList);
@@ -77,7 +77,7 @@ public class DealAppPriceInfoController {
      * <b>修订记录：</b><br>
      * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("app.detail.shtml")
+    @RequestMapping("getAppDetail")
     private ApiResult getAppDetail(@RequestBody IdCnd idCnd) {
         AppDetailVo appDetail = dealAppPriceInfoService.getAppDetail(idCnd.getId().toString());
         return new ApiResult<>(appDetail);

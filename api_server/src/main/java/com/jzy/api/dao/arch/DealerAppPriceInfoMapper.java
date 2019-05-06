@@ -33,7 +33,7 @@ public interface DealerAppPriceInfoMapper extends GenericMapper<DealerAppPriceIn
      * <b>修订记录：</b><br>
      * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<AppDetailPo>  getFrontAppInfo(@Param("aiId")  String aiId, @Param("dealerId")  String dealerId);
+    List<AppDetailPo>  getFrontAppInfo(@Param("aiIdList")  List<String> aiIdList , @Param("dealerId")  String dealerId);
 
 
 }
