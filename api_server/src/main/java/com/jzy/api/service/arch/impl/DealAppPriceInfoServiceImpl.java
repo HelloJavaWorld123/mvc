@@ -6,12 +6,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jzy.api.cnd.app.AppSearchListCnd;
 import com.jzy.api.cnd.arch.GetPriceCnd;
+import com.jzy.api.dao.app.AppGameMapper;
 import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.dao.app.AppPriceTypeMapper;
 import com.jzy.api.dao.arch.DealerAppInfoMapper;
 import com.jzy.api.dao.arch.DealerAppPriceInfoMapper;
+import com.jzy.api.model.app.AppGame;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
+import com.jzy.api.po.app.AppGameListPo;
 import com.jzy.api.po.arch.AppDetailPo;
 import com.jzy.api.po.arch.AppPriceTypePo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
@@ -43,6 +46,8 @@ import java.util.Map;
 public class DealAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppPriceInfo> implements DealAppPriceInfoService {
 
 
+    @Resource
+    private AppGameMapper appGameMapper;
     @Resource
     private AppInfoMapper appInfoMapper;
     @Resource
@@ -86,11 +91,66 @@ public class DealAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppPri
         //获取前台商品详情信息
         List<AppDetailPo> appDetailPos = dealerAppPriceInfoMapper.getFrontAppInfo(aiIdList, "1001");
         for (AppDetailPo appDetailPo : appDetailPos) {
+            checkAreaAndServ(appDetailPo);
             List<AppPriceTypePo> appPriceTypelist = appPriceTypeMapper.getAppPriceTypePolist(Long.valueOf(appDetailPo.getAppId()));
             appDetailPo.setAppPriceTypePoList(appPriceTypelist);
         }
         appDetailVo.setAppDetailPoList(appDetailPos);
         return appDetailVo;
+    }
+
+    /**
+     * <b>功能描述：</b>校验是否存在区和服<br>
+     * <b>修订记录：</b><br>
+     * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private AppDetailPo checkAreaAndServ(AppDetailPo appDetailPo) {
+        List<String> ids = new ArrayList<>();
+        //查询区
+        List<AppGameListPo> appAreaListPos = appGameMapper.checkAreaInfo(appDetailPo.getGameId());
+        if (appAreaListPos.size() > 0) {
+            appDetailPo.setIsArea(true);
+            //拼装查询是否存在服的app_game主键
+            ids = getIds(appAreaListPos,ids);
+        } else {
+            appDetailPo.setIsArea(false);
+        }
+        //查询服
+        if (ids.size() > 0) {//存在区不为空且不是无，确定是否存在服（有区）
+            checkServExist(ids, appDetailPo);
+        } else {//存在区为空或者无（无区有服）
+            List<AppGameListPo> checkAppAreaListPo = appGameMapper.getAreaInfo(Long.valueOf(appDetailPo.getAppId()));
+            ids = getIds(checkAppAreaListPo,ids);
+            checkServExist(ids, appDetailPo);
+        }
+        return appDetailPo;
+    }
+
+    /**
+     * <b>功能描述：</b>拼装查询是否存在服的app_game主键<br>
+     * <b>修订记录：</b><br>
+     * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private List<String> getIds(List<AppGameListPo> appAreaListPos, List<String> ids) {
+        for (AppGameListPo appGameListPo : appAreaListPos) {
+            ids.add(appGameListPo.getId());
+        }
+        return ids;
+    }
+
+    /**
+     * <b>功能描述：</b>校验是否存在服<br>
+     * <b>修订记录：</b><br>
+     * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private AppDetailPo checkServExist(List<String> ids, AppDetailPo appDetailPo) {
+        List<AppGameListPo> appServListPos = appGameMapper.checkServInfo(ids);
+        if (appServListPos.size() > 0) {
+            appDetailPo.setIsServ(true);
+        } else {
+            appDetailPo.setIsServ(false);
+        }
+        return appDetailPo;
     }
 
     /**

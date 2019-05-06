@@ -28,7 +28,7 @@
         AND ai. STATUS = 1
     </select>
 
-<!--  前台渠道商对应商品查询服  -->
+    <!--  前台渠道商对应商品查询服  -->
     <select id="getServInfo" resultType="com.jzy.api.po.app.AppGameListPo">
         SELECT
             ag.id,
@@ -41,5 +41,39 @@
         AND ag.type = 3
     </select>
 
+    <!--    校验当前商品是否存在区-->
+    <select id="checkAreaInfo" resultType="com.jzy.api.po.app.AppGameListPo">
+          SELECT
+            ag.id,
+            ag.p_id AS pId,
+            ag. NAME
+        FROM
+            app_game ag
+        WHERE
+            ag.p_id = #{pid}
+        AND ag.type = 2
+        and NAME != '无'
+        AND NAME != ' '
 
+    </select>
+
+    <!--    校验当前商品是否存在服-->
+    <select id="checkServInfo" resultType="com.jzy.api.po.app.AppGameListPo">
+        SELECT
+        ag.id,
+        ag.p_id AS pId,
+        ag. NAME
+        FROM
+        app_game ag
+        WHERE
+         ag.type = 3
+        and NAME != '无'
+        AND NAME != ' '
+        and
+        ag.p_id in
+        <foreach collection="ids" index="index" separator="," open="(" close=")" item="item">
+            #{item}
+        </foreach>
+
+    </select>
 </mapper>

@@ -71,7 +71,7 @@ public class SupRecord extends GenericModel {
 
 
     public SupRecord(String id, String orderId, String reqData, Date reqTime, Integer reqAmount, String respData, String remark) {
-        this.orderId = id;
+        this.supRecordId = id;
         this.orderId = orderId;
         this.reqData = reqData;
         this.reqTime = reqTime;

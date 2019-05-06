@@ -31,7 +31,7 @@ public class AppDetailPo {
      * 商品类型(默认值0游戏,1服务,2卡密)
      */
 
-    private String  typeId;
+    private String typeId;
 
     /**
      * 主账号名称
@@ -45,6 +45,11 @@ public class AppDetailPo {
      * 主账号提示信息
      */
     private String accSubName;
+
+    /**
+     * 游戏id
+     */
+    private String gameId;
 
     /**
      * 附属账号正则

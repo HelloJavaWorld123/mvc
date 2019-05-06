@@ -30,7 +30,7 @@ import java.util.List;
 @Controller
 @ResponseBody
 @RequestMapping("DealAppPriceInfo")
-public class DealAppPriceInfoController {
+public class DealerAppPriceInfoController {
 
 
     @Resource
