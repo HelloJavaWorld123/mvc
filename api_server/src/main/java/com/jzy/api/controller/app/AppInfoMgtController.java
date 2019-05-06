@@ -73,7 +73,7 @@ public class AppInfoMgtController {
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      * <li>2019.05.01&nbsp;&nbsp;|&nbsp;&nbsp;贾昭凯&nbsp;&nbsp;|&nbsp;&nbsp;修改SQL对于新数据库的错误，添加分页实体结构</li><br>
      */
-    @RequestMapping("index.shtml")
+    @RequestMapping("index")
     public ApiResult index(@RequestBody AppInfoListCnd appInfoListCnd) {
         PageVo<AppInfoListVo> result = new PageVo<>();
         try {
@@ -92,7 +92,7 @@ public class AppInfoMgtController {
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("get_info.shtml")
+    @RequestMapping("getAppInfo")
     public ApiResult getAppInfo(@RequestBody IdCnd idCnd) {
         AppInfoDetailVo appInfoDetailVo;
         try {
@@ -111,7 +111,7 @@ public class AppInfoMgtController {
      *
      * @param saveAppInfoCnd 商品对象信息
      */
-    @RequestMapping("save.shtml")
+    @RequestMapping("save")
     public ApiResult save(@RequestBody SaveAppInfoCnd saveAppInfoCnd) {
         try {
             FileInfo mfile = null;
@@ -205,7 +205,7 @@ public class AppInfoMgtController {
      * <b>修订记录：</b><br>
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("update_status_batch.shtml")
+    @RequestMapping("updateStatusBatch")
     public ApiResult updateStatusBatch(@RequestBody UpdateStatusBatchCnd updateStatusBatchCnd) {
         try {
             appInfoService.updateStatusBatch(updateStatusBatchCnd);
@@ -223,7 +223,7 @@ public class AppInfoMgtController {
      *
      * @return {@l}ink ApiResult
      */
-    @RequestMapping("delete_batch.shtml")
+    @RequestMapping("deleteBatch")
     public ApiResult deleteBatch(@RequestBody AppBatchDeleteCnd appBatchDeleteCnd) {
         try {
             List<Long> newAiIds = appBatchDeleteCnd.getAiIds();
@@ -247,7 +247,7 @@ public class AppInfoMgtController {
      * <b>修订记录：</b><br>
      * <li>20190422&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("uploadfile.shtml")
+    @RequestMapping("uploadfile")
     public ApiResult uploadFile(@RequestParam(value = "file", required = false) MultipartFile mfile) {
         String fileUrl = "";
         try {
@@ -269,7 +269,7 @@ public class AppInfoMgtController {
      *
      * @param icon 商品图标地址名称（mongo地址）
      */
-    @RequestMapping("down.shtml")
+    @RequestMapping("downFile")
     public ApiResult downFile(@RequestParam(value = "icon") String icon, HttpServletResponse response) {
         try {
             this.downPicture(icon, response);

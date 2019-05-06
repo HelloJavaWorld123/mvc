@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Controller
 @ResponseBody
-@RequestMapping("admin/home/recommend/cate")
+@RequestMapping("HomeRecommendCate")
 public class HomeRecommendCateController {
 
     // @Resource
@@ -38,7 +38,7 @@ public class HomeRecommendCateController {
      */
     @CrossOrigin
     @ResponseBody
-    @RequestMapping(value = "/list.shtml")
+    @RequestMapping(value = "getList")
     public ApiResult getList(@RequestBody HomeRecommendHotListCnd homeRecommendHotListCnd, HttpServletRequest request) {
         Integer dealerId = null;
         //iDealerService.queryByUseridOrDefault(request.getSession()).getId();

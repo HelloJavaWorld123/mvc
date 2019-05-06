@@ -35,7 +35,7 @@ import java.util.List;
  */
 @Controller
 @ResponseBody
-@RequestMapping("admin/dealer/home/carousel")
+@RequestMapping("ManageCarousel")
 public class ManageCarouselController {
 
     private final static Logger logger = LoggerFactory.getLogger(ManageCarouselController.class);
@@ -52,7 +52,7 @@ public class ManageCarouselController {
     @Resource
     private TableKeyService tableKeyService;
 
-    @RequestMapping("index.shtml")
+    @RequestMapping("index")
     public ApiResult index(@RequestBody DealerHomeCateListCnd listCnd) {
         PageVo<DealerHomeCateVo> result = new PageVo<>();
         try {
@@ -67,7 +67,7 @@ public class ManageCarouselController {
         return new ApiResult<>(result);
     }
 
-    @RequestMapping("get_info.shtml")
+    @RequestMapping("getAppInfo")
     public ApiResult getAppInfo(@RequestBody IdCnd idCnd) {
         DealerHomeCateVo detailVo;
         try {
@@ -79,7 +79,7 @@ public class ManageCarouselController {
         return new ApiResult<>(detailVo);
     }
 
-    @RequestMapping("save.shtml")
+    @RequestMapping("save")
     public ApiResult save(@RequestBody DealerHomeCateSaveCnd infoCnd) {
         try {
 
@@ -135,7 +135,7 @@ public class ManageCarouselController {
         return new SysImages(tableKeyService.newKey("home_recommend_cate", "id", 0), infoCnd.getId(), mfile.getFileOrignName(), mfile.getContentType(), infoCnd.getImageUrl(), HomeEnums.ImageType.category.ordinal());
     }
 
-    @RequestMapping("update_status_batch.shtml")
+    @RequestMapping("updateStatusBatch")
     public ApiResult updateStatusBatch(@RequestBody CommonUpdateStatusCnd updateStatusBatchCnd) {
         try {
             dealerHomeCateService.updateStatusBatch(updateStatusBatchCnd);
@@ -146,7 +146,7 @@ public class ManageCarouselController {
         return new ApiResult<>();
     }
 
-    @RequestMapping("delete_batch.shtml")
+    @RequestMapping("deleteBatch")
     public ApiResult deleteBatch(@RequestBody CommonDeleteBatchCnd commonDeleteBatchCnd) {
         try {
             List<Long> ids = commonDeleteBatchCnd.getIds();
