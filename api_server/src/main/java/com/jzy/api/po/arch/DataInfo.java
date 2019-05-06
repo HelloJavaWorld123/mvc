@@ -25,7 +25,7 @@ public class DataInfo {
     private Boolean flag;
 
     /**
-     * 签名作为taken
+     * 签名作为 token
      */
-    private String taken;
+    private String token;
 }

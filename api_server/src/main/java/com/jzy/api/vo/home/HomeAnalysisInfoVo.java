@@ -31,9 +31,9 @@ public class HomeAnalysisInfoVo {
     private String userId;
 
     /**
-     * 把签名作为taken返回给前端
+     * 把签名作为token返回给前端
      */
-    private String taken;
+    private String token;
 
 
     private List<DealerParamInfoPo> dealerParamInfoPos = new ArrayList<>(10);

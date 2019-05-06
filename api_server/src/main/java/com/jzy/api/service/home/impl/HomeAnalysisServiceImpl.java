@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.jzy.api.constant.ApiRedisCacheConstant.CACHE_DEALER_ANALYSIS_INFO;
-
 
 /**
  * <b>功能：</b>渠道商信息解析<br>
@@ -64,12 +62,12 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
             }
             homeAnalysisInfoVo = new HomeAnalysisInfoVo();
             homeAnalysisInfoVo.setUserId(dataInfo.getUserId());
-            homeAnalysisInfoVo.setTaken(dataInfo.getTaken());
+            homeAnalysisInfoVo.setToken(dataInfo.getToken());
             //根据渠道商id获取渠道商配置信息
             List<DealerParamInfoPo> dealerParamInfoPos = dealerParamService.getDealerParamInfo(dealerAnalysisInfoPo.getDealerId());
             homeAnalysisInfoVo.setDealerParamInfoPos(dealerParamInfoPos);
             homeAnalysisInfoVo.setBusinessId(businessId);
-            RBucket<HomeAnalysisInfoVo> homeAnalysisInfoVoRBucket = redissonClient.getBucket(dataInfo.getTaken());
+            RBucket<HomeAnalysisInfoVo> homeAnalysisInfoVoRBucket = redissonClient.getBucket(dataInfo.getToken());
             homeAnalysisInfoVoRBucket.set(homeAnalysisInfoVo);
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,7 +101,7 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
                 dataInfo = new DataInfo();
                 dataInfo.setFlag(true);
                 dataInfo.setUserId(map.get("UserID"));
-                dataInfo.setTaken(map.get("Sign"));
+                dataInfo.setToken(map.get("Sign"));
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
