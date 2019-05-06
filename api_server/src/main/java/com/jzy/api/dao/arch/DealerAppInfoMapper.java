@@ -23,6 +23,6 @@ public interface DealerAppInfoMapper extends GenericMapper<DealerAppInfo> {
      * <b>修订记录：</b><br>
      * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<AppSearchPo> appSearchList(@Param("keyword") String keyword);
+    List<AppSearchPo> appSearchList(@Param("keyword") String keyword,@Param("dealerId") String dealerId);
 
 }

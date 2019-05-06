@@ -23,7 +23,7 @@
         dealer_app_info dai
         LEFT JOIN app_info ai ON dai.ai_id = ai.id
         WHERE
-        dai.dealer_id = 1001
+        dai.dealer_id = #{dealerId}
         AND dai. STATUS = 1
         AND ai.`status` = 1
         <if test="keyword!=null">

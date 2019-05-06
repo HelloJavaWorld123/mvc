@@ -101,7 +101,7 @@ public class DealAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppPri
     public PageInfo appSearchList(AppSearchListCnd appSearchListCnd) {
 
         PageHelper.startPage(appSearchListCnd.getPage(), appSearchListCnd.getLimit());
-        List<AppSearchPo> appSearchPos = dealerAppInfoMapper.appSearchList(appSearchListCnd.getKeyword());
+        List<AppSearchPo> appSearchPos = dealerAppInfoMapper.appSearchList(appSearchListCnd.getKeyword(), "1001");
         return new PageInfo<>(appSearchPos);
     }
 
