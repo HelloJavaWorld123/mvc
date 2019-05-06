@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 
+<!--
 	SQL映射文件名称：渠道商首页推荐轮播图和推荐分类
 	————————————————————————————————————
 	修改日期		作者		变更内容
@@ -17,20 +17,21 @@
     <!--    渠道商首页推荐轮播图和推荐分类-->
     <select id="getList" resultType="com.jzy.api.vo.home.HomeRecommendCateVo">
         SELECT
-            rci_name  as rciName ,
-            sort_desc  as sortDesc,
-            image_id as imageId,
-            go_type  as goType,
-            go_id as goId,
-            go_name as goName
+            cate.rci_name as rciName ,
+            cate.sort_desc as sortDesc,
+            img.file_url as imageId,
+            cate.go_type as goType,
+            cate.go_id as goId,
+            cate.go_name as goName
         FROM
-            home_recommend_cate
+            home_recommend_cate AS cate
+        LEFT JOIN sys_images AS img ON img.id = cate.image_id
         WHERE
             1 = 1
-        AND dealer_id =#{dealerId}
-        AND type =#{type}
-        AND state = 1
+        AND cate.dealer_id =#{dealerId}
+        AND cate.type =#{type}
+        AND cate.state = 1
 
 </select>
-    
+
 </mapper>

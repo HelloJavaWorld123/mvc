@@ -28,6 +28,12 @@
         <!-- 过虑器链定义，从上向下顺序执行，一般将/**放在最下边 -->
         <property name="filterChainDefinitions">
             <value>
+                /analysis/* = anon
+                /HomeRecommendCate/* = anon
+                /HomeRecommendHot/* = anon
+                /DealAppPriceInfo/* = anon
+                /admin/appinfo/downFile = anon
+
                 /logout = logout
                 /ali/* = anon
                 /wx/* = anon

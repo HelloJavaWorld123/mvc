@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 
+<!--
 	SQL映射文件名称：渠道商首页推荐轮播图和推荐分类
 	————————————————————————————————————
 	修改日期		作者		变更内容
@@ -20,8 +20,8 @@
 
          SELECT
             group_id AS groupeId,
-            f_get_app_cate_name (group_id) AS groupeName,
-            group_sort  as groupSort
+            group_name AS groupeName,
+            group_sort AS groupSort
         FROM
             home_recommend_hot
         WHERE
@@ -36,29 +36,30 @@
     <select id="queryHotList"
             resultType="com.jzy.api.model.Home.HomeRecommendHot">
         SELECT
-            `id`,
-            `dealer_id` as dealerId,
-            `rci_name` as rciName,
-            `image_id` as imageId,
-            `go_type` as goType,
-            `go_id` as goId,
-            `go_name` as goName,
-            `state`,
-            `creator_id` as creatorId,
-            modifier_id as modifierId ,
-            `create_time` as createTime,
-            `modify_time` as modifyName,
-            `position`,
-            group_id as groupId,
-            f_get_app_cate_name (group_id) as cateName,
-            `group_sort` as groupSort
+            hot.`id`,
+            hot.`dealer_id` as dealerId,
+            hot.`rci_name` as rciName,
+            img.file_url as imageId,
+            hot.`go_type` as goType,
+            hot.`go_id` as goId,
+            hot.`go_name` as goName,
+            hot.`state`,
+            hot.`creator_id` as creatorId,
+            hot.modifier_id as modifierId ,
+            hot.`create_time` as createTime,
+            hot.`modify_time` as modifyName,
+            hot.`position`,
+            hot.group_id as groupId,
+            f_get_app_cate_name (hot.group_id) as cateName,
+            hot.`group_sort` as groupSort
         FROM
-            home_recommend_hot
+            home_recommend_hot AS hot
+	    LEFT JOIN sys_images AS img ON img.id = hot.image_id
         WHERE
-            dealer_id =#{dealerId}
-        AND state = 1
+            hot.dealer_id =#{dealerId}
+        AND hot.state = 1
         ORDER BY
-            group_sort ASC
+            hot.group_sort ASC
 
 </select>
 
@@ -68,7 +69,8 @@
             resultType="com.jzy.api.model.Home.HotAppInfoDetail">
             SELECT
                 ai.`name` AS appName,
-                ai.icon AS appIcon,
+                img.file_url AS appIcon,
+                dapi.number AS typeNumber,
                 apt. NAME AS typeName,
                 apt.unit AS typeUnit,
                 dapi.price,
@@ -79,6 +81,7 @@
             LEFT JOIN dealer_app_price_info dapi ON apt.id = dapi.apt_id
             AND dapi.ai_id = apt.ai_id
             LEFT JOIN app_info ai ON apt.ai_id = ai.id
+            LEFT JOIN sys_images as img ON img.type = 1 AND img.rel_id = ai.id
             WHERE
                 1 = 1
             AND dapi.dealer_id =#{dealerId}

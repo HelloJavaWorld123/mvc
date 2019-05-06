@@ -17,6 +17,21 @@ import java.math.BigDecimal;
 public class HotAppInfoDetail {
 
     /**
+     * 产品名称
+     */
+    private String appName;
+
+    /**
+     * 产品图片
+     */
+    private String appIcon;
+
+    /**
+     * 充值数量
+     */
+    private Integer typeNumber;
+
+    /**
      * 商品充值类型名称
      */
     private String typeName;
