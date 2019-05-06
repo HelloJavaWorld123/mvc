@@ -45,7 +45,7 @@
 
     </select>
     <select id="listPageCount" parameterType="com.jzy.api.cnd.home.DealerHomeCateListCnd"
-            resultType="java.lang.Integer">
+            resultType="java.lang.Long">
 
         SELECT
         COUNT(1)

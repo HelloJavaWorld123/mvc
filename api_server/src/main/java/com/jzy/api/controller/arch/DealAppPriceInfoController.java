@@ -65,7 +65,7 @@ public class DealAppPriceInfoController {
      */
     @RequestMapping("appSearchList")
     public ApiResult appSearchList(@RequestBody AppSearchListCnd appSearchListCnd) {
-        PageInfo pageInfo= dealAppPriceInfoService.appSearchList(appSearchListCnd);
+        PageVo pageInfo= dealAppPriceInfoService.appSearchList(appSearchListCnd);
         return new ApiResult<>(pageInfo);
     }
 

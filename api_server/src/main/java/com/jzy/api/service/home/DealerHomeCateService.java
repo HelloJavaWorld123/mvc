@@ -13,7 +13,7 @@ public interface DealerHomeCateService extends GenericService<HomeRecommendCate>
 
     List<DealerHomeCateVo> listPage(DealerHomeCateListCnd listCnd);
 
-    Integer listPageCount(DealerHomeCateListCnd listCnd);
+    Long listPageCount(DealerHomeCateListCnd listCnd);
 
     void updateStatusBatch(CommonUpdateStatusCnd updateStatusCnd);
 

@@ -15,7 +15,7 @@ import java.util.List;
  * </ul>
  */
 @Data
-public class PageVo<T>  extends  GenericVo{
+public class PageVo<T> extends GenericVo {
 
     /**
      * 第几页
@@ -28,9 +28,23 @@ public class PageVo<T>  extends  GenericVo{
     /**
      * 总条数
      */
-    private Integer totalCount;
+    private Long totalCount;
     /**
      * 分页返回列表数据
      */
     private List<T> rows = new ArrayList<>();
+
+    public  PageVo(List<T> rows) {
+        this.rows = rows;
+    }
+
+    public PageVo() {
+    }
+
+    public PageVo(Integer page, Integer limit, Long totalCount, List<T> rows) {
+        this.page = page;
+        this.limit = limit;
+        this.totalCount = totalCount;
+        this.rows = rows;
+    }
 }

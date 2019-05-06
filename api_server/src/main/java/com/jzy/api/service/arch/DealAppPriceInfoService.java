@@ -48,5 +48,5 @@ public interface DealAppPriceInfoService extends GenericService<DealerAppPriceIn
      * <b>修订记录：</b><br>
      * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    PageInfo appSearchList(AppSearchListCnd appSearchListCnd);
+    PageVo appSearchList(AppSearchListCnd appSearchListCnd);
 }

@@ -35,7 +35,7 @@ public class DealerHomeCateServiceImpl extends GenericServiceImpl<HomeRecommendC
 
 
     @Override
-    public Integer listPageCount(DealerHomeCateListCnd listCnd) {
+    public Long listPageCount(DealerHomeCateListCnd listCnd) {
         return mapper.listPageCount(listCnd);
     }
 

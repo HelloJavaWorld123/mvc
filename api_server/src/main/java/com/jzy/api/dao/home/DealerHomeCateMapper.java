@@ -16,7 +16,7 @@ public interface DealerHomeCateMapper extends GenericMapper<HomeRecommendCate> {
 
     List<DealerHomeCateVo> listPage(DealerHomeCateListCnd listCnd);
 
-    Integer listPageCount(DealerHomeCateListCnd listCnd);
+    Long listPageCount(DealerHomeCateListCnd listCnd);
 
     Boolean updateStatusBatch(@Param("id") Long id, @Param("status") Integer status);
 

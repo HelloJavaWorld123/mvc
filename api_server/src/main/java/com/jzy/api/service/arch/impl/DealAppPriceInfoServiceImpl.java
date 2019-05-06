@@ -1,6 +1,7 @@
 package com.jzy.api.service.arch.impl;
 
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jzy.api.cnd.app.AppSearchListCnd;
@@ -98,11 +99,17 @@ public class DealAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppPri
      * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public PageInfo appSearchList(AppSearchListCnd appSearchListCnd) {
+    public PageVo appSearchList(AppSearchListCnd appSearchListCnd) {
+        Integer page = appSearchListCnd.getPage();
+        Integer limit = appSearchListCnd.getLimit();
 
-        PageHelper.startPage(appSearchListCnd.getPage(), appSearchListCnd.getLimit());
+        Page<AppSearchPo> searchPoPage = PageHelper.startPage(appSearchListCnd.getPage(), appSearchListCnd.getLimit());
         List<AppSearchPo> appSearchPos = dealerAppInfoMapper.appSearchList(appSearchListCnd.getKeyword(), "1001");
-        return new PageInfo<>(appSearchPos);
+        PageVo<AppSearchPo> pageVo = new PageVo<>(appSearchPos);
+        pageVo.setTotalCount(searchPoPage.getTotal());
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        return pageVo;
     }
 
     /**

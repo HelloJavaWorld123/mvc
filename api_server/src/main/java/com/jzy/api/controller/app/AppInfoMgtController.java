@@ -78,7 +78,7 @@ public class AppInfoMgtController {
         PageVo<AppInfoListVo> result = new PageVo<>();
         try {
             // TODO: 为分页功能添加总条数
-            result.setTotalCount(100);
+            result.setTotalCount(100L);
             result.setRows(appInfoService.listPage(appInfoListCnd));
         } catch (Exception e) {
             logger.error("admin产品列表异常:{}", e);
