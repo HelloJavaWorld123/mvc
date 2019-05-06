@@ -1,11 +1,9 @@
 package com.jzy.api.filter;
 
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * <b>功能：</b>shiro权限url校验<br>
