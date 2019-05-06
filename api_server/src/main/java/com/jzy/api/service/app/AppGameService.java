@@ -1,8 +1,12 @@
 package com.jzy.api.service.app;
 
+import com.jzy.api.cnd.app.GetServInfoCnd;
 import com.jzy.api.model.app.AppGame;
 import com.jzy.api.vo.app.AppGameListVo;
+import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.GenericService;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 /**
@@ -23,5 +27,13 @@ public interface AppGameService extends GenericService<AppGame> {
      */
 
     AppGameListVo getAreaInfo(Long aiId);
+
+
+    /**
+     * <b>功能描述：</b>前台渠道商对应商品查询服<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    AppGameListVo getServInfo(GetServInfoCnd getServInfoCnd);
 
 }

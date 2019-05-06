@@ -1,5 +1,6 @@
 package com.jzy.api.service.app.impl;
 
+import com.jzy.api.cnd.app.GetServInfoCnd;
 import com.jzy.api.dao.app.AppGameMapper;
 import com.jzy.api.model.app.AppGame;
 import com.jzy.api.po.app.AppGameListPo;
@@ -40,8 +41,21 @@ public class AppGameServiceImpl extends GenericServiceImpl<AppGame> implements A
         return new AppGameListVo(appGameListPos);
     }
 
+    /**
+     * <b>功能描述：</b>前台渠道商对应商品查询服<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public AppGameListVo getServInfo(GetServInfoCnd getServInfoCnd) {
+        List<AppGameListPo> appGameListPos = appGameMapper.getServInfo(getServInfoCnd.getAiId(),getServInfoCnd.getAreaId());
+        return new AppGameListVo(appGameListPos);
+    }
+
     @Override
     protected GenericMapper<AppGame> getGenericMapper() {
         return appGameMapper;
     }
+
+
 }

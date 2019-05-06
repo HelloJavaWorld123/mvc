@@ -3,10 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!--
-	SQL映射文件名称：权限业务
+	SQL映射文件名称：游戏
 	————————————————————————————————————
 	修改日期		作者		变更内容
-	20190424	邓冲	    创建了该文件
+	20190506	唐永刚	    创建了该文件
 	————————————————————————————————————
 	陕西佳之易网络科技有限公司 版本所有
  -->
@@ -26,6 +26,19 @@
             ai.id = #{aiId}
         AND ag.type = 2
         AND ai. STATUS = 1
+    </select>
+
+<!--  前台渠道商对应商品查询服  -->
+    <select id="getServInfo" resultType="com.jzy.api.po.app.AppGameListPo">
+        SELECT
+            ag.id,
+            ag.p_id AS pId,
+            ag. NAME
+        FROM
+            app_game ag
+        WHERE
+            ag.p_id = #{areaId}
+        AND ag.type = 3
     </select>
 
 
