@@ -43,6 +43,7 @@
         ai.id AS appId,
         ai. NAME AS appName,
         ai.type_id as typeId,
+        ai.game_id as gameId,
         ai.recharge_mode AS rechargeMode,
         ap.content AS content,
         dai.is_custom AS isCustom,

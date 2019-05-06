@@ -36,5 +36,19 @@ public interface AppGameMapper extends GenericMapper<AppGame> {
      */
     List<AppGameListPo> getServInfo(@Param("aiId") String aiId, @Param("areaId") String areaId);
 
+    /**
+     * <b>功能描述：</b>校验当前商品是否存在区<br>
+     * <b>修订记录：</b><br>
+     * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<AppGameListPo> checkAreaInfo(@Param("pid") String pId);
+
+    /**
+     * <b>功能描述：</b>校验当前商品是否存在服<br>
+     * <b>修订记录：</b><br>
+     * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<AppGameListPo> checkServInfo(@Param("ids") List<String> ids);
+
 
 }
