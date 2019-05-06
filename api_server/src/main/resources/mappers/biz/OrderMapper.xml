@@ -113,12 +113,11 @@
     <!-- 前台订单列表查询 -->
     <select id="queryFrontOrderList" resultType="com.jzy.api.model.biz.Order">
         SELECT
-        o.id,
+        o.id orderId,
         o.price,
         o.status,
         o.total_fee totalFee,
         o.price_type_name priceTypeName,
-        o.account,
         o.trade_fee tradeFee,
         o.create_time createTime,
         app.id appId,
@@ -126,12 +125,14 @@
         app.icon appIcon
         FROM
         `order` o
-        INNER JOIN app_info app
+        LEFT JOIN app_info app ON o.app_id = app.id
         WHERE
-        o.app_id = ai.id
-        AND o.user_id = #{userId}
+         o.user_id = #{userId}
         <if test="status != null">
             AND o.status = #{status}
+        </if>
+        <if test="status == null">
+            AND o.status != 4
         </if>
     </select>
 

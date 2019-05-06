@@ -19,6 +19,6 @@ public class OrderListCnd extends PageCnd {
      * 订单状态
      * 0：未支付 1：充值中 2：充值成功 3：充值失败 4：充值关闭
      */
-    private Integer status;
+        private Integer status;
 
 }

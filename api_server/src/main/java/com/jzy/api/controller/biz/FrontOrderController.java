@@ -3,6 +3,8 @@ package com.jzy.api.controller.biz;
 import com.jzy.api.cnd.biz.CodeCnd;
 import com.jzy.api.cnd.biz.OrderListCnd;
 import com.jzy.api.service.biz.OrderService;
+import com.jzy.api.vo.biz.FrontOrderVo;
+import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
@@ -38,20 +40,9 @@ public class FrontOrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/queryOrderList")
     public ApiResult queryOrderList(@RequestBody OrderListCnd orderListCnd) {
-        orderService.queryFrontOrderList(orderListCnd.getPage(), orderListCnd.getLimit(), orderListCnd.getStatus());
-        return null;
-    }
-
-    /**
-     * <b>功能描述：</b>根据订单id删除订单<br>
-     * <b>修订记录：</b><br>
-     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    @ResponseBody
-    @RequestMapping(path = "/delete")
-    public ApiResult delete(@RequestBody CodeCnd codeCnd) {
-        orderService.delete(codeCnd.getOrderId());
-        return new ApiResult().success();
+        PageVo<FrontOrderVo> pageVo = orderService.queryFrontOrderList(orderListCnd.getPage(), orderListCnd.getLimit(),
+                orderListCnd.getStatus());
+        return new ApiResult<>(pageVo).success();
     }
 
     /**
@@ -63,6 +54,18 @@ public class FrontOrderController extends GenericController {
     @RequestMapping(path = "/queryOrderById")
     public ApiResult queryOrderById(@RequestBody CodeCnd codeCnd) {
         orderService.queryOrderById(codeCnd.getOrderId());
+        return new ApiResult().success();
+    }
+
+    /**
+     * <b>功能描述：</b>根据订单id删除订单<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @ResponseBody
+    @RequestMapping(path = "/delete")
+    public ApiResult delete(@RequestBody CodeCnd codeCnd) {
+        orderService.delete(codeCnd.getOrderId());
         return new ApiResult().success();
     }
 

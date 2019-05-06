@@ -135,7 +135,7 @@ public class WxPayServiceImpl implements WxPayService {
             throw new PayException("微信签名异常！");
         }
         payMap.put("paySign", paySign);
-        payMap.put("mweb_url", StringUtils.isEmpty(responseData.get("mweb_url")) ? "" : responseData.get("mweb_url").concat("&redirect_url=").concat(getURLEncoderString(domainUrl.concat("/wxPay/wx/webapp_return.shtml?orderId=".concat(order.getOrderId())))));
+        payMap.put("mweb_url", StringUtils.isEmpty(responseData.get("mweb_url")) ? "" : responseData.get("mweb_url").concat("&redirect_url=").concat(getURLEncoderString(domainUrl.concat("/wx/webapp_return.shtml?orderId=".concat(order.getOrderId())))));
         payMap.put("tradeMethod", "0");
         payMap.put("orderId", order.getOrderId());
         if (WXPayConstants.FAIL.equals(responseData.get("result_code"))) {

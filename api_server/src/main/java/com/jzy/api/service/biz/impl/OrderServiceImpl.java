@@ -1,6 +1,6 @@
 package com.jzy.api.service.biz.impl;
 
-import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jzy.api.dao.biz.OrderMapper;
 import com.jzy.api.model.biz.Order;
@@ -8,6 +8,7 @@ import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.service.biz.PayService;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.DateUtils;
+import com.jzy.api.vo.biz.FrontOrderVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
@@ -16,12 +17,12 @@ import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -144,18 +145,48 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         return 0;
     }
 
-
     /**
      * <b>功能描述：</b>订单列表查询<br>
      * <b>修订记录：</b><br>
-     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nb
-     * sp;创建方法</li><br>
+     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public PageVo<Order> queryFrontOrderList(Integer page, Integer limit, Integer status) {
-        PageHelper.startPage(page, limit);
+    public PageVo<FrontOrderVo> queryFrontOrderList(Integer curPage, Integer limit, Integer status) {
+        Page<Order> page = PageHelper.startPage(curPage, limit);
         List<Order> orderList = orderMapper.queryFrontOrderList(status, 0L);
-        return null;
+        PageVo<FrontOrderVo> pageVo = new PageVo<>();
+        pageVo.setPage(page.getPageNum());
+        pageVo.setLimit(page.getPageSize());
+        pageVo.setTotalCount(page.getTotal());
+        pageVo.setRows(getFrontOrderVo(orderList));
+        return pageVo;
+    }
+
+    /**
+     * <b>功能描述：</b>返回参数赋值<br>
+     * <b>修订记录：</b><br>
+     * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private List<FrontOrderVo> getFrontOrderVo(List<Order> orderList) {
+        if (orderList == null || orderList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<FrontOrderVo> frontOrderVoList = new ArrayList<>();
+        for (Order order : orderList) {
+            FrontOrderVo frontOrderVo = new FrontOrderVo();
+            frontOrderVo.setOrderId(order.getOrderId());
+            frontOrderVo.setPrice(order.getPrice());
+            frontOrderVo.setTotalFee(order.getTotalFee());
+            frontOrderVo.setTradeFee(order.getTradeFee());
+            frontOrderVo.setStatus(order.getStatus());
+            frontOrderVo.setPriceTypeName(order.getPriceTypeName());
+            frontOrderVo.setCreateTime(order.getCreateTime());
+            frontOrderVo.setAppId(order.getAppId());
+            frontOrderVo.setAppName(order.getAppName());
+            frontOrderVo.setAppIcon(order.getAppIcon());
+            frontOrderVoList.add(frontOrderVo);
+        }
+        return frontOrderVoList;
     }
 
     /**
