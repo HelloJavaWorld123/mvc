@@ -23,4 +23,9 @@ public class DataInfo {
      * 是否正确
      */
     private Boolean flag;
+
+    /**
+     * 签名作为taken
+     */
+    private String taken;
 }

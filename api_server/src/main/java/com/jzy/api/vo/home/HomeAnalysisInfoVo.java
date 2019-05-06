@@ -30,6 +30,11 @@ public class HomeAnalysisInfoVo {
      */
     private String userId;
 
+    /**
+     * 把签名作为taken返回给前端
+     */
+    private String taken;
+
 
     private List<DealerParamInfoPo> dealerParamInfoPos = new ArrayList<>(10);
 

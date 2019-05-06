@@ -64,11 +64,12 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
             }
             homeAnalysisInfoVo = new HomeAnalysisInfoVo();
             homeAnalysisInfoVo.setUserId(dataInfo.getUserId());
+            homeAnalysisInfoVo.setTaken(dataInfo.getTaken());
             //根据渠道商id获取渠道商配置信息
             List<DealerParamInfoPo> dealerParamInfoPos = dealerParamService.getDealerParamInfo(dealerAnalysisInfoPo.getDealerId());
             homeAnalysisInfoVo.setDealerParamInfoPos(dealerParamInfoPos);
             homeAnalysisInfoVo.setBusinessId(businessId);
-            RBucket<HomeAnalysisInfoVo> homeAnalysisInfoVoRBucket = redissonClient.getBucket(CACHE_DEALER_ANALYSIS_INFO);
+            RBucket<HomeAnalysisInfoVo> homeAnalysisInfoVoRBucket = redissonClient.getBucket(dataInfo.getTaken());
             homeAnalysisInfoVoRBucket.set(homeAnalysisInfoVo);
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,6 +103,7 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
                 dataInfo = new DataInfo();
                 dataInfo.setFlag(true);
                 dataInfo.setUserId(map.get("UserID"));
+                dataInfo.setTaken(map.get("Sign"));
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
