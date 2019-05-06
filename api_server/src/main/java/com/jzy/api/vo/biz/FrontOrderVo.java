@@ -3,6 +3,9 @@ package com.jzy.api.vo.biz;
 import com.jzy.framework.bean.vo.GenericVo;
 import lombok.Data;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 /**
  * <b>功能：</b>订单详情返回参数<br>
  * <b>Copyright JZY</b>
@@ -14,7 +17,45 @@ import lombok.Data;
  */
 @Data
 public class FrontOrderVo extends GenericVo {
-
-
+    /**
+     * 订单id
+     */
+    private String orderId;
+    /**
+     * 面值
+     */
+    private BigDecimal price;
+    /**
+     * 应付金额
+     */
+    private BigDecimal totalFee;
+    /**
+     * 实付金额（用户实际支付的金额）
+     */
+    private BigDecimal tradeFee;
+    /**
+     * 交易状态 status 0：等待支付,1：充值中,2：充值成功,3：充值失败,4：订单关闭
+     */
+    private Integer status;
+    /**
+     * 充值类型名称
+     */
+    private String priceTypeName;
+    /**
+     * 订单创建时间
+     */
+    private Date createTime;
+    /**
+     * 商品id
+     */
+    private Long appId;
+    /**
+     * 商品名称
+     */
+    private String appName;
+    /**
+     * 商品图标
+     */
+    private String appIcon;
 
 }
