@@ -33,6 +33,7 @@
                 /wx/* = anon
                 /pay/* = anon
                 /sup/* = anon
+                /frontOrder/* = anon
                 /login/managerLogin = anon
                 /test/* = permissions[/test/*]
                 /** = authc
