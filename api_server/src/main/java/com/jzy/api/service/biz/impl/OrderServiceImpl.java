@@ -222,6 +222,19 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         return orderMapper.updateStatusTradeMethod(id, status, tradeMethod, outTradeNo);
     }
 
+    /**
+     * <b>功能描述：</b>更新sup状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param id 订单id
+     * @param supStatus sup状态，0未提交1已提交2成功3失败
+     */
+    @Override
+    public int updateSupStatus(String id, Integer supStatus) {
+        return orderMapper.updateSupStatus(id, supStatus);
+    }
+
     @Override
     protected GenericMapper getGenericMapper() {
         return orderMapper;

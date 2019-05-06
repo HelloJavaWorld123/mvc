@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Slf4j
 @Controller
+@RequestMapping(path = "/sup")
 public class SupController extends GenericController {
 
     @Resource
@@ -31,9 +32,9 @@ public class SupController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("sup_receive_callback")
-    public void supReceiveCallBack(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        supService.updateSupCallBack(request, response);
+    @RequestMapping("/callback")
+    public void callback(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        supService.updateSupCallback(request, response);
     }
 
 }

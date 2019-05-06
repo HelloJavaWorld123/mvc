@@ -50,8 +50,14 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
     @Resource
     private CardPwdService cardPwdService;
 
+    @Value("${basic_site_dns}")
+    private String domainUrl;
+
     @Value("${sup_callback_url}")
     private String supCallbackUrl;
+
+    @Value("${sup_order_receive}")
+    private String supOrderReceive;
 
     /**
      * <b>功能描述：</b>提交订单到SUP<br>
@@ -70,7 +76,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         order.setTradeStatus(Order.TradeStatusConst.PAY_SUCCESS);
         orderService.update(order);
         // 构造请求SUP参数
-        String requestData = orderReceive(order);
+        String requestData = buildRequestParam(order);
         // 向SUP发起请求
         String resultXml = MyHttp.sendPost(requestData, null);
         log.debug("提交SUP订单同步返回,订单id:".concat(order.getOrderId()).concat("返回结果:").concat(resultXml));
@@ -84,8 +90,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         String resultCode = resultMap.get("result");
         // sup同步返回成功
         if (SupConfig.SUP_STATUS_01.equals(resultCode)) {
-            order.setSupStatus(1);
-            orderService.update(order);
+            orderService.updateSupStatus(order.getOrderId(), 1);
         } else {
             // sup同步返回失败，退单
             tradeRefund(order);
@@ -108,7 +113,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void updateSupCallBack(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void updateSupCallback(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String outTradeNo = request.getParameter("userOrderId");
         String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
         Order order = orderService.queryOrderById(orderId);
@@ -200,11 +205,15 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         return supRecordMapper.querySupRecordByOrderId(orderId);
     }
 
-    @Override
-    public String orderReceive(Order order) {
+    /**
+     * <b>功能描述：</b>构造请求sup参数<br>
+     * <b>修订记录：</b><br>
+     * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private String buildRequestParam(Order order) {
         // DealerMapper dealer = iDealerService.queryByUseridOrDefault(order.getUserId());
-        String supBusinessId =  null; //dealer.getSupBusinessid();
-        String supKey = null; // dealer.getSupKey();
+        String supBusinessId =  "Num13027"; //dealer.getSupBusinessid();
+        String supKey = "10c17b42b5b94c4e93cd574b6e37aeeb"; // dealer.getSupKey();
 
         AppInfoMapper ai  = null;//iAppInfoService.queryAppById(order.getAiId());
 
@@ -237,10 +246,11 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
                 .append("&gameType=").append(order.getPriceTypeName())
                 .append("&acctType=").append(order.getAcctType())
                 .append("&goodsNum=").append(order.getSupPrice())
-                .append("&noticeUrl=").append(this.supCallbackUrl)
+                .append("&noticeUrl=").append(this.domainUrl.concat(supCallbackUrl))
                 .append("&sign=").append(sign);
-        log.debug("sup充值提交请求:{}", SupConfig.SUP_ORDER_RECEIVE.concat(urlData.toString()));
-        return SupConfig.SUP_ORDER_RECEIVE.concat(urlData.toString());
+        String reqUrl = this.supOrderReceive + urlData.toString();
+        log.debug("sup充值提交请求:{}", reqUrl);
+        return reqUrl;
     }
 
     /**

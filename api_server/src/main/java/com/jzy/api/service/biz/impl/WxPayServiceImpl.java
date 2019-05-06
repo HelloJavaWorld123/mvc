@@ -63,7 +63,7 @@ public class WxPayServiceImpl implements WxPayService {
     private String appId;
 
     /**e
-     * 微信appSecret
+     * 微信授权回调
      */
     @Value("${wx_redirect_uri}")
     private String wxRedirectUri;

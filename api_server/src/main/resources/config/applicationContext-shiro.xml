@@ -32,6 +32,7 @@
                 /ali/* = anon
                 /wx/* = anon
                 /pay/* = anon
+                /sup/* = anon
                 /login/managerLogin = anon
                 /test/* = permissions[/test/*]
                 /** = authc
