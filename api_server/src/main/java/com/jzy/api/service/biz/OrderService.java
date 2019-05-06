@@ -62,7 +62,7 @@ public interface OrderService extends GenericService<Order> {
      *
      * @param id 订单id
      */
-    int delete(Long id);
+    int delete(String id);
 
     /**
      * <b>功能描述：</b>根据订单id查询订单详情<br>
@@ -80,7 +80,7 @@ public interface OrderService extends GenericService<Order> {
      *
      * @param id 订单id
      */
-    String queryCardPwdById(Long id);
+    String queryCardPwdById(String id);
 
     /**
      * <b>功能描述：</b>根据订单id关闭订单<br>
@@ -89,7 +89,7 @@ public interface OrderService extends GenericService<Order> {
      *
      * @param id 订单id
      */
-    int updateOrderClose(Long id);
+    int updateOrderClose(String id);
 
     /**
      * <b>功能描述：</b>更新订单充值状态<br>

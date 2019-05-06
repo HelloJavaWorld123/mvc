@@ -162,8 +162,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param id 订单id
      */
     @Override
-    public int delete(Long id) {
-        return 0;
+    public int delete(String id) {
+        return orderMapper.updateOrderDelFlag(id);
     }
 
     /**
@@ -186,7 +186,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param id 订单id
      */
     @Override
-    public String queryCardPwdById(Long id) {
+    public String queryCardPwdById(String id) {
         return orderMapper.queryCardPwdById(id);
     }
 
@@ -198,7 +198,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param id 订单id
      */
     @Override
-    public int updateOrderClose(Long id) {
+    public int updateOrderClose(String id) {
         return orderMapper.updateOrderClose(id);
     }
 

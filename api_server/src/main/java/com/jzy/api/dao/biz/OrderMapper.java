@@ -42,7 +42,7 @@ public interface OrderMapper extends GenericMapper<Order> {
      *
      * @param id 订单id
      */
-    String queryCardPwdById(Long id);
+    String queryCardPwdById(String id);
 
     /**
      * <b>功能描述：</b>根据订单id关闭订单<br>
@@ -51,7 +51,7 @@ public interface OrderMapper extends GenericMapper<Order> {
      *
      * @param id 订单id
      */
-    int updateOrderClose(Long id);
+    int updateOrderClose(String id);
 
     /**
      * <b>功能描述：</b>删除订单<br>
@@ -60,7 +60,7 @@ public interface OrderMapper extends GenericMapper<Order> {
      *
      * @param id 订单id
      */
-    int updateOrderDelFlag(Long id);
+    int updateOrderDelFlag(String id);
 
     /**
      * <b>功能描述：</b>更新订单状态<br>
