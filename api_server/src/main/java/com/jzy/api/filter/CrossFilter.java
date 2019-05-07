@@ -27,7 +27,7 @@ public class CrossFilter implements Filter {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, appType, apiEmpToken, apiUserToken");
         response.setHeader("Access-Control-Allow-Credentials", "true"); //是否支持cookie跨域
         chain.doFilter(req, res);
 
