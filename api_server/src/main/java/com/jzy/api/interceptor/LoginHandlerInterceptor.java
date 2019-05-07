@@ -46,7 +46,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
                 return true;
             }
             // 设置全局变量
-            setTheadLocalCache(request);
+            // setTheadLocalCache(request);
             return true;
         }
         return false;
@@ -76,11 +76,11 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
             }
             contextHolder.setEmpCache(empCache);
         } else {
-            String accessTokenEmp = request.getHeader(AccessToken.USER.getValue());
-            if (StringUtils.isEmpty(accessTokenEmp)) {
+            String accessTokenUser = request.getHeader(AccessToken.USER.getValue());
+            if (StringUtils.isEmpty(accessTokenUser)) {
                 throw new BusException("登陆已失效！");
             }
-            UserCache userCache = cacheEmpService.getCacheUserByKey(accessTokenEmp);
+            UserCache userCache = cacheEmpService.getCacheUserByKey(accessTokenUser);
             if (userCache == null) {
                 throw new BusException("登陆已失效！");
             }
