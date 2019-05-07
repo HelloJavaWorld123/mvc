@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	SQL映射文件名称：账号类型接口
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190507	唐永刚	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.app.AppAccttypeMapper">
+    <!--列表查询-->
+    <select id="list" resultType="com.jzy.api.po.app.AppAccttypeListPo">
+	SELECT
+	act.id,
+	act.main_name as mainName,
+	act.main_regular as mainRegular,
+	act.main_msg as mainMsg,
+	act.sub_name as subName,
+	act.sub_regular as subRegular,
+	act.sub_msg as subMsg
+	FROM
+	app_accttype act
+
+</select>
+
+
+</mapper>

@@ -1,6 +1,7 @@
 package com.jzy.api.controller.app;
 
 import com.jzy.api.model.app.AppAccttype;
+import com.jzy.api.po.app.AppAccttypeListPo;
 import com.jzy.api.service.app.AppAccttypeService;
 import com.jzy.framework.result.ApiResult;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ public class AppAccttypeController {
    */
     @RequestMapping("admin/list")
     public ApiResult list() {
-        List<AppAccttype> acctList = new ArrayList<>();
+        List<AppAccttypeListPo> acctList = new ArrayList<>();
         try {
             acctList =appAccttypeService.list();
         } catch (Exception e) {

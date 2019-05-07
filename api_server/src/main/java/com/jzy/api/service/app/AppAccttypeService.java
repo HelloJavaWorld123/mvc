@@ -2,6 +2,7 @@ package com.jzy.api.service.app;
 
 
 import com.jzy.api.model.app.AppAccttype;
+import com.jzy.api.po.app.AppAccttypeListPo;
 import com.jzy.framework.service.GenericService;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public interface AppAccttypeService extends GenericService<AppAccttype> {
      *
      * @return List
      */
-    List<AppAccttype> list();
+    List<AppAccttypeListPo> list();
 
 
 }
