@@ -68,6 +68,8 @@ public class TableKeyServiceImpl implements TableKeyService {
         RAtomicLong pkIndex = redissonClient.getAtomicLong(tableKey);
         if (pkIndex.isExists()) {
             curVal = pkIndex.incrementAndGet();
+        } else {
+            pkIndex.getAndAdd(curVal);
         }
         return curVal;
     }
