@@ -40,7 +40,7 @@ public class WXPayConfig {
 
             String certPath = WXPayConfig.class.getResource("").getPath().concat(this.wxMchId.concat("_apiclient_cert.p12"));
 
-            certPath = "D:\\1395455402_apiclient_cert.p12";
+            certPath = "/opt/package_manage/package_backup/1395455402_apiclient_cert.p12";
 
             log.debug("整数地址为：" + certPath);
 
