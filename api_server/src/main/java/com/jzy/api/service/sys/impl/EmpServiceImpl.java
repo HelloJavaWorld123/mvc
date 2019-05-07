@@ -3,7 +3,7 @@ package com.jzy.api.service.sys.impl;
 import com.jzy.api.constant.ApiRedisCacheConstant;
 import com.jzy.api.dao.sys.EmpMapper;
 import com.jzy.api.model.auth.Role;
-import com.jzy.api.model.cache.EmpCache;
+import com.jzy.framework.cache.EmpCache;
 import com.jzy.api.model.sys.Emp;
 import com.jzy.api.service.auth.AuthService;
 import com.jzy.api.service.sys.EmpService;
