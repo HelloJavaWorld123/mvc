@@ -122,13 +122,14 @@
         o.create_time createTime,
         app.id appId,
         app.name appName,
-        app.icon appIcon
+        img.file_url appIcon
         FROM
         `order` o
         LEFT JOIN app_info app ON o.app_id = app.id
+        LEFT JOIN sys_images AS img ON img.type = 1 AND img.rel_id = app.id
         WHERE
         o.user_id = #{userId}
-        <if test="status != null">
+        <if test="status != null and status != 10">
             AND o.status = #{status}
         </if>
         <if test="status == 10">
@@ -137,6 +138,7 @@
         <if test="status == null">
             AND o.status != 4
         </if>
+        ORDER BY o.create_time DESC
     </select>
 
     <!-- 根据订单id查询卡密 -->
