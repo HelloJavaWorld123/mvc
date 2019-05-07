@@ -86,7 +86,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
             }
             contextHolder.setUserCache(userCache);
         }
-        ThreadLocalCache.getContext().set(contextHolder);
+        ThreadLocalCache.setContextHolder(contextHolder);
     }
 
     /**

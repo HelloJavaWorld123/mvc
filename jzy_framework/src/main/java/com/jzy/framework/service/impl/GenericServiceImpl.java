@@ -26,7 +26,7 @@ public abstract class GenericServiceImpl<T extends GenericModel> implements Gene
      * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     protected EmpCache getDealer() {
-        return ThreadLocalCache.getContext().get().getEmpCache();
+        return ThreadLocalCache.getContextHolder().getEmpCache();
     }
 
     /**
@@ -44,7 +44,7 @@ public abstract class GenericServiceImpl<T extends GenericModel> implements Gene
      * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     protected UserCache getUser() {
-        return ThreadLocalCache.getContext().get().getUserCache();
+        return ThreadLocalCache.getContextHolder().getUserCache();
     }
 
     /**
