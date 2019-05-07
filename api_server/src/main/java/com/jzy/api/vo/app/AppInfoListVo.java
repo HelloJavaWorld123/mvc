@@ -56,9 +56,14 @@ public class AppInfoListVo {
     private Date modifyTime;
 
     /**
-     * 分类名称
+     * 类型名称
      */
     private String atName;
+
+    /**
+     *分类名称
+     */
+    private String acName;
 
     /**
      * 厂商名称
