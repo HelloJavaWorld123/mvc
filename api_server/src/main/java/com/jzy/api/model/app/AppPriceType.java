@@ -18,7 +18,7 @@ public class AppPriceType extends GenericModel {
     /**
      * 应用id
      */
-    private String aiId;
+    private Long aiId;
 
     /**
      * 充值类型名称

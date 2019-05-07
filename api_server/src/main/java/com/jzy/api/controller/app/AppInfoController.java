@@ -11,7 +11,6 @@ import com.jzy.api.service.app.AppPriceTypeService;
 import com.jzy.api.service.app.IMongoService;
 import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.service.sys.SysImagesService;
-import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.HanyuPinyinUtil;
 import com.jzy.api.util.RegexUtils;
 import com.jzy.api.vo.app.AppInfoDetailVo;
@@ -47,10 +46,10 @@ import java.util.stream.Collectors;
  */
 @Controller
 @ResponseBody
-@RequestMapping("admin/appinfo")
-public class AppInfoMgtController {
+@RequestMapping("AppInfo")
+public class AppInfoController {
 
-    private final static Logger logger = LoggerFactory.getLogger(AppInfoMgtController.class);
+    private final static Logger logger = LoggerFactory.getLogger(AppInfoController.class);
 
     @Resource
     private AppPriceTypeService appPriceTypeService;
@@ -92,7 +91,7 @@ public class AppInfoMgtController {
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("getAppInfo")
+    @RequestMapping("adminGetAppInfo")
     public ApiResult getAppInfo(@RequestBody IdCnd idCnd) {
         AppInfoDetailVo appInfoDetailVo;
         try {
@@ -111,7 +110,7 @@ public class AppInfoMgtController {
      *
      * @param saveAppInfoCnd 商品对象信息
      */
-    @RequestMapping("save")
+    @RequestMapping("adminSave")
     public ApiResult save(@RequestBody SaveAppInfoCnd saveAppInfoCnd) {
         try {
             FileInfo mfile = null;
@@ -205,7 +204,7 @@ public class AppInfoMgtController {
      * <b>修订记录：</b><br>
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("updateStatusBatch")
+    @RequestMapping("adminUpdateStatusBatch")
     public ApiResult updateStatusBatch(@RequestBody UpdateStatusBatchCnd updateStatusBatchCnd) {
         try {
             appInfoService.updateStatusBatch(updateStatusBatchCnd);
@@ -223,7 +222,7 @@ public class AppInfoMgtController {
      *
      * @return {@l}ink ApiResult
      */
-    @RequestMapping("deleteBatch")
+    @RequestMapping("adminDeleteBatch")
     public ApiResult deleteBatch(@RequestBody AppBatchDeleteCnd appBatchDeleteCnd) {
         try {
             List<Long> newAiIds = appBatchDeleteCnd.getAiIds();
@@ -247,7 +246,7 @@ public class AppInfoMgtController {
      * <b>修订记录：</b><br>
      * <li>20190422&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("uploadfile")
+    @RequestMapping("adminUploadFile")
     public ApiResult uploadFile(@RequestParam(value = "file", required = false) MultipartFile mfile) {
         String fileUrl = "";
         try {
@@ -269,7 +268,7 @@ public class AppInfoMgtController {
      *
      * @param icon 商品图标地址名称（mongo地址）
      */
-    @RequestMapping("downFile")
+    @RequestMapping("adminDownFile")
     public ApiResult downFile(@RequestParam(value = "icon") String icon, HttpServletResponse response) {
         try {
             this.downPicture(icon, response);

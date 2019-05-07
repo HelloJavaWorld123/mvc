@@ -28,7 +28,7 @@ public class SaveAppInfoCnd {
     /**
      * 商品充值类型
      */
-    private List<AppPriceType> AppPriceTypeList = new ArrayList<>(10);
+    private List<AppPriceType> appPriceTypeList = new ArrayList<>(10);
 
 
     /**

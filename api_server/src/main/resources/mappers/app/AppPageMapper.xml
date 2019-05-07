@@ -25,5 +25,37 @@
             ai_id =#{aiId}
         </select>
 
+    <!--  新增-->
+    <insert id="insert" parameterType="com.jzy.api.model.app.AppPage">
+			INSERT INTO app_page (
+				`ai_id`,
+				`content`,
+				`creator_id`,
+				`modifier_id`,
+				`create_time`,
+				`modify_time`
+				)
+			VALUES
+				(
+				#{aiId},
+				#{content},
+				#{creatorId},
+				#{modifierId},
+				#{createTime},
+				#{modifyTime}
+				)
+    </insert>
+
+
+    <!--	修改-->
+    <update id="update" parameterType="com.jzy.api.model.app.AppPage">
+		UPDATE
+		app_page
+		SET content =#{content},
+		 `modify_time` =#{modifyTime}
+		WHERE
+			ai_id =#{aiId}
+    </update>
+
 
 </mapper>
