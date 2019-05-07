@@ -50,6 +50,9 @@ public class ParamValidateAspect {
      */
     @Before("controller()")
     public void controller(JoinPoint point) {
+//        MethodSignature signature= (MethodSignature) point.getSignature();
+//        // 获取方法参数上的注解
+//        signature.getMethod().getParameterAnnotations();
         Object[] obj = point.getArgs();
         if (obj == null || obj.length == 0) {
             return;
