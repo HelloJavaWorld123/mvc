@@ -1,5 +1,6 @@
 package com.jzy.framework.result;
 
+import com.jzy.common.enums.ResultEnum;
 import lombok.Data;
 
 /**
@@ -19,10 +20,6 @@ public class ApiResult<T> {
      * 1：成功
      */
     private Integer code = 1;
-//    /**
-//     * 错误编码
-//     */
-//    private String code = "";
     /**
      * 错误信息
      */
@@ -59,4 +56,11 @@ public class ApiResult<T> {
         this.msg = msg;
         return this;
     }
+
+    public ApiResult fail(ResultEnum resultEnum) {
+        this.code = resultEnum.getCode();
+        this.msg = resultEnum.getMsg();
+        return this;
+    }
+
 }

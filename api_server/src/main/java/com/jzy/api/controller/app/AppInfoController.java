@@ -1,5 +1,6 @@
 package com.jzy.api.controller.app;
 
+import com.jzy.api.annos.WithoutLogin;
 import com.jzy.api.cnd.app.*;
 import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.model.app.AppInfo;
@@ -266,6 +267,7 @@ public class AppInfoController {
      *
      * @param icon 商品图标地址名称（mongo地址）
      */
+    @WithoutLogin
     @RequestMapping("admin/downFile")
     public ApiResult downFile(@RequestParam(value = "icon") String icon, HttpServletResponse response) {
         try {

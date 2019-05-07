@@ -8,9 +8,10 @@ package com.jzy.common.enums;
  */
 public enum ResultEnum {
 
+    SESSION_VALID(-1, "会话超时！"),
     OPERATION_FAILED(-3, "操作失败"),
     INVALID_REQ(-2, "无效请求，请刷新页面"),
-    UNKONW_ERR(-1, "未知错误"),
+    UNKONW_ERR(-4, "未知错误"),
     SUCCESS(0, "成功"),
     FAIL(1, "失败"),
     TIMED_OUT(101, "已超时，请重新登录"),

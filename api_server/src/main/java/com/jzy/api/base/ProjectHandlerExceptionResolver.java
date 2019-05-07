@@ -1,13 +1,12 @@
 package com.jzy.api.base;
 
-import com.alibaba.fastjson.JSONObject;
+import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.exception.PayException;
 import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.JsonConverter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.MessageSource;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -38,6 +37,10 @@ public class ProjectHandlerExceptionResolver implements HandlerExceptionResolver
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object o, Exception e) {
         if (e instanceof BusException) {
             log.error("业务异常", e);
+            if (ResultEnum.SESSION_VALID.getMsg().equals(e.getMessage())) {
+                ajaxJson(new ApiResult().fail(ResultEnum.SESSION_VALID), response);
+                return null;
+            }
             ajaxJson(new ApiResult().fail(e.getMessage()), response);
             return null;
         }
