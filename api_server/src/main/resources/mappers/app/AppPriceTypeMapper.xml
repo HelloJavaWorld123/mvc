@@ -25,14 +25,14 @@
             `minmum`,
             `multiple`,
             `subscription_ratio` as subscriptionRatio ,
-            `gmt_create`  as createTime,
-            `gmt_modified` as modifyTime,
-            `modifier_id` as modifierId
+            `create_time`  as createTime,
+            `modify_time` as modifyTime,
+            `modifier_id` as modifierId,
+            creator_id as creatorId
         FROM
             app_price_type
         WHERE
             1 = 1
-        AND delflag = 0
         AND ai_id =#{aiId}
 </select>
 

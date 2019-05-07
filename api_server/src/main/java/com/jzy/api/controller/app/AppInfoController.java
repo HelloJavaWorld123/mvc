@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
  */
 @Controller
 @ResponseBody
-@RequestMapping("AppInfo")
+@RequestMapping("appInfo")
 public class AppInfoController {
 
     private final static Logger logger = LoggerFactory.getLogger(AppInfoController.class);
@@ -91,7 +91,7 @@ public class AppInfoController {
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("adminGetAppInfo")
+    @RequestMapping("admin/getAppInfo")
     public ApiResult getAppInfo(@RequestBody IdCnd idCnd) {
         AppInfoDetailVo appInfoDetailVo;
         try {
@@ -110,7 +110,7 @@ public class AppInfoController {
      *
      * @param saveAppInfoCnd 商品对象信息
      */
-    @RequestMapping("adminSave")
+    @RequestMapping("admin/save")
     public ApiResult save(@RequestBody SaveAppInfoCnd saveAppInfoCnd) {
         try {
             FileInfo mfile = null;
@@ -268,7 +268,7 @@ public class AppInfoController {
      *
      * @param icon 商品图标地址名称（mongo地址）
      */
-    @RequestMapping("adminDownFile")
+    @RequestMapping("admin/downFile")
     public ApiResult downFile(@RequestParam(value = "icon") String icon, HttpServletResponse response) {
         try {
             this.downPicture(icon, response);

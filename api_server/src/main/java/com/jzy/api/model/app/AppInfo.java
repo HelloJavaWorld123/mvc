@@ -23,15 +23,15 @@ public class AppInfo extends GenericModel implements Serializable {
     /**
      * 分类id
      */
-    private Integer cateId;
+    private String cateId;
     /**
      * 账号类型id
      */
-    private Integer acctId;
+    private String acctId;
     /**
      * 厂商id
      */
-    private Integer acpId;
+    private String acpId;
     /**
      * 游戏id
      */
@@ -39,7 +39,7 @@ public class AppInfo extends GenericModel implements Serializable {
     /**
      * 应用类型id
      */
-    private Integer typeId;
+    private String typeId;
 
     /**
      * 应用名称
@@ -87,7 +87,6 @@ public class AppInfo extends GenericModel implements Serializable {
      * 备注
      */
     private String remark;
-
 
 
     /**
