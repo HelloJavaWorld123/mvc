@@ -19,7 +19,7 @@ public interface DealerService {
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    Dealer queryDealer(Long userId);
+    Dealer queryDealer(Integer dealerId);
 
     /**
      * <b>功能描述：</b>获取渠道商私钥<br>

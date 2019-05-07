@@ -46,7 +46,12 @@ public class AlipayUtil {
     /**
      * basic_site_dns
      */
-    private static final String domainUrl = "http://admin.iteming.wang";
+    private static final String domainUrl = "http://xian-api.900sup.com";
+
+    /**
+     * h5domainUrl
+     */
+    private static final String h5DomainUrl = "http://xian-h5.900sup.com";
     /**
      * 服务器异步通知页面路径 需http://或者https://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
      */
@@ -54,7 +59,7 @@ public class AlipayUtil {
     /**
      * 页面跳转同步通知页面路径 需http://或者https://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问 商户可以自定义同步跳转地址
      */
-    public static final String return_url = "/ali/return";
+    public static final String return_url = "/result";
     /**
      * 编码
      */
@@ -119,7 +124,7 @@ public class AlipayUtil {
      */
     public static String tradeWapPay(String outTradeNo, BigDecimal totalAmount, String subject) {
         AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();
-        alipayRequest.setReturnUrl(domainUrl.concat(return_url));
+        alipayRequest.setReturnUrl(h5DomainUrl.concat(return_url));
         alipayRequest.setNotifyUrl(domainUrl.concat(notify_url));
         alipayRequest.setBizContent("{" +
                 " \"out_trade_no\":\"" + outTradeNo + "\"," +

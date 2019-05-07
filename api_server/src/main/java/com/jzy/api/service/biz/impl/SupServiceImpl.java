@@ -124,7 +124,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         }
         String sign = request.getParameter("sign");
         String status = request.getParameter("status");
-        String supKey = dealerService.queryDealer(order.getUserId()).getSupKey();
+        String supKey = dealerService.queryDealer(order.getDealerId()).getSupKey();
         String mes = convertCharset("mes", request);
         String kmInfo = convertCharset("kmInfo", request);
         String businessId = convertCharset("businessId", request);
