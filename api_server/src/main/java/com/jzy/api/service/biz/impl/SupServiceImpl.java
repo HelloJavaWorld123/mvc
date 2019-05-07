@@ -120,6 +120,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         if (order == null) {
             response.getWriter().write("<receive>ok</receive>");
             log.debug("SUP订单异步通知order查询为null,userOrderId=" + outTradeNo);
+            response.getWriter().write("<receive>ok</receive>");
             return;
         }
         String sign = request.getParameter("sign");
