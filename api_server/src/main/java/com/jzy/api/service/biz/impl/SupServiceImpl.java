@@ -149,13 +149,11 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         }
         // 获取SUP充值记录
         SupRecord supRecord = querySupRecordByOrderId(order.getOrderId());
-        if (supRecord != null) {
-            supRecord.setPurchaserPrice(new BigDecimal(payoffPriceTotal));
-            supRecord.setBgRespData(!StringUtils.isEmpty(supRecord.getBgRespData()) ? supRecord.getBgRespData().concat(";" + responseData) : responseData);
-            supRecord.setBgRespMes(!StringUtils.isEmpty(supRecord.getBgRespMes()) ? supRecord.getBgRespMes().concat(";" + mes) : mes);
-            supRecord.setBgRespTime(new Date());
-            supRecord.setBgRespAmount(supRecord.getBgRespAmount() + 1);
-        }
+        supRecord.setPurchaserPrice(!StringUtils.isEmpty(payoffPriceTotal) ? new BigDecimal(payoffPriceTotal) : BigDecimal.ZERO);
+        supRecord.setBgRespData(!StringUtils.isEmpty(supRecord.getBgRespData()) ? supRecord.getBgRespData().concat(";" + responseData) : responseData);
+        supRecord.setBgRespMes(!StringUtils.isEmpty(supRecord.getBgRespMes()) ? supRecord.getBgRespMes().concat(";" + mes) : mes);
+        supRecord.setBgRespTime(new Date());
+        supRecord.setBgRespAmount(supRecord.getBgRespAmount() + 1);
         if (SupConfig.SUP_STATUS_01.equals(status)) {
             // 是否是卡密
             if (!StringUtils.isEmpty(kmInfo)) {
@@ -168,7 +166,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
                         cardPwd.setOrderId(order.getOrderId());
                         cardPwd.setCardNo(km.get("cardNo").toString());
                         cardPwd.setCardPwd(km.get("cardPwd").toString());
-                        cardPwd.setPayoffPriceTotal(new BigDecimal(km.get("payoffPriceTotal").toString()));
+                        cardPwd.setPayoffPriceTotal(supRecord.getPurchaserPrice());
                         cardPwd.setGmtExpired(km.get("outDate").toString());
                         cardPwdService.insert(cardPwd);
                     }

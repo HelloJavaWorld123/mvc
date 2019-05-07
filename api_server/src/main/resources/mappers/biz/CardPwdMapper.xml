@@ -20,7 +20,7 @@
         del_flag, creator_id, modifier_id, create_time, modify_time
         )
         VALUES(
-        #{id}, #{orderId}, #{userId}, #{cardNo}, #{cardPwd}, #{payoffPriceTotal}, #{gmtExpired}, #{remark},
+        #{cardPwdId}, #{orderId}, #{userId}, #{cardNo}, #{cardPwd}, #{payoffPriceTotal}, #{gmtExpired}, #{remark},
         #{delFlag}, #{creatorId}, #{modifierId}, #{createTime}, #{modifyTime}
         )
     </insert>
