@@ -1,5 +1,6 @@
 package com.jzy.api.controller.home;
 
+import com.jzy.api.annos.WithoutLogin;
 import com.jzy.api.cnd.home.HomeAnalysisCnd;
 import com.jzy.api.service.home.HomeAnalysisService;
 import com.jzy.api.vo.home.HomeAnalysisInfoVo;
@@ -34,6 +35,7 @@ public class HomeAnalysisController {
      * <b>修订记录：</b><br>
      * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
+    @WithoutLogin
     @RequestMapping("getinfo")
     public ApiResult getInfo(@RequestBody HomeAnalysisCnd homeAnalysisCnd) {
         HomeAnalysisInfoVo homeAnalysisInfoVo = homeAnalysisService.getInfo(homeAnalysisCnd);
