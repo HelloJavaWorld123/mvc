@@ -1,6 +1,7 @@
 package com.jzy.api.service.cache;
 
 import com.jzy.framework.cache.EmpCache;
+import com.jzy.framework.cache.UserCache;
 
 /**
  * <b>功能：</b>缓存员工信息<br>
@@ -19,5 +20,12 @@ public interface CacheEmpService {
      * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     EmpCache getCacheEmpByKey(String key);
+
+    /**
+     * <b>功能描述：</b>获取后端缓存的登录信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    UserCache getCacheUserByKey(String key);
 
 }

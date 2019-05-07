@@ -2,6 +2,7 @@ package com.jzy.api.service.cache.impl;
 
 import com.jzy.api.service.cache.CacheEmpService;
 import com.jzy.framework.cache.EmpCache;
+import com.jzy.framework.cache.UserCache;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,16 @@ public class CacheEmpServiceImpl implements CacheEmpService {
     public EmpCache getCacheEmpByKey(String key) {
         RBucket<EmpCache> empRBucket = redissonClient.getBucket(key);
         return empRBucket.get();
+    }
+
+    /**
+     * <b>功能描述：</b>获取后端缓存的登录信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public UserCache getCacheUserByKey(String key) {
+        RBucket<UserCache> userRBucket = redissonClient.getBucket(key);
+        return userRBucket.get();
     }
 }

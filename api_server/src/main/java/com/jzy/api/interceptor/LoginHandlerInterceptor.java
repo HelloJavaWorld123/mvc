@@ -6,6 +6,7 @@ import com.jzy.framework.cache.ContextHolder;
 import com.jzy.framework.cache.EmpCache;
 import com.jzy.framework.cache.ThreadLocalCache;
 import com.jzy.api.service.cache.CacheEmpService;
+import com.jzy.framework.cache.UserCache;
 import com.jzy.framework.exception.BusException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -60,10 +61,10 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
         // 用于判断所请求的接口时前台还是后端登录；1：前台；2：后端；为空的情况代表的是前台
         String appType = request.getHeader(AccessToken.APP.getValue());
         if (StringUtils.isEmpty(appType)) {
-            appType = "1";
+            appType = "2";
         }
         ContextHolder contextHolder = new ContextHolder();
-        if ("1".equals(appType)) {
+        if (!"1".equals(appType)) {
             // 从请求头中获取后端登录标识
             String accessTokenEmp = request.getHeader(AccessToken.EMP.getValue());
             if (StringUtils.isEmpty(accessTokenEmp)) {
@@ -73,11 +74,19 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
             if (empCache == null) {
                 throw new BusException("登陆已失效！");
             }
-            empCache.setDealerId(1001);
-            empCache.setEmpId(1001L);
             contextHolder.setEmpCache(empCache);
-            ThreadLocalCache.getContext().set(contextHolder);
+        } else {
+            String accessTokenEmp = request.getHeader(AccessToken.USER.getValue());
+            if (StringUtils.isEmpty(accessTokenEmp)) {
+                throw new BusException("登陆已失效！");
+            }
+            UserCache userCache = cacheEmpService.getCacheUserByKey(accessTokenEmp);
+            if (userCache == null) {
+                throw new BusException("登陆已失效！");
+            }
+            contextHolder.setUserCache(userCache);
         }
+        ThreadLocalCache.getContext().set(contextHolder);
     }
 
     /**
