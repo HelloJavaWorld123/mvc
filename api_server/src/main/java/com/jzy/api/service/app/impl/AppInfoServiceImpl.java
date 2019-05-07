@@ -13,6 +13,7 @@ import com.jzy.api.service.app.AppInfoService;
 import com.jzy.api.service.app.AppPriceTypeService;
 import com.jzy.api.vo.app.AppInfoDetailVo;
 import com.jzy.api.vo.app.AppInfoListVo;
+import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.service.impl.GenericServiceImpl;
@@ -134,9 +135,16 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public List<AppInfoListVo> listPage(AppInfoListCnd appInfoListCnd) {
-        Page<AppInfoListVo> page = PageHelper.startPage(appInfoListCnd.getPage(), appInfoListCnd.getLimit());
-        return appInfoMapper.listPage(appInfoListCnd);
+    public PageVo listPage(AppInfoListCnd appInfoListCnd) {
+        Integer  page=appInfoListCnd.getPage();
+        Integer  limit=appInfoListCnd.getLimit();
+        Page<AppInfoListVo> infoListVoPage = PageHelper.startPage(page, limit);
+        List<AppInfoListVo>  appInfoListVoList=  appInfoMapper.listPage(appInfoListCnd);
+        PageVo<AppInfoListVo> pageVo=new PageVo<>(appInfoListVoList);
+        pageVo.setTotalCount(infoListVoPage.getTotal());
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        return pageVo;
     }
 
     /**

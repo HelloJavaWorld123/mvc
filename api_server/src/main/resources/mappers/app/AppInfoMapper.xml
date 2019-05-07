@@ -50,6 +50,11 @@
         <if test="status!=null">
             and ai.status = #{status}
         </if>
+        <if test="query!=null">
+            AND
+            ( ai. NAME LIKE CONCAT('%',#{query},'%')
+            OR ai.code LIKE CONCAT('%',#{query},'%'))
+        </if>
         ORDER BY ai.create_time, ai.sort
 
     </select>

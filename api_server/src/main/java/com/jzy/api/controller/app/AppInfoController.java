@@ -72,13 +72,11 @@ public class AppInfoController {
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      * <li>2019.05.01&nbsp;&nbsp;|&nbsp;&nbsp;贾昭凯&nbsp;&nbsp;|&nbsp;&nbsp;修改SQL对于新数据库的错误，添加分页实体结构</li><br>
      */
-    @RequestMapping("index")
+    @RequestMapping("admin/index")
     public ApiResult index(@RequestBody AppInfoListCnd appInfoListCnd) {
-        PageVo<AppInfoListVo> result = new PageVo<>();
+        PageVo<AppInfoListVo> result;
         try {
-            // TODO: 为分页功能添加总条数
-            result.setTotalCount(100L);
-            result.setRows(appInfoService.listPage(appInfoListCnd));
+             result=   appInfoService.listPage(appInfoListCnd);
         } catch (Exception e) {
             logger.error("admin产品列表异常:{}", e);
             return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
@@ -204,7 +202,7 @@ public class AppInfoController {
      * <b>修订记录：</b><br>
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("adminUpdateStatusBatch")
+    @RequestMapping("admin/updateStatusBatch")
     public ApiResult updateStatusBatch(@RequestBody UpdateStatusBatchCnd updateStatusBatchCnd) {
         try {
             appInfoService.updateStatusBatch(updateStatusBatchCnd);
@@ -222,7 +220,7 @@ public class AppInfoController {
      *
      * @return {@l}ink ApiResult
      */
-    @RequestMapping("adminDeleteBatch")
+    @RequestMapping("admin/deleteBatch")
     public ApiResult deleteBatch(@RequestBody AppBatchDeleteCnd appBatchDeleteCnd) {
         try {
             List<Long> newAiIds = appBatchDeleteCnd.getAiIds();
@@ -246,7 +244,7 @@ public class AppInfoController {
      * <b>修订记录：</b><br>
      * <li>20190422&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("adminUploadFile")
+    @RequestMapping("admin/uploadFile")
     public ApiResult uploadFile(@RequestParam(value = "file", required = false) MultipartFile mfile) {
         String fileUrl = "";
         try {

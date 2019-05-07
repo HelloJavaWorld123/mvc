@@ -6,6 +6,7 @@ import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPage;
 import com.jzy.api.vo.app.AppInfoDetailVo;
 import com.jzy.api.vo.app.AppInfoListVo;
+import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.service.GenericService;
 
 import java.util.List;
@@ -56,7 +57,7 @@ public interface AppInfoService extends GenericService<AppInfo> {
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<AppInfoListVo> listPage(AppInfoListCnd appInfoListCnd);
+    PageVo listPage(AppInfoListCnd appInfoListCnd);
 
     /**
      * <b>功能描述：</b>保存富文本信息<br>
