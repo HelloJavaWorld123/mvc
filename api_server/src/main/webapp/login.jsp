@@ -34,7 +34,7 @@
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=UTF-8",
-            url: "http://xian-api.900sup.com/pay/pay",
+            url: "http://localhost:8080/pay/pay",
             dataType: "json",
             data: JSON.stringify(option),
             success: function (res) {
