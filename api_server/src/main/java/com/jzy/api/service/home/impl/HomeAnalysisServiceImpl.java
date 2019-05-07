@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -73,7 +74,7 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
             userCache.setUserId(dataInfo.getUserId());
             // 根据商户号查询商户id
             userCache.setDealerId(Integer.parseInt(dealerAnalysisInfoPo.getDealerId()));
-            homeAnalysisInfoVoRBucket.set(userCache);
+            homeAnalysisInfoVoRBucket.set(userCache, 30, TimeUnit.MINUTES);
         } catch (Exception e) {
             e.printStackTrace();
         }
