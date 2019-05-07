@@ -165,7 +165,7 @@
             label,
             first_letter as firstLetter,
             spll_letter as spllLetter,
-            recharge_mode  as rechargeCode,
+            recharge_mode  as rechargeMode,
             STATUS,
             sort,
             `describe`,
@@ -193,7 +193,7 @@
     <update id="deleteBatch">
         UPDATE
         app_info
-        SET delflag =1
+        SET del_flag =1
         WHERE
         id =#{aiId}
     </update>
