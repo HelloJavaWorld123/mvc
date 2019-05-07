@@ -1,5 +1,6 @@
 package com.jzy.api.controller.biz;
 
+import com.jzy.api.annos.WithoutLogin;
 import com.jzy.api.service.biz.SupService;
 import com.jzy.framework.controller.GenericController;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ public class SupController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
+    @WithoutLogin
     @RequestMapping("/callback")
     public void callback(HttpServletRequest request, HttpServletResponse response) throws Exception {
         supService.updateSupCallback(request, response);

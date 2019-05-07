@@ -1,6 +1,9 @@
 package com.jzy.framework.service.impl;
 
 import com.jzy.framework.bean.model.GenericModel;
+import com.jzy.framework.cache.EmpCache;
+import com.jzy.framework.cache.ThreadLocalCache;
+import com.jzy.framework.cache.UserCache;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.GenericService;
 
@@ -16,6 +19,33 @@ import java.util.Date;
  * </ul>
  */
 public abstract class GenericServiceImpl<T extends GenericModel> implements GenericService<T> {
+
+    /**
+     * <b>功能描述：</b>获取后端渠道商信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    protected EmpCache getDealer() {
+        return ThreadLocalCache.getContextHolder().getEmpCache();
+    }
+
+    /**
+     * <b>功能描述：</b>获取前台渠道商id<br>
+     * <b>修订记录：</b><br>
+     * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    protected int getDealerId() {
+        return getDealer().getDealerId();
+    }
+
+    /**
+     * <b>功能描述：</b>获取前台渠道商信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    protected UserCache getUser() {
+        return ThreadLocalCache.getContextHolder().getUserCache();
+    }
 
     /**
      * <b>功能描述：</b>新增<br>

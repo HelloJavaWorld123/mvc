@@ -1,5 +1,6 @@
 package com.jzy.api.controller.sys;
 
+import com.jzy.api.annos.WithoutLogin;
 import com.jzy.api.cnd.admin.LoginCnd;
 import com.jzy.api.dao.auth.AuthMapper;
 import com.jzy.api.model.auth.Role;
@@ -44,6 +45,7 @@ public class LoginController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190424&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
+    @WithoutLogin
     @ResponseBody
     @RequestMapping(path="/managerLogin")
     public ApiResult managerLogin(@RequestBody LoginCnd loginCnd){

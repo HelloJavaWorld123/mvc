@@ -6,6 +6,8 @@ import com.jzy.api.dao.auth.AuthMapper;
 import com.jzy.api.model.auth.Auth;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.service.auth.AuthService;
+import com.jzy.framework.dao.GenericMapper;
+import com.jzy.framework.service.impl.GenericServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -18,7 +20,7 @@ import java.util.Set;
 
 @Slf4j
 @Service
-public class AuthServiceImpl implements AuthService {
+public class AuthServiceImpl extends GenericServiceImpl<Auth> implements AuthService {
 
     @Resource
     private AuthMapper authMapper;
@@ -58,7 +60,13 @@ public class AuthServiceImpl implements AuthService {
     @Transactional(propagation= Propagation.REQUIRED,rollbackFor=Exception.class,timeout=1,isolation= Isolation.DEFAULT)
     @Override
     public int insertA(Long id, String name) {
+        int dealerId = getDealerId();
         authMapper.insert(id, name);
         throw new RuntimeException();
+    }
+
+    @Override
+    protected GenericMapper<Auth> getGenericMapper() {
+        return null;
     }
 }

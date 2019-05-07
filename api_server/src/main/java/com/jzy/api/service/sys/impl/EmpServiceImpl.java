@@ -3,22 +3,15 @@ package com.jzy.api.service.sys.impl;
 import com.jzy.api.constant.ApiRedisCacheConstant;
 import com.jzy.api.dao.sys.EmpMapper;
 import com.jzy.api.model.auth.Role;
-import com.jzy.api.model.cache.EmpCache;
+import com.jzy.framework.cache.EmpCache;
 import com.jzy.api.model.sys.Emp;
 import com.jzy.api.service.auth.AuthService;
 import com.jzy.api.service.sys.EmpService;
 import com.jzy.api.util.MD5Util;
 import com.jzy.framework.dao.GenericMapper;
-import com.jzy.framework.exception.BusException;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import freemarker.core.BugException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
@@ -58,18 +51,6 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
      */
     @Override
     public Emp login(String username, String pwd) {
-        UsernamePasswordToken token = new UsernamePasswordToken(username, pwd);
-        token.setRememberMe(false);
-        Subject subject = SecurityUtils.getSubject();
-        try {
-            subject.login(token);
-        } catch (UnknownAccountException ex) {
-            throw new BusException("用户名没有找到");
-        } catch (IncorrectCredentialsException ex) {
-            throw new BusException("用户名密码不匹配");
-        }catch (AuthenticationException e) {
-            throw new BusException("其他的登录错误");
-        }
         Emp emp = queryEmpByUsername(username);
         // 缓存渠道商员工信息
         cacheDealerEmp(emp);

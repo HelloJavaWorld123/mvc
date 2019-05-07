@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+	SQL映射文件名称：权限业务
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190424	邓冲	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.app.CategoryMapper">
+
+    <select id="listByDealerId"
+            resultType="com.jzy.api.vo.app.CategoryVo">
+        SELECT cate.id, cate.name, cate.sort
+        FROM `app_cate` AS cate
+        JOIN app_info as ai ON ai.cate_id = cate.id
+        JOIN dealer_app_info as da ON da.ai_id = ai.id
+        WHERE 1=1 AND ai.del_flag = 0
+        AND da.status=1  and ai.status=1
+        AND da.dealer_id = #{dealerId}
+        GROUP BY cate.id, cate.name, cate.sort
+    </select>
+
+    <select id="dealerAppList"
+            resultType="com.jzy.api.vo.app.DealerAppListVo">
+            SELECT
+                dai.ai_id AS id,
+                ai.sort AS sort,
+                ai.`name` AS name,
+                img.file_url AS icon,
+                ai.first_letter as firstLetter,
+                ai.spll_letter as spllLetter,
+                ai.is_reco as isReco,
+	            ai.is_hot as isHot
+            FROM dealer_app_info as dai
+            JOIN app_info as ai ON ai.id = dai.ai_id
+            LEFT JOIN sys_images as img ON img.type = 1 AND img.rel_id = ai.id
+            WHERE 1=1 AND ai.del_flag = 0
+            AND dai.status=1  and ai.status=1
+            AND dai.dealer_id = #{dealerId}
+
+            <if test="cateId!=0">
+                AND ai.cate_id = #{cateId}
+            </if>
+
+            <if test="cateId==0">
+                AND ai.is_reco = 1
+            </if>
+            ORDER BY ai.sort ASC
+    </select>
+</mapper>
