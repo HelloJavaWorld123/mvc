@@ -9,7 +9,9 @@ import lombok.Data;
  * @since JDK1.8
  */
 @Data
-public class DealerAppListVo extends GenericModel {
+public class DealerAppListVo {
+
+    private String id;
 
     private String name;
 

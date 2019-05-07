@@ -27,11 +27,11 @@
         AND dai. STATUS = 1
         AND ai.`status` = 1
         <if test="keyword!=null">
-            AND (
-            ai. NAME LIKE CONCAT(CONCAT('%',#{keyword},'%'))
-            OR ai.label LIKE CONCAT(CONCAT('%',#{keyword},'%'))
-            OR ai.spll_letter LIKE CONCAT(CONCAT('%',#{keyword},'%'))
-            )
+        AND (
+            ai. NAME LIKE CONCAT('%',#{keyword},'%')
+            OR ai.label LIKE CONCAT('%',#{keyword},'%')
+            OR ai.spll_letter = #{keyword}
+        )
         </if>
 
     </select>
