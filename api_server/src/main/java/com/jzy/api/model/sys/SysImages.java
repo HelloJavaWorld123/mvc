@@ -19,7 +19,7 @@ public class SysImages extends GenericModel {
     /**
      * 关联业务表
      */
-    private String relId;
+    private Long relId;
 
     /**
      * 文件名称
@@ -42,7 +42,7 @@ public class SysImages extends GenericModel {
      */
     private int type;
 
-    public SysImages( Long id,String relId, String fileName, String fileType, String fileUrl, int type) {
+    public SysImages( Long id,Long relId, String fileName, String fileType, String fileUrl, int type) {
         this.relId = relId;
         this.fileName = fileName;
         this.fileType = fileType;
@@ -51,6 +51,6 @@ public class SysImages extends GenericModel {
         this.id=id;
     }
 
-    public SysImages(Long s, Long id, String fileOrignName, String contentType, String icon, int type) {
+    public SysImages() {
     }
 }

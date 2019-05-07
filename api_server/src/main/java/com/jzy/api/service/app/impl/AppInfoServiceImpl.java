@@ -19,6 +19,7 @@ import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,7 +30,6 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
 
     @Resource
     private AppPriceTypeService appPriceTypeService;
-
 
     @Resource
     private AppPageMapper appPageMapper;
@@ -79,7 +79,7 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
         if (list != null && list.size() > 0) {
             throw new BusException("商品名称重复：".concat(appInfo.getName()));
         }
-        appInfoMapper.insert(appInfo);
+        this.insert(appInfo);
     }
 
     /**
@@ -88,7 +88,7 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     public List<AppInfo> listName(String name) {
-        return  appInfoMapper.listName(name);
+        return appInfoMapper.listName(name);
     }
 
     /**
@@ -139,14 +139,28 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
         return appInfoMapper.listPage(appInfoListCnd);
     }
 
+    /**
+     * <b>功能描述：</b>保存富文本内容<br>
+     * <b>修订记录：</b><br>
+     * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
     @Override
-    public Boolean saveAppPage(AppPage AppPage) {
-        return null;
+    public void saveAppPage(AppPage appPage) {
+        Date datetime = new Date();
+        appPage.setCreateTime(datetime);
+        appPage.setModifyTime(datetime);
+        appPageMapper.insert(appPage);
     }
 
+    /**
+     * <b>功能描述：</b>修改富文本内容<br>
+     * <b>修订记录：</b><br>
+     * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
     @Override
-    public Boolean updateAppPage(AppPage AppPage) {
-        return null;
+    public void updateAppPage(AppPage appPage) {
+        appPage.setModifyTime(new Date());
+        appPageMapper.update(appPage);
     }
 
     @Override

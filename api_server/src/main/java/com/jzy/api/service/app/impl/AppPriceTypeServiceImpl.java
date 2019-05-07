@@ -4,14 +4,17 @@ import com.jzy.api.cnd.app.SaveAppPriceTypeListCnd;
 import com.jzy.api.dao.app.AppPriceTypeMapper;
 import com.jzy.api.model.app.AppPriceType;
 import com.jzy.api.service.app.AppPriceTypeService;
+import com.jzy.api.service.key.TableKeyService;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +32,8 @@ public class AppPriceTypeServiceImpl extends GenericServiceImpl<AppPriceType> im
     @Resource
     private AppPriceTypeMapper appPriceTypeMapper;
 
+    @Resource
+    private TableKeyService tableKeyService;
 
     /**
      * <b>功能描述：</b>充值类型批量操作<br>
@@ -40,23 +45,15 @@ public class AppPriceTypeServiceImpl extends GenericServiceImpl<AppPriceType> im
     public void saveAppPriceTypeList(SaveAppPriceTypeListCnd saveAppPriceTypeListCnd) {
         Long aiId = saveAppPriceTypeListCnd.getAiId();
         //物理删除当前商品下的所有充值类型
-        // jdbcTemplate.update(sqlMap("app_price_type.delete"), aiId);
-//        List<Object[]> objects = new ArrayList<>(10);
-//        for (AppPriceType appPriceTypeMapper : saveAppPriceTypeListCnd.getAppPriceTypeMapperList()) {
-//            appPriceTypeMapper.setAiId(aiId);
-//            appPriceTypeMapper.setId(CommUtils.uniqueOrderStr());
-//            //`id`, `ai_id`, `name`, `unit`, `maxmum`, `minmum`, `multiple`, `subscription_ratio`, `gmt_create`, `gmt_modified`, `modifier_id`, creator_id, delflag
-//            objects.add(new Object[]{appPriceTypeMapper.getId(), saveAppPriceTypeListCnd.getAiId(),
-//                    appPriceTypeMapper.getName(), appPriceTypeMapper.getUnit(), appPriceTypeMapper.getMaxmum(),
-//                    appPriceTypeMapper.getMinmum(), appPriceTypeMapper.getMultiple(),
-//                    appPriceTypeMapper.getSubscriptionRatio(), appPriceTypeMapper.getGmtCreate(),
-//                    appPriceTypeMapper.getGmtModified(), appPriceTypeMapper.getModifierId(),
-//                    appPriceTypeMapper.getCreatorId(),
-//                    appPriceTypeMapper.getDelflag()
-//            });
-//        }
-//        this.batchSql(sqlMap("app_price_type.save"), objects);
-
+        appPriceTypeMapper.deleteByAiId(aiId);
+        for (AppPriceType appPriceType : saveAppPriceTypeListCnd.getAppPriceTypeList()) {
+            appPriceType.setAiId(aiId);
+            appPriceType.setId(tableKeyService.newKey("app_price_type", "id", 0));
+            Date dateTime = new Date();
+            appPriceType.setCreateTime(dateTime);
+            appPriceType.setModifyTime(dateTime);
+            appPriceTypeMapper.insert(appPriceType);
+        }
     }
 
 

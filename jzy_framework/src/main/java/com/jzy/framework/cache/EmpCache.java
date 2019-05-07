@@ -1,4 +1,4 @@
-package com.jzy.api.model.cache;
+package com.jzy.framework.cache;
 
 import lombok.Data;
 

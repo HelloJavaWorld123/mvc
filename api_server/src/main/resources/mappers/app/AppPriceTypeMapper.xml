@@ -52,8 +52,49 @@
         WHERE
             1 = 1
         AND ai_id =#{aiId}
-
-
     </select>
+    <!--新增-->
+    <insert id="insert" parameterType="com.jzy.api.model.app.AppPriceType">
+            INSERT INTO `app_price_type` (
+                `id`,
+                `ai_id`,
+                `name`,
+                `unit`,
+                `maxmum`,
+                `minmum`,
+                `multiple`,
+                `subscription_ratio`,
+                `modifier_id`,
+                `creator_id`,
+                `del_flag`,
+                `modify_time`,
+                `create_time`
+            )
+            VALUES
+                (
+                #{id},
+                #{aiId},
+                #{name},
+                #{unit},
+                #{maxmum},
+                #{minmum},
+                #{multiple},
+                #{subscriptionRatio},
+                #{modifierId},
+                #{creatorId},
+                #{delFlag},
+                #{modifyTime},
+                #{createTime}
+                )
+    </insert>
+
+    <!--    物理删除当前商品下的所有充值类型-->
+    <delete id="deleteByAiId">
+        DELETE
+        FROM
+            app_price_type
+        WHERE
+            ai_id =#{aiId}
+    </delete>
 
 </mapper>

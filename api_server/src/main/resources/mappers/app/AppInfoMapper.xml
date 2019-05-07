@@ -56,54 +56,93 @@
     <!--insert-->
     <insert id="insert" parameterType="com.jzy.api.model.app.AppInfo">
             INSERT INTO app_info (
-            id,
+                   `id`,
             `code`,
-            cate_id,
-            acct_id,
-            acp_id,
-            game_id,
-            type_id,
+            `cate_id`,
+            `acct_id`,
+            `acp_id`,
+            `game_id`,
+            `type_id`,
             `name`,
-            icon,
-            label,
-            first_letter,
-            spll_letter,
-            recharge_mode,
+            `icon`,
+            `label`,
+            `first_letter`,
+            `spll_letter`,
+            `recharge_mode`,
             `status`,
-            sort,
+            `sort`,
             `describe`,
-            page_path,
-            remark,
-            delflag,
-            is_hot,
-            is_reco
+            `page_path`,
+            `remark`,
+            `del_flag`,
+            `is_hot`,
+            `is_reco`,
+            `creator_id`,
+            `modifier_id`,
+            `create_time`,
+            `modify_time`
         )
         VALUES
             (
-            #{id}，
-            #{code}，
-            #{cateId}，
-            #{acctId}，
-            #{acpId}，
-            #{gameId}，
-            #{typeId}，
-            #{name}，
-            #{icon}，
-            #{label}，
-            #{firstLetter}，
-            #{spllLetter}，
-            #{rechargeMode}，
-            #{status}，
-            #{sort}，
-            #{describe}，
-            #{pagePath}，
-            #{remark}，
-            #{delflag}，
-            #{isHot}，
-            #{isReco}
+            #{id},
+            #{code},
+            #{cateId},
+            #{acctId},
+            #{acpId},
+            #{gameId},
+            #{typeId},
+            #{name},
+            #{icon},
+            #{label},
+            #{firstLetter},
+            #{spllLetter},
+            #{rechargeMode},
+            #{status},
+            #{sort},
+            #{describe},
+            #{pagePath},
+            #{remark},
+            #{delFlag},
+            #{isHot},
+            #{isReco},
+            #{creatorId},
+            #{modifierId},
+            #{createTime},
+            #{modifyTime}
             )
     </insert>
 
+    <!-- 修改-->
+    <update id="update" parameterType="com.jzy.api.model.app.AppInfo">
+        UPDATE
+        app_info
+        SET
+        `code` =#{code},
+        cate_id =#{cateId},
+        acct_id =#{acctId},
+        acp_id =#{acpId},
+        game_id =#{gameId},
+        type_id =#{typeId},
+        `name` =#{name},
+        icon =#{icon},
+        label =#{label},
+        first_letter =#{firstLetter},
+        spll_letter =#{spllLetter},
+        recharge_mode =#{rechargeMode},
+        `status` =#{status},
+        sort =#{sort},
+        `describe` =#{describe},
+        page_path =#{pagePath},
+        remark =#{remark},
+        is_hot =#{isHot},
+        is_reco =#{isReco},
+        `creator_id` = #{creatorId},
+        `modifier_id` =  #{modifierId},
+        `create_time` =  #{createTime},
+        `modify_time` =  #{modifyTime}
+        WHERE
+        id =#{id}
+    </update>
 
     <!-- 查询商品信息-->
     <select id="queryById" resultType="com.jzy.api.model.app.AppInfo">

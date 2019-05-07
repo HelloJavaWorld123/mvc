@@ -19,7 +19,7 @@
         id,
         name,
         pwd,
-        dealer_id
+        dealer_id dealerId
         FROM
         sys_emp
         WHERE

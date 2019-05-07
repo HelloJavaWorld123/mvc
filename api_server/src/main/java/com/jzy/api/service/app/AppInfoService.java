@@ -63,14 +63,14 @@ public interface AppInfoService extends GenericService<AppInfo> {
      * <b>修订记录：</b><br>
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    Boolean saveAppPage(AppPage AppPage);
+    void saveAppPage(AppPage AppPage);
 
     /**
      * <b>功能描述：</b>修改富文本类型<br>
      * <b>修订记录：</b><br>
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    Boolean updateAppPage(AppPage AppPage);
+    void updateAppPage(AppPage AppPage);
 
 
     /**

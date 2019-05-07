@@ -24,11 +24,18 @@ public interface AppPriceTypeMapper extends GenericMapper<AppPriceType> {
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     List<AppPriceType> getAppPriceTypelist(@Param("aiId") Long aiId);
-    
+
     /**
      * <b>功能描述：</b>前台营业查询当前充值类型商品列表<br>
      * <b>修订记录：</b><br>
      * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     List<AppPriceTypePo> getAppPriceTypePolist(@Param("aiId") Long aiId);
+
+    /**
+     * <b>功能描述：</b>物理删除当前商品下的所有充值类型<br>
+     * <b>修订记录：</b><br>
+     * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void deleteByAiId(@Param("aiId") Long aiId);
 }

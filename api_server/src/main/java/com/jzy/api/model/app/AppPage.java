@@ -1,5 +1,6 @@
 package com.jzy.api.model.app;
 
+import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
 
 /**
@@ -12,7 +13,7 @@ import lombok.Data;
  * </ul>
  */
 @Data
-public class AppPage {
+public class AppPage extends GenericModel {
     /**
      * 商品Id
      */

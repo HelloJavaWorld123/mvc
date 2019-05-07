@@ -1,12 +1,13 @@
 package com.jzy.api.model.auth;
 
+import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class Auth {
+public class Auth extends GenericModel {
     /**
      * 节点ID
      */
