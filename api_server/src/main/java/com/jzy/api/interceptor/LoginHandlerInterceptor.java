@@ -2,6 +2,7 @@ package com.jzy.api.interceptor;
 
 import com.jzy.api.annos.WithoutLogin;
 import com.jzy.api.constant.AccessToken;
+import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.cache.ContextHolder;
 import com.jzy.framework.cache.EmpCache;
 import com.jzy.framework.cache.ThreadLocalCache;
@@ -67,26 +68,44 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
         if (!"1".equals(appType)) {
             // 从请求头中获取后端登录标识
             String accessTokenEmp = request.getHeader(AccessToken.EMP.getValue());
-            if (StringUtils.isEmpty(accessTokenEmp)) {
-                throw new BusException("登陆已失效！");
-            }
+            // 校验token是否为空
+            validateToken(accessTokenEmp);
             EmpCache empCache = cacheEmpService.getCacheEmpByKey(accessTokenEmp);
-            if (empCache == null) {
-                throw new BusException("登陆已失效！");
-            }
+            // 校验缓存当中的值是否存在
+            validateCache(empCache);
             contextHolder.setEmpCache(empCache);
         } else {
             String accessTokenUser = request.getHeader(AccessToken.USER.getValue());
-            if (StringUtils.isEmpty(accessTokenUser)) {
-                throw new BusException("登陆已失效！");
-            }
+            // 校验token是否为空
+            validateToken(accessTokenUser);
             UserCache userCache = cacheEmpService.getCacheUserByKey(accessTokenUser);
-            if (userCache == null) {
-                throw new BusException("登陆已失效！");
-            }
+            // 校验缓存当中的值是否存在
+            validateCache(userCache);
             contextHolder.setUserCache(userCache);
         }
         ThreadLocalCache.setContextHolder(contextHolder);
+    }
+
+    /**
+     * <b>功能描述：</b>校验token是否为空<br>
+     * <b>修订记录：</b><br>
+     * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private void validateToken (String token) {
+        if (StringUtils.isEmpty(token)) {
+            throw new BusException(ResultEnum.SESSION_VALID.getMsg());
+        }
+    }
+
+    /**
+     * <b>功能描述：</b>校验缓存当中的值是否存在<br>
+     * <b>修订记录：</b><br>
+     * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private <T> void validateCache(T t) {
+        if (t == null) {
+            throw new BusException(ResultEnum.SESSION_VALID.getMsg());
+        }
     }
 
     /**
