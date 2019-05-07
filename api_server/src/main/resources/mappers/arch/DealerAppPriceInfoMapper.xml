@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 
+<!--
 	SQL映射文件名称：渠道商基础信息
 	————————————————————————————————————
 	修改日期		作者		变更内容
@@ -42,6 +42,7 @@
         SELECT
         ai.id AS appId,
         ai. NAME AS appName,
+        img.file_url AS appIcon,
         ai.type_id as typeId,
         ai.game_id as gameId,
         ai.recharge_mode AS rechargeMode,
@@ -58,6 +59,7 @@
         LEFT JOIN app_info ai ON dai.ai_id = ai.id
         LEFT JOIN app_accttype aa ON ai.acct_id = aa.id
         LEFT JOIN app_page ap ON ai.id = ap.ai_id
+        LEFT JOIN sys_images as img ON img.type = 1 AND img.rel_id = ai.id
         WHERE
         dai.dealer_id = #{dealerId}
         AND dai. STATUS = 1

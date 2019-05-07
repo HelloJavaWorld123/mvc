@@ -144,6 +144,12 @@ public class DealAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppPri
      * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     private AppDetailPo checkServExist(List<String> ids, AppDetailPo appDetailPo) {
+        // 没有大区，则不检查 服 数据
+        if (ids.isEmpty()){
+            appDetailPo.setIsServ(false);
+            return appDetailPo;
+        }
+
         List<AppGameListPo> appServListPos = appGameMapper.checkServInfo(ids);
         if (appServListPos.size() > 0) {
             appDetailPo.setIsServ(true);

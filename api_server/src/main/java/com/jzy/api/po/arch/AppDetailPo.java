@@ -22,11 +22,16 @@ public class AppDetailPo {
      */
     private String appId;
 
-
     /**
      * 商品名称
      */
     private String appName;
+
+    /**
+     * 商品图标
+     */
+    private String appIcon;
+
     /**
      * 商品类型(默认值0游戏,1服务,2卡密)
      */
@@ -44,12 +49,18 @@ public class AppDetailPo {
     /**
      * 主账号提示信息
      */
-    private String accSubName;
+    private String accMainMsg;
+
 
     /**
      * 游戏id
      */
     private String gameId;
+
+    /**
+     * 附属账号名称
+     */
+    private String accSubName;
 
     /**
      * 附属账号正则
@@ -62,6 +73,7 @@ public class AppDetailPo {
      */
 
     private String accSubMsg;
+
     /**
      * 商品描述信息 app_page 表里的 content
      */
