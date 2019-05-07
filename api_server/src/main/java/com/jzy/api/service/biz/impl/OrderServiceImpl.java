@@ -93,6 +93,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             order.setCode(DateUtils.date2TimeStr(new Date()).concat(CommUtils.authCode()));
         }
         order.setOutTradeNo(order.getOrderId().concat(CommUtils.getStringRandom(7)));
+        order.setDealerId(getFrontDealerId());
         // 获取具体的支付方式
         PayService payService = paywayProvider.getPayService(payWayId);
         // 支付
