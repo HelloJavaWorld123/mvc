@@ -12,41 +12,41 @@
  -->
 
 <mapper namespace="com.jzy.api.dao.biz.OrderMapper">
-    
+
     <resultMap id="order" type="com.jzy.api.model.biz.Order">
-        <result column="id" property="orderId" />
-        <result column="code" property="code" />
-        <result column="out_trade_no" property="outTradeNo" />
-        <result column="user_id" property="userId" />
-        <result column="app_id" property="appId" />
-        <result column="sup_no" property="supNo" />
-        <result column="sup_price" property="supPrice" />
-        <result column="sup_status" property="supStatus" />
-        <result column="discount" property="discount" />
-        <result column="price" property="price" />
-        <result column="number" property="number" />
-        <result column="status" property="status" />
-        <result column="type" property="type" />
-        <result column="total_fee" property="totalFee" />
-        <result column="price_type_name" property="priceTypeName" />
-        <result column="price_type_unit" property="priceTypeUnit" />
-        <result column="acct_type" property="acctType" />
-        <result column="account" property="account" />
-        <result column="game_account" property="gameAccount" />
-        <result column="game_area" property="gameArea" />
-        <result column="game_serv" property="gameServ" />
-        <result column="trade_method" property="tradeMethod" />
-        <result column="trade_fee" property="tradeFee" />
-        <result column="trade_status" property="tradeStatus" />
-        <result column="invoice_status" property="invoiceStatus" />
-        <result column="remark" property="remark" />
-        <result column="recharge_mode" property="rechargeMode" />
-        <result column="dealer_id" property="dealerId" />
-        <result column="del_flag" property="delFlag" />
-        <result column="creator_id" property="creatorId" />
-        <result column="modifier_id" property="modifierId" />
-        <result column="create_time" property="createTime" />
-        <result column="modify_time" property="modifyTime" />
+        <result column="id" property="orderId"/>
+        <result column="code" property="code"/>
+        <result column="out_trade_no" property="outTradeNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="app_id" property="appId"/>
+        <result column="sup_no" property="supNo"/>
+        <result column="sup_price" property="supPrice"/>
+        <result column="sup_status" property="supStatus"/>
+        <result column="discount" property="discount"/>
+        <result column="price" property="price"/>
+        <result column="number" property="number"/>
+        <result column="status" property="status"/>
+        <result column="type" property="type"/>
+        <result column="total_fee" property="totalFee"/>
+        <result column="price_type_name" property="priceTypeName"/>
+        <result column="price_type_unit" property="priceTypeUnit"/>
+        <result column="acct_type" property="acctType"/>
+        <result column="account" property="account"/>
+        <result column="game_account" property="gameAccount"/>
+        <result column="game_area" property="gameArea"/>
+        <result column="game_serv" property="gameServ"/>
+        <result column="trade_method" property="tradeMethod"/>
+        <result column="trade_fee" property="tradeFee"/>
+        <result column="trade_status" property="tradeStatus"/>
+        <result column="invoice_status" property="invoiceStatus"/>
+        <result column="remark" property="remark"/>
+        <result column="recharge_mode" property="rechargeMode"/>
+        <result column="dealer_id" property="dealerId"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="creator_id" property="creatorId"/>
+        <result column="modifier_id" property="modifierId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
     </resultMap>
 
     <!-- 新增订单 -->
@@ -81,7 +81,7 @@
         del_flag = #{delFlag},
         invoice_status = #{invoiceStatus},
         remark = #{remark},
-        <include refid="updateCommon" />
+        <include refid="updateCommon"/>
         WHERE
         id = #{orderId}
     </update>
@@ -127,9 +127,12 @@
         `order` o
         LEFT JOIN app_info app ON o.app_id = app.id
         WHERE
-         o.user_id = #{userId}
+        o.user_id = #{userId}
         <if test="status != null">
             AND o.status = #{status}
+        </if>
+        <if test="status == 10">
+            AND o.status IN (2,3,4)
         </if>
         <if test="status == null">
             AND o.status != 4
