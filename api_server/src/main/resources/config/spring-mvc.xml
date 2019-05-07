@@ -72,6 +72,13 @@
         <property name="exposeSessionAttributes" value="true" />
     </bean>
 
+    <!-- 定义拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.jzy.api.interceptor.LoginHandlerInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <!-- 统一异常处理类 -->
     <bean id="handlerExceptionResolver" class="com.jzy.api.base.ProjectHandlerExceptionResolver"/>
@@ -89,5 +96,6 @@
             </bean>
         </property>
     </bean>
+
 
 </beans>

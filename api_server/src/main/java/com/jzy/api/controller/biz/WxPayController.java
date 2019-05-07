@@ -1,5 +1,6 @@
 package com.jzy.api.controller.biz;
 
+import com.jzy.api.annos.WithoutLogin;
 import com.jzy.api.cnd.biz.WxOAuthCnd;
 import com.jzy.api.model.biz.SecurityToken;
 import com.jzy.api.service.biz.WxPayService;
@@ -58,6 +59,7 @@ public class WxPayController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
+    @WithoutLogin
     @RequestMapping(path = "/authCallback", method = RequestMethod.GET)
     public ModelAndView authCallback(@RequestParam(defaultValue = "") String code,
                                        HttpServletRequest req, HttpServletResponse resp, ModelMap model) {
@@ -83,6 +85,7 @@ public class WxPayController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
+    @WithoutLogin
     @RequestMapping("/payCallback")
     public String payCallback(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         Map<String, String> notifyMap = WXPayUtil.xmlToMap(MyHttp.readRequestData(req));
@@ -94,6 +97,7 @@ public class WxPayController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
+    @WithoutLogin
     @RequestMapping("/webapp_return.shtml")
     public ModelAndView wxWebappReturn(HttpServletRequest req, HttpServletResponse resp, @RequestParam String orderId) {
         return new ModelAndView("/home/wxpay_webapp.jsp?orderId=".concat(orderId));

@@ -1,6 +1,7 @@
 package com.jzy.api.controller.biz;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jzy.api.annos.WithoutLogin;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.AliPayService;
 import com.jzy.api.service.biz.OrderService;
@@ -48,6 +49,7 @@ public class AliPayController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
+    @WithoutLogin
     @RequestMapping(path = "/payCallback")
     public void payCallback(HttpServletRequest req, HttpServletResponse resp) {
         // 处理支付宝回调结果
@@ -58,6 +60,7 @@ public class AliPayController extends GenericController {
      * alipay:页面跳转同步通知页面路径
      * @return
      */
+    @WithoutLogin
     @RequestMapping("/return")
     public ModelAndView aliRetrunUrl(HttpServletRequest req, HttpServletResponse resp) {
         Map<String, String> respMap = MyHttp.currentreadforMap(req);
