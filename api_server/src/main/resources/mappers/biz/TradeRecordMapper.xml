@@ -31,11 +31,10 @@
     <update id="update" parameterType="com.jzy.api.model.biz.TradeRecord">
         UPDATE
         trade_record
-        SET mark_id = #{markId},
+        SET
+        mark_id = #{markId},
         status = #{status},
-        resp_time = #{respTime},
-        resp_data = #{respData},
-        bg_resp_time = #{bgRespTime},
+        bg_resp_time = now(),
         bg_resp_data = #{bgRespData}
         WHERE
         id = #{id}
@@ -94,7 +93,7 @@
         trade_record
         SET mark_id = #{markId},
         status = #{status},
-        bg_resp_time = #{bgRespData},
+        bg_resp_time = now(),
         bg_resp_data = #{bgRespData}
         WHERE
         operator = #{operator}

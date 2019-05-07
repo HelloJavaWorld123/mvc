@@ -10,6 +10,7 @@ import com.jzy.api.service.home.HomeAnalysisService;
 import com.jzy.api.util.DesUtil;
 import com.jzy.api.util.MyEncrypt;
 import com.jzy.api.vo.home.HomeAnalysisInfoVo;
+import com.jzy.framework.cache.UserCache;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -67,8 +69,12 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
             List<DealerParamInfoPo> dealerParamInfoPos = dealerParamService.getDealerParamInfo(dealerAnalysisInfoPo.getDealerId());
             homeAnalysisInfoVo.setDealerParamInfoPos(dealerParamInfoPos);
             homeAnalysisInfoVo.setBusinessId(businessId);
-            RBucket<HomeAnalysisInfoVo> homeAnalysisInfoVoRBucket = redissonClient.getBucket(dataInfo.getToken());
-            homeAnalysisInfoVoRBucket.set(homeAnalysisInfoVo);
+            RBucket<UserCache> homeAnalysisInfoVoRBucket = redissonClient.getBucket(dataInfo.getToken());
+            UserCache userCache = new UserCache();
+            userCache.setUserId(dataInfo.getUserId());
+            // 根据商户号查询商户id
+            userCache.setDealerId(Integer.parseInt(dealerAnalysisInfoPo.getDealerId()));
+            homeAnalysisInfoVoRBucket.set(userCache, 30, TimeUnit.MINUTES);
         } catch (Exception e) {
             e.printStackTrace();
         }

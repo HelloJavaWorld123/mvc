@@ -47,7 +47,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
                 return true;
             }
             // 设置全局变量
-            // setTheadLocalCache(request);
+            setTheadLocalCache(request);
             return true;
         }
         return false;
@@ -62,7 +62,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
         // 用于判断所请求的接口时前台还是后端登录；1：前台；2：后端；为空的情况代表的是前台
         String appType = request.getHeader(AccessToken.APP.getValue());
         if (StringUtils.isEmpty(appType)) {
-            appType = "2";
+            appType = "1";
         }
         ContextHolder contextHolder = new ContextHolder();
         if (!"1".equals(appType)) {

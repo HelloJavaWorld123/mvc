@@ -56,7 +56,7 @@ public class SupRecord extends GenericModel {
     /**
      * 异步通知次数
      */
-    private Integer bgRespAmount;
+    private Integer bgRespAmount = 0;
     /**
      * 备注
      */
