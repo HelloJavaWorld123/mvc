@@ -13,6 +13,19 @@
 
 <mapper namespace="com.jzy.api.dao.arch.DealerMapper">
 
+    <select id="queryById" resultType="com.jzy.api.model.dealer.Dealer">
+        SELECT
+        id as dealerId,
+        pubkey,
+        prikey,
+        sup_businessid supBusinessid,
+        sup_key supKey
+        FROM
+        dealer
+        WHERE
+        id = #{id}
+    </select>
+
     <!-- 获取渠道商私钥  -->
     <select id="getAnalysisInfo"
             resultType="com.jzy.api.po.arch.DealerAnalysisInfoPo">

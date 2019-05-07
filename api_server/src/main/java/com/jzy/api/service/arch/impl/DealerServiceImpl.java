@@ -4,6 +4,8 @@ import com.jzy.api.dao.arch.DealerMapper;
 import com.jzy.api.model.dealer.Dealer;
 import com.jzy.api.po.arch.DealerAnalysisInfoPo;
 import com.jzy.api.service.arch.DealerService;
+import com.jzy.framework.dao.GenericMapper;
+import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,14 +20,14 @@ import javax.annotation.Resource;
  * </ul>
  */
 @Service
-public class DealerServiceImpl implements DealerService {
+public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements DealerService {
 
     @Resource
     private DealerMapper dealerMapper;
 
     @Override
-    public Dealer queryDealer(Long userId) {
-        return null;
+    public Dealer queryDealer(Integer dealerId) {
+        return dealerMapper.queryById(dealerId.longValue());
     }
 
     /**
@@ -36,5 +38,10 @@ public class DealerServiceImpl implements DealerService {
     public DealerAnalysisInfoPo getAnalysisInfo(String businessId) {
         return dealerMapper.getAnalysisInfo(businessId);
 
+    }
+
+    @Override
+    protected GenericMapper<Dealer> getGenericMapper() {
+        return dealerMapper;
     }
 }

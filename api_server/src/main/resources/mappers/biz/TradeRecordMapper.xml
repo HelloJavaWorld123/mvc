@@ -95,10 +95,10 @@
         SET mark_id = #{markId},
         status = #{status},
         bg_resp_time = #{bgRespData},
-        bg_resp_data =
+        bg_resp_data = #{bgRespData}
         WHERE
-        operator =
-        AND status =
+        operator = #{operator}
+        AND status = #{oldStatus}
     </update>
 
 

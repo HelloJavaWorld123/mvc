@@ -1,6 +1,8 @@
 package com.jzy.api.dao.arch;
 
+import com.jzy.api.model.dealer.Dealer;
 import com.jzy.api.po.arch.DealerAnalysisInfoPo;
+import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -12,7 +14,7 @@ import org.apache.ibatis.annotations.Param;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190505&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;唐永刚&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
-public interface DealerMapper {
+public interface DealerMapper extends GenericMapper<Dealer> {
 
 
     /**
