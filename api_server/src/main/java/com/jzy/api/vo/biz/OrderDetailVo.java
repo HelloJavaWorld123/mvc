@@ -63,7 +63,7 @@ public class OrderDetailVo extends GenericVo {
     /**
      * 商品id
      */
-    private Long appId;
+    private String appId;
     /**
      * 商品名称
      */

@@ -77,7 +77,7 @@ public class FrontOrderController extends GenericController {
         orderDetailVo.setStatus(order.getStatus());
         orderDetailVo.setAccount(order.getAccount());
         orderDetailVo.setCreateTime(order.getCreateTime());
-        orderDetailVo.setAppId(order.getAppId());
+        orderDetailVo.setAppId(order.getAppId() + "");
         orderDetailVo.setAppName(order.getAppName());
         orderDetailVo.setAppIcon(order.getAppIcon());
         orderDetailVo.setRechargeMode(order.getRechargeMode());
