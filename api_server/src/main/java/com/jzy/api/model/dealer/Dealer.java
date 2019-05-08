@@ -1,18 +1,21 @@
 package com.jzy.api.model.dealer;
 
 import com.jzy.framework.bean.model.GenericModel;
+import lombok.Data;
 
 import java.io.Serializable;
 
 /**
- * 经销商Model
- * Created by IntelliJ IDEA. @Date 2019/3/5
- *
- * @Author GuoBing.Zh
+ * <b>功能：</b>经销商Model<br>
+ * <b>Copyright JZY</b>
+ * <ul>
+ * <li>版本&nbsp;&nbsp;&nbsp;&nbsp;修改日期&nbsp;&nbsp;&nbsp;&nbsp;部　　门&nbsp;&nbsp;&nbsp;&nbsp;作　者&nbsp;&nbsp;&nbsp;&nbsp;变更内容</li>
+ * <hr>
+ * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190508&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;唐永刚&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
+ * </ul>
  */
+@Data
 public class Dealer extends GenericModel implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private Integer id;
     /**
      * 经销商标识
      */
@@ -40,7 +43,7 @@ public class Dealer extends GenericModel implements Serializable {
      */
     private String state;
     /**
-     *公钥（API KEY）用于签名使用
+     * 公钥（API KEY）用于签名使用
      */
     private String pubkey;
     /**
@@ -63,105 +66,5 @@ public class Dealer extends GenericModel implements Serializable {
 
 
     private String remark;
-    
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getIdnum() {
-        return idnum;
-    }
-
-    public void setIdnum(String idnum) {
-        this.idnum = idnum;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
-    public String getTelno() {
-        return telno;
-    }
-
-    public void setTelno(String telno) {
-        this.telno = telno;
-    }
-
-    public int getVerified() {
-        return verified;
-    }
-
-    public void setVerified(int verified) {
-        this.verified = verified;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getPubkey() {
-        return pubkey;
-    }
-
-    public void setPubkey(String pubkey) {
-        this.pubkey = pubkey;
-    }
-
-    public String getPrikey() {
-        return prikey;
-    }
-
-    public void setPrikey(String prikey) {
-        this.prikey = prikey;
-    }
-
-    public String getSupBusinessid() {
-        return supBusinessid;
-    }
-
-    public void setSupBusinessid(String supBusinessid) {
-        this.supBusinessid = supBusinessid;
-    }
-
-    public String getSupKey() {
-        return supKey;
-    }
-
-    public void setSupKey(String supKey) {
-        this.supKey = supKey;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 }
