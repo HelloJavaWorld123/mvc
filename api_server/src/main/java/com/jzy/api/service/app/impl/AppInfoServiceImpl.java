@@ -167,8 +167,11 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
      */
     @Override
     public void updateAppPage(AppPage appPage) {
+        //删除
         appPage.setModifyTime(new Date());
-        appPageMapper.update(appPage);
+       if(appPageMapper.update(appPage)==0){
+            this.saveAppPage(appPage);
+       }
     }
 
     @Override

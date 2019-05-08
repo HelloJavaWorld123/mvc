@@ -58,11 +58,14 @@ public class SysImagesServiceImpl implements SysImagesService {
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void update(SysImages SysImages) {
+    public void update(SysImages sysImages) {
         try {
-            sysImagesMapper.update(SysImages);
+            //删除图片
+            sysImagesMapper.delete(sysImages.getRelId().toString(), sysImages.getType());
+            //保存图片
+            sysImagesMapper.insert(sysImages);
         } catch (Exception e) {
-            logger.error("图片更新失败:fileName = {}", "错误原因：{}", SysImages.getFileName(), e.getMessage());
+            logger.error("图片更新失败:fileName = {}", "错误原因：{}", sysImages.getFileName(), e.getMessage());
         }
 
 

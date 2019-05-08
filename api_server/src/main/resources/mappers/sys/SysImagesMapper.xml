@@ -57,4 +57,13 @@
 		rel_id =#{aiId}
 	</select>
 
+    <!--删除图片	-->
+    <delete id="delete">
+	delete from
+	sys_images
+	where
+	rel_id=#{relId}
+	and  type=#{type}
+
+</delete>
 </mapper>
