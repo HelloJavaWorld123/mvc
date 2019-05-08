@@ -133,7 +133,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param orderId 订单id
      */
     @Override
-    public int queryOrderStatus(String orderId) {
+    public int queryOrderStatusForParty(String orderId) {
         Order order = orderMapper.queryOrderById(orderId);
         if (order == null) {
             throw new BusException("订单不存在");
@@ -269,6 +269,18 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     @Override
     public int updateSupStatus(String id, Integer supStatus) {
         return orderMapper.updateSupStatus(id, supStatus);
+    }
+
+    /**
+     * <b>功能描述：</b>查询订单状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param orderId 订单id
+     */
+    @Override
+    public Order queryOrderStatus(String orderId) {
+        return orderMapper.queryOrderStatus(orderId);
     }
 
     @Override
