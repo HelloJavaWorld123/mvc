@@ -24,7 +24,7 @@ public class OrderDetailVo extends GenericVo {
     /**
      * 三方交易订单号
      */
-    private String markId;
+    private String outTradeNo;
     /**
      * 订单总价
      */
@@ -57,9 +57,29 @@ public class OrderDetailVo extends GenericVo {
      */
     private String account;
     /**
+     * 商品类型
+     */
+    private Integer type;
+    /**
+     * 充值类型
+     */
+    private String acctType;
+    /**
+     * 充值数量
+     */
+    private Integer number;
+    /**
+     * 充值单位
+     */
+    private String priceTypeUnit;
+    /**
      * 订单创建时间
      */
     private Date createTime;
+    /**
+     * 订单完成时间
+     */
+    private Date finishTime;
     /**
      * 商品id
      */

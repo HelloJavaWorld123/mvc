@@ -118,6 +118,11 @@
     <select id="queryOrderDetail" resultMap="order">
         SELECT
         o.id,
+        o.type,
+        o.acct_type,
+        o.number,
+        o.price_type_unit,
+        o.out_trade_no,
         o.total_fee,
         o.trade_fee,
         o.trade_method,
@@ -155,7 +160,8 @@
         LEFT JOIN app_info app ON o.app_id = app.id
         LEFT JOIN sys_images AS img ON img.type = 1 AND img.rel_id = app.id
         WHERE
-        o.user_id = #{userId}
+        o.del_flag != 1
+        AND o.user_id = #{userId}
         <if test="status != null and status != 10">
             AND o.status = #{status}
         </if>
