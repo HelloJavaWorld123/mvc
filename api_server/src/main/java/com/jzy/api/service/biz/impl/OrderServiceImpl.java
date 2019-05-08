@@ -91,9 +91,9 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             isTempOrder = true;
             order.setOrderId(CommUtils.uniqueOrderStr());
             order.setCode(DateUtils.date2TimeStr(new Date()).concat(CommUtils.authCode()));
+            order.setDealerId(getFrontDealerId());
         }
         order.setOutTradeNo(order.getOrderId().concat(CommUtils.getStringRandom(7)));
-        order.setDealerId(getFrontDealerId());
         // 获取具体的支付方式
         PayService payService = paywayProvider.getPayService(payWayId);
         // 支付
@@ -103,11 +103,12 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         } catch (Exception e) {
             throw new PayException("支付异常");
         }
-        // 三 保存或更新Order订单数据
+        // 是否临时订单
         if (isTempOrder) {
+            // 保存或更新Order订单数据
             insert(order);
         } else {
-            // 更新订单的支付方式，流水号，交易状态
+            // 重新支付，更新订单的支付方式
             updateStatusTradeMethod(order.getOrderId(), order.getStatus(), order.getTradeMethod(), order.getOutTradeNo());
         }
         return apiResult.getData().toString();
@@ -266,6 +267,16 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         return orderMapper.updateStatusTradeStatusSupStatus(id, status, tradeStatus, supStatus);
     }
 
+    /**
+     * <b>功能描述：</b>重新支付，更新订单的支付方式<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param id 订单id
+     * @param status 订单状态
+     * @param tradeMethod 支付方式
+     * @param outTradeNo 流水号
+     */
     @Override
     public int updateStatusTradeMethod(String id, Integer status, Integer tradeMethod, String outTradeNo) {
         return orderMapper.updateStatusTradeMethod(id, status, tradeMethod, outTradeNo);
