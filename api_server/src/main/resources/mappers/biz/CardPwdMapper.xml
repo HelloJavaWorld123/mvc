@@ -38,13 +38,23 @@
     <!-- 是否存在该订单的卡号 -->
     <select id="isExist" resultType="java.lang.Boolean">
         SELECT
-        count(1) > 0
+        COUNT(1) > 0
         FROM
         order_cardkey
         WHERE
         order_id = #{orderId}
         AND card_no = #{cardNo}
         LIMIT 1
+    </select>
+
+    <!-- 根据订单id查询卡号 -->
+    <select id="queryCardNoByOrderId" resultType="java.lang.String">
+        SELECT
+        card_no
+        FROM
+        order_cardkey
+        WHERE
+        order_id = #{orderId}
     </select>
 
 </mapper>

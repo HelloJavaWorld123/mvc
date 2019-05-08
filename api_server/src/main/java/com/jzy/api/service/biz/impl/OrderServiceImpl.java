@@ -3,7 +3,9 @@ package com.jzy.api.service.biz.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jzy.api.dao.biz.OrderMapper;
+import com.jzy.api.model.biz.CardPwd;
 import com.jzy.api.model.biz.Order;
+import com.jzy.api.service.biz.CardPwdService;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.service.biz.PayService;
 import com.jzy.api.util.CommUtils;
@@ -44,6 +46,9 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
     @Resource
     private PaywayProvider paywayProvider;
+
+    @Resource
+    private CardPwdService cardPwdService;
 
     /**
      * 订单超时时间
@@ -86,7 +91,6 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         order.setTradeMethod(payWayId);
         // 是否临时订单
         boolean isTempOrder = false;
-        // TODO: 2019/4/30 是否进行登录
         if (StringUtils.isEmpty(orderId)) {
             isTempOrder = true;
             order.setOrderId(CommUtils.uniqueOrderStr());
@@ -118,12 +122,17 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * <b>功能描述：</b>订单退款<br>
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @return int 0：退单成功；1：退单失败
      */
     @Override
     public int tradeRefund(Order order) {
         PayService payService = paywayProvider.getPayService(order.getTradeMethod());
-        payService.orderBack(order);
-        return update(order);
+        boolean isSuccess  = payService.orderBack(order);
+        if (isSuccess) {
+            return update(order);
+        }
+        return 0;
     }
 
     /**
@@ -224,8 +233,16 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      */
     @Override
     public Order queryOrderDetail(String id) {
-        orderMapper.queryOrderDetail(id);
-        return null;
+        Order order = orderMapper.queryOrderDetail(id);
+        // 卡密需要查询卡密信息
+        if (order.getRechargeMode() == 1) {
+            // 根据订单id查询卡号
+            String cardNo = cardPwdService.queryCardNoByOrderId(id);
+            if (StringUtils.isEmpty(cardNo)) {
+                order.setCardNo(cardNo);
+            }
+        }
+        return order;
     }
 
     /**
@@ -241,27 +258,38 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     }
 
     /**
-     * <b>功能描述：</b>根据订单id关闭订单<br>
+     * <b>功能描述：</b>更新充值状态<br>
      * <b>修订记录：</b><br>
-     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     *
-     * @param id 订单id
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @Override
-    public int updateOrderClose(String id) {
-        return orderMapper.updateOrderClose(id);
-    }
-
     @Override
     public int updateStatus(String id, Integer status) {
         return orderMapper.updateStatus(id, status);
     }
 
+    /**
+     * <b>功能描述：</b>更新交易状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param id 订单id
+     * @param tradeStatus 交易状态
+     */
     @Override
     public int updateTradeStatus(String id, String tradeStatus) {
         return orderMapper.updateTradeStatus(id, tradeStatus);
     }
 
+    /**
+     * <b>功能描述：</b>更新状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param id 订单id
+     * @param status 订单状态 0：待支付；1：充值中；2：充值成功；3：充值失败；4：充值关闭
+     * @param tradeStatus 支付状态
+     * @param supStatus sup状态，0：未提交；1：已提交；2：成功；3：失败
+     */
     @Override
     public int updateStatusTradeStatusSupStatus(String id, Integer status, String tradeStatus, Integer supStatus) {
         return orderMapper.updateStatusTradeStatusSupStatus(id, status, tradeStatus, supStatus);

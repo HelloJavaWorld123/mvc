@@ -80,6 +80,8 @@ public class FrontOrderController extends GenericController {
         orderDetailVo.setAppId(order.getAppId());
         orderDetailVo.setAppName(order.getAppName());
         orderDetailVo.setAppIcon(order.getAppIcon());
+        orderDetailVo.setRechargeMode(order.getRechargeMode());
+        orderDetailVo.setCardNo(order.getCardNo());
         return orderDetailVo;
     }
 

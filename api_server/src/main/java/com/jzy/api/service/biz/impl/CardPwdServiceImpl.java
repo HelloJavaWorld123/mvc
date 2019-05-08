@@ -50,6 +50,18 @@ public class CardPwdServiceImpl extends GenericServiceImpl<CardPwd> implements C
         return cardPwdMapper.isExist(orderId, cardNo);
     }
 
+    /**
+     * <b>功能描述：</b>根据订单id查询卡号<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param orderId 订单id
+     */
+    @Override
+    public String queryCardNoByOrderId(String orderId) {
+        return cardPwdMapper.queryCardNoByOrderId(orderId);
+    }
+
     @Override
     protected GenericMapper<CardPwd> getGenericMapper() {
         return cardPwdMapper;

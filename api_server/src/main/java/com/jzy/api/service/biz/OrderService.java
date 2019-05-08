@@ -7,7 +7,6 @@ import com.jzy.framework.service.GenericService;
 import org.apache.ibatis.annotations.Param;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * <b>功能：</b>订单业务处理<br>
@@ -103,15 +102,6 @@ public interface OrderService extends GenericService<Order> {
     String queryCardPwdById(String id);
 
     /**
-     * <b>功能描述：</b>根据订单id关闭订单<br>
-     * <b>修订记录：</b><br>
-     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     *
-     * @param id 订单id
-     */
-    int updateOrderClose(String id);
-
-    /**
      * <b>功能描述：</b>更新订单充值状态<br>
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
@@ -132,14 +122,14 @@ public interface OrderService extends GenericService<Order> {
     int updateTradeStatus(String id, String tradeStatus);
 
     /**
-     * <b>功能描述：</b>这里写功能描述<br>
+     * <b>功能描述：</b>更新状态<br>
      * <b>修订记录：</b><br>
-     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
-     * @param status      充值状态 0等待支付,1充值中,2充值成功,3充值失败,4订单关闭
-     * @param tradeStatus 交易状态 {@link OrderMapper.TradeStatusConst}
-     * @param supStatus   sup状态
-     * @param id          主键id
+     * @param id 订单id
+     * @param status 订单状态 0：待支付；1：充值中；2：充值成功；3：充值失败；4：充值关闭
+     * @param tradeStatus 支付状态
+     * @param supStatus sup状态，0：未提交；1：已提交；2：成功；3：失败
      */
     int updateStatusTradeStatusSupStatus(String id, Integer status, String tradeStatus, Integer supStatus);
 

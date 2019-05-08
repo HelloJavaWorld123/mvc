@@ -72,4 +72,12 @@ public class OrderDetailVo extends GenericVo {
      * 商品图片
      */
     private String appIcon;
+    /**
+     * 1：卡密
+     */
+    private int rechargeMode = 0;
+    /**
+     * 卡号
+     */
+    private String cardNo;
 }

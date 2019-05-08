@@ -149,7 +149,10 @@ public class Order extends GenericModel {
      * 商品图片
      */
     private String appIcon;
-
+    /**
+     * 卡号
+     */
+    private String cardNo;
     /**
      * 订单交易状态
      */

@@ -31,4 +31,13 @@ public interface CardPwdMapper extends GenericMapper<CardPwd> {
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     boolean isExist(@Param("orderId") String orderId, @Param("cardNo") String cardNo);
+
+    /**
+     * <b>功能描述：</b>根据订单id查询卡号<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param orderId 订单id
+     */
+    String queryCardNoByOrderId(String orderId);
 }
