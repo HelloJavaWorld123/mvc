@@ -21,6 +21,10 @@ public class Order extends GenericModel {
      */
     private String orderId;
     /**
+     * 第三方支付账号
+     */
+    private String markId;
+    /**
      * 订单编号:时间戳+6位随机数
      */
     private String code;

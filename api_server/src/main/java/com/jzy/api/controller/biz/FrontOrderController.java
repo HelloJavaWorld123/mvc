@@ -5,10 +5,12 @@ import com.jzy.api.cnd.biz.OrderListCnd;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.vo.biz.FrontOrderVo;
+import com.jzy.api.vo.biz.OrderDetailVo;
 import com.jzy.api.vo.biz.StatusVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
+import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,10 +55,33 @@ public class FrontOrderController extends GenericController {
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @ResponseBody
-    @RequestMapping(path = "/queryOrderById")
-    public ApiResult queryOrderById(@RequestBody CodeCnd codeCnd) {
-        orderService.queryOrderById(codeCnd.getOrderId());
-        return new ApiResult().success();
+    @RequestMapping(path = "/queryOrderDetail")
+    public ApiResult queryOrderDetail(@RequestBody CodeCnd codeCnd) {
+        Order order = orderService.queryOrderDetail(codeCnd.getOrderId());
+        return new ApiResult<>().success(getOrderDetailVo(order));
+    }
+
+    /**
+     * <b>功能描述：</b>订单详情返回参数<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private OrderDetailVo getOrderDetailVo(Order order) {
+        OrderDetailVo orderDetailVo = new OrderDetailVo();
+        orderDetailVo.setOrderId(order.getOrderId());
+        orderDetailVo.setMarkId(order.getMarkId());
+        orderDetailVo.setTotalFee(order.getTotalFee());
+        orderDetailVo.setTradeFee(order.getTradeFee());
+        orderDetailVo.setPrice(order.getPrice());
+        orderDetailVo.setTradeMethod(order.getTradeMethod());
+        orderDetailVo.setPriceTypeName(order.getPriceTypeName());
+        orderDetailVo.setStatus(order.getStatus());
+        orderDetailVo.setAccount(order.getAccount());
+        orderDetailVo.setCreateTime(order.getCreateTime());
+        orderDetailVo.setAppId(order.getAppId());
+        orderDetailVo.setAppName(order.getAppName());
+        orderDetailVo.setAppIcon(order.getAppIcon());
+        return orderDetailVo;
     }
 
     /**

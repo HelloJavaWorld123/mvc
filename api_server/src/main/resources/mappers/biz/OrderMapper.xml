@@ -47,6 +47,10 @@
         <result column="modifier_id" property="modifierId"/>
         <result column="create_time" property="createTime"/>
         <result column="modify_time" property="modifyTime"/>
+
+        <result column="appId" property="appId"/>
+        <result column="appName" property="appName"/>
+        <result column="appIcon" property="appIcon"/>
     </resultMap>
 
     <!-- 新增订单 -->
@@ -108,6 +112,29 @@
         `order`
         WHERE
         id = #{orderId}
+    </select>
+
+    <!-- 根据订单id查询订单详情 -->
+    <select id="queryOrderDetail" resultMap="order">
+        SELECT
+        o.id,
+        o.total_fee,
+        o.trade_fee,
+        o.trade_method,
+        o.price,
+        o.price_type_name,
+        o. status,
+        o.account,
+        o.recharge_mode,
+        o.create_time,
+        app.id appId,
+        app. NAME appName,
+        app.icon appIcon
+        FROM
+        `order` o
+        INNER JOIN app_info app ON o.app_id = app.id
+        WHERE
+        o.id = #{id}
     </select>
 
     <!-- 前台订单列表查询 -->
