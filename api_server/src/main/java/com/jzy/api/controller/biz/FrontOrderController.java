@@ -2,8 +2,10 @@ package com.jzy.api.controller.biz;
 
 import com.jzy.api.cnd.biz.CodeCnd;
 import com.jzy.api.cnd.biz.OrderListCnd;
+import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.vo.biz.FrontOrderVo;
+import com.jzy.api.vo.biz.StatusVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
@@ -55,6 +57,20 @@ public class FrontOrderController extends GenericController {
     public ApiResult queryOrderById(@RequestBody CodeCnd codeCnd) {
         orderService.queryOrderById(codeCnd.getOrderId());
         return new ApiResult().success();
+    }
+
+    /**
+     * <b>功能描述：</b>查询本地的支付状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190419&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("/queryOrderStatus")
+    public ApiResult queryOrderStatus(@RequestBody CodeCnd codeCnd) {
+        Order order = orderService.queryOrderStatus(codeCnd.getOrderId());
+        StatusVo statusVo = new StatusVo();
+        statusVo.setStatus(order.getStatus());
+        statusVo.setAppId(order.getAppId());
+        return new ApiResult<>().success(statusVo);
     }
 
     /**
