@@ -1,12 +1,18 @@
 package com.jzy.api.service.app;
 
+import com.jzy.api.cnd.app.GameListCnd;
 import com.jzy.api.cnd.app.GetServInfoCnd;
 import com.jzy.api.model.app.AppGame;
+import com.jzy.api.po.app.AppGamePo;
 import com.jzy.api.vo.app.AppGameListVo;
 import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.GenericService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+
+import static com.jzy.common.enums.ResultEnum.OPERATION_FAILED;
 
 
 /**
@@ -35,5 +41,13 @@ public interface AppGameService extends GenericService<AppGame> {
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     AppGameListVo getServInfo(GetServInfoCnd getServInfoCnd);
+
+    /**
+     * <b>功能描述：</b>后台游戏列表查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<AppGamePo> getList(GameListCnd gameListCnd);
+
 
 }

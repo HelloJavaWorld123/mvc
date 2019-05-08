@@ -1,8 +1,10 @@
 package com.jzy.api.dao.app;
 
+import com.jzy.api.cnd.app.GameListCnd;
 import com.jzy.api.cnd.app.GetServInfoCnd;
 import com.jzy.api.model.app.AppGame;
 import com.jzy.api.po.app.AppGameListPo;
+import com.jzy.api.po.app.AppGamePo;
 import com.jzy.api.vo.app.AppGameListVo;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
@@ -49,6 +51,14 @@ public interface AppGameMapper extends GenericMapper<AppGame> {
      * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     List<AppGameListPo> checkServInfo(@Param("ids") List<String> ids);
+
+
+    /**
+     * <b>功能描述：</b>后台游戏列表查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<AppGamePo> getList(GameListCnd gameListCnd);
 
 
 }

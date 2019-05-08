@@ -1,6 +1,8 @@
 package com.jzy.api.controller.app;
 
+import com.jzy.api.cnd.app.GameListCnd;
 import com.jzy.api.cnd.app.GetServInfoCnd;
+import com.jzy.api.po.app.AppGamePo;
 import com.jzy.api.service.app.AppGameService;
 import com.jzy.api.vo.app.AppGameListVo;
 import com.jzy.framework.bean.cnd.IdCnd;
@@ -10,9 +12,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
+
+import static com.jzy.common.enums.ResultEnum.OPERATION_FAILED;
 
 
 /**
@@ -56,4 +62,23 @@ public class AppGameController {
         AppGameListVo appGameListVo = appGameService.getServInfo(getServInfoCnd);
         return new ApiResult(appGameListVo);
     }
+
+    /**
+     * <b>功能描述：</b>后台游戏列表查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("admin/getList")
+    public ApiResult getList(@RequestBody GameListCnd gameListCnd) {
+        List<AppGamePo> gameList;
+        try {
+            gameList = appGameService.getList(gameListCnd);
+        } catch (Exception e) {
+            logger.error("admin-AppGameMgtCOntrooler分页列表异常:{}", e);
+            return new ApiResult(OPERATION_FAILED);
+        }
+        return new ApiResult<>(gameList);
+    }
+
+
 }

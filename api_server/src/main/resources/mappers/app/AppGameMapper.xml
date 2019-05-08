@@ -66,14 +66,39 @@
         FROM
         app_game ag
         WHERE
-         ag.type = 3
+        ag.type = 3
         and NAME != '无'
         AND NAME != ' '
         and
         ag.p_id in
-        <foreach collection="ids" index="index" separator="," open="(" close=")" item="item">
+        <foreach collection="ids" index="index" separator="," open="(" close=")"
+                 item="item">
             #{item}
         </foreach>
 
     </select>
+
+
+    <!--    后台游戏列表查询-->
+
+    <select id="getList" parameterType="com.jzy.api.cnd.app.GameListCnd"
+            resultType="com.jzy.api.po.app.AppGamePo">
+        select
+        game.id,
+        game.p_id as pId,
+        game.`name`,
+        game.type
+        FROM
+        app_game game
+        WHERE
+        1 = 1
+        AND game.p_id = #{pId}
+        AND game.type =#{type}
+        <if test="queryName!=null">
+            AND game. NAME LIKE CONCAT('%', #{queryName}, '%')
+        </if>
+
+
+    </select>
+
 </mapper>

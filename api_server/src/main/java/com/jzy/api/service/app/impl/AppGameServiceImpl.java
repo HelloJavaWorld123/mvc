@@ -1,9 +1,11 @@
 package com.jzy.api.service.app.impl;
 
+import com.jzy.api.cnd.app.GameListCnd;
 import com.jzy.api.cnd.app.GetServInfoCnd;
 import com.jzy.api.dao.app.AppGameMapper;
 import com.jzy.api.model.app.AppGame;
 import com.jzy.api.po.app.AppGameListPo;
+import com.jzy.api.po.app.AppGamePo;
 import com.jzy.api.service.app.AppGameService;
 import com.jzy.api.vo.app.AppGameListVo;
 import com.jzy.framework.dao.GenericMapper;
@@ -48,8 +50,19 @@ public class AppGameServiceImpl extends GenericServiceImpl<AppGame> implements A
      */
     @Override
     public AppGameListVo getServInfo(GetServInfoCnd getServInfoCnd) {
-        List<AppGameListPo> appGameListPos = appGameMapper.getServInfo(getServInfoCnd.getAiId(),getServInfoCnd.getAreaId());
+        List<AppGameListPo> appGameListPos = appGameMapper.getServInfo(getServInfoCnd.getAiId(), getServInfoCnd.getAreaId());
         return new AppGameListVo(appGameListPos);
+    }
+
+    /**
+     * <b>功能描述：</b>后台游戏列表查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+
+    @Override
+    public List<AppGamePo> getList(GameListCnd gameListCnd) {
+        return appGameMapper.getList(gameListCnd);
     }
 
     @Override
