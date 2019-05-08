@@ -9,6 +9,7 @@ import com.jzy.api.service.auth.AuthService;
 import com.jzy.api.service.sys.EmpService;
 import com.jzy.api.util.MD5Util;
 import com.jzy.framework.dao.GenericMapper;
+import com.jzy.framework.exception.BusException;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import freemarker.core.BugException;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +53,9 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
     @Override
     public Emp login(String username, String pwd) {
         Emp emp = queryEmpByUsername(username);
+        if (MD5Util.string2MD5(pwd).equals(emp.getPwd())) {
+            throw new BusException("密码不正确！");
+        }
         // 缓存渠道商员工信息
         cacheDealerEmp(emp);
         Set<Role> roles = authService.queryRoleList(emp.getId());
@@ -67,10 +71,10 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
     private void cacheDealerEmp(Emp emp) {
         String cacheDealerEmp = ApiRedisCacheConstant.CACHE_DEALER_EMP + emp.getId();
         String token = MD5Util.string2MD5(cacheDealerEmp);
-        RBucket<EmpCache> bucket = redissonClient.getBucket(token);
         EmpCache empCache = new EmpCache();
         empCache.setEmpId(emp.getId());
         empCache.setDealerId(emp.getDealerId());
+        RBucket<EmpCache> bucket = redissonClient.getBucket(token);
         bucket.set(empCache);
         emp.setApiEmpToken(token);
     }
