@@ -53,7 +53,7 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
     @Override
     public Emp login(String username, String pwd) {
         Emp emp = queryEmpByUsername(username);
-        if (MD5Util.string2MD5(pwd).equals(emp.getPwd())) {
+        if (!MD5Util.string2MD5(pwd).equals(emp.getPwd())) {
             throw new BusException("密码不正确！");
         }
         // 缓存渠道商员工信息
