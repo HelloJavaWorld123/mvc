@@ -29,6 +29,16 @@ public class OrderController extends GenericController {
     @Resource
     private OrderService orderService;
 
-
+    /**
+     * <b>功能描述：</b>后端_订单列表查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @ResponseBody
+    @RequestMapping(path = "/queryOrderList")
+    public ApiResult queryOrderList(@RequestBody OrderListCnd orderListCnd) {
+        
+        return new ApiResult<>().success();
+    }
 
 }
