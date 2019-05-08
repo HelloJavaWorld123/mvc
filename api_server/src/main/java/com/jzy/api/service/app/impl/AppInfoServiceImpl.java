@@ -9,6 +9,7 @@ import com.jzy.api.dao.app.AppPageMapper;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPage;
 import com.jzy.api.model.app.AppPriceType;
+import com.jzy.api.po.app.AppInfoPo;
 import com.jzy.api.service.app.AppInfoService;
 import com.jzy.api.service.app.AppPriceTypeService;
 import com.jzy.api.vo.app.AppInfoDetailVo;
@@ -44,7 +45,7 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
     @Override
     public AppInfoDetailVo getAppInfo(Long aiId) {
 
-        AppInfo appInfoMapper = getAppInfoMapper(aiId);
+        AppInfoPo appInfoMapper = getAppInfoMapper(aiId);
         List<AppPriceType> appPriceTypeMappers = appPriceTypeService.getAppPriceTypelist(aiId);
         //获取商品富文本
         AppPage appPage = appPageMapper.getPageInfoByAiId(aiId);
@@ -56,8 +57,8 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    public AppInfo getAppInfoMapper(Long id) {
-        return appInfoMapper.queryById(id);
+    public AppInfoPo getAppInfoMapper(Long id) {
+        return appInfoMapper.getAppInfo(id);
     }
 
     /**
@@ -65,7 +66,7 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    public AppInfo queryAppById(Long aiId) {
+    public AppInfoPo queryAppById(Long aiId) {
         return this.getAppInfoMapper(aiId);
     }
 

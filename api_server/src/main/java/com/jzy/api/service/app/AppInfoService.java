@@ -4,6 +4,7 @@ import com.jzy.api.cnd.app.AppInfoListCnd;
 import com.jzy.api.cnd.app.UpdateStatusBatchCnd;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPage;
+import com.jzy.api.po.app.AppInfoPo;
 import com.jzy.api.vo.app.AppInfoDetailVo;
 import com.jzy.api.vo.app.AppInfoListVo;
 import com.jzy.framework.bean.vo.PageVo;
@@ -79,7 +80,7 @@ public interface AppInfoService extends GenericService<AppInfo> {
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    AppInfo queryAppById(Long aiId);
+    AppInfoPo queryAppById(Long aiId);
 
 
     /**

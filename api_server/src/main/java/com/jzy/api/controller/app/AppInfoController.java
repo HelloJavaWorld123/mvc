@@ -7,6 +7,7 @@ import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPage;
 import com.jzy.api.model.app.FileInfo;
 import com.jzy.api.model.sys.SysImages;
+import com.jzy.api.po.app.AppInfoPo;
 import com.jzy.api.service.app.AppInfoService;
 import com.jzy.api.service.app.AppPriceTypeService;
 import com.jzy.api.service.app.IMongoService;
@@ -226,7 +227,7 @@ public class AppInfoController {
         try {
             List<Long> newAiIds = appBatchDeleteCnd.getAiIds();
             for (Long aiId : newAiIds) {
-                AppInfo appinfo = appInfoService.queryAppById(aiId);
+                AppInfoPo appinfo = appInfoService.queryAppById(aiId);
                 if (appinfo.getStatus() != 0) {
                     throw new BusException("存在商品未禁用，不能进行批量删除！");
                 }

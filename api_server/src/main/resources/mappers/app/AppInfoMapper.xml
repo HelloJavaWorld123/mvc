@@ -150,7 +150,7 @@
     </update>
 
     <!-- 查询商品信息-->
-    <select id="queryById" resultType="com.jzy.api.model.app.AppInfo">
+    <select id="getAppInfo" resultType="com.jzy.api.po.app.AppInfoPo">
 
             SELECT
             id,
@@ -168,9 +168,6 @@
             recharge_mode  as rechargeMode,
             STATUS,
             sort,
-            `describe`,
-            page_path as pagePath,
-            remark,
             is_hot  as isHot,
             is_reco as isReco
         FROM

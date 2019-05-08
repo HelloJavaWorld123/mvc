@@ -3,6 +3,7 @@ package com.jzy.api.dao.app;
 import com.jzy.api.cnd.app.AppInfoListCnd;
 import com.jzy.api.cnd.app.UpdateStatusBatchCnd;
 import com.jzy.api.model.app.AppInfo;
+import com.jzy.api.po.app.AppInfoPo;
 import com.jzy.api.vo.app.AppInfoListVo;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
@@ -33,7 +34,7 @@ public interface AppInfoMapper extends GenericMapper<AppInfo> {
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    AppInfo queryById(@Param("aiId") Long aiId);
+    AppInfoPo getAppInfo(@Param("aiId") Long aiId);
 
 
     /**
