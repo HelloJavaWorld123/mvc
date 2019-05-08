@@ -13,8 +13,12 @@ import lombok.Data;
  * </ul>
  */
 @Data
-public class AppAccttypeListPo{
+public class AppAccttypeListPo {
 
+    /**
+     * 主键
+     */
+    private String id;
 
     /**
      * 主账号名称
