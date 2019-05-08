@@ -8,11 +8,17 @@ import java.util.Date;
 
 /**
  * 应用分类
+ *
  * @author <a href="mailto:aparatrooper@163.com">aparatrooper</a>
  * @since JDK1.8
  */
 @Data
-public class CategoryVo extends GenericModel {
+public class CategoryVo {
+
+    /**
+     * 应用分类主键
+     */
+    private String id;
 
     /**
      * 应用分类名称

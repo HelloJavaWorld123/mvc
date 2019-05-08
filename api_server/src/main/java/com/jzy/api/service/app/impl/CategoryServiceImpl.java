@@ -47,6 +47,16 @@ public class CategoryServiceImpl extends GenericServiceImpl<Category> implements
         return params;
     }
 
+    /**
+     * <b>功能描述：</b>产品分类列表查询（后台查询使用）<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public List<CategoryVo> getList() {
+        return categoryMapper.getList();
+    }
+
     @Override
     protected GenericMapper<Category> getGenericMapper() {
         return categoryMapper;

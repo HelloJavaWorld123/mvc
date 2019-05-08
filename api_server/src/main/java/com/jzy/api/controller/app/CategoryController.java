@@ -48,6 +48,22 @@ public class CategoryController {
         return new ApiResult<>(categoryList);
     }
 
+   /**
+    * <b>功能描述：</b>产品分类列表查询（后台查询使用）<br>
+    * <b>修订记录：</b><br>
+    * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+    */
+    @RequestMapping("admin/list")
+    public ApiResult getList() {
+        List<CategoryVo> categoryList;
+        try {
+            categoryList = categoryService.getList();
+        } catch (Exception e) {
+            logger.error("admin产品分类异常:{}", e);
+            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
+        }
+        return new ApiResult<>(categoryList);
+    }
     @RequestMapping("dealerAppList")
     public ApiResult dealerAppList(@RequestBody DealerAppListCnd dealerAppListCnd) {
         Map<String, Object> dealerAppList;
