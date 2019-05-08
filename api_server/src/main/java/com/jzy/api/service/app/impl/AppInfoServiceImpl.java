@@ -45,11 +45,11 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
     @Override
     public AppInfoDetailVo getAppInfo(Long aiId) {
 
-        AppInfoPo appInfoMapper = getAppInfoMapper(aiId);
+        AppInfoPo appInfoPo = appInfoMapper.getAppInfo(aiId);
         List<AppPriceType> appPriceTypeMappers = appPriceTypeService.getAppPriceTypelist(aiId);
         //获取商品富文本
         AppPage appPage = appPageMapper.getPageInfoByAiId(aiId);
-        return new AppInfoDetailVo(appInfoMapper, appPriceTypeMappers, appPage);
+        return new AppInfoDetailVo(appInfoPo, appPriceTypeMappers, appPage);
     }
 
     /**
@@ -57,8 +57,8 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    public AppInfoPo getAppInfoMapper(Long id) {
-        return appInfoMapper.getAppInfo(id);
+    public AppInfo getAppInfoMapper(Long id) {
+        return appInfoMapper.queryById(id);
     }
 
     /**
@@ -66,7 +66,7 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    public AppInfoPo queryAppById(Long aiId) {
+    public AppInfo queryAppById(Long aiId) {
         return this.getAppInfoMapper(aiId);
     }
 

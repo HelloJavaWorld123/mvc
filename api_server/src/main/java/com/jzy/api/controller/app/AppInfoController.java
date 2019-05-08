@@ -227,7 +227,7 @@ public class AppInfoController {
         try {
             List<Long> newAiIds = appBatchDeleteCnd.getAiIds();
             for (Long aiId : newAiIds) {
-                AppInfoPo appinfo = appInfoService.queryAppById(aiId);
+                AppInfo appinfo = appInfoService.queryAppById(aiId);
                 if (appinfo.getStatus() != 0) {
                     throw new BusException("存在商品未禁用，不能进行批量删除！");
                 }

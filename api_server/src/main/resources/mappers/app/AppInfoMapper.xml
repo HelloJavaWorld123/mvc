@@ -218,5 +218,36 @@
                 AND ai.name = #{name}
     </select>
 
+    <!-- 查询商品信息-->
+    <select id="queryById" resultType="com.jzy.api.model.app.AppInfo">
+
+            SELECT
+            id,
+            `code`,
+            cate_id  as cateId,
+            acct_id  as acctId,
+            acp_id  as acpId,
+            game_id as gameId,
+            type_id typeId,
+            `name`,
+            icon,
+            label,
+            first_letter as firstLetter,
+            spll_letter as spllLetter,
+            recharge_mode  as rechargeMode,
+            STATUS,
+            sort,
+            `describe`,
+            page_path as pagePath,
+            remark,
+            is_hot  as isHot,
+            is_reco as isReco
+        FROM
+            app_info ai
+        WHERE
+            1 = 1
+    AND ai.id = #{aiId}
+    </select>
+
 
 </mapper>

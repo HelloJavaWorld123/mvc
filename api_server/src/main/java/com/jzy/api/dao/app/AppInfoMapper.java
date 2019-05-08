@@ -70,5 +70,12 @@ public interface AppInfoMapper extends GenericMapper<AppInfo> {
      */
     List<AppInfo> listName(@Param("name") String name);
 
+    /**
+     * <b>功能描述：</b>查询商品信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    AppInfo queryById(@Param("aiId") Long aiId);
+
 
 }
