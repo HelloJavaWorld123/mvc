@@ -18,7 +18,6 @@ import java.util.List;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190425&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;刘宏超$&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
-@Slf4j
 public abstract class GenericController  {
 
     /**

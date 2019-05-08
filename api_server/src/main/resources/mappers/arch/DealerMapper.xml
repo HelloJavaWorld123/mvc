@@ -67,6 +67,47 @@
             OR dbi.dealer_no LIKE CONCAT('%',#{queryName},'%')
             )
         </if>
+    </select>
+
+    <!-- 渠道商详情 -->
+    <select id="detail"
+            resultType="com.jzy.api.vo.dealer.DealerDetailVo">
+        SELECT
+            dbi.id,
+            dbi.dealer_no AS dealerNo,
+            dbi.dealer_id AS dealerId,
+            dbi.dealer_name AS dealerName,
+            dbi.dealer_short_name AS dealerShortName,
+            dbi.dealer_business_num AS dealerBusinessNum,
+            dbi.dealer_business_picture AS dealerBusinessPicture,
+            dbi.dealer_contract AS dealerContract,
+            dbi.dealer_legal_name AS dealerLegalName,
+            dbi.dealer_address AS dealerAddress,
+            dbi.dealer_contact AS dealerContact,
+            dbi.dealer_telephone AS dealerTelephone,
+            dbi.dealer_card AS dealerCard,
+            dbi.dealer_card_picture AS dealerCardPicture,
+            dbi.dealer_bank_name AS dealerBankName,
+            dbi.dealer_bank_no AS dealerBankNo,
+            dbi.dealer_payment_method AS dealerPaymentMethod,
+            dbi.notes ,
+            d.idnum ,
+            d.state,
+            d.idnum AS idnum,
+            d.pubkey as pubkey,
+            d.prikey as prikey,
+            d.sup_businessid as supBusinessid,
+            d.sup_key as supKey,
+            se. NAME AS dealerLoginName,
+            se.pwd AS dealerPassword
+        FROM
+            dealer d
+        LEFT JOIN dealer_base_info dbi
+         ON dbi.dealer_id = d.id
+        LEFT JOIN sys_emp se ON d.id = se.dealer_id
+        WHERE
+            1 = 1
+        AND dbi.dealer_id = #{id}
 
 
     </select>

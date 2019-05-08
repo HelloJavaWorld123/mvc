@@ -7,6 +7,8 @@ import com.jzy.api.model.dealer.DealerBaseInfo;
 
 import com.jzy.api.service.arch.DealerService;
 import com.jzy.api.util.PhoneCheckUtil;
+import com.jzy.api.vo.dealer.DealerDetailVo;
+import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
 import org.slf4j.Logger;
@@ -89,15 +91,15 @@ public class DealerController {
      * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/detail")
-    public ApiResult detail(@RequestParam(value = "id") Integer id) {
-        DealerBaseInfo dbi;
+    public ApiResult detail(@RequestBody IdCnd idCnd  ) {
+        DealerDetailVo dealerDetailVo;
         try {
-            dbi = dealerService.detail(id);
+            dealerDetailVo = dealerService.detail(idCnd.getId().toString());
         } catch (Exception e) {
             logger.error("渠道商查询异常:{}", e);
             return new ApiResult("查询失败");
         }
-        return new ApiResult(dbi);
+        return new ApiResult(dealerDetailVo);
     }
 
 

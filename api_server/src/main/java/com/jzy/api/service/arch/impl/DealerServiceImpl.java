@@ -5,17 +5,24 @@ import com.github.pagehelper.PageHelper;
 import com.jzy.api.cnd.arch.DealerListCnd;
 import com.jzy.api.cnd.arch.SaveDealerCnd;
 import com.jzy.api.dao.arch.DealerMapper;
+import com.jzy.api.dao.arch.DealerParamMapper;
 import com.jzy.api.model.dealer.Dealer;
 import com.jzy.api.model.dealer.DealerBaseInfo;
+import com.jzy.api.model.dealer.DealerParam;
 import com.jzy.api.po.arch.DealerAnalysisInfoPo;
+import com.jzy.api.po.arch.DealerParamInfoPo;
 import com.jzy.api.po.dealer.DealerListPo;
+import com.jzy.api.po.dealer.DealerPo;
 import com.jzy.api.service.arch.DealerService;
+import com.jzy.api.vo.dealer.DealerDetailVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +39,9 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
 
     @Resource
     private DealerMapper dealerMapper;
+
+    @Resource
+    private DealerParamMapper dealerParamMapper;
 
     @Override
     public Dealer queryDealer(Integer dealerId) {
@@ -82,8 +92,11 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public DealerBaseInfo detail(Integer id) {
-        return null;
+    public DealerDetailVo detail(String id) {
+        DealerDetailVo dealerDetailVo = dealerMapper.detail(id);
+        List<DealerParamInfoPo> dealerParamInfoPos=dealerParamMapper.getDealerParamInfo(id);
+        dealerDetailVo.setDpmList(dealerParamInfoPos);
+        return dealerDetailVo;
     }
 
     @Override

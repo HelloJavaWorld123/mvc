@@ -1,8 +1,11 @@
 package com.jzy.api.dao.arch;
 
 import com.jzy.api.model.dealer.Dealer;
+import com.jzy.api.model.dealer.DealerBaseInfo;
 import com.jzy.api.po.arch.DealerAnalysisInfoPo;
 import com.jzy.api.po.dealer.DealerListPo;
+import com.jzy.api.po.dealer.DealerPo;
+import com.jzy.api.vo.dealer.DealerDetailVo;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -33,5 +36,13 @@ public interface DealerMapper extends GenericMapper<Dealer> {
      * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     List<DealerListPo> getList(@Param("queryName") String queryName);
+
+
+    /**
+     * <b>功能描述：</b>渠道商详情<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    DealerDetailVo detail(@Param("id") String id);
 
 }
