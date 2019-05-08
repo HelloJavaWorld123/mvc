@@ -28,9 +28,9 @@ public abstract class GenericController  {
      */
     protected <T extends GenericVo> T convert(Object model, Class<T> vo) {
         try {
-            T genericVo = vo.newInstance();
-            this.convert(model, genericVo);
-            return genericVo;
+            T t = vo.newInstance();
+            CglibBeanCopierUtils.copyProperties(model, t);
+            return t;
         } catch (Exception e) {
             throw new BusException("对象转换异常", e);
         }
@@ -60,16 +60,6 @@ public abstract class GenericController  {
             return list;
         }
         return null;
-    }
-
-    /**
-     * <b>功能描述：</b>对象转化<br>
-     * <b>修订记录：</b><br>
-     * <li>20161017&nbsp;&nbsp;|&nbsp;&nbsp赵伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li>
-     */
-    private Object convert(Object source, Object target) {
-        CglibBeanCopierUtils.copyProperties(source, target);
-        return target;
     }
 
 }
