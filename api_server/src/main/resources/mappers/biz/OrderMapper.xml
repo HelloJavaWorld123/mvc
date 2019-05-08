@@ -118,6 +118,11 @@
     <select id="queryOrderDetail" resultMap="order">
         SELECT
         o.id,
+        o.type,
+        o.acct_type,
+        o.number,
+        o.price_type_unit,
+        o.out_trade_no,
         o.total_fee,
         o.trade_fee,
         o.trade_method,

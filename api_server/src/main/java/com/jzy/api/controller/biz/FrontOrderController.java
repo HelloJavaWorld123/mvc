@@ -68,7 +68,7 @@ public class FrontOrderController extends GenericController {
     private OrderDetailVo getOrderDetailVo(Order order) {
         OrderDetailVo orderDetailVo = new OrderDetailVo();
         orderDetailVo.setOrderId(order.getOrderId());
-        orderDetailVo.setMarkId(order.getMarkId());
+        orderDetailVo.setOutTradeNo(order.getOutTradeNo());
         orderDetailVo.setTotalFee(order.getTotalFee());
         orderDetailVo.setTradeFee(order.getTradeFee());
         orderDetailVo.setPrice(order.getPrice());
@@ -76,6 +76,10 @@ public class FrontOrderController extends GenericController {
         orderDetailVo.setPriceTypeName(order.getPriceTypeName());
         orderDetailVo.setStatus(order.getStatus());
         orderDetailVo.setAccount(order.getAccount());
+        orderDetailVo.setType(order.getType());
+        orderDetailVo.setAcctType(order.getAcctType());
+        orderDetailVo.setNumber(order.getNumber());
+        orderDetailVo.setPriceTypeUnit(order.getPriceTypeUnit());
         orderDetailVo.setCreateTime(order.getCreateTime());
         orderDetailVo.setAppId(order.getAppId() + "");
         orderDetailVo.setAppName(order.getAppName());
