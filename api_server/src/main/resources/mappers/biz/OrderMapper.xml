@@ -229,6 +229,17 @@
         id = #{id}
     </update>
 
+    <!-- 查询订单状态 -->
+    <select id="queryOrderStatus" resultMap="order">
+        SELECT
+        app_id,
+        status
+        FROM
+        `order`
+        WHERE
+        id = #{id}
+    </select>
+
     <!-- 共同更新参数 -->
     <sql id="updateCommon">
         modifier_id = #{modifierId}, modify_time = #{modifyTime}

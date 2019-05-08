@@ -2,6 +2,7 @@ package com.jzy.api.cnd.biz;
 
 import com.jzy.framework.bean.cnd.GenericCnd;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * <b>功能：</b>订单id输入参数<br>
@@ -17,6 +18,7 @@ public class CodeCnd extends GenericCnd {
     /**
      * 订单编号
      */
+    @NotBlank
     private String orderId;
 
 }
