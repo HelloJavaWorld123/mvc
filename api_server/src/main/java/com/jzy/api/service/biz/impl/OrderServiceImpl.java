@@ -215,6 +215,19 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     }
 
     /**
+     * <b>功能描述：</b>根据订单id查询订单详情<br>
+     * <b>修订记录：</b><br>
+     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param id 订单id
+     */
+    @Override
+    public Order queryOrderDetail(String id) {
+        orderMapper.queryOrderDetail(id);
+        return null;
+    }
+
+    /**
      * <b>功能描述：</b>根据订单id查询卡密<br>
      * <b>修订记录：</b><br>
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
