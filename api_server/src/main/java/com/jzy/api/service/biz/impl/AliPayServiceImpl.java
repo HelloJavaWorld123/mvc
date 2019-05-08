@@ -94,14 +94,14 @@ public class AliPayServiceImpl implements AliPayService {
     public boolean orderBack(Order order) {
         order.setStatus(3);
         order.setSupStatus(3);
-        AlipayTradeRefundResponse aliRes = AlipayUtil.tradeRefund(order.getOutTradeNo(), order.getTradeCode(), order.getTotalFee());
+        AlipayTradeRefundResponse aliRes = AlipayUtil.tradeRefund(order.getOutTradeNo(), order.getTradeCode(), order.getTradeFee());
         if (aliRes.isSuccess()) {
             order.setTradeStatus(Order.TradeStatusConst.REFUND_SICCESS);
             return true;
         }
         String errMsg = order.getId() + "订单支付宝申请退款失败:" + aliRes.getSubCode() + "/" + aliRes.getSubMsg();
         log.error(errMsg);
-        throw new PayException(errMsg);
+        return false;
     }
 
     /**
