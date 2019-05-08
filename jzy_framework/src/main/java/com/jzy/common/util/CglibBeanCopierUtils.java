@@ -4,6 +4,7 @@ import org.springframework.cglib.beans.BeanCopier;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * <b>功能：</b>属性拷贝<br>
@@ -16,7 +17,10 @@ import java.util.Map;
  */
 public class CglibBeanCopierUtils {
 
-    private static Map<String, BeanCopier> beanCopierMap = new HashMap<>();
+    /**
+     * 初始化map的容量，防止重新散列
+     */
+    private static Map<String, BeanCopier> beanCopierMap = new ConcurrentHashMap<>(64);
 
     /**
      * <b>功能描述：</b>拷贝属性<br>
@@ -36,24 +40,9 @@ public class CglibBeanCopierUtils {
      * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     public static BeanCopier getBeanCopier(Object source, Object target) {
-        String beanKey = generateKey(source.getClass(), target.getClass());
-        BeanCopier copier;
-        if (!beanCopierMap.containsKey(beanKey)) {
-            copier = BeanCopier.create(source.getClass(), target.getClass(), false);
-            beanCopierMap.put(beanKey, copier);
-        } else {
-            copier = beanCopierMap.get(beanKey);
-        }
-        return copier;
-    }
-    
-    /**
-     * <b>功能描述：</b>生成map对象中的key存储<br>
-     * <b>修订记录：</b><br>
-     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    private static String generateKey(Class<?> source, Class<?> target) {
-        return source.toString() + target.toString();
+        String key = source.toString() + target.toString();
+        return beanCopierMap.putIfAbsent(key,
+                BeanCopier.create(source.getClass(), target.getClass(), false));
     }
 
 }
