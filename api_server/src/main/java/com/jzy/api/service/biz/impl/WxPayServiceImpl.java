@@ -109,16 +109,14 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         data.put("time_start", DateUtils.date2TimeStr(date));
         // 订单失效时间为15分钟之后
         data.put("time_expire", DateUtils.date2TimeStr(new Date(date.getTime() + 15 * 60 * 1000)));
-//        UserAuthsMapper userAuth = loginUser.getUamap().get(IDENTITY_WECHAT);
-//        String identifier = Objects.nonNull(userAuth) ? userAuth.getComment() : "";
-        // 是否为微信内置浏览器
-        boolean isWxInsideBrowser = CommUtils.iswechat(request);
-        data.put("trade_type", String.valueOf(isWxInsideBrowser ? WXPayConstants.TradeType.JSAPI : WXPayConstants.TradeType.MWEB));
-//        log.debug("：：：Wechat Openid - " + identifier);
-
-//        if (isWechat && !StringUtils.isEmpty(identifier)) {
-//            data.put("openid", identifier);
-//        }
+        UserAuth userAuth = userAuthService.queryUserAuthByUserId(getUserId());
+        data.put("trade_type", WXPayConstants.TradeType.MWEB.toString());
+        // 从微信公众号中进入支付
+        if (userAuth != null && userAuth.getIsWxAuth() == 1) {
+            log.debug("from wx openId pay：" + userAuth.getOpenId());
+            data.put("openid", userAuth.getOpenId());
+            data.put("trade_type", WXPayConstants.TradeType.JSAPI.toString());
+        }
         // 返回支付标识并加签
         Map<String, String> responseData ;
         try {

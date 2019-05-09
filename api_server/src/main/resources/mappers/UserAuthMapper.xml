@@ -36,4 +36,16 @@
         user_id =  #{userId}
     </update>
 
+    <!-- 根据用户id获取用户授权信息 -->
+    <select id="queryUserAuthByUserId" parameterType="com.jzy.api.model.sys.UserAuth">
+        SELECT
+        id,
+        is_wx_auth,
+        open_id
+        FROM
+        user_auth
+        WHERE
+        user_id =  #{userId}
+    </select>
+
 </mapper>

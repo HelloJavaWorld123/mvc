@@ -14,5 +14,11 @@ import com.jzy.framework.dao.GenericMapper;
  */
 public interface UserAuthMapper extends GenericMapper<UserAuth> {
 
+    /**
+     * <b>功能描述：</b>根据用户id获取用户授权<br>
+     * <b>修订记录：</b><br>
+     * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    UserAuth queryUserAuthByUserId(String userId);
 
 }
