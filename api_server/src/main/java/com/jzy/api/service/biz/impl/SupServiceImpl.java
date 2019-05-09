@@ -211,7 +211,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
      * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     private String buildRequestParam(Order order) {
-        Dealer dealer = dealerService.queryDealer(getDealerId());
+        Dealer dealer = dealerService.queryDealer(order.getDealerId());
         String supBusinessId =  dealer.getSupBusinessid();
         String supKey = dealer.getSupKey();
 
