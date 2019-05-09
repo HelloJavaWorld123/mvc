@@ -9,6 +9,7 @@ import com.jzy.api.dao.biz.SupRecordMapper;
 import com.jzy.api.model.biz.CardPwd;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.model.biz.SupRecord;
+import com.jzy.api.model.dealer.Dealer;
 import com.jzy.api.service.arch.DealerService;
 import com.jzy.api.service.biz.*;
 import com.jzy.api.util.CommUtils;
@@ -210,11 +211,9 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
      * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     private String buildRequestParam(Order order) {
-        // DealerMapper dealer = iDealerService.queryByUseridOrDefault(order.getUserId());
-        String supBusinessId =  "Num13027"; //dealer.getSupBusinessid();
-        String supKey = "10c17b42b5b94c4e93cd574b6e37aeeb"; // dealer.getSupKey();
-
-        AppInfoMapper ai  = null;//iAppInfoService.queryAppById(order.getAiId());
+        Dealer dealer = dealerService.queryDealer(getDealerId());
+        String supBusinessId =  dealer.getSupBusinessid();
+        String supKey = dealer.getSupKey();
 
         // md5明文
         String md5Data = supBusinessId + order.getOutTradeNo() + order.getSupNo() + order.getSupPrice() + "" + supKey;
