@@ -21,10 +21,10 @@ public interface UserAuthService extends GenericService<UserAuth> {
      */
     UserAuth queryUserAuthByUserId(String userId);
 
-    /**
-     * <b>功能描述：</b>获取openId<br>
-     * <b>修订记录：</b><br>
-     * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    UserAuth queryOpenId(String userId);
+//    /**
+//     * <b>功能描述：</b>获取openId<br>
+//     * <b>修订记录：</b><br>
+//     * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+//     */
+//    UserAuth queryOpenId(String userId);
 }
