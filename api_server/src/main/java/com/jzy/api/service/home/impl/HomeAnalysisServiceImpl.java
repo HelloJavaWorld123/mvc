@@ -1,12 +1,15 @@
 package com.jzy.api.service.home.impl;
 
 import com.jzy.api.cnd.home.HomeAnalysisCnd;
+import com.jzy.api.model.sys.User;
 import com.jzy.api.po.arch.DataInfo;
 import com.jzy.api.po.arch.DealerAnalysisInfoPo;
 import com.jzy.api.po.arch.DealerParamInfoPo;
 import com.jzy.api.service.arch.DealerParamService;
 import com.jzy.api.service.arch.DealerService;
 import com.jzy.api.service.home.HomeAnalysisService;
+import com.jzy.api.service.key.TableKeyService;
+import com.jzy.api.service.sys.UserService;
 import com.jzy.api.util.DesUtil;
 import com.jzy.api.util.MyEncrypt;
 import com.jzy.api.vo.home.HomeAnalysisInfoVo;
@@ -46,6 +49,12 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
     @Resource
     private DealerParamService dealerParamService;
 
+    @Resource
+    private UserService userService;
+
+    @Resource
+    private TableKeyService tableKeyService;
+
     /**
      * <b>功能描述：</b>解析加密信息返回给前端<br>
      * <b>修订记录：</b><br>
@@ -75,6 +84,12 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
             // 根据商户号查询商户id
             userCache.setDealerId(Integer.parseInt(dealerAnalysisInfoPo.getDealerId()));
             homeAnalysisInfoVoRBucket.set(userCache, 30, TimeUnit.MINUTES);
+            // 存储用户信息到本地数据库中
+            User user = new User();
+            user.setId(tableKeyService.newKey("user_auth", "id", 1000));
+            user.setUserId(dataInfo.getUserId());
+            user.setDealerId(userCache.getDealerId());
+            userService.insert(user);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--
-	namespace：必须与对应的接口全类名一致
-	id:必须与对应接口的某个对应的方法名一致
 
+<!-- 
+	SQL映射文件名称：前台用户信息保存
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190509	邓冲	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
  -->
+
 <mapper namespace="com.jzy.api.dao.UserMapper">
 
-    <insert id="save" parameterType="com.jzy.api.model.User">
-        insert into t_user(user_name,age) values(#{username},#{age})
+    <!-- 新增前台员工 -->
+    <insert id="insert" parameterType="com.jzy.api.model.sys.User">
+        INSERT INTO user_auth (
+          id, user_id, dealer_id,
+          del_flag, creator_id, modifier_id, create_time, modify_time
+        )
+        VALUES (
+          #{id}, #{userId}, #{dealerId},
+          #{delFlag}, #{creatorId}, #{modifierId}, #{createTime}, #{modifyTime}
+        )
     </insert>
-
-    <update id="update" parameterType="com.jzy.api.model.User">
-        update t_user set user_name=#{username},user_age=#{age} where user_id=#{user_id}
-    </update>
-
-    <delete id="delete">
-        delete from t_user where user_id=#{user_id}
-    </delete>
-
-    <!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->
-    <select id="findById" parameterType="int" resultType="com.jzy.api.model.User">
-        select user_id id,user_name username,age from t_user where user_id=#{user_id}
-    </select>
-
-    <select id="findAll" resultType="com.jzy.api.model.User">
-        select user_id,user_name username,age from t_user
-    </select>
 
 </mapper>
