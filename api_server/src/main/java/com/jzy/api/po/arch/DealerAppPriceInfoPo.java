@@ -15,12 +15,6 @@ import java.math.BigDecimal;
  */
 @Data
 public class DealerAppPriceInfoPo {
-
-    /**
-     * 充值类型主键
-     */
-    private String typeId;
-
     /**
      * 金额
      */

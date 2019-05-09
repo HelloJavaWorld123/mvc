@@ -1,8 +1,10 @@
 package com.jzy.api.dao.arch;
 
+import com.jzy.api.cnd.arch.GetDealerAppListCnd;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
 import com.jzy.api.po.arch.AppDetailPo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
+import com.jzy.api.vo.dealer.GetDealerAppVo;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,14 +27,31 @@ public interface DealerAppPriceInfoMapper extends GenericMapper<DealerAppPriceIn
      * <b>修订记录：</b><br>
      * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<DealerAppPriceInfoPo> getPrice(@Param("aiId") String aiId,@Param ("aptId")  String aptId,@Param ("dealerId") String dealerId);
+    List<DealerAppPriceInfoPo> getPrice(@Param("aiId") String aiId, @Param("aptId") String aptId, @Param("dealerId") String dealerId);
 
     /**
      * <b>功能描述：</b>获取前台商品详情信息<br>
      * <b>修订记录：</b><br>
      * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<AppDetailPo>  getFrontAppInfo(@Param("aiIdList")  List<String> aiIdList , @Param("dealerId")  String dealerId);
+    List<AppDetailPo> getFrontAppInfo(@Param("aiIdList") List<String> aiIdList, @Param("dealerId") String dealerId);
+
+
+    /**
+     * <b>功能描述：</b>查询渠道商下对应的商品列表<br>
+     * <b>修订记录：</b><br>
+     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<GetDealerAppVo> getList(GetDealerAppListCnd getDealerAppListCnd);
+
+
+    /**
+     * <b>功能描述：</b>查询渠道商商品面值详情<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<DealerAppPriceInfoPo> getDealerAppPriceInfo(@Param("aptId") Long aptId,
+                                                     @Param("aiId") Long aiId, @Param("dealerId") String dealerId);
 
 
 }

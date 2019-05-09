@@ -74,4 +74,86 @@
 
     </select>
 
+
+    <!-- 查询渠道商下对应的商品列表   -->
+    <select id="getList" parameterType="com.jzy.api.cnd.arch.GetDealerAppListCnd"
+            resultType="com.jzy.api.vo.dealer.GetDealerAppVo">
+            SELECT
+                ai.id,
+                dai. STATUS,
+                ai. CODE,
+                ai. NAME AS appName,
+                f_get_app_cate_name (ai.cate_id) AS cateName,
+                f_get_app_type_name (ai.type_id) AS typeName,
+                f_get_app_company_name (ai.acp_id) AS companyName,
+                dapi.discount,
+                dapi.sup_no
+            FROM
+                app_info ai
+            LEFT JOIN dealer_app_info dai ON dai.ai_id = ai.id
+            LEFT JOIN (
+                SELECT
+                    GROUP_CONCAT(sup_no SEPARATOR ',') AS sup_no,
+                    GROUP_CONCAT(discount SEPARATOR ',') AS discount,
+                    ai_id,
+                    dealer_id
+                FROM
+                    dealer_app_price_info
+                GROUP BY
+                    ai_id,
+                    dealer_id
+            ) AS dapi ON dapi.ai_id = ai.id
+            AND dapi.dealer_id = dai.dealer_id
+            WHERE
+                1 = 1
+            --AND dapi.sup_no LIKE '%sup3.1%'
+            AND dai.dealer_id = #{dealerId}
+            UNION ALL
+                SELECT
+                    ai.id,
+                    ai. CODE AS STATUS,
+                    ai. CODE,
+                    ai. NAME AS appName,
+                    f_get_app_cate_name (ai.cate_id) AS cateName,
+                    f_get_app_type_name (ai.type_id) AS typeName,
+                    f_get_app_company_name (ai.acp_id) AS companyName,
+                    ai. CODE AS discount,
+                    ai. CODE AS sup_no
+                FROM
+                    app_info ai
+                WHERE
+                    NOT EXISTS (
+                        SELECT
+                            dai.ai_id
+                        FROM
+                            dealer_app_info dai
+                        WHERE
+                            dai.ai_id = ai.id
+                        AND dai.dealer_id = #{dealerId}
+                    )
+    </select>
+
+
+    <!-- 查询渠道商商品面值详情  -->
+
+    <select id="getDealerAppPriceInfo"
+            resultType="com.jzy.api.po.arch.DealerAppPriceInfoPo">
+            SELECT
+                price,
+                pay_price as payPrice,
+                sup_price as supPrice,
+                sup_no as supNo,
+                number,
+                discount,
+                dealer_price as dealerPrice,
+                STATUS
+            FROM
+                dealer_app_price_info
+            WHERE
+                1 = 1
+            AND ai_id =#{aiId}
+            AND dealer_id =#{dealerId}
+            AND apt_id =#{aptId}
+    </select>
+
 </mapper>

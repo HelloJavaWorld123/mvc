@@ -2,16 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--
-	SQL映射文件名称：权限业务
+<!-- 
+	SQL映射文件名称：渠道商商品定价
 	————————————————————————————————————
 	修改日期		作者		变更内容
-	20190424	邓冲	    创建了该文件
+	20190509	唐永刚	    创建了该文件
 	————————————————————————————————————
 	陕西佳之易网络科技有限公司 版本所有
  -->
 
 <mapper namespace="com.jzy.api.dao.arch.DealerAppInfoMapper">
+
+
+
+
 
     <!--    前台分页热搜查询-->
     <select id="appSearchList" resultType="com.jzy.api.po.dealer.AppSearchPo">
@@ -27,11 +31,11 @@
         AND dai. STATUS = 1
         AND ai.`status` = 1
         <if test="keyword!=null">
-        AND (
+            AND (
             ai. NAME LIKE CONCAT('%',#{keyword},'%')
             OR ai.label LIKE CONCAT('%',#{keyword},'%')
             OR ai.spll_letter LIKE CONCAT('%',#{keyword},'%')
-        )
+            )
         </if>
 
     </select>

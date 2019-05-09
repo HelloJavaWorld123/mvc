@@ -29,7 +29,7 @@ import java.util.List;
  */
 @Controller
 @ResponseBody
-@RequestMapping("DealAppPriceInfo")
+@RequestMapping("dealAppPriceInfo")
 public class DealerAppPriceInfoController {
 
 
@@ -86,9 +86,9 @@ public class DealerAppPriceInfoController {
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("admin/getDetail")
-    public ApiResult getDetail(@RequestBody GetPriceInfoCnd getPriceInfoCnd) {
-        DealerAppPriceInfoDetailVo dealerAppPriceInfoDetailVo = dealerAppPriceInfoService.getDetail(getPriceInfoCnd);
+    @RequestMapping("admin/getDealerAppDetail")
+    public ApiResult getDealerAppDetail(@RequestBody GetPriceInfoCnd getPriceInfoCnd) {
+        DealerAppPriceInfoDetailVo dealerAppPriceInfoDetailVo = dealerAppPriceInfoService.getDealerAppDetail(getPriceInfoCnd);
         return new ApiResult<>(dealerAppPriceInfoDetailVo);
     }
 
@@ -100,7 +100,7 @@ public class DealerAppPriceInfoController {
 
     @RequestMapping("admin/save")
     public ApiResult save(@RequestBody SavePriceInfoCnd savePriceInfoCnd) {
-       // dealerAppPriceInfoService.save(savePriceInfoCnd);
+       dealerAppPriceInfoService.save(savePriceInfoCnd);
         return new ApiResult<>();
     }
 
@@ -111,8 +111,7 @@ public class DealerAppPriceInfoController {
      */
     @RequestMapping("admin/batchUpdateStatus")
     public ApiResult batchUpdateStatus(@RequestBody BatchUpdateStatusCnd batchUpdateStatusCnd) {
-
-        //dealerAppPriceInfoService.batchUpdateStatus(batchUpdateStatusCnd);
+        dealerAppPriceInfoService.batchUpdateStatus(batchUpdateStatusCnd);
         return new ApiResult<>();
     }
 

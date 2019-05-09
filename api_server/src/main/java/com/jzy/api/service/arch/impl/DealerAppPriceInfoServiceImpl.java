@@ -11,12 +11,16 @@ import com.jzy.api.dao.app.AppPriceTypeMapper;
 import com.jzy.api.dao.arch.DealerAppInfoMapper;
 import com.jzy.api.dao.arch.DealerAppPriceInfoMapper;
 import com.jzy.api.model.app.AppInfo;
+import com.jzy.api.model.app.AppPriceType;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
 import com.jzy.api.po.app.AppGameListPo;
 import com.jzy.api.po.arch.AppDetailPo;
 import com.jzy.api.po.arch.AppPriceTypePo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
 import com.jzy.api.po.dealer.AppSearchPo;
+import com.jzy.api.po.dealer.DealerAppTypePriceInfoPo;
+import com.jzy.api.service.app.AppInfoService;
+import com.jzy.api.service.app.AppPriceTypeService;
 import com.jzy.api.service.arch.DealerAppPriceInfoService;
 import com.jzy.api.vo.app.AppDetailVo;
 import com.jzy.api.vo.dealer.DealerAppPriceInfoDetailVo;
@@ -24,6 +28,7 @@ import com.jzy.api.vo.dealer.GetDealerAppVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -57,6 +62,12 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
 
     @Resource
     private DealerAppInfoMapper dealerAppInfoMapper;
+
+    @Resource
+    private AppInfoService appInfoService;
+
+    @Resource
+    private AppPriceTypeService appPriceTypeService;
 
     @Override
     protected GenericMapper<DealerAppPriceInfo> getGenericMapper() {
@@ -177,21 +188,62 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         return pageVo;
     }
 
+
+    /**
+     * <b>功能描述：</b>查询渠道商下对应的商品列表<br>
+     * <b>修订记录：</b><br>
+     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
     @Override
     public List<GetDealerAppVo> getList(GetDealerAppListCnd getDealerAppListCnd) {
-        return null;
+        return dealerAppPriceInfoMapper.getList(getDealerAppListCnd);
     }
 
+
+    /**
+     * <b>功能描述：</b>查询渠道商商品定价详情<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
     @Override
-    public DealerAppPriceInfoDetailVo getDetail(GetPriceInfoCnd getPriceInfoCnd) {
-        return null;
+    public DealerAppPriceInfoDetailVo getDealerAppDetail(GetPriceInfoCnd getPriceInfoCnd) {
+        String dealerId=getPriceInfoCnd.getDealerId();
+        DealerAppPriceInfoDetailVo dealerAppPriceInfoDetailVo = new DealerAppPriceInfoDetailVo();
+        List<DealerAppTypePriceInfoPo> dealerAppTypePriceInfoList = new ArrayList<>(10);
+        dealerAppPriceInfoDetailVo.setDealerAppTypePriceInfoList(dealerAppTypePriceInfoList);
+        //查询商品详情
+        AppInfo appinfo = appInfoService.queryAppById(Long.valueOf(getPriceInfoCnd.getAiId()));
+        dealerAppPriceInfoDetailVo.setAppName(appinfo.getName());
+        dealerAppPriceInfoDetailVo.setAppCode(appinfo.getCode());
+        //查询充值类型列表
+        List<AppPriceType> appPriceTypeMapperList = appPriceTypeService.getAppPriceTypelist(Long.valueOf(getPriceInfoCnd.getAiId()));
+        for (AppPriceType appPriceType : appPriceTypeMapperList) {
+            DealerAppTypePriceInfoPo dealerAppTypePriceInfo = new DealerAppTypePriceInfoPo();
+            dealerAppTypePriceInfo.setTypeName(appPriceType.getName());
+            dealerAppTypePriceInfo.setAptId(appPriceType.getId().toString());
+            //获取商品面值详情
+            List<DealerAppPriceInfoPo> dealerAppPriceInfoList = dealerAppPriceInfoMapper.getDealerAppPriceInfo(appPriceType.getId(),appPriceType.getAiId(),dealerId);
+            dealerAppTypePriceInfo.setDealerAppPriceInfoPoList(dealerAppPriceInfoList);
+            dealerAppTypePriceInfoList.add(dealerAppTypePriceInfo);
+        }
+        return dealerAppPriceInfoDetailVo;
     }
 
+    /**
+     * <b>功能描述：</b>渠道商商品定价保存<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
     @Override
     public void save(SavePriceInfoCnd savePriceInfoCnd) {
 
     }
 
+    /**
+     * <b>功能描述：</b>批量修改上下架状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
     @Override
     public void batchUpdateStatus(BatchUpdateStatusCnd batchUpdateStatusCnd) {
 
@@ -226,12 +278,6 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
 
 
     /*-------------------------------------------------------------------后台接口-----------------------------------------------------*/
-
-
-
-
-
-
 
 
 }

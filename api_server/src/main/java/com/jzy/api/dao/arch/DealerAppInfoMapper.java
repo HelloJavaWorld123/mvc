@@ -1,7 +1,13 @@
 package com.jzy.api.dao.arch;
 
+import com.jzy.api.cnd.arch.BatchUpdateStatusCnd;
+import com.jzy.api.cnd.arch.GetDealerAppListCnd;
+import com.jzy.api.cnd.arch.GetPriceInfoCnd;
+import com.jzy.api.cnd.arch.SavePriceInfoCnd;
 import com.jzy.api.model.dealer.DealerAppInfo;
 import com.jzy.api.po.dealer.AppSearchPo;
+import com.jzy.api.vo.dealer.DealerAppPriceInfoDetailVo;
+import com.jzy.api.vo.dealer.GetDealerAppVo;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -23,6 +29,6 @@ public interface DealerAppInfoMapper extends GenericMapper<DealerAppInfo> {
      * <b>修订记录：</b><br>
      * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<AppSearchPo> appSearchList(@Param("keyword") String keyword,@Param("dealerId") String dealerId);
+    List<AppSearchPo> appSearchList(@Param("keyword") String keyword, @Param("dealerId") String dealerId);
 
 }

@@ -2,6 +2,7 @@ package com.jzy.api.po.dealer;
 
 
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
+import com.jzy.api.po.arch.DealerAppPriceInfoPo;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -32,6 +33,6 @@ public class DealerAppTypePriceInfoPo {
     /**
      * 充值面值列表
      */
-    private List<DealerAppPriceInfo> dealerAppPriceInfoMapperList = new ArrayList<>(10);
+    private List<DealerAppPriceInfoPo> dealerAppPriceInfoPoList = new ArrayList<>(10);
 
 }
