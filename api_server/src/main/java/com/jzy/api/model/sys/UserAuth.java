@@ -13,7 +13,7 @@ import lombok.Data;
  * </ul>
  */
 @Data
-public class User extends GenericModel {
+public class UserAuth extends GenericModel {
     /**
      * 用户userId
      */
@@ -22,6 +22,11 @@ public class User extends GenericModel {
      * 用户openId
      */
     private String openId;
+    /**
+     * 是否微信授权
+     * 1：是
+     */
+    private Integer isWxAuth = 0;
     /**
      * 商户id
      */

@@ -11,10 +11,10 @@
 	陕西佳之易网络科技有限公司 版本所有
  -->
 
-<mapper namespace="com.jzy.api.dao.UserMapper">
+<mapper namespace="com.jzy.api.dao.UserAuthMapper">
 
     <!-- 新增前台员工 -->
-    <insert id="insert" parameterType="com.jzy.api.model.sys.User">
+    <insert id="insert" parameterType="com.jzy.api.model.sys.UserAuth">
         INSERT INTO user_auth (
           id, user_id, dealer_id,
           del_flag, creator_id, modifier_id, create_time, modify_time

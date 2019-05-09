@@ -64,12 +64,11 @@ public class WxPayServiceImpl implements WxPayService {
      */
     @Value("${wx_app_id}")
     private String appId;
-
     /**e
      * 微信授权回调
      */
-    @Value("${wx_redirect_uri}")
-    private String wxRedirectUri;
+    @Value("${wx_auth_callback_url}")
+    private String callbackUrl;
     /**
      * 回调地址
      */
@@ -273,6 +272,9 @@ public class WxPayServiceImpl implements WxPayService {
                         result.getInteger(WechatConstant.EXPIRES_IN), result.getString(WechatConstant.REFRESH_TOKEN),
                         result.getString(WechatConstant.OPENID), result.getString(WechatConstant.SCOPE), 1, new Date());
                 // iRedisService.setValue(OAUTH_WX_WEBSITE.concat(code), oAuthToken, result.getInteger(WechatConstant.EXPIRES_IN));
+                // 根据用户id更新用户的openId
+
+
             } else {
                 log.error("：：：Wechat website failed to get oauth_token - errcode:" + result.getString(WechatConstant.ERRCODE) + ", errmsg:"
                         + result.getString(WechatConstant.ERRMSG));
@@ -378,13 +380,13 @@ public class WxPayServiceImpl implements WxPayService {
                 break;
             case "oauth":
                 authorizeUrl = authorize_url.replace("APPID", appId)
-                        .replace("REDIRECT_URI", URLEncoder.encode(h5DomainUrl.concat(wxRedirectUri)))
+                        .replace("REDIRECT_URI", URLEncoder.encode(domainUrl.concat(callbackUrl)))
                         .replace("SCOPE", SCOPE_SNSAPI_USERINFO)
                         .replace("STATE", Base64.encodeBase64String("900Mall".getBytes()));
                 break;
             case "qroauth":
                 authorizeUrl = website_oauth_url.replace("APPID", appId)
-                        .replace("REDIRECT_URI", URLEncoder.encode(h5DomainUrl.concat(wxRedirectUri)))
+                        .replace("REDIRECT_URI", URLEncoder.encode(domainUrl.concat(callbackUrl)))
                         .replace("SCOPE", SCOPE_SNSAPI_LOGIN)
                         .replace("STATE", Base64.encodeBase64String("900Mall".getBytes()));
                 break;

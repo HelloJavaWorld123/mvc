@@ -1,8 +1,8 @@
 package com.jzy.api.service.sys.impl;
 
-import com.jzy.api.dao.sys.UserMapper;
-import com.jzy.api.model.sys.User;
-import com.jzy.api.service.sys.UserService;
+import com.jzy.api.dao.sys.UserAuthMapper;
+import com.jzy.api.model.sys.UserAuth;
+import com.jzy.api.service.sys.UserAuthService;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.springframework.stereotype.Service;
@@ -19,13 +19,13 @@ import javax.annotation.Resource;
  * </ul>
  */
 @Service
-public class UserServiceImpl extends GenericServiceImpl<User> implements UserService {
+public class UserAuthServiceImpl extends GenericServiceImpl<UserAuth> implements UserAuthService {
 
     @Resource
-    private UserMapper userMapper;
+    private UserAuthMapper userAuthMapper;
 
     @Override
-    protected GenericMapper<User> getGenericMapper() {
-        return userMapper;
+    protected GenericMapper<UserAuth> getGenericMapper() {
+        return userAuthMapper;
     }
 }

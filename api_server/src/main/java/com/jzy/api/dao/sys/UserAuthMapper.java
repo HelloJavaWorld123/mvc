@@ -1,6 +1,6 @@
 package com.jzy.api.dao.sys;
 
-import com.jzy.api.model.sys.User;
+import com.jzy.api.model.sys.UserAuth;
 import com.jzy.framework.dao.GenericMapper;
 
 /**
@@ -12,7 +12,7 @@ import com.jzy.framework.dao.GenericMapper;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190509&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;邓冲&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
-public interface UserMapper extends GenericMapper<User> {
+public interface UserAuthMapper extends GenericMapper<UserAuth> {
 
 
 }
