@@ -5,6 +5,7 @@ import com.jzy.api.po.arch.DealerParamInfoPo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -90,5 +91,5 @@ public class DealerDetailVo implements Serializable {
     private Date modifyTime;
 
     //配置相关
-    private List<DealerParamInfoPo> dpmList;
+    private List<DealerParamInfoPo> dpmList = new ArrayList<>();
 }

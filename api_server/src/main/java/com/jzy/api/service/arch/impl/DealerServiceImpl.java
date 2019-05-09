@@ -206,7 +206,9 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
     public DealerDetailVo detail(String id) {
         DealerDetailVo dealerDetailVo = dealerMapper.detail(id);
         List<DealerParamInfoPo> dealerParamInfoPos = dealerParamMapper.getDealerParamInfo(id);
-        dealerDetailVo.setDpmList(dealerParamInfoPos);
+        if (dealerParamInfoPos.size()>0){
+            dealerDetailVo.setDpmList(dealerParamInfoPos);
+        }
         return dealerDetailVo;
     }
 
