@@ -68,7 +68,7 @@ public class DealerController {
     @RequestMapping("admin/save")
     public ApiResult save(@RequestBody SaveDealerCnd saveDealerCnd) {
         try {
-            String telephone = saveDealerCnd.getDealerBaseInfo().getDealerTelephone();
+            String telephone = saveDealerCnd.getDealerBaseInfoMapper().getDealerTelephone();
             //手机号码校验
             if (null != telephone && !"".equals(telephone)) {
                 if (!PhoneCheckUtil.isPhoneLegal(telephone)) {

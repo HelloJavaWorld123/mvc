@@ -111,10 +111,10 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      */
     @Override
     public void save(SaveDealerCnd saveDealerCnd) {
-        Dealer dealer = saveDealerCnd.getDealer();
-        DealerBaseInfo dbi = saveDealerCnd.getDealerBaseInfo();
+        Dealer dealer = saveDealerCnd.getDealerMapper();
+        DealerBaseInfo dbi = saveDealerCnd.getDealerBaseInfoMapper();
         List<DealerParam> dpmList = saveDealerCnd.getDpmList();
-        List<FileInfo> fileInfoMapperList = saveDealerCnd.getFileInfo();
+        List<FileInfo> fileInfoMapperList = saveDealerCnd.getFileInfoMapper();
         if (null == dbi.getDealerId() || "".equals(dbi.getDealerId())) {//渠道商信息的新增
             //渠道商主表信息的添加
             dealer = insertDealer(dealer);
@@ -122,7 +122,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
             dbi = insertDealerBaseInfo(dealer, dbi, dpmList);
             //修改图片信息
             if (!CollectionUtils.isEmpty(fileInfoMapperList)) {
-                for (FileInfo fileInfoMapper : saveDealerCnd.getFileInfo()) {
+                for (FileInfo fileInfoMapper : saveDealerCnd.getFileInfoMapper()) {
                     sysImagesService.save(new SysImages(Long.valueOf(tableKeyService.newKey("sys_images", "id", 0)), dealer.getId().toString(),
                             fileInfoMapper.getFileOrignName(), fileInfoMapper.getContentType(), fileInfoMapper.getFileUrl(), fileInfoMapper.getType()));
                 }
@@ -134,7 +134,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
             updateDealerBaseInfo(dbi, dpmList);
             //图片信息修改
             if (!CollectionUtils.isEmpty(dpmList)) {
-                for (FileInfo fileInfoMapper : saveDealerCnd.getFileInfo()) {
+                for (FileInfo fileInfoMapper : saveDealerCnd.getFileInfoMapper()) {
                     sysImagesService.updateSysImages(new SysImages(Long.valueOf(tableKeyService.newKey("sys_images", "id", 0)), dealer.getId().toString(),
                             fileInfoMapper.getFileOrignName(), fileInfoMapper.getContentType(), fileInfoMapper.getFileUrl(), fileInfoMapper.getType()));
                 }

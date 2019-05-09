@@ -3,15 +3,13 @@ package com.jzy.api.service.arch.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.jzy.api.cnd.app.AppSearchListCnd;
-import com.jzy.api.cnd.arch.GetPriceCnd;
+import com.jzy.api.cnd.arch.*;
 import com.jzy.api.dao.app.AppGameMapper;
 import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.dao.app.AppPriceTypeMapper;
 import com.jzy.api.dao.arch.DealerAppInfoMapper;
 import com.jzy.api.dao.arch.DealerAppPriceInfoMapper;
-import com.jzy.api.model.app.AppGame;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
 import com.jzy.api.po.app.AppGameListPo;
@@ -19,9 +17,10 @@ import com.jzy.api.po.arch.AppDetailPo;
 import com.jzy.api.po.arch.AppPriceTypePo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
 import com.jzy.api.po.dealer.AppSearchPo;
-import com.jzy.api.service.arch.DealAppPriceInfoService;
+import com.jzy.api.service.arch.DealerAppPriceInfoService;
 import com.jzy.api.vo.app.AppDetailVo;
-import com.jzy.api.vo.app.AppSearchListVo;
+import com.jzy.api.vo.dealer.DealerAppPriceInfoDetailVo;
+import com.jzy.api.vo.dealer.GetDealerAppVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
@@ -43,7 +42,7 @@ import java.util.Map;
  * </ul>
  */
 @Service
-public class DealAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppPriceInfo> implements DealAppPriceInfoService {
+public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppPriceInfo> implements DealerAppPriceInfoService {
 
 
     @Resource
@@ -111,7 +110,7 @@ public class DealAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppPri
         if (appAreaListPos.size() > 0) {
             appDetailPo.setIsArea(true);
             //拼装查询是否存在服的app_game主键
-            ids = getIds(appAreaListPos,ids);
+            ids = getIds(appAreaListPos, ids);
         } else {
             appDetailPo.setIsArea(false);
         }
@@ -120,7 +119,7 @@ public class DealAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppPri
             checkServExist(ids, appDetailPo);
         } else {//存在区为空或者无（无区有服）
             List<AppGameListPo> checkAppAreaListPo = appGameMapper.getAreaInfo(Long.valueOf(appDetailPo.getAppId()));
-            ids = getIds(checkAppAreaListPo,ids);
+            ids = getIds(checkAppAreaListPo, ids);
             checkServExist(ids, appDetailPo);
         }
         return appDetailPo;
@@ -145,7 +144,7 @@ public class DealAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppPri
      */
     private AppDetailPo checkServExist(List<String> ids, AppDetailPo appDetailPo) {
         // 没有大区，则不检查 服 数据
-        if (ids.isEmpty()){
+        if (ids.isEmpty()) {
             appDetailPo.setIsServ(false);
             return appDetailPo;
         }
@@ -178,6 +177,26 @@ public class DealAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppPri
         return pageVo;
     }
 
+    @Override
+    public List<GetDealerAppVo> getList(GetDealerAppListCnd getDealerAppListCnd) {
+        return null;
+    }
+
+    @Override
+    public DealerAppPriceInfoDetailVo getDetail(GetPriceInfoCnd getPriceInfoCnd) {
+        return null;
+    }
+
+    @Override
+    public void save(SavePriceInfoCnd savePriceInfoCnd) {
+
+    }
+
+    @Override
+    public void batchUpdateStatus(BatchUpdateStatusCnd batchUpdateStatusCnd) {
+
+    }
+
     /**
      * <b>功能描述：</b>创建商品名称常量<br>
      * <b>修订记录：</b><br>
@@ -204,6 +223,15 @@ public class DealAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppPri
         }
         return aiIdList;
     }
+
+
+    /*-------------------------------------------------------------------后台接口-----------------------------------------------------*/
+
+
+
+
+
+
 
 
 }

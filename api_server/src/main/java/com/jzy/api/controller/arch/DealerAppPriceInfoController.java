@@ -1,12 +1,12 @@
 package com.jzy.api.controller.arch;
 
-import com.github.pagehelper.PageInfo;
 import com.jzy.api.cnd.app.*;
-import com.jzy.api.cnd.arch.GetPriceCnd;
+import com.jzy.api.cnd.arch.*;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
-import com.jzy.api.service.arch.DealAppPriceInfoService;
+import com.jzy.api.service.arch.DealerAppPriceInfoService;
 import com.jzy.api.vo.app.AppDetailVo;
-import com.jzy.api.vo.app.AppSearchListVo;
+import com.jzy.api.vo.dealer.DealerAppPriceInfoDetailVo;
+import com.jzy.api.vo.dealer.GetDealerAppVo;
 import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
@@ -34,7 +34,7 @@ public class DealerAppPriceInfoController {
 
 
     @Resource
-    private DealAppPriceInfoService dealAppPriceInfoService;
+    private DealerAppPriceInfoService dealerAppPriceInfoService;
 
     /**
      * <b>功能描述：</b>前台查询商品价格接口<br>
@@ -43,7 +43,7 @@ public class DealerAppPriceInfoController {
      */
     @RequestMapping("getPrice")
     public ApiResult getPrice(@RequestBody GetPriceCnd getPriceCnd) {
-        List<DealerAppPriceInfoPo> dealerAppPriceInfoPoList = dealAppPriceInfoService.getPrice(getPriceCnd);
+        List<DealerAppPriceInfoPo> dealerAppPriceInfoPoList = dealerAppPriceInfoService.getPrice(getPriceCnd);
         return new ApiResult<>(dealerAppPriceInfoPoList);
     }
 
@@ -54,7 +54,7 @@ public class DealerAppPriceInfoController {
      */
     @RequestMapping("getAppDetail")
     public ApiResult getAppDetail(@RequestBody IdCnd idCnd) {
-        AppDetailVo appDetail = dealAppPriceInfoService.getAppDetail(idCnd.getId().toString());
+        AppDetailVo appDetail = dealerAppPriceInfoService.getAppDetail(idCnd.getId().toString());
         return new ApiResult<>(appDetail);
     }
 
@@ -65,9 +65,63 @@ public class DealerAppPriceInfoController {
      */
     @RequestMapping("appSearchList")
     public ApiResult appSearchList(@RequestBody AppSearchListCnd appSearchListCnd) {
-        PageVo pageInfo= dealAppPriceInfoService.appSearchList(appSearchListCnd);
+        PageVo pageInfo= dealerAppPriceInfoService.appSearchList(appSearchListCnd);
         return new ApiResult<>(pageInfo);
     }
+
+    /**
+     * <b>功能描述：</b>查询渠道商下对应的商品列表<br>
+     * <b>修订记录：</b><br>
+     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("admin/getList")
+    public ApiResult getList(@RequestBody GetDealerAppListCnd getDealerAppListCnd) {
+        List<GetDealerAppVo> getDealerAppVoList = dealerAppPriceInfoService.getList(getDealerAppListCnd);
+        return new ApiResult<>(getDealerAppVoList);
+    }
+
+
+    /**
+     * <b>功能描述：</b>查询渠道商商品定价详情<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("admin/getDetail")
+    public ApiResult getDetail(@RequestBody GetPriceInfoCnd getPriceInfoCnd) {
+        DealerAppPriceInfoDetailVo dealerAppPriceInfoDetailVo = dealerAppPriceInfoService.getDetail(getPriceInfoCnd);
+        return new ApiResult<>(dealerAppPriceInfoDetailVo);
+    }
+
+    /**
+     * <b>功能描述：</b>渠道商商品定价信息的保存<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+
+    @RequestMapping("admin/save")
+    public ApiResult save(@RequestBody SavePriceInfoCnd savePriceInfoCnd) {
+       // dealerAppPriceInfoService.save(savePriceInfoCnd);
+        return new ApiResult<>();
+    }
+
+    /**
+     * <b>功能描述：</b>批量修改上下架状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("admin/batchUpdateStatus")
+    public ApiResult batchUpdateStatus(@RequestBody BatchUpdateStatusCnd batchUpdateStatusCnd) {
+
+        //dealerAppPriceInfoService.batchUpdateStatus(batchUpdateStatusCnd);
+        return new ApiResult<>();
+    }
+
+
+
+
+
+
+
 
 
 }

@@ -23,16 +23,16 @@ public class SaveDealerCnd {
     /**
      * 渠道商主表信息 ：关联dealer表
      */
-    private Dealer dealer;
+    private Dealer dealerMapper;
     /**
      * 渠道商基础信息：关联Dealer_base_info
      */
-    private DealerBaseInfo dealerBaseInfo;
+    private DealerBaseInfo dealerBaseInfoMapper;
 
     /**
      * 图片文件信息
      */
-    private List<FileInfo> fileInfo = new ArrayList<>(10);
+    private List<FileInfo> fileInfoMapper = new ArrayList<>(10);
 
     /**
      * 配置相关信息

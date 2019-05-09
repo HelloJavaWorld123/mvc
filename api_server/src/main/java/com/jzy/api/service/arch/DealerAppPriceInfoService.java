@@ -2,11 +2,13 @@ package com.jzy.api.service.arch;
 
 import com.github.pagehelper.PageInfo;
 import com.jzy.api.cnd.app.AppSearchListCnd;
-import com.jzy.api.cnd.arch.GetPriceCnd;
+import com.jzy.api.cnd.arch.*;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
 import com.jzy.api.vo.app.AppDetailVo;
 import com.jzy.api.vo.app.AppSearchListVo;
+import com.jzy.api.vo.dealer.DealerAppPriceInfoDetailVo;
+import com.jzy.api.vo.dealer.GetDealerAppVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.GenericService;
@@ -24,7 +26,7 @@ import java.util.List;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190505&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;唐永刚&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
-public interface DealAppPriceInfoService extends GenericService<DealerAppPriceInfo> {
+public interface DealerAppPriceInfoService extends GenericService<DealerAppPriceInfo> {
 
 
     /**
@@ -49,4 +51,44 @@ public interface DealAppPriceInfoService extends GenericService<DealerAppPriceIn
      * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     PageVo appSearchList(AppSearchListCnd appSearchListCnd);
+
+
+
+
+    /**
+     * <b>功能描述：</b>查询渠道商下对应的商品列表<br>
+     * <b>修订记录：</b><br>
+     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<GetDealerAppVo> getList(GetDealerAppListCnd getDealerAppListCnd);
+
+
+    /**
+     * <b>功能描述：</b>查询渠道商商品定价详情<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    DealerAppPriceInfoDetailVo getDetail(GetPriceInfoCnd getPriceInfoCnd);
+
+
+    /**
+     * <b>功能描述：</b>渠道商商品定价信息的保存<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void save(SavePriceInfoCnd savePriceInfoCnd);
+
+
+    /**
+     * <b>功能描述：</b>批量修改上下架状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void batchUpdateStatus(BatchUpdateStatusCnd batchUpdateStatusCnd);
+
+
+
+
+
+
 }
