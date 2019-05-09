@@ -70,67 +70,67 @@
         UPDATE `dealer_base_info`
         SET
         <if test="dealerNo!=null">
-            `dealer_no` = #{dealerNo},
+            `dealer_no` = #{dealerNo}
         </if>
         <if test="dealerId!=null">
-            `dealer_id` = #{dealerId},
+            ,`dealer_id` = #{dealerId}
         </if>
         <if test="dealerName!=null">
-            `dealer_name` = #{dealerName},
+            ,`dealer_name` = #{dealerName}
         </if>
         <if test="dealerShortName!=null">
-            `dealer_short_name` = #{dealerShortName},
+            ,`dealer_short_name` = #{dealerShortName}
         </if>
         <if test="dealerBusinessNum!=null">
-            `dealer_business_num` =#{dealerBusinessNum},
+            ,`dealer_business_num` =#{dealerBusinessNum}
         </if>
         <if test="dealerBusinessPicture!=null">
-            `dealer_business_picture` = #{dealerBusinessPicture},
+            , `dealer_business_picture` = #{dealerBusinessPicture}
         </if>
         <if test="dealerContract!=null">
-            `dealer_contract` = #{dealerContract},
+            , `dealer_contract` = #{dealerContract}
         </if>
         <if test="dealerLegalName!=null">
-            `dealer_legal_name` = #{dealerLegalName},
+            ,`dealer_legal_name` = #{dealerLegalName}
         </if>
         <if test="dealerAddress!=null">
-            `dealer_address` = #{dealerAddress},
+            ,`dealer_address` = #{dealerAddress}
         </if>
         <if test="dealerContact!=null">
-            `dealer_contact` = #{dealerContact},
+            ,`dealer_contact` = #{dealerContact}
         </if>
         <if test="dealerTelephone!=null">
-            `dealer_telephone` = #{dealerTelephone},
+            , `dealer_telephone` = #{dealerTelephone}
         </if>
         <if test="dealerCard!=null">
-            `dealer_card` = #{dealerCard},
+            , `dealer_card` = #{dealerCard}
         </if>
         <if test="dealerCardPicture!=null">
-            `dealer_card_picture` = #{dealerCardPicture},
+            , `dealer_card_picture` = #{dealerCardPicture}
         </if>
         <if test="dealerBankName!=null">
-            `dealer_bank_name` = #{dealerBankName},
+            , `dealer_bank_name` = #{dealerBankName}
         </if>
         <if test="dealerBankNo!=null">
-            `dealer_bank_no` = #{dealerBankNo},
+            ,`dealer_bank_no` = #{dealerBankNo}
         </if>
         <if test="dealerPaymentMethod!=null">
-            `dealer_payment_method` = #{dealerPaymentMethod},
+            ,`dealer_payment_method` = #{dealerPaymentMethod}
         </if>
         <if test="notes!=null">
-            `notes` = #{notes},
+            ,`notes` = #{notes}
         </if>
         <if test="creatorId!=null">
-            `creator_id` =#{creatorId},
+            , `creator_id` =#{creatorId}
         </if>
         <if test="modifierId!=null">
-            `modifier_id` =#{modifierId},
+            , `modifier_id` =#{modifierId}
         </if>
         <if test="createTime!=null">
-            `create_time` = #{createTime},
+            , `create_time` = #{createTime}
         </if>
         <if test="modifyTime!=null">
-            `modify_time` =#{modifyTime}
+            , `modify_time` =#{modifyTime}
         </if>
         WHERE
         `id` = #{id}

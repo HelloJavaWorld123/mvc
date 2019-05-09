@@ -92,6 +92,7 @@
             dbi.dealer_bank_no AS dealerBankNo,
             dbi.dealer_payment_method AS dealerPaymentMethod,
             dbi.notes ,
+            dbi.modify_time as modifyTime,
             d.idnum ,
             d.state,
             d.idnum AS idnum,

@@ -16,6 +16,7 @@ import com.jzy.api.po.arch.DealerAnalysisInfoPo;
 import com.jzy.api.po.arch.DealerParamInfoPo;
 import com.jzy.api.po.dealer.DealerListPo;
 import com.jzy.api.po.dealer.DealerPo;
+import com.jzy.api.service.arch.DealerBaseInfoService;
 import com.jzy.api.service.arch.DealerParamService;
 import com.jzy.api.service.arch.DealerService;
 import com.jzy.api.service.key.TableKeyService;
@@ -62,6 +63,9 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
 
     @Resource
     private DealerBaseInfoMapper dealerBaseInfoMapper;
+
+    @Resource
+    private DealerBaseInfoService dealerBaseInfoService;
 
 
     @Resource
@@ -111,7 +115,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
         DealerBaseInfo dbi = saveDealerCnd.getDealerBaseInfo();
         List<DealerParam> dpmList = saveDealerCnd.getDpmList();
         List<FileInfo> fileInfoMapperList = saveDealerCnd.getFileInfo();
-        if (null == dbi.getDealerId()) {//渠道商信息的新增
+        if (null == dbi.getDealerId() || "".equals(dbi.getDealerId())) {//渠道商信息的新增
             //渠道商主表信息的添加
             dealer = insertDealer(dealer);
             //渠道商基础信息和配置信息新增
@@ -119,7 +123,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
             //修改图片信息
             if (!CollectionUtils.isEmpty(fileInfoMapperList)) {
                 for (FileInfo fileInfoMapper : saveDealerCnd.getFileInfo()) {
-                    sysImagesService.save(new SysImages(Long.valueOf(tableKeyService.newKey("sys_images", "id", 0)), dbi.getId().toString(),
+                    sysImagesService.save(new SysImages(Long.valueOf(tableKeyService.newKey("sys_images", "id", 0)), dealer.getId().toString(),
                             fileInfoMapper.getFileOrignName(), fileInfoMapper.getContentType(), fileInfoMapper.getFileUrl(), fileInfoMapper.getType()));
                 }
             }
@@ -131,7 +135,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
             //图片信息修改
             if (!CollectionUtils.isEmpty(dpmList)) {
                 for (FileInfo fileInfoMapper : saveDealerCnd.getFileInfo()) {
-                    sysImagesService.updateSysImages(new SysImages(Long.valueOf(tableKeyService.newKey("sys_images", "id", 0)), dbi.getId().toString(),
+                    sysImagesService.updateSysImages(new SysImages(Long.valueOf(tableKeyService.newKey("sys_images", "id", 0)), dealer.getId().toString(),
                             fileInfoMapper.getFileOrignName(), fileInfoMapper.getContentType(), fileInfoMapper.getFileUrl(), fileInfoMapper.getType()));
                 }
             }
@@ -167,9 +171,10 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
         //新增渠道商配置表
         dealerParamService.save(dealer.getId(), dpmList);
         //新增dealer_base_info 表
+        dbi.setId(tableKeyService.newKey("dealer_base_info", "id", 0));
         dbi.setDealerId(dealer.getId().toString());
         dbi.setDealerNo("D0" + dealer.getIdnum().substring(3));
-        dealerBaseInfoMapper.insert(dbi);
+        dealerBaseInfoService.insert(dbi);
         return dbi;
     }
 
@@ -181,7 +186,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
     private Dealer insertDealer(Dealer dealer) {
         //获取经销商标识最大值
         String maxNum = dealerMapper.getMaxIdNum();
-        String idnum = "Num0".concat(String.valueOf(Integer.parseInt(maxNum.substring(3)) + 1));
+        String idnum = "Num".concat(String.valueOf(Integer.parseInt(maxNum) + 1));
         String prikey = MyEncrypt.getInstance().obscureMd5(idnum);
         String pubkey = Base64.getEncoder().encodeToString(prikey.getBytes(Charset.forName("UTF-8"))).replace("=", "");
         dealer.setId(tableKeyService.newKey("dealer", "id", 0));

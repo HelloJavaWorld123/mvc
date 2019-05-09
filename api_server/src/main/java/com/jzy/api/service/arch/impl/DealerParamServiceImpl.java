@@ -70,6 +70,6 @@ public class DealerParamServiceImpl extends GenericServiceImpl<DealerParam> impl
 
     @Override
     protected GenericMapper<DealerParam> getGenericMapper() {
-        return null;
+        return dealerParamMapper;
     }
 }

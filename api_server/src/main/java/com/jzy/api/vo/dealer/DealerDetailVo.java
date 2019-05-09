@@ -64,7 +64,7 @@ public class DealerDetailVo implements Serializable {
     /*1-启用 0-停用*/
     private String state;
     /*渠道商唯一编号*/
-        private String idnum;
+    private String idnum;
     /**
      * 公钥（API KEY）用于签名使用
      */
@@ -83,6 +83,11 @@ public class DealerDetailVo implements Serializable {
      * SUP商户KEY
      */
     private String supKey;
+
+    /**
+     * 最后修改时间
+     */
+    private Date modifyTime;
 
     //配置相关
     private List<DealerParamInfoPo> dpmList;

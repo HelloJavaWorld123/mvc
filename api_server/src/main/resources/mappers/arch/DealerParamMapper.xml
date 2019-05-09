@@ -44,7 +44,7 @@
         )
         VALUES
             (
-              #{id},
+            #{id},
             #{dealerId},
             #{dealerKey},
             #{dealerValue},
