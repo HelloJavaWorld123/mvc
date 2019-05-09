@@ -112,7 +112,8 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         UserAuth userAuth = userAuthService.queryUserAuthByUserId(getUserId());
         data.put("trade_type", WXPayConstants.TradeType.MWEB.toString());
         // 从微信公众号中进入支付
-        if (userAuth != null && userAuth.getIsWxAuth() == 1) {
+        boolean isUserAuth = (userAuth != null && userAuth.getIsWxAuth() == 1);
+        if (isUserAuth) {
             log.debug("from wx openId pay：" + userAuth.getOpenId());
             data.put("openid", userAuth.getOpenId());
             data.put("trade_type", WXPayConstants.TradeType.JSAPI.toString());
@@ -148,6 +149,9 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         if (WXPayConstants.FAIL.equals(responseData.get("result_code"))) {
             order.setStatus(3);
             return new ApiResult<>(responseData.get("err_code_des"));
+        }
+        if (isUserAuth) {
+            return new ApiResult<>().success(JSONObject.toJSONString(payMap));
         }
         return new ApiResult<>().success(payMap.get("mweb_url"));
     }
