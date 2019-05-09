@@ -253,7 +253,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public SecurityToken querySecurityToken(String code) {
+    public SecurityToken updateSecurityToken(String code) {
         if (StringUtils.isEmpty(code)) {
             return getAccessToken();
         }

@@ -47,6 +47,6 @@ public interface WxPayService extends PayService {
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    SecurityToken querySecurityToken(String code);
+    SecurityToken updateSecurityToken(String code);
 
 }

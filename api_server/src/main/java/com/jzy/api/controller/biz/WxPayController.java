@@ -11,6 +11,7 @@ import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,9 @@ import java.util.Map;
 @Controller
 @RequestMapping(path="/wx")
 public class WxPayController extends GenericController {
+
+    @Value("${h5_sit_dns}")
+    private String h5DomainUrl;
 
     @Resource
     private WxPayService wxPayService;
@@ -63,14 +67,14 @@ public class WxPayController extends GenericController {
     @RequestMapping(path = "/authCallback", method = RequestMethod.GET)
     public ModelAndView authCallback(@RequestParam(defaultValue = "") String code,
                                        HttpServletRequest req, HttpServletResponse resp, ModelMap model) {
-        ModelAndView view = new ModelAndView("login");
+        ModelAndView view = new ModelAndView(h5DomainUrl);
         // LoginUserMapper loginUser = LoginUserMapper.getLoginUser(req.getSession());
         model.put("wechat_oauth_url", wxPayService.getUrlByAuthType("oauth"));
         // 是否为微信内置浏览器
         model.put("isWechat", CommUtils.iswechat(req));
         if (!"authdeny".equals(code)) {
             // 通过code换取网页授权access_token
-            SecurityToken securityToken = wxPayService.querySecurityToken(code);
+            SecurityToken securityToken = wxPayService.updateSecurityToken(code);
             return view;
         }
         // 用户未授权返回提示用户取消授权
