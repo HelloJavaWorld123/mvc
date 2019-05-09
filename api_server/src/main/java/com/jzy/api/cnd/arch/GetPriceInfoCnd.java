@@ -1,7 +1,7 @@
 package com.jzy.api.cnd.arch;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * <b>功能：</b>查询渠道商商品定价详情接口<br>
@@ -15,9 +15,9 @@ import lombok.Data;
 @Data
 public class GetPriceInfoCnd {
 
-    @NotNull
+    @NotBlank
     private String aiId;
 
-    @NotNull
+    @NotBlank
     private String dealerId;
 }
