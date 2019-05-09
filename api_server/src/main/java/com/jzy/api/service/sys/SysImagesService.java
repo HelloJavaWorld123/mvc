@@ -1,6 +1,8 @@
 package com.jzy.api.service.sys;
 
 import com.jzy.api.model.sys.SysImages;
+import com.jzy.framework.service.GenericService;
+
 /**
  * <b>功能：</b>系统图片表<br>
  * <b>Copyright JZY</b>
@@ -10,7 +12,7 @@ import com.jzy.api.model.sys.SysImages;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190420&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;唐永刚&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
-public interface SysImagesService {
+public interface SysImagesService extends GenericService<SysImages> {
 
     /**
      * <b>功能描述：</b>添加图片<br>
@@ -31,5 +33,5 @@ public interface SysImagesService {
      * <b>修订记录：</b><br>
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    void update(SysImages SysImages);
+    void updateSysImages(SysImages SysImages);
 }

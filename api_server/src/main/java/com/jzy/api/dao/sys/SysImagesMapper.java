@@ -1,6 +1,7 @@
 package com.jzy.api.dao.sys;
 
 import com.jzy.api.model.sys.SysImages;
+import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -12,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190430&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;唐永刚&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
-public interface SysImagesMapper {
+public interface SysImagesMapper extends GenericMapper<SysImages> {
 
     /**
      * <b>功能描述：</b>图片添加<br>

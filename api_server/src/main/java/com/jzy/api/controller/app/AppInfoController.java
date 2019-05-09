@@ -172,7 +172,7 @@ public class AppInfoController {
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     private SysImages getSystemImagesMapper(AppInfo ai, FileInfo mfile) {
-        return new SysImages(tableKeyService.newKey("app_info", "id", 0), ai.getId(), mfile.getFileOrignName(), mfile.getContentType(), ai.getIcon(), 1);
+        return new SysImages(tableKeyService.newKey("app_info", "id", 0), ai.getId().toString(), mfile.getFileOrignName(), mfile.getContentType(), ai.getIcon(), 1);
     }
 
     /**

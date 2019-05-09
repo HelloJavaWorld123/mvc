@@ -1,6 +1,8 @@
 package com.jzy.api.dao.arch;
 
+import com.jzy.api.model.dealer.DealerParam;
 import com.jzy.api.po.arch.DealerParamInfoPo;
+import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.List;
  * </ul>
  */
 
-public interface DealerParamMapper {
+public interface DealerParamMapper extends GenericMapper<DealerParam> {
 
     /**
      * <b>功能描述：</b>根据渠道商id获取渠道商配置信息<br>
@@ -24,6 +26,13 @@ public interface DealerParamMapper {
      */
     List<DealerParamInfoPo> getDealerParamInfo(@Param("dealerId") String dealerId);
 
+
+    /**
+     * <b>功能描述：</b>根据渠道商删除当前渠道商配置信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    Integer deleteByDealerId(@Param("dealerId") String dealerId);
 
 
 }

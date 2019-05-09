@@ -21,7 +21,7 @@ public class DealerBaseInfo extends GenericModel implements Serializable {
     /*商户编号*/
     private String dealerNo;
     /*对应dealer表中的id*/
-    private Integer dealerId;
+    private String dealerId;
     /*商户名称*/
     private String dealerName;
     /*商户简称*/

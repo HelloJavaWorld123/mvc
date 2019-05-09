@@ -45,4 +45,12 @@ public interface DealerMapper extends GenericMapper<Dealer> {
      */
     DealerDetailVo detail(@Param("id") String id);
 
+
+    /**
+     * <b>功能描述：</b>获取经销商标识最大值<br>
+     * <b>修订记录：</b><br>
+     * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    String getMaxIdNum();
+
 }

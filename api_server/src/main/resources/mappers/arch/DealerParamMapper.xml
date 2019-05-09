@@ -27,4 +27,43 @@
             1 = 1
             AND dealer_id = #{dealerId}
     </select>
+
+
+    <!--    新增-->
+    <insert id="insert" parameterType="com.jzy.api.model.dealer.DealerParam">
+        INSERT INTO dealer_param_info (
+            `id`,
+            `dealer_id`,
+            `dealer_key`,
+            `dealer_value`,
+            `dealer_note`,
+            `creator_id`,
+            `modifier_id`,
+            `create_time`,
+            `modify_time`
+        )
+        VALUES
+            (
+              #{id},
+            #{dealerId},
+            #{dealerKey},
+            #{dealerValue},
+            #{dealerNote},
+            #{creatorId},
+            #{modifierId},
+             #{createTime},
+              #{modifyTime}
+            )
+    </insert>
+
+    <!--    根据渠道商Id删除对应的参数配置-->
+    <delete id="deleteByDealerId">
+        DELETE
+        FROM
+            dealer_param_info
+        WHERE
+            dealer_id = #{dealerId}
+    </delete>
+
+
 </mapper>

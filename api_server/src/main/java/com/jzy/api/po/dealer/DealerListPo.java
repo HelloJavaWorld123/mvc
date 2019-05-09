@@ -15,6 +15,11 @@ import lombok.Data;
 public class DealerListPo {
 
     /**
+     * 渠道商基础信息表主键
+     */
+    private String id;
+
+    /**
      * 渠道商主键
      */
     private String dealerId;

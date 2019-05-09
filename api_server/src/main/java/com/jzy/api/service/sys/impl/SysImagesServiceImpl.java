@@ -3,6 +3,8 @@ package com.jzy.api.service.sys.impl;
 import com.jzy.api.dao.sys.SysImagesMapper;
 import com.jzy.api.model.sys.SysImages;
 import com.jzy.api.service.sys.SysImagesService;
+import com.jzy.framework.dao.GenericMapper;
+import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -21,7 +23,7 @@ import javax.annotation.Resource;
  * </ul>
  */
 @Service("SysImagesService")
-public class SysImagesServiceImpl implements SysImagesService {
+public class SysImagesServiceImpl extends GenericServiceImpl<SysImages> implements SysImagesService {
     private final static Logger logger = LoggerFactory.getLogger(SysImagesServiceImpl.class);
 
     @Resource
@@ -34,11 +36,11 @@ public class SysImagesServiceImpl implements SysImagesService {
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void save(SysImages SysImages) {
+    public void save(SysImages sysImages) {
         try {
-            sysImagesMapper.insert(SysImages);
+            this.insert(sysImages);
         } catch (Exception e) {
-            logger.error("图片保存失败:fileName = {}", "错误原因：{}", SysImages.getFileName(), e.getMessage());
+            logger.error("图片保存失败:fileName = {}", "错误原因：{}", sysImages.getFileName(), e.getMessage());
         }
     }
 
@@ -58,16 +60,21 @@ public class SysImagesServiceImpl implements SysImagesService {
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void update(SysImages sysImages) {
+    public void updateSysImages(SysImages sysImages) {
         try {
             //删除图片
-            sysImagesMapper.delete(sysImages.getRelId().toString(), sysImages.getType());
+            sysImagesMapper.delete(sysImages.getRelId(), sysImages.getType());
             //保存图片
-            sysImagesMapper.insert(sysImages);
+            this.save(sysImages);
         } catch (Exception e) {
             logger.error("图片更新失败:fileName = {}", "错误原因：{}", sysImages.getFileName(), e.getMessage());
         }
 
 
+    }
+
+    @Override
+    protected GenericMapper<SysImages> getGenericMapper() {
+        return sysImagesMapper;
     }
 }

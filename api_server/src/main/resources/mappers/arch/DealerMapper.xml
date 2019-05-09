@@ -69,6 +69,7 @@
         </if>
     </select>
 
+
     <!-- 渠道商详情 -->
     <select id="detail"
             resultType="com.jzy.api.vo.dealer.DealerDetailVo">
@@ -108,8 +109,115 @@
         WHERE
             1 = 1
         AND dbi.dealer_id = #{id}
-
-
     </select>
+
+    <!--获取经销商标识最大值-->
+    <select id="getMaxIdNum" resultType="String">
+
+        SELECT
+            max(substring(idnum, 4)) idnumMax
+        FROM
+            dealer
+    </select>
+
+    <!--    修改-->
+    <update id="update" parameterType="com.jzy.api.model.dealer.Dealer">
+        UPDATE `dealer`
+        SET
+        <if test="idnum!=null">
+            `idnum` = #{idnum},
+        </if>
+        <if test="name!=null">
+            `name` = #{name},
+        </if>
+        <if test="contact!=null">
+            `contact` = #{contact},
+        </if>
+        <if test="telno!=null">
+            `telno` = #{telno},
+        </if>
+        <if test="verified!=null">
+            `verified` = #{verified},
+        </if>
+        <if test="state!=null">
+            `state` = #{state},
+        </if>
+        <if test="pubkey!=null">
+            `pubkey` = #{pubkey},
+        </if>
+        <if test="prikey!=null">
+            `prikey` = #{prikey},
+        </if>
+        <if test="supBusinessid!=null">
+            `sup_businessid` = #{supBusinessid},
+        </if>
+        <if test="supKey!=null">
+            `sup_key` = #{supKey},
+        </if>
+        <if test="desc!=null">
+            `desc` = #{desc},
+        </if>
+        <if test="remark!=null">
+            `remark` = #{remark},
+        </if>
+        <if test="creatorId!=null">
+            `creator_id` = #{creatorId},
+        </if>
+        <if test="modifierId!=null">
+            `modifier_id` = #{modifierId},
+        </if>
+        <if test="createTime!=null">
+            `create_time` = #{createTime},
+        </if>
+        <if test="modifyTime!=null">
+            `create_time` = #{modifyTime}
+        </if>
+        WHERE
+        `id` = #{id}
+    </update>
+
+    <!--    insert-->
+    <insert id="insert" parameterType="com.jzy.api.model.dealer.Dealer">
+            INSERT INTO  `dealer` (
+                `id`,
+                `idnum`,
+                `name`,
+                `contact`,
+                `telno`,
+                `verified`,
+                `state`,
+                `pubkey`,
+                `prikey`,
+                `sup_businessid`,
+                `sup_key`,
+                `desc`,
+                `remark`,
+                `creator_id`,
+                `modifier_id`,
+                `create_time`,
+                `modify_time`
+            )
+            VALUES
+                (
+                #{id},
+                #{idnum},
+                #{name},
+                #{contact},
+                #{telno},
+                #{verified},
+                #{state},
+                #{pubkey},
+                #{prikey},
+                #{supBusinessid},
+                #{supKey},
+                #{desc},
+                #{remark},
+                #{creatorId},
+                #{modifierId},
+                #{createTime},
+                #{modifyTime}
+                )
+
+    </insert>
 
 </mapper>

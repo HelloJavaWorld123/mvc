@@ -1,5 +1,6 @@
 package com.jzy.api.model.dealer;
 
+import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,11 +15,15 @@ import java.io.Serializable;
  * </ul>
  */
 @Data
-public class DealerParam implements Serializable {
+public class DealerParam extends GenericModel implements Serializable {
     /*健*/
     private String dealerKey;
     /*值*/
     private String dealerValue;
     /*备注*/
     private String dealerNote;
+    /**
+     * 渠道商主键
+     */
+    private String dealerId;
 }

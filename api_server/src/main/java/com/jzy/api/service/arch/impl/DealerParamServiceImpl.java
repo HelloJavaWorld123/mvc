@@ -1,8 +1,12 @@
 package com.jzy.api.service.arch.impl;
 
 import com.jzy.api.dao.arch.DealerParamMapper;
+import com.jzy.api.model.dealer.DealerParam;
 import com.jzy.api.po.arch.DealerParamInfoPo;
 import com.jzy.api.service.arch.DealerParamService;
+import com.jzy.api.service.key.TableKeyService;
+import com.jzy.framework.dao.GenericMapper;
+import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,10 +22,13 @@ import java.util.List;
  * </ul>
  */
 @Service
-public class DealerParamServiceImpl implements DealerParamService {
+public class DealerParamServiceImpl extends GenericServiceImpl<DealerParam> implements DealerParamService {
 
     @Resource
     private DealerParamMapper dealerParamMapper;
+
+    @Resource
+    private TableKeyService tableKeyService;
 
 
     /**
@@ -31,6 +38,38 @@ public class DealerParamServiceImpl implements DealerParamService {
      */
     @Override
     public List<DealerParamInfoPo> getDealerParamInfo(String dealerId) {
-        return  dealerParamMapper.getDealerParamInfo(dealerId);
+        return dealerParamMapper.getDealerParamInfo(dealerId);
+    }
+
+    /**
+     * <b>功能描述：</b>渠道商信息保存<br>
+     * <b>修订记录：</b><br>
+     * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public void save(Long dealerId, List<DealerParam> dpmList) {
+        for (DealerParam dealerParam : dpmList) {
+            dealerParam.setId(tableKeyService.newKey("dealer_param_info", "id", 0));
+            dealerParam.setDealerId(dealerId.toString());
+            insert(dealerParam);
+        }
+
+
+    }
+
+    /**
+     * <b>功能描述：</b>渠道商配置信息的修改<br>
+     * <b>修订记录：</b><br>
+     * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public void updateDealerParam(String dealerId, List<DealerParam> dpmList) {
+        dealerParamMapper.deleteByDealerId(dealerId);
+        save(Long.valueOf(dealerId),dpmList);
+    }
+
+    @Override
+    protected GenericMapper<DealerParam> getGenericMapper() {
+        return null;
     }
 }

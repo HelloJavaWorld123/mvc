@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	SQL映射文件名称：渠道商基础信息
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190505	唐永刚	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.arch.DealerBaseInfoMapper">
+
+    <insert id="insert" parameterType="com.jzy.api.model.dealer.DealerParam">
+            INSERT INTO dealer_base_info (
+                `id`,
+                `dealer_no`,
+                `dealer_id`,
+                `dealer_name`,
+                `dealer_short_name`,
+                `dealer_business_num`,
+                `dealer_business_picture`,
+                `dealer_contract`,
+                `dealer_legal_name`,
+                `dealer_address`,
+                `dealer_contact`,
+                `dealer_telephone`,
+                `dealer_card`,
+                `dealer_card_picture`,
+                `dealer_bank_name`,
+                `dealer_bank_no`,
+                `dealer_payment_method`,
+                `notes`,
+                `creator_id`,
+                `modifier_id`,
+                `create_time`,
+                `modify_time`
+            )
+            VALUES
+                (
+                #{id},
+                #{dealerNo},
+                #{dealerId},
+                #{dealerName},
+                #{dealerShortName},
+                #{dealerBusinessNum},
+                #{dealerBusinessPicture},
+                #{dealerContract},
+                #{dealerLegalName},
+                #{dealerAddress},
+                #{dealerContact},
+                #{dealerTelephone},
+                #{dealerCard},
+                #{dealerCardPicture},
+                #{dealerBankName},
+                #{dealerBankNo},
+                #{dealerPaymentMethod},
+                #{notes},
+                #{creatorId},
+                #{modifierId},
+                #{createTime},
+                #{modifyTime}
+                )
+    </insert>
+
+    <update id="update" parameterType="com.jzy.api.model.dealer.DealerParam">
+
+        UPDATE `dealer_base_info`
+        SET
+        <if test="dealerNo!=null">
+            `dealer_no` = #{dealerNo},
+        </if>
+        <if test="dealerId!=null">
+            `dealer_id` = #{dealerId},
+        </if>
+        <if test="dealerName!=null">
+            `dealer_name` = #{dealerName},
+        </if>
+        <if test="dealerShortName!=null">
+            `dealer_short_name` = #{dealerShortName},
+        </if>
+        <if test="dealerBusinessNum!=null">
+            `dealer_business_num` =#{dealerBusinessNum},
+        </if>
+        <if test="dealerBusinessPicture!=null">
+            `dealer_business_picture` = #{dealerBusinessPicture},
+        </if>
+        <if test="dealerContract!=null">
+            `dealer_contract` = #{dealerContract},
+        </if>
+        <if test="dealerLegalName!=null">
+            `dealer_legal_name` = #{dealerLegalName},
+        </if>
+        <if test="dealerAddress!=null">
+            `dealer_address` = #{dealerAddress},
+        </if>
+        <if test="dealerContact!=null">
+            `dealer_contact` = #{dealerContact},
+        </if>
+        <if test="dealerTelephone!=null">
+            `dealer_telephone` = #{dealerTelephone},
+        </if>
+        <if test="dealerCard!=null">
+            `dealer_card` = #{dealerCard},
+        </if>
+        <if test="dealerCardPicture!=null">
+            `dealer_card_picture` = #{dealerCardPicture},
+        </if>
+        <if test="dealerBankName!=null">
+            `dealer_bank_name` = #{dealerBankName},
+        </if>
+        <if test="dealerBankNo!=null">
+            `dealer_bank_no` = #{dealerBankNo},
+        </if>
+        <if test="dealerPaymentMethod!=null">
+            `dealer_payment_method` = #{dealerPaymentMethod},
+        </if>
+        <if test="notes!=null">
+            `notes` = #{notes},
+        </if>
+        <if test="creatorId!=null">
+            `creator_id` =#{creatorId},
+        </if>
+        <if test="modifierId!=null">
+            `modifier_id` =#{modifierId},
+        </if>
+        <if test="createTime!=null">
+            `create_time` = #{createTime},
+        </if>
+        <if test="modifyTime!=null">
+            `modify_time` =#{modifyTime}
+        </if>
+        WHERE
+        `id` = #{id}
+
+    </update>
+
+
+</mapper>

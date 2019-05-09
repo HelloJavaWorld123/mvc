@@ -132,7 +132,7 @@ public class ManageCarouselController {
     }
 
     private SysImages getSystemImagesMapper(DealerHomeCateSaveCnd infoCnd, FileInfo mfile) {
-        return new SysImages(tableKeyService.newKey("home_recommend_cate", "id", 0), infoCnd.getId(), mfile.getFileOrignName(), mfile.getContentType(), infoCnd.getImageUrl(), HomeEnums.ImageType.category.ordinal());
+        return new SysImages(tableKeyService.newKey("home_recommend_cate", "id", 0), infoCnd.getId().toString(), mfile.getFileOrignName(), mfile.getContentType(), infoCnd.getImageUrl(), HomeEnums.ImageType.category.ordinal());
     }
 
     @RequestMapping("updateStatusBatch")

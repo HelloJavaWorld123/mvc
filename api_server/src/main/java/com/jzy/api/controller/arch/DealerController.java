@@ -65,7 +65,7 @@ public class DealerController {
      * <b>修订记录：</b><br>
      * <li>20190422&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("save.shtml")
+    @RequestMapping("admin/save")
     public ApiResult save(@RequestBody SaveDealerCnd saveDealerCnd) {
         try {
             String telephone = saveDealerCnd.getDealerBaseInfo().getDealerTelephone();
