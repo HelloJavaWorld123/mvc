@@ -38,7 +38,7 @@ public class HomeAnalysisController {
     @WithoutLogin
     @RequestMapping("getinfo")
     public ApiResult getInfo(@RequestBody HomeAnalysisCnd homeAnalysisCnd) {
-        HomeAnalysisInfoVo homeAnalysisInfoVo = homeAnalysisService.getInfo(homeAnalysisCnd);
+        HomeAnalysisInfoVo homeAnalysisInfoVo = homeAnalysisService.userLogin(homeAnalysisCnd);
         if (null == homeAnalysisInfoVo) {
             return new ApiResult().fail("信息错误请检查");
         }

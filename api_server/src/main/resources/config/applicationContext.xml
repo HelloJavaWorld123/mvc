@@ -106,7 +106,7 @@
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <!-- 定义事务传播属性 -->
         <tx:attributes>
-            <tx:method name="login*" propagation="REQUIRED" />
+            <tx:method name="*login" propagation="REQUIRED" />
             <tx:method name="insert*" propagation="REQUIRED" />
             <tx:method name="update*" propagation="REQUIRED" />
             <tx:method name="edit*" propagation="REQUIRED" />

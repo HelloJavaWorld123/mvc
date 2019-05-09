@@ -60,7 +60,7 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
      * <b>修订记录：</b><br>
      * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    public HomeAnalysisInfoVo getInfo(HomeAnalysisCnd homeAnalysisCnd) {
+    public HomeAnalysisInfoVo userLogin(HomeAnalysisCnd homeAnalysisCnd) {
         HomeAnalysisInfoVo homeAnalysisInfoVo = null;
         try {
             String businessId = homeAnalysisCnd.getBusinessID();
