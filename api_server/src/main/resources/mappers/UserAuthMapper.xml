@@ -30,7 +30,6 @@
         UPDATE
         user_auth
         SET
-        is_wx_auth = #{isWxAuth},
         open_id = #{openId}
         WHERE
         user_id =  #{userId}
@@ -40,6 +39,7 @@
     <select id="queryUserAuthByUserId" parameterType="com.jzy.api.model.sys.UserAuth">
         SELECT
         id,
+        user_id,
         is_wx_auth,
         open_id
         FROM

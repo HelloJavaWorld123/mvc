@@ -16,10 +16,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -65,22 +67,16 @@ public class WxPayController extends GenericController {
      */
     @WithoutLogin
     @RequestMapping(path = "/authCallback", method = RequestMethod.GET)
-    public ModelAndView authCallback(@RequestParam(defaultValue = "") String code,
-                                       HttpServletRequest req, HttpServletResponse resp, ModelMap model) {
-        ModelAndView view = new ModelAndView(h5DomainUrl);
-        // LoginUserMapper loginUser = LoginUserMapper.getLoginUser(req.getSession());
-        model.put("wechat_oauth_url", wxPayService.getUrlByAuthType("oauth"));
-        // 是否为微信内置浏览器
-        model.put("isWechat", CommUtils.iswechat(req));
+    public ModelAndView authCallback(@RequestParam(defaultValue = "") String code, @RequestParam(defaultValue = "") String state,
+                                       HttpServletRequest req, HttpServletResponse resp, ModelMap model) throws IOException {
         if (!"authdeny".equals(code)) {
-            // 通过code换取网页授权access_token
-            SecurityToken securityToken = wxPayService.updateSecurityToken(code);
-            return view;
+            wxPayService.updateSecurityToken(code, state);
+            return new ModelAndView(new RedirectView(h5DomainUrl));
         }
         // 用户未授权返回提示用户取消授权
         log.error("微信网页授权获取用户信息失败-----------------------");
         model.put("errmsg", "用户取消授权");
-        return view;
+        return new ModelAndView(h5DomainUrl);
     }
 
     /**

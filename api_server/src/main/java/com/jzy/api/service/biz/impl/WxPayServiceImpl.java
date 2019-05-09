@@ -253,11 +253,11 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public SecurityToken updateSecurityToken(String code) {
+    public SecurityToken updateSecurityToken(String code, String state) {
         if (StringUtils.isEmpty(code)) {
             return getAccessToken();
         }
-        return getOAuthToken(code);
+        return getOAuthToken(code, state);
     }
 
     /**
@@ -265,7 +265,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
      * <b>修订记录：</b><br>
      * <li>20190423&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    private SecurityToken getOAuthToken(String code) {
+    private SecurityToken getOAuthToken(String code, String userId) {
         SecurityToken oAuthToken = null;
         String requestUrl = WechatConstant.oauth_url.replace("APPID", appId).replace("SECRET", appSecret)
                 .replace("CODE", code);
@@ -279,9 +279,8 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
                 // iRedisService.setValue(OAUTH_WX_WEBSITE.concat(code), oAuthToken, result.getInteger(WechatConstant.EXPIRES_IN));
                 // 根据用户id更新用户的openId
                 UserAuth userAuth = new UserAuth();
-                userAuth.setIsWxAuth(1);
                 userAuth.setOpenId(result.getString(WechatConstant.OPENID));
-                userAuth.setUserId(getUserId());
+                userAuth.setUserId(userId);
                 userAuthService.update(userAuth);
             } else {
                 log.error("：：：Wechat website failed to get oauth_token - errcode:" + result.getString(WechatConstant.ERRCODE) + ", errmsg:"
@@ -389,8 +388,8 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
             case "oauth":
                 authorizeUrl = authorize_url.replace("APPID", appId)
                         .replace("REDIRECT_URI", URLEncoder.encode(domainUrl.concat(callbackUrl)))
-                        .replace("SCOPE", SCOPE_SNSAPI_USERINFO)
-                        .replace("STATE", Base64.encodeBase64String("900Mall".getBytes()));
+                        .replace("SCOPE", SCOPE_SNSAPI_BASE)
+                        .replace("STATE", getUserId());
                 break;
             case "qroauth":
                 authorizeUrl = website_oauth_url.replace("APPID", appId)

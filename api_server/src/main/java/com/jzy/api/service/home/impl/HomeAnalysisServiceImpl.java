@@ -10,7 +10,9 @@ import com.jzy.api.service.arch.DealerService;
 import com.jzy.api.service.home.HomeAnalysisService;
 import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.service.sys.UserAuthService;
+import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.DesUtil;
+import com.jzy.api.util.MD5Util;
 import com.jzy.api.util.MyEncrypt;
 import com.jzy.api.vo.home.HomeAnalysisInfoVo;
 import com.jzy.framework.cache.UserCache;
@@ -60,7 +62,7 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
      * <b>修订记录：</b><br>
      * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    public HomeAnalysisInfoVo userLogin(HomeAnalysisCnd homeAnalysisCnd) {
+    public HomeAnalysisInfoVo update(HomeAnalysisCnd homeAnalysisCnd) {
         HomeAnalysisInfoVo homeAnalysisInfoVo = null;
         try {
             String businessId = homeAnalysisCnd.getBusinessID();
@@ -72,23 +74,27 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
                 return homeAnalysisInfoVo;
             }
             homeAnalysisInfoVo = new HomeAnalysisInfoVo();
-            homeAnalysisInfoVo.setUserId(dataInfo.getUserId());
-            homeAnalysisInfoVo.setToken(dataInfo.getToken());
+            if (homeAnalysisCnd.getIsWxAuth() == 1) {
+                homeAnalysisInfoVo.setUserId(CommUtils.lowerUUID());
+            } else {
+                homeAnalysisInfoVo.setUserId(dataInfo.getUserId());
+            }
+
             //根据渠道商id获取渠道商配置信息
             List<DealerParamInfoPo> dealerParamInfoPos = dealerParamService.getDealerParamInfo(dealerAnalysisInfoPo.getDealerId());
             homeAnalysisInfoVo.setDealerParamInfoPos(dealerParamInfoPos);
             homeAnalysisInfoVo.setBusinessId(businessId);
-            RBucket<UserCache> homeAnalysisInfoVoRBucket = redissonClient.getBucket(dataInfo.getToken());
-            UserCache userCache = new UserCache();
-            userCache.setUserId(dataInfo.getUserId());
-            // 根据商户号查询商户id
-            userCache.setDealerId(Integer.parseInt(dealerAnalysisInfoPo.getDealerId()));
-            homeAnalysisInfoVoRBucket.set(userCache, 30, TimeUnit.MINUTES);
+
+            String token = cacheUserCache(homeAnalysisInfoVo.getUserId(), dealerAnalysisInfoPo.getDealerId());
+
+            homeAnalysisInfoVo.setToken(token);
+
             // 存储用户信息到本地数据库中
             UserAuth userAuth = new UserAuth();
             userAuth.setId(tableKeyService.newKey("user_auth", "id", 1000));
-            userAuth.setUserId(dataInfo.getUserId());
-            userAuth.setDealerId(userCache.getDealerId());
+            userAuth.setUserId(homeAnalysisInfoVo.getUserId());
+            userAuth.setIsWxAuth(homeAnalysisCnd.getIsWxAuth());
+            userAuth.setDealerId(Integer.parseInt(dealerAnalysisInfoPo.getDealerId()));
             userAuthService.insert(userAuth);
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,6 +102,23 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
 
         return homeAnalysisInfoVo;
 
+    }
+
+    /**
+     * <b>功能描述：</b>缓存用户信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private String cacheUserCache(String userId, String dealerId) {
+        String token = MD5Util.string2MD5(userId);
+
+        UserCache userCache = new UserCache();
+        userCache.setUserId(userId);
+        userCache.setDealerId(Integer.parseInt(dealerId));
+
+        RBucket<UserCache> homeAnalysisInfoVoRBucket = redissonClient.getBucket(token);
+        homeAnalysisInfoVoRBucket.set(userCache, 30, TimeUnit.MINUTES);
+        return token;
     }
 
     /**

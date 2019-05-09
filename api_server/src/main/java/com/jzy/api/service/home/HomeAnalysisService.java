@@ -18,7 +18,7 @@ public interface HomeAnalysisService {
      * <b>修订记录：</b><br>
      * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    HomeAnalysisInfoVo userLogin(HomeAnalysisCnd homeAnalysisCnd);
+    HomeAnalysisInfoVo update(HomeAnalysisCnd homeAnalysisCnd);
 
 
 }

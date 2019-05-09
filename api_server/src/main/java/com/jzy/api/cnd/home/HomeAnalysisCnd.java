@@ -15,7 +15,10 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Data
 public class HomeAnalysisCnd {
-
+    /**
+     * 是否从微信中打开
+     */
+    private int isWxAuth = 0;
 
     /**
      * 经销商标识
