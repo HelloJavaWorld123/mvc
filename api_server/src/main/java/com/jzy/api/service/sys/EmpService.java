@@ -1,10 +1,7 @@
 package com.jzy.api.service.sys;
 
-import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.sys.Emp;
 import com.jzy.framework.service.GenericService;
-
-import java.util.List;
 
 /**
  * <b>功能：</b>这里写功能描述<br>

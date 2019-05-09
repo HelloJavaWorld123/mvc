@@ -41,8 +41,14 @@ public class CglibBeanCopierUtils {
      */
     public static BeanCopier getBeanCopier(Object source, Object target) {
         String key = source.toString() + target.toString();
-        return beanCopierMap.putIfAbsent(key,
-                BeanCopier.create(source.getClass(), target.getClass(), false));
+        BeanCopier copier;
+        if (!beanCopierMap.containsKey(key)) {
+            copier = BeanCopier.create(source.getClass(), target.getClass(), false);
+            beanCopierMap.put(key, copier);
+        } else {
+            copier = beanCopierMap.get(key);
+        }
+        return copier;
     }
 
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	SQL映射文件名称：前台用户信息保存
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190509	邓冲	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.UserAuthMapper">
+
+    <!-- 新增前台员工 -->
+    <insert id="insert" parameterType="com.jzy.api.model.sys.UserAuth">
+        INSERT INTO user_auth (
+          id, user_id, is_wx_auth, dealer_id,
+          del_flag, creator_id, modifier_id, create_time, modify_time
+        )
+        VALUES (
+          #{id}, #{userId}, #{isWxAuth}, #{dealerId},
+          #{delFlag}, #{creatorId}, #{modifierId}, #{createTime}, #{modifyTime}
+        )
+    </insert>
+
+    <!-- 更新前台员工 -->
+    <update id="update" parameterType="com.jzy.api.model.sys.UserAuth">
+        UPDATE
+        user_auth
+        SET
+        is_wx_auth = #{isWxAuth},
+        open_id = #{openId}
+        WHERE
+        user_id =  #{userId}
+    </update>
+
+    <!-- 根据用户id获取用户授权信息 -->
+    <select id="queryUserAuthByUserId" parameterType="com.jzy.api.model.sys.UserAuth">
+        SELECT
+        id,
+        is_wx_auth,
+        open_id
+        FROM
+        user_auth
+        WHERE
+        user_id =  #{userId}
+    </select>
+
+</mapper>
