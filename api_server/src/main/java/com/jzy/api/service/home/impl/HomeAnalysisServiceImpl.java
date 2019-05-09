@@ -63,45 +63,33 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
      * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     public HomeAnalysisInfoVo update(HomeAnalysisCnd homeAnalysisCnd) {
-        HomeAnalysisInfoVo homeAnalysisInfoVo = null;
-        try {
-            String businessId = homeAnalysisCnd.getBusinessID();
-            String mData = homeAnalysisCnd.getData();
-            //根据渠道商标识获取解析加密信息
-            DealerAnalysisInfoPo dealerAnalysisInfoPo = dealerService.getAnalysisInfo(businessId);
-            DataInfo dataInfo = verification(businessId, dealerAnalysisInfoPo.getPubKey(), dealerAnalysisInfoPo.getPriKey(), mData);
-            if (!dataInfo.getFlag()) {
-                return homeAnalysisInfoVo;
-            }
-            homeAnalysisInfoVo = new HomeAnalysisInfoVo();
-            if (homeAnalysisCnd.getIsWxAuth() == 1) {
-                homeAnalysisInfoVo.setUserId(CommUtils.lowerUUID());
-            } else {
-                homeAnalysisInfoVo.setUserId(dataInfo.getUserId());
-            }
-
-            //根据渠道商id获取渠道商配置信息
-            List<DealerParamInfoPo> dealerParamInfoPos = dealerParamService.getDealerParamInfo(dealerAnalysisInfoPo.getDealerId());
-            homeAnalysisInfoVo.setDealerParamInfoPos(dealerParamInfoPos);
-            homeAnalysisInfoVo.setBusinessId(businessId);
-
-            String token = cacheUserCache(homeAnalysisInfoVo.getUserId(), dealerAnalysisInfoPo.getDealerId());
-
-            homeAnalysisInfoVo.setToken(token);
-
-            // 存储用户信息到本地数据库中
-            UserAuth userAuth = new UserAuth();
-            userAuth.setId(tableKeyService.newKey("user_auth", "id", 1000));
-            userAuth.setUserId(homeAnalysisInfoVo.getUserId());
-            userAuth.setIsWxAuth(homeAnalysisCnd.getIsWxAuth());
-            userAuth.setDealerId(Integer.parseInt(dealerAnalysisInfoPo.getDealerId()));
-            userAuthService.insert(userAuth);
-        } catch (Exception e) {
-            e.printStackTrace();
+        String businessId = homeAnalysisCnd.getBusinessID();
+        String mData = homeAnalysisCnd.getData();
+        //根据渠道商标识获取解析加密信息
+        DealerAnalysisInfoPo dealerAnalysisInfoPo = dealerService.getAnalysisInfo(businessId);
+        DataInfo dataInfo = verification(businessId, dealerAnalysisInfoPo.getPubKey(), dealerAnalysisInfoPo.getPriKey(), mData);
+        if (!dataInfo.getFlag()) {
+            return null;
+        }
+        HomeAnalysisInfoVo homeAnalysisInfoVo = new HomeAnalysisInfoVo();
+        if (homeAnalysisCnd.getIsWxAuth() == 1) {
+            homeAnalysisInfoVo.setUserId(CommUtils.lowerUUID());
+        } else {
+            homeAnalysisInfoVo.setUserId(dataInfo.getUserId());
         }
 
-        return homeAnalysisInfoVo;
+        //根据渠道商id获取渠道商配置信息
+        List<DealerParamInfoPo> dealerParamInfoPos = dealerParamService.getDealerParamInfo(dealerAnalysisInfoPo.getDealerId());
+        homeAnalysisInfoVo.setDealerParamInfoPos(dealerParamInfoPos);
+        homeAnalysisInfoVo.setBusinessId(businessId);
 
+        String token = cacheUserCache(homeAnalysisInfoVo.getUserId(), dealerAnalysisInfoPo.getDealerId());
+
+        homeAnalysisInfoVo.setToken(token);
+
+        // 存储用户信息到本地数据库中
+        insertUserAuth(homeAnalysisInfoVo.getUserId(), homeAnalysisCnd.getIsWxAuth(), dealerAnalysisInfoPo.getDealerId());
+        return homeAnalysisInfoVo;
     }
 
     /**
@@ -119,6 +107,21 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
         RBucket<UserCache> homeAnalysisInfoVoRBucket = redissonClient.getBucket(token);
         homeAnalysisInfoVoRBucket.set(userCache, 30, TimeUnit.MINUTES);
         return token;
+    }
+
+    /**
+     * <b>功能描述：</b>缓存用户信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private void insertUserAuth(String userId, Integer isWxAuth, String dealerId) {
+        // 存储用户信息到本地数据库中
+        UserAuth userAuth = new UserAuth();
+        userAuth.setId(tableKeyService.newKey("user_auth", "id", 1000));
+        userAuth.setUserId(userId);
+        userAuth.setIsWxAuth(isWxAuth);
+        userAuth.setDealerId(Integer.parseInt(dealerId));
+        userAuthService.insert(userAuth);
     }
 
     /**
