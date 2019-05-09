@@ -16,12 +16,14 @@ import com.jzy.api.util.MD5Util;
 import com.jzy.api.util.MyEncrypt;
 import com.jzy.api.vo.home.HomeAnalysisInfoVo;
 import com.jzy.framework.cache.UserCache;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -121,7 +123,11 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
         userAuth.setUserId(userId);
         userAuth.setIsWxAuth(isWxAuth);
         userAuth.setDealerId(Integer.parseInt(dealerId));
-        userAuthService.insert(userAuth);
+        try{
+            userAuthService.insert(userAuth);
+        } catch (Exception ignore) {
+        }
+
     }
 
     /**
