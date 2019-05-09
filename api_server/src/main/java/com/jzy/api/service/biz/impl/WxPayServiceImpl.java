@@ -6,19 +6,23 @@ import com.jzy.api.constant.WechatConstant;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.model.biz.SecurityToken;
 import com.jzy.api.model.biz.TradeRecord;
+import com.jzy.api.model.sys.UserAuth;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.service.biz.SupService;
 import com.jzy.api.service.biz.TradeRecordService;
 import com.jzy.api.service.biz.WxPayService;
+import com.jzy.api.service.sys.UserAuthService;
 import com.jzy.api.service.wx.WXPay;
 import com.jzy.api.service.wx.WXPayConfig;
 import com.jzy.api.service.wx.WXPayUtil;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.DateUtils;
 import com.jzy.api.util.MyHttp;
+import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.exception.PayException;
 import com.jzy.framework.result.ApiResult;
+import com.jzy.framework.service.impl.GenericServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,7 +53,7 @@ import static com.jzy.api.constant.WechatConstant.*;
  */
 @Slf4j
 @Service
-public class WxPayServiceImpl implements WxPayService {
+public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService {
 
     private static final String SYSTEM_OPERATION = "System Operation";
 
@@ -83,6 +87,9 @@ public class WxPayServiceImpl implements WxPayService {
 
     @Resource
     private SupService supService;
+
+    @Resource
+    private UserAuthService userAuthService;
 
     /**
      * <b>功能描述：</b>支付<br>
@@ -273,8 +280,11 @@ public class WxPayServiceImpl implements WxPayService {
                         result.getString(WechatConstant.OPENID), result.getString(WechatConstant.SCOPE), 1, new Date());
                 // iRedisService.setValue(OAUTH_WX_WEBSITE.concat(code), oAuthToken, result.getInteger(WechatConstant.EXPIRES_IN));
                 // 根据用户id更新用户的openId
-
-
+                UserAuth userAuth = new UserAuth();
+                userAuth.setIsWxAuth(1);
+                userAuth.setOpenId(result.getString(WechatConstant.OPENID));
+                userAuth.setUserId(getUserId());
+                userAuthService.update(userAuth);
             } else {
                 log.error("：：：Wechat website failed to get oauth_token - errcode:" + result.getString(WechatConstant.ERRCODE) + ", errmsg:"
                         + result.getString(WechatConstant.ERRMSG));
@@ -473,4 +483,8 @@ public class WxPayServiceImpl implements WxPayService {
         return respmap;
     }
 
+    @Override
+    protected GenericMapper getGenericMapper() {
+        return null;
+    }
 }

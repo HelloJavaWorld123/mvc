@@ -30,12 +30,21 @@ public abstract class GenericServiceImpl<T extends GenericModel> implements Gene
     }
 
     /**
-     * <b>功能描述：</b>获取后端渠道商信息<br>
+     * <b>功能描述：</b>获取前端渠道商信息<br>
      * <b>修订记录：</b><br>
      * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     protected Integer getFrontDealerId() {
         return ThreadLocalCache.getContextHolder().getUserCache().getDealerId();
+    }
+
+    /**
+     * <b>功能描述：</b>获取前端用户id信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    protected String getUserId() {
+        return ThreadLocalCache.getContextHolder().getUserCache().getUserId();
     }
 
     /**
