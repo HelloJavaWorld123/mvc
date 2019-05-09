@@ -36,7 +36,7 @@
     </update>
 
     <!-- 根据用户id获取用户授权信息 -->
-    <select id="queryUserAuthByUserId" parameterType="com.jzy.api.model.sys.UserAuth">
+    <select id="queryUserAuthByUserId" resultType="com.jzy.api.model.sys.UserAuth">
         SELECT
         id,
         user_id userId,
