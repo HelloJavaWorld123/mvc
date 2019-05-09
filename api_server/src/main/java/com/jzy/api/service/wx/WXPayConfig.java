@@ -24,7 +24,7 @@ public class WXPayConfig {
      * 微信回调地址
      */
 //    @Value("${wx_notify_url}")
-    private String wxNotifyUri = "http://xian-api.900sup.com/wx/payCallback";
+    private String wxNotifyUri = "http://xian-api.900sup.com/api-server/wx/payCallback";
     /**
      * 商户id
      */
