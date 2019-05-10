@@ -76,8 +76,8 @@ public class DealerAppPriceInfoController {
      */
     @RequestMapping("admin/getList")
     public ApiResult getList(@RequestBody GetDealerAppListCnd getDealerAppListCnd) {
-        List<GetDealerAppVo> getDealerAppVoList = dealerAppPriceInfoService.getList(getDealerAppListCnd);
-        return new ApiResult<>(getDealerAppVoList);
+        PageVo pageVo= dealerAppPriceInfoService.getList(getDealerAppListCnd);
+        return new ApiResult<>(pageVo);
     }
 
 

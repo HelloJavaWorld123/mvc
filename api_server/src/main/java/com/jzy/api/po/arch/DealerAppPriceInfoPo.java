@@ -54,4 +54,9 @@ public class DealerAppPriceInfoPo {
     private BigDecimal dealerPrice;
 
 
+    /**
+     * 状态
+     */
+    private Integer status;
+
 }

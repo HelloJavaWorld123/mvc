@@ -1,5 +1,6 @@
 package com.jzy.api.cnd.arch;
 
+import com.jzy.framework.bean.cnd.PageCnd;
 import lombok.Data;
 
 /**
@@ -12,7 +13,7 @@ import lombok.Data;
  * </ul>
  */
 @Data
-public class GetDealerAppListCnd {
+public class GetDealerAppListCnd extends PageCnd {
 
     /**
      * 渠道商主键
@@ -43,4 +44,59 @@ public class GetDealerAppListCnd {
      * 商品状态
      */
     private Integer status;
+
+
+    public String getCateId() {
+        if (cateId.equals("")) {
+            return null;
+        }
+        return cateId;
+    }
+
+    public void setCateId(String cateId) {
+        this.cateId = cateId;
+    }
+
+    public String getTypeId() {
+        if (typeId.equals("")) {
+            return null;
+        }
+        return typeId;
+    }
+
+    public String getAcpId() {
+        if (acpId.equals("")) {
+            return null;
+        }
+        return acpId;
+    }
+
+    public void setAcpId(String acpId) {
+        this.acpId = acpId;
+    }
+
+    public String getSearchName() {
+        if (searchName.equals("")) {
+            return null;
+        }
+        return searchName;
+    }
+
+    public void setSearchName(String searchName) {
+
+        this.searchName = searchName;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+
+        this.status = status;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
 }
