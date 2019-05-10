@@ -53,7 +53,7 @@ public interface OrderMapper extends GenericMapper<Order> {
      *
      * @param id 订单id
      */
-    String queryCardPwdById(String id);
+    String queryCardPwdByOrderId(String id);
 
     /**
      * <b>功能描述：</b>根据订单id关闭订单<br>
