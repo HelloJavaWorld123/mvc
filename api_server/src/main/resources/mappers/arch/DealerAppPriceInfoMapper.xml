@@ -15,6 +15,106 @@
 
     <!-- 前台查询商品价格接口-->
 
+    <select id="getList"
+            parameterType="com.jzy.api.cnd.arch.GetDealerAppListCnd"
+            resultType="com.jzy.api.vo.dealer.GetDealerAppVo">
+        SELECT
+        aa.aiId,
+        aa.`STATUS`,
+        aa.`CODE`,
+        aa.appName,
+        aa.cateName,
+        aa.typeName,
+        aa.companyName,
+        aa.discount,
+        aa.supNo
+        FROM
+        (
+        SELECT
+        ai.id as aiId,
+        dai. STATUS,
+        ai. CODE,
+        ai. NAME AS appName,
+        f_get_app_cate_name (ai.cate_id) AS cateName,
+        f_get_app_type_name (ai.type_id) AS typeName,
+        f_get_app_company_name (ai.acp_id) AS companyName,
+        dapi.discount,
+        dapi.sup_no as supNo,
+        ai.acp_id,
+        ai.cate_id,
+        ai.type_id
+        FROM
+        app_info ai
+        LEFT JOIN dealer_app_info dai ON dai.ai_id = ai.id
+        LEFT JOIN (
+        SELECT
+        GROUP_CONCAT(sup_no SEPARATOR ',') AS sup_no,
+        GROUP_CONCAT(discount SEPARATOR ',') AS discount,
+        ai_id,
+        dealer_id
+        FROM
+        dealer_app_price_info
+        GROUP BY
+        ai_id,
+        dealer_id
+        ) AS dapi ON dapi.ai_id = ai.id
+        AND dapi.dealer_id = dai.dealer_id
+        WHERE
+        1 = 1
+        AND dai.dealer_id = #{dealerId}
+        UNION ALL
+        SELECT
+        ai.id as aiId,
+        ai. CODE AS STATUS,
+        ai. CODE,
+        ai. NAME AS appName,
+        f_get_app_cate_name (ai.cate_id) AS cateName,
+        f_get_app_type_name (ai.type_id) AS typeName,
+        f_get_app_company_name (ai.acp_id) AS companyName,
+        ai. CODE AS discount,
+        ai. CODE AS supNo,
+        ai.acp_id,
+        ai.cate_id,
+        ai.type_id
+        FROM
+        app_info ai
+        WHERE
+        NOT EXISTS (
+        SELECT
+        dai.ai_id
+        FROM
+        dealer_app_info dai
+        WHERE
+        dai.ai_id = ai.id
+        AND dai.dealer_id = #{dealerId}
+        )
+        ) aa
+        WHERE
+        1=1
+        <if test="status!=null ">
+            and  aa. STATUS = #{status}
+        </if>
+      <if test=" cateId!=null ">
+          AND aa.cate_id =#{cateId}
+      </if>
+        <if test=" acpId!=null ">
+            and aa.acp_id=#{acpId}
+        </if>
+        <if test=" typeId!=null ">
+            and aa.type_id=#{typeId}
+        </if>
+        <if test=" searchName!=null ">
+            and
+            (aa.appName LIKE CONCAT('%',#{searchName},'%')
+            or aa.code LIKE CONCAT('%',#{searchName},'%')
+            or aa.supNo LIKE CONCAT('%',#{searchName},'%')
+            )
+        </if>
+
+    </select>
+
+    <!-- 获取前台商品详情信息-->
+
     <select id="getPrice" resultType="com.jzy.api.po.arch.DealerAppPriceInfoPo">
             select
             apt_id as typeId,
@@ -36,8 +136,8 @@
 
     </select>
 
-    <!-- 获取前台商品详情信息-->
 
+    <!-- 查询渠道商下对应的商品列表   -->
     <select id="getFrontAppInfo" resultType="com.jzy.api.po.arch.AppDetailPo">
         SELECT
         ai.id AS appId,
@@ -72,65 +172,6 @@
         and ai.status=1
 
 
-    </select>
-
-
-    <!-- 查询渠道商下对应的商品列表   -->
-    <select id="getList"
-            parameterType="com.jzy.api.cnd.arch.GetDealerAppListCnd"
-            resultType="com.jzy.api.vo.dealer.GetDealerAppVo">
-            SELECT
-                ai.id,
-                dai. STATUS,
-                ai. CODE,
-                ai. NAME AS appName,
-                f_get_app_cate_name (ai.cate_id) AS cateName,
-                f_get_app_type_name (ai.type_id) AS typeName,
-                f_get_app_company_name (ai.acp_id) AS companyName,
-                dapi.discount,
-                dapi.sup_no
-            FROM
-                app_info ai
-            LEFT JOIN dealer_app_info dai ON dai.ai_id = ai.id
-            LEFT JOIN (
-                SELECT
-                    GROUP_CONCAT(sup_no SEPARATOR ',') AS sup_no,
-                    GROUP_CONCAT(discount SEPARATOR ',') AS discount,
-                    ai_id,
-                    dealer_id
-                FROM
-                    dealer_app_price_info
-                GROUP BY
-                    ai_id,
-                    dealer_id
-            ) AS dapi ON dapi.ai_id = ai.id
-            AND dapi.dealer_id = dai.dealer_id
-            WHERE
-                1 = 1
-            AND dai.dealer_id = #{dealerId}
-            UNION ALL
-                SELECT
-                    ai.id,
-                    ai. CODE AS STATUS,
-                    ai. CODE,
-                    ai. NAME AS appName,
-                    f_get_app_cate_name (ai.cate_id) AS cateName,
-                    f_get_app_type_name (ai.type_id) AS typeName,
-                    f_get_app_company_name (ai.acp_id) AS companyName,
-                    ai. CODE AS discount,
-                    ai. CODE AS sup_no
-                FROM
-                    app_info ai
-                WHERE
-                    NOT EXISTS (
-                        SELECT
-                            dai.ai_id
-                        FROM
-                            dealer_app_info dai
-                        WHERE
-                            dai.ai_id = ai.id
-                        AND dai.dealer_id = #{dealerId}
-                    )
     </select>
 
 

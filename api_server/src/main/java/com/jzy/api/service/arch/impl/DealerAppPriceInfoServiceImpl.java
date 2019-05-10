@@ -205,8 +205,17 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public List<GetDealerAppVo> getList(GetDealerAppListCnd getDealerAppListCnd) {
-        return dealerAppPriceInfoMapper.getList(getDealerAppListCnd);
+    public PageVo getList(GetDealerAppListCnd getDealerAppListCnd) {
+
+        Integer page = getDealerAppListCnd.getPage();
+        Integer limit = getDealerAppListCnd.getLimit();
+       Page pageInfo = PageHelper.startPage(page, limit);
+        List<GetDealerAppVo>  getDealerAppVoList= dealerAppPriceInfoMapper.getList(getDealerAppListCnd);
+        PageVo<GetDealerAppVo> getDealerAppVoPageVo=new PageVo<>(getDealerAppVoList);
+        getDealerAppVoPageVo.setTotalCount(pageInfo.getTotal());
+        getDealerAppVoPageVo.setPage(page);
+        getDealerAppVoPageVo.setLimit(limit);
+        return getDealerAppVoPageVo;
     }
 
 
@@ -258,8 +267,8 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         //全量更新  物理删除
         dealerAppPriceInfoMapper.deleteByDealerIdAndaiId(aiId, dealerId);
         //更新
-        for (DealerAppPriceInfoCnd dapi : savePriceInfoCnd.getDealerAppPriceInfoList()) {
-            DealerAppPriceInfo dealerAppPriceInfo=new DealerAppPriceInfo();
+        for (DealerAppPriceInfoCnd dapi : savePriceInfoCnd.getDealerAppPriceInfoPoList()) {
+            DealerAppPriceInfo dealerAppPriceInfo = new DealerAppPriceInfo();
             BeanUtils.copyProperties(dapi, dealerAppPriceInfo);
             dealerAppPriceInfo.setId(tableKeyService.newKey("dealer_app_price_info", "id", 0));
             dealerAppPriceInfo.setAiId(aiId);

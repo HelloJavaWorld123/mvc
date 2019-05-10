@@ -27,6 +27,6 @@ public class SavePriceInfoCnd {
 
 
 
-    private List<DealerAppPriceInfoCnd> dealerAppPriceInfoList = new ArrayList<>(10);
+    private List<DealerAppPriceInfoCnd> dealerAppPriceInfoPoList = new ArrayList<>(10);
 
 }
