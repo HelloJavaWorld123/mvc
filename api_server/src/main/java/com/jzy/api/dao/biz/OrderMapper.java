@@ -44,7 +44,7 @@ public interface OrderMapper extends GenericMapper<Order> {
      * @param status 0：等待支付,1：充值中,2：充值成功,3：充值失败,4：订单关闭
      * @param userId 用户id
      */
-    List<Order> queryFrontOrderList(@Param("status") Integer status, @Param("userId") Long userId);
+    List<Order> queryFrontOrderList(@Param("status") Integer status, @Param("userId") String userId);
 
     /**
      * <b>功能描述：</b>根据订单id查询卡密<br>
