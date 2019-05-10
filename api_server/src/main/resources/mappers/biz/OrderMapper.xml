@@ -138,6 +138,7 @@
         FROM
         `order` o
         INNER JOIN app_info app ON o.app_id = app.id
+        LEFT JOIN sys_images image ON o.app_id = image.file_url AND image.type = 1
         WHERE
         o.id = #{id}
     </select>
@@ -157,7 +158,7 @@
         img.file_url appIcon
         FROM
         `order` o
-        LEFT JOIN app_info app ON o.app_id = app.id
+        INNER JOIN app_info app ON o.app_id = app.id
         LEFT JOIN sys_images AS img ON img.type = 1 AND img.rel_id = app.id
         WHERE
         o.del_flag != 1
