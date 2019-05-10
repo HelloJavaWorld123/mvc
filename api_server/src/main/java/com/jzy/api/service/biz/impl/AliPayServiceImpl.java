@@ -5,13 +5,11 @@ import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.model.biz.TradeRecord;
 import com.jzy.api.service.biz.AliPayService;
-import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.service.biz.SupService;
 import com.jzy.api.service.biz.TradeRecordService;
 import com.jzy.api.util.AlipayUtil;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.MyHttp;
-import com.jzy.framework.exception.PayException;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +23,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -43,6 +40,7 @@ public class AliPayServiceImpl implements AliPayService {
 
     @Value("${basic_site_dns}")
     private String domainUrl;
+
 
     @Value("${ali_pay_url}")
     private String aliPayUrl;
@@ -62,7 +60,7 @@ public class AliPayServiceImpl implements AliPayService {
     public ApiResult pay(HttpServletRequest request, Order order) {
         String subject = "玖佰充值商城" + "-" + order.getAppName();
         // 支付
-        String url = AlipayUtil.tradeWapPay(order.getOutTradeNo(), order.getTradeFee(), subject);
+        String url = AlipayUtil.tradeWapPay(order, subject);
         // 新增交易记录
         TradeRecord tradeRecord = new TradeRecord();
         String tradeRecordId = CommUtils.lowerUUID();
@@ -75,11 +73,6 @@ public class AliPayServiceImpl implements AliPayService {
         tradeRecord.setType(0);
         tradeRecord.setTrusteeship(1);
         tradeRecordService.insert(tradeRecord);
-        // 支付返回参数
-        Map<String, String> payMap = new HashMap<>();
-        payMap.put("alipayUrl", url);
-        payMap.put("tradeMethod", "1");
-        payMap.put("aliWebappReturnUrl", domainUrl.concat("/pay/ali/webapp_return.shtml?orderId=".concat(order.getOrderId())));
         ApiResult<String> apiResult = new ApiResult<>();
         apiResult.setData(url);
         return apiResult;

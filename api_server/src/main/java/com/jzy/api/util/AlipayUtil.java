@@ -13,12 +13,12 @@ import com.alipay.api.response.AlipayTradeFastpayRefundQueryResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
+import com.jzy.api.constant.PayConfig;
+import com.jzy.api.model.biz.Order;
 import com.jzy.framework.exception.PayException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -44,22 +44,13 @@ public class AlipayUtil {
      */
     public static final String URL = "https://openapi.alipay.com/gateway.do";
     /**
-     * basic_site_dns
-     */
-    private static final String domainUrl = "http://xian-api.900sup.com/api-server";
-
-    /**
-     * h5domainUrl
-     */
-    private static final String h5DomainUrl = "http://xian-h5.900sup.com";
-    /**
      * 服务器异步通知页面路径 需http://或者https://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
      */
     public static final String notify_url = "/ali/payCallback";
     /**
      * 页面跳转同步通知页面路径 需http://或者https://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问 商户可以自定义同步跳转地址
      */
-    public static final String return_url = "/result";
+    public static final String return_url = "/result?orderId=";
     /**
      * 编码
      */
@@ -122,18 +113,17 @@ public class AlipayUtil {
      * @param totalAmount 订单金额
      * @param subject 订单标题
      */
-    public static String tradeWapPay(String outTradeNo, BigDecimal totalAmount, String subject) {
+    public static String tradeWapPay(Order order, String subject) {
         AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();
-        alipayRequest.setReturnUrl(h5DomainUrl.concat(return_url));
-        alipayRequest.setNotifyUrl(domainUrl.concat(notify_url));
+        alipayRequest.setReturnUrl(PayConfig.getH5DomainUrl().concat(return_url + order.getOrderId()));
+        alipayRequest.setNotifyUrl(PayConfig.getDomainUrl().concat(notify_url));
         alipayRequest.setBizContent("{" +
-                " \"out_trade_no\":\"" + outTradeNo + "\"," +
-//                " \"request_from_url\":\"" + params.get("request_from_url") + "\"," +
-                " \"total_amount\":\"" + totalAmount + "\"," +
+                " \"out_trade_no\":\"" + order.getOutTradeNo() + "\"," +
+                " \"total_amount\":\"" + order.getTradeFee() + "\"," +
                 " \"subject\":\"" + subject + "\"," +
                 " \"product_code\":\"QUICK_WAP_PAY\"" +
                 " }");
-        String linkStr = "";
+        String linkStr;
         try {
             AlipayTradeWapPayResponse alipayTradeWapPayResponse = client.pageExecute(alipayRequest, "GET");
             log.debug(JSON.toJSONString(alipayTradeWapPayResponse));

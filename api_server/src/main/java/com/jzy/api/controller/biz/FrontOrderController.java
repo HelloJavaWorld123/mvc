@@ -99,7 +99,7 @@ public class FrontOrderController extends GenericController {
         Order order = orderService.queryOrderStatus(codeCnd.getOrderId());
         StatusVo statusVo = new StatusVo();
         statusVo.setStatus(order.getStatus());
-        statusVo.setAppId(order.getAppId());
+        statusVo.setAppId(order.getAppId() + "");
         return new ApiResult<>().success(statusVo);
     }
 

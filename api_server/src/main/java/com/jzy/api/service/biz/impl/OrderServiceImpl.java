@@ -2,6 +2,9 @@ package com.jzy.api.service.biz.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.jzy.api.cnd.biz.BackOrderCnd;
+import com.jzy.api.cnd.biz.MonthOrderCnd;
+import com.jzy.api.cnd.biz.RunMonthOrderCnd;
 import com.jzy.api.dao.biz.OrderMapper;
 import com.jzy.api.model.biz.CardPwd;
 import com.jzy.api.model.biz.Order;
@@ -79,6 +82,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         }
         // 设置支付方式，防止重新支付，更换支付方式
         order.setTradeMethod(payWayId);
+        order.setUserId(getUserId());
         // 是否临时订单
         boolean isTempOrder = false;
         if (StringUtils.isEmpty(orderId)) {
@@ -154,7 +158,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     @Override
     public PageVo<FrontOrderVo> queryFrontOrderList(Integer curPage, Integer limit, Integer status) {
         Page<Order> page = PageHelper.startPage(curPage, limit);
-        List<Order> orderList = orderMapper.queryFrontOrderList(status, 0L);
+        List<Order> orderList = orderMapper.queryFrontOrderList(status, getUserId());
         PageVo<FrontOrderVo> pageVo = new PageVo<>();
         pageVo.setPage(page.getPageNum());
         pageVo.setLimit(page.getPageSize());
@@ -323,6 +327,46 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     @Override
     public Order queryOrderStatus(String orderId) {
         return orderMapper.queryOrderStatus(orderId);
+    }
+
+    /**
+     * <b>功能描述：</b>根据订单id查询订单详情<br>
+     * <b>修订记录：</b><br>
+     * <li>20190510&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public void queryBackOrderById(String id) {
+
+    }
+
+    /**
+     * <b>功能描述：</b>订单列表查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public void queryBackOrderList(BackOrderCnd backOrderCnd) {
+
+    }
+
+    /**
+     * <b>功能描述：</b>月订单列表查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public void queryMonthOrderList(MonthOrderCnd monthOrderCnd) {
+
+    }
+
+    /**
+     * <b>功能描述：</b>归档月账单数据<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public void runMonthOrderList(RunMonthOrderCnd runMonthOrderCnd) {
+
     }
 
     @Override

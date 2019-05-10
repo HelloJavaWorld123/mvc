@@ -3,9 +3,11 @@ package com.jzy.framework.controller;
 import com.jzy.common.util.CglibBeanCopierUtils;
 import com.jzy.framework.bean.vo.GenericVo;
 import com.jzy.framework.exception.BusException;
+import com.jzy.framework.service.JsonConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cglib.beans.BeanCopier;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,9 @@ import java.util.List;
  * </ul>
  */
 public abstract class GenericController  {
+
+    @Resource
+    protected JsonConverter jsonConverter;
 
     /**
      * <b>功能描述：</b>model准换为Vo_对象转化<br>

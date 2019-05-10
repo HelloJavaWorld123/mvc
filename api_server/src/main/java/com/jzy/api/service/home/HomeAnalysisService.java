@@ -1,6 +1,7 @@
 package com.jzy.api.service.home;
 
 import com.jzy.api.cnd.home.HomeAnalysisCnd;
+import com.jzy.api.cnd.home.HomeAuthCnd;
 import com.jzy.api.vo.home.HomeAnalysisInfoVo;
 import com.jzy.framework.result.ApiResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ public interface HomeAnalysisService {
      * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     HomeAnalysisInfoVo update(HomeAnalysisCnd homeAnalysisCnd);
+    String getauth(HomeAuthCnd homeAuthCnd);
 
 
 }

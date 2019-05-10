@@ -1,5 +1,8 @@
 package com.jzy.api.service.biz;
 
+import com.jzy.api.cnd.biz.BackOrderCnd;
+import com.jzy.api.cnd.biz.MonthOrderCnd;
+import com.jzy.api.cnd.biz.RunMonthOrderCnd;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.vo.biz.FrontOrderVo;
 import com.jzy.framework.bean.vo.PageVo;
@@ -147,5 +150,35 @@ public interface OrderService extends GenericService<Order> {
      * @param supStatus sup状态，0未提交1已提交2成功3失败
      */
     int updateSupStatus(@Param("id") String id, @Param("supStatus") Integer supStatus);
+
+    //===============================后端订单列表接口========================================
+
+    /**
+     * <b>功能描述：</b>根据订单id查询订单详情<br>
+     * <b>修订记录：</b><br>
+     * <li>20190510&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void queryBackOrderById(String id);
+
+    /**
+     * <b>功能描述：</b>订单列表查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void queryBackOrderList(BackOrderCnd backOrderCnd);
+
+    /**
+     * <b>功能描述：</b>月订单列表查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void queryMonthOrderList(MonthOrderCnd monthOrderCnd);
+
+    /**
+     * <b>功能描述：</b>归档月账单数据<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void runMonthOrderList(RunMonthOrderCnd runMonthOrderCnd);
 
 }

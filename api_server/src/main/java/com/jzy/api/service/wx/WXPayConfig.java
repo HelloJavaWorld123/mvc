@@ -1,5 +1,6 @@
 package com.jzy.api.service.wx;
 
+import com.jzy.api.constant.PayConfig;
 import com.jzy.api.service.biz.IWXPayDomain;
 import com.jzy.api.service.biz.impl.WXPayDomainSimpleImpl;
 import lombok.Data;
@@ -10,26 +11,6 @@ import java.io.*;
 @Data
 @Slf4j
 public class WXPayConfig {
-    /**
-     * 微信appId
-     */
-//    @Value("${wx_app_id}")
-    private String appId = "wx006d469839a351ed";
-    /**
-     * 微信key
-     */
-//    @Value("${wx_key}")
-    private String wxKey = "sx5eLeN6f4yunWQL7AKUT47GprC0MdvV";
-    /**e
-     * 微信回调地址
-     */
-//    @Value("${wx_notify_url}")
-    private String wxNotifyUri = "http://xian-api.900sup.com/api-server/wx/payCallback";
-    /**
-     * 商户id
-     */
-//    @Value("${wx_mch_id}")
-    private String wxMchId = "1395455402";
 
     private static final WXPayConfig instance = new WXPayConfig();
     private byte[] certData;
@@ -38,9 +19,7 @@ public class WXPayConfig {
         log.debug("WXPayConfig init");
         try {
 
-            String certPath = WXPayConfig.class.getResource("").getPath().concat(this.wxMchId.concat("_apiclient_cert.p12"));
-
-            certPath = "/opt/package_manage/package_backup/1395455402_apiclient_cert.p12";
+            String certPath = "/opt/package_manage/package_backup/1395455402_apiclient_cert.p12";
 
             log.debug("整数地址为：" + certPath);
 
@@ -70,7 +49,7 @@ public class WXPayConfig {
      * @return App ID wx7e2e50acd39b08bf
      */
     public String getAppID() {
-        return this.appId;
+        return PayConfig.getWxAppId();
     }
 
 
@@ -80,7 +59,7 @@ public class WXPayConfig {
      * @return Mch ID 1516797471
      */
     public String getMchID() {
-        return this.wxMchId;
+        return PayConfig.getWxMchId();
     }
 
 
@@ -90,7 +69,7 @@ public class WXPayConfig {
      * @return API密钥
      */
     public String getKey() {
-        return this.wxKey;
+        return PayConfig.getWxKey();
     }
 
     /**
@@ -99,7 +78,7 @@ public class WXPayConfig {
      * @return notify_url
      */
     public String getNotifyUrl() {
-        return this.wxNotifyUri;
+        return PayConfig.getDomainUrl() + PayConfig.getWxNotifyUrl();
     }
 
     /**

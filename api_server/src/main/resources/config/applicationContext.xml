@@ -109,6 +109,7 @@
             <tx:method name="*login" propagation="REQUIRED" />
             <tx:method name="insert*" propagation="REQUIRED" />
             <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="run*" propagation="REQUIRED" />
             <tx:method name="edit*" propagation="REQUIRED" />
             <tx:method name="save*" propagation="REQUIRED" />
             <tx:method name="add*" propagation="REQUIRED" />
@@ -144,4 +145,55 @@
             </map>
         </property>
     </bean>
+
+    <!-- 静态属性注入 -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="com.jzy.api.constant.PayConfig.setDomainUrl"/>
+        <property name="arguments">
+            <list>
+                <value>${basic_site_dns}</value>
+            </list>
+        </property>
+    </bean>
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="com.jzy.api.constant.PayConfig.setH5DomainUrl"/>
+        <property name="arguments">
+            <list>
+                <value>${h5_sit_dns}</value>
+            </list>
+        </property>
+    </bean>
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="com.jzy.api.constant.PayConfig.setWxAppId"/>
+        <property name="arguments">
+            <list>
+                <value>${wx_app_id}</value>
+            </list>
+        </property>
+    </bean>
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="com.jzy.api.constant.PayConfig.setWxKey"/>
+        <property name="arguments">
+            <list>
+                <value>${wx_key}</value>
+            </list>
+        </property>
+    </bean>
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="com.jzy.api.constant.PayConfig.setWxMchId"/>
+        <property name="arguments">
+            <list>
+                <value>${wx_mch_id}</value>
+            </list>
+        </property>
+    </bean>
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="com.jzy.api.constant.PayConfig.setWxNotifyUrl"/>
+        <property name="arguments">
+            <list>
+                <value>${wx_notify_url}</value>
+            </list>
+        </property>
+    </bean>
+
 </beans>
