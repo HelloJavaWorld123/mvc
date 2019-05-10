@@ -46,7 +46,7 @@ public class AlipayUtil {
     /**
      * basic_site_dns
      */
-    private static final String domainUrl = "http://xian-api.900sup.com";
+    private static final String domainUrl = "http://xian-api.900sup.com/api-server";
 
     /**
      * h5domainUrl
