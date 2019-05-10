@@ -1,6 +1,13 @@
 package com.jzy.api.vo.dealer;
 
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * <b>功能：</b>渠道商商品定价定价列表返回接口<br>
@@ -11,6 +18,7 @@ import lombok.Data;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190426&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;唐永刚&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
+@Data
 public class GetDealerAppVo {
 
     /**
@@ -58,7 +66,7 @@ public class GetDealerAppVo {
     /**
      * 渠道商商品状态：上架或者下架   为空则未配置
      */
-    private Integer dealerAppStatus;
+    private String dealerAppStatus;
 
 
     /**
@@ -74,51 +82,8 @@ public class GetDealerAppVo {
                 return "/";
             }
         }
-        return supNo;
-    }
-
-    public void setSupNo(String supNo) {
-        this.supNo = supNo;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getAppName() {
-        return appName;
-    }
-
-    public void setAppName(String appName) {
-        this.appName = appName;
-    }
-
-    public String getCateName() {
-        return cateName;
-    }
-
-    public void setCateName(String cateName) {
-        this.cateName = cateName;
-    }
-
-    public String getTypeName() {
-        return typeName;
-    }
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+        Set<String> strings = getSet(supNo);
+        return StringUtils.join(strings.toArray(), ",");
     }
 
     public String getDiscount() {
@@ -127,22 +92,15 @@ public class GetDealerAppVo {
                 return "/";
             }
         }
-        return discount;
+        Set<String> strings = getSet(discount);
+        if (strings.size() > 1) {
+            return "/";
+        } else {
+            return strings.iterator().next();
+        }
     }
 
-    public void setDiscount(String discount) {
-        this.discount = discount;
-    }
-
-    public Integer getAppStatus() {
-        return appStatus;
-    }
-
-    public void setAppStatus(Integer appStatus) {
-        this.appStatus = appStatus;
-    }
-
-    public Integer getDealerAppStatus() {
+    public String getDealerAppStatus() {
         if (null != supNo && null != code && null != discount) {
             if ((supNo.equals(code)) && (code.equals(discount))) {
                 return null;
@@ -151,16 +109,24 @@ public class GetDealerAppVo {
         return dealerAppStatus;
     }
 
-    public void setDealerAppStatus(Integer dealerAppStatus) {
-        this.dealerAppStatus = dealerAppStatus;
+    /**
+     * <b>功能描述：</b>去除重复数据<br>
+     * <b>修订记录：</b><br>
+     * <li>20190510&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private Set<String> getSet(String target) {
+        String[] array = target.split(",");
+        Set<String> strings = new HashSet<>();
+        for (String s : array) {
+            strings.add(s);
+        }
+        return strings;
     }
 
-
-    public String getAiId() {
-        return aiId;
-    }
-
-    public void setAiId(String aiId) {
-        this.aiId = aiId;
+    public String getTypeName() {
+        if (typeName.equals("x")) {
+            return "";
+        }
+        return typeName;
     }
 }
