@@ -123,7 +123,7 @@ public class AlipayUtil {
                 " \"subject\":\"" + subject + "\"," +
                 " \"product_code\":\"QUICK_WAP_PAY\"" +
                 " }");
-        String linkStr = "";
+        String linkStr;
         try {
             AlipayTradeWapPayResponse alipayTradeWapPayResponse = client.pageExecute(alipayRequest, "GET");
             log.debug(JSON.toJSONString(alipayTradeWapPayResponse));
