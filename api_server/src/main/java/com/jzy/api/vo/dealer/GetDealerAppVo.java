@@ -103,7 +103,7 @@ public class GetDealerAppVo {
     public String getDealerAppStatus() {
         if (null != supNo && null != code && null != discount) {
             if ((supNo.equals(code)) && (code.equals(discount))) {
-                return null;
+                return "2";
             }
         }
         return dealerAppStatus;

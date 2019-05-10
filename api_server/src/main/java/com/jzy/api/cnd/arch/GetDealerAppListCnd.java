@@ -13,7 +13,10 @@ import lombok.Data;
  * </ul>
  */
 @Data
-public class GetDealerAppListCnd extends PageCnd {
+public class
+
+
+GetDealerAppListCnd extends PageCnd {
 
     /**
      * 渠道商主键
