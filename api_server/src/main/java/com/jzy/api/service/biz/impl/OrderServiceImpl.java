@@ -79,6 +79,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         }
         // 设置支付方式，防止重新支付，更换支付方式
         order.setTradeMethod(payWayId);
+        order.setUserId(getUserId());
         // 是否临时订单
         boolean isTempOrder = false;
         if (StringUtils.isEmpty(orderId)) {

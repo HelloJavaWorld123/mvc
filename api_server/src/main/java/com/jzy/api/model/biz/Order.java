@@ -35,7 +35,7 @@ public class Order extends GenericModel {
     /**
      * 用户ID
      */
-    private Long userId;
+    private String userId;
     /**
      * 充值模式
      * 0直充 1 卡密
