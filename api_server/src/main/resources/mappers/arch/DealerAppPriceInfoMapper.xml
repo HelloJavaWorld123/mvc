@@ -107,7 +107,6 @@
             AND dapi.dealer_id = dai.dealer_id
             WHERE
                 1 = 1
-            --AND dapi.sup_no LIKE '%sup3.1%'
             AND dai.dealer_id = #{dealerId}
             UNION ALL
                 SELECT
