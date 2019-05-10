@@ -183,10 +183,10 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
         String mData = "";
         try {
             String timestamp = "1557038625";
-            String signData = businessId + userId + "1" + timestamp + prikey;
+            String signData = MyEncrypt.getInstance().md5(businessId + userId + "1" + timestamp + prikey);
             String oData = "UserID=".concat(userId).concat("&Timestamp=").concat(timestamp).concat("&ApiId=1&Sign=").concat(signData);
             String des3Decrypt = DesUtil.des3Eencrypt(oData, pubkey);
-            mData = java.net.URLDecoder.decode(des3Decrypt, "utf-8");
+            mData = java.net.URLEncoder.encode(des3Decrypt, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
