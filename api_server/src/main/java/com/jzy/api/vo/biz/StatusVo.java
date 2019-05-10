@@ -17,7 +17,7 @@ public class StatusVo extends GenericVo {
     /**
      * 商品id
      */
-    private Long appId;
+    private String appId;
     /**
      * 状态 订单状态0待支付,1充值中,2充值成功,3充值失败,4充值关闭
      */
