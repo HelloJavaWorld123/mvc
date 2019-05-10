@@ -1,5 +1,7 @@
 package com.jzy.api.cnd.arch;
 
+import com.jzy.api.cnd.app.DealerAppInfoCnd;
+import com.jzy.api.model.dealer.DealerAppInfo;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
 import lombok.Data;
 
@@ -19,15 +21,12 @@ import java.util.List;
 public class SavePriceInfoCnd {
 
     /**
-     * 渠道商主键
+     * 渠道商商品表入参
      */
-    private String dealerId;
+    private DealerAppInfoCnd dealerAppInfoCnd;
 
-    /**
-     * 商品表主键
-     */
-    private String aiId;
 
-    private List<DealerAppPriceInfo> dealerAppPriceInfoMapperList = new ArrayList<>(10);
+
+    private List<DealerAppPriceInfoCnd> dealerAppPriceInfoList = new ArrayList<>(10);
 
 }

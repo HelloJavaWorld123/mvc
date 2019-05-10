@@ -12,6 +12,7 @@ import com.jzy.api.dao.arch.DealerAppInfoMapper;
 import com.jzy.api.dao.arch.DealerAppPriceInfoMapper;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPriceType;
+import com.jzy.api.model.dealer.DealerAppInfo;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
 import com.jzy.api.po.app.AppGameListPo;
 import com.jzy.api.po.arch.AppDetailPo;
@@ -21,13 +22,16 @@ import com.jzy.api.po.dealer.AppSearchPo;
 import com.jzy.api.po.dealer.DealerAppTypePriceInfoPo;
 import com.jzy.api.service.app.AppInfoService;
 import com.jzy.api.service.app.AppPriceTypeService;
+import com.jzy.api.service.arch.DealerAppInfoService;
 import com.jzy.api.service.arch.DealerAppPriceInfoService;
+import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.vo.app.AppDetailVo;
 import com.jzy.api.vo.dealer.DealerAppPriceInfoDetailVo;
 import com.jzy.api.vo.dealer.GetDealerAppVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 
@@ -68,6 +72,12 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
 
     @Resource
     private AppPriceTypeService appPriceTypeService;
+
+    @Resource
+    private TableKeyService tableKeyService;
+
+    @Resource
+    private DealerAppInfoService dealerAppInfoService;
 
     @Override
     protected GenericMapper<DealerAppPriceInfo> getGenericMapper() {
@@ -207,7 +217,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
      */
     @Override
     public DealerAppPriceInfoDetailVo getDealerAppDetail(GetPriceInfoCnd getPriceInfoCnd) {
-        String dealerId=getPriceInfoCnd.getDealerId();
+        String dealerId = getPriceInfoCnd.getDealerId();
         DealerAppPriceInfoDetailVo dealerAppPriceInfoDetailVo = new DealerAppPriceInfoDetailVo();
         List<DealerAppTypePriceInfoPo> dealerAppTypePriceInfoList = new ArrayList<>(10);
         dealerAppPriceInfoDetailVo.setDealerAppTypePriceInfoList(dealerAppTypePriceInfoList);
@@ -222,7 +232,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
             dealerAppTypePriceInfo.setTypeName(appPriceType.getName());
             dealerAppTypePriceInfo.setAptId(appPriceType.getId().toString());
             //获取商品面值详情
-            List<DealerAppPriceInfoPo> dealerAppPriceInfoList = dealerAppPriceInfoMapper.getDealerAppPriceInfo(appPriceType.getId(),appPriceType.getAiId(),dealerId);
+            List<DealerAppPriceInfoPo> dealerAppPriceInfoList = dealerAppPriceInfoMapper.getDealerAppPriceInfo(appPriceType.getId(), appPriceType.getAiId(), dealerId);
             dealerAppTypePriceInfo.setDealerAppPriceInfoPoList(dealerAppPriceInfoList);
             dealerAppTypePriceInfoList.add(dealerAppTypePriceInfo);
         }
@@ -237,6 +247,26 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
     @Override
     public void save(SavePriceInfoCnd savePriceInfoCnd) {
 
+        String aiId = savePriceInfoCnd.getDealerAppInfoCnd().getAiId();
+        String dealerId = savePriceInfoCnd.getDealerAppInfoCnd().getDealerId();
+        DealerAppInfo dealerAppInfo = new DealerAppInfo();
+        BeanUtils.copyProperties(savePriceInfoCnd.getDealerAppInfoCnd(), dealerAppInfo);
+        if (dealerAppInfoService.update(dealerAppInfo) == 0) {
+            dealerAppInfo.setId(tableKeyService.newKey("dealer_app_info", "id", 0));
+            dealerAppInfoService.insert(dealerAppInfo);
+        }
+        //全量更新  物理删除
+        dealerAppPriceInfoMapper.deleteByDealerIdAndaiId(aiId, dealerId);
+        //更新
+        for (DealerAppPriceInfoCnd dapi : savePriceInfoCnd.getDealerAppPriceInfoList()) {
+            DealerAppPriceInfo dealerAppPriceInfo=new DealerAppPriceInfo();
+            BeanUtils.copyProperties(dapi, dealerAppPriceInfo);
+            dealerAppPriceInfo.setId(tableKeyService.newKey("dealer_app_price_info", "id", 0));
+            dealerAppPriceInfo.setAiId(aiId);
+            dealerAppPriceInfo.setDealerId(dealerId);
+            this.insert(dealerAppPriceInfo);
+        }
+
     }
 
     /**
@@ -246,6 +276,13 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
      */
     @Override
     public void batchUpdateStatus(BatchUpdateStatusCnd batchUpdateStatusCnd) {
+        List<String> aiIdList = batchUpdateStatusCnd.getAiIdList();
+        String dealerId = batchUpdateStatusCnd.getDealerId();
+        Integer status = batchUpdateStatusCnd.getStatus();
+        for (String aiId : aiIdList) {
+            dealerAppInfoMapper.updateStatus(status, aiId, dealerId);
+        }
+
 
     }
 

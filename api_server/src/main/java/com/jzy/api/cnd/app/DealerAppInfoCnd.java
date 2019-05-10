@@ -1,12 +1,10 @@
-package com.jzy.api.model.dealer;
+package com.jzy.api.cnd.app;
 
 import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
- * <b>功能：</b>渠道商商品表<br>
+ * <b>功能：</b>渠道商商品表入参<br>
  * <b>Copyright JZY</b>
  * <ul>
  * <li>版本&nbsp;&nbsp;&nbsp;&nbsp;修改日期&nbsp;&nbsp;&nbsp;&nbsp;部　　门&nbsp;&nbsp;&nbsp;&nbsp;作　者&nbsp;&nbsp;&nbsp;&nbsp;变更内容</li>
@@ -15,7 +13,7 @@ import java.util.Date;
  * </ul>
  */
 @Data
-public class DealerAppInfo extends GenericModel {
+public class DealerAppInfoCnd{
 
     /**
      * 经销商id
@@ -28,27 +26,23 @@ public class DealerAppInfo extends GenericModel {
     /**
      * 是否热门
      */
-    private Integer isHot;
+    private Integer isHot=0;
     /**
      * 是否推荐
      */
-    private Integer isReco;
+    private Integer isReco=0;
+    /**
+     * 状态  0 下架  1上架  2删除
+     */
+    private Integer status=0;
+    /**
+     * 排序
+     */
+    private Integer sort=1000;
 
     /**
      *是否允许用户自定义输入金额
      */
-    private Integer  isCustom;
-    /**
-     * 状态  0 下架  1上架  2删除
-     */
-    private Integer status;
-    /**
-     * 排序
-     */
-    private Integer sort;
-    /**
-     * 备注
-     */
-    private String remark;
+    private Integer  isCustom=0;
 
 }

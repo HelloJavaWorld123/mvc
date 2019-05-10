@@ -76,7 +76,8 @@
 
 
     <!-- 查询渠道商下对应的商品列表   -->
-    <select id="getList" parameterType="com.jzy.api.cnd.arch.GetDealerAppListCnd"
+    <select id="getList"
+            parameterType="com.jzy.api.cnd.arch.GetDealerAppListCnd"
             resultType="com.jzy.api.vo.dealer.GetDealerAppVo">
             SELECT
                 ai.id,
@@ -155,5 +156,62 @@
             AND dealer_id =#{dealerId}
             AND apt_id =#{aptId}
     </select>
+
+    <!-- 全量更新物理删除 -->
+    <delete id="deleteByDealerIdAndaiId">
+        DELETE
+        FROM
+        dealer_app_price_info
+        WHERE
+        ai_id =#{aiId}
+        AND dealer_id =#{dealerId}
+    </delete>
+
+    <!--    insert-->
+    <insert id="insert"
+            parameterType="com.jzy.api.model.dealer.DealerAppPriceInfo">
+
+            INSERT INTO  dealer_app_price_info (
+                `id`,
+                `ai_id`,
+                `apt_id`,
+                `price`,
+                `pay_price`,
+                `sup_price`,
+                `sup_no`,
+                `number`,
+                `discount`,
+                `dealer_price`,
+                `tips`,
+                `status`,
+                `remark`,
+                `dealer_id`,
+                `creator_id`,
+                `create_time`,
+                `modifier_id`,
+                `modify_time`
+            )
+            VALUES
+                (
+                #{id},
+                #{aiId},
+                #{aptId},
+                #{price},
+                #{payPrice},
+                #{supPrice},
+                #{supNo},
+                #{number},
+                #{discount},
+                #{dealerPrice},
+                #{tips},
+                #{status},
+                #{remark},
+                #{dealerId},
+                #{creatorId},
+                #{createTime},
+                #{modifierId},
+                #{modifyTime}
+                )
+        </insert>
 
 </mapper>

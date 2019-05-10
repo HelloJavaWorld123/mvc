@@ -53,5 +53,12 @@ public interface DealerAppPriceInfoMapper extends GenericMapper<DealerAppPriceIn
     List<DealerAppPriceInfoPo> getDealerAppPriceInfo(@Param("aptId") Long aptId,
                                                      @Param("aiId") Long aiId, @Param("dealerId") String dealerId);
 
+    /**
+     * <b>功能描述：</b>全量更新  物理删除<br>
+     * <b>修订记录：</b><br>
+     * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int deleteByDealerIdAndaiId(@Param("aiId") String aiId, @Param("dealerId") String dealerId);
+
 
 }

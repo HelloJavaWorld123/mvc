@@ -41,7 +41,7 @@ public class Dealer extends GenericModel implements Serializable {
     /**
      * 经销商状态 0是启用 1是禁用，默认为0
      */
-    private String state;
+    private Integer state=0;
     /**
      * 公钥（API KEY）用于签名使用
      */

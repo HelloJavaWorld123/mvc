@@ -1,13 +1,12 @@
-package com.jzy.api.model.dealer;
+package com.jzy.api.cnd.arch;
 
 import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
- * <b>功能：</b>渠道商商品定价<br>
+ * <b>功能：</b>渠道商商品定价入参<br>
  * <b>Copyright JZY</b>
  * <ul>
  * <li>版本&nbsp;&nbsp;&nbsp;&nbsp;修改日期&nbsp;&nbsp;&nbsp;&nbsp;部　　门&nbsp;&nbsp;&nbsp;&nbsp;作　者&nbsp;&nbsp;&nbsp;&nbsp;变更内容</li>
@@ -16,11 +15,7 @@ import java.util.Date;
  * </ul>
  */
 @Data
-public class DealerAppPriceInfo extends GenericModel {
-    /**
-     * 商品主键
-     */
-    private String aiId;
+public class DealerAppPriceInfoCnd {
 
     /**
      * 充值类型主键

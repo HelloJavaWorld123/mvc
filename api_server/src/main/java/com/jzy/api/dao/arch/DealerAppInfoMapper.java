@@ -31,4 +31,12 @@ public interface DealerAppInfoMapper extends GenericMapper<DealerAppInfo> {
      */
     List<AppSearchPo> appSearchList(@Param("keyword") String keyword, @Param("dealerId") String dealerId);
 
+
+    /**
+     * <b>功能描述：</b>修改上下架状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+      int updateStatus(@Param("status")  Integer status, @Param("aiId")  String aiId, @Param("dealerId")  String dealerId);
+
 }

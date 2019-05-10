@@ -14,9 +14,6 @@
 <mapper namespace="com.jzy.api.dao.arch.DealerAppInfoMapper">
 
 
-
-
-
     <!--    前台分页热搜查询-->
     <select id="appSearchList" resultType="com.jzy.api.po.dealer.AppSearchPo">
         SELECT
@@ -40,5 +37,89 @@
 
     </select>
 
+    <!--    insert-->
+    <insert id="insert" parameterType="com.jzy.api.model.dealer.DealerAppInfo">
+                INSERT INTO  dealer_app_info(
+                `id`,
+                `ai_id`,
+                `is_hot`,
+                `is_reco`,
+                `is_custom`,
+                `status`,
+                `sort`,
+                `remark`,
+                `dealer_id`,
+                `creator_id`,
+                `modifier_id`,
+                `create_time`,
+                `modify_time`
+                )
+                VALUES
+                (
+                #{id},
+                #{aiId},
+                #{isHot},
+                #{isReco},
+                #{isCustom},
+                #{status},
+                #{sort},
+                #{remark},
+                #{dealerId},
+                #{creatorId},
+                #{modifierId},
+                #{createTime},
+                #{modifyTime}
+                )
+    </insert>
+
+    <!--    update-->
+    <update id="update" parameterType="com.jzy.api.model.dealer.DealerAppInfo">
+        UPDATE dealer_app_info
+        SET
+        <if test="isHot!=null">
+            `is_hot` = #{isHot}
+        </if>
+        <if test="isReco!=null">
+            , `is_reco` = #{isReco}
+        </if>
+        <if test="isCustom!=null">
+            ,`is_custom` = #{isCustom}
+        </if>
+        <if test="status!=null">
+            ,`status` = #{status}
+        </if>
+        <if test="sort!=null">
+            , `sort` = #{sort}
+        </if>
+        <if test="remark!=null">
+            , `remark` = #{remark}
+        </if>
+        <if test="creatorId!=null">
+            , `creator_id` = #{creatorId}
+        </if>
+        <if test="modifierId!=null">
+            ,`modifier_id` = #{modifierId}
+        </if>
+        <if test="createTime!=null">
+            ,`create_time` = #{createTime}
+        </if>
+        <if test="createTime!=null">
+            , `modify_time` = #{modifyTime}
+        </if>
+        WHERE
+        `ai_id` = #{aiId}
+        and `dealer_id` = #{dealerId}
+
+    </update>
+
+    <!--  修改上下架状态  -->
+    <update id="updateStatus">
+
+        UPDATE dealer_app_info
+        SET STATUS =#{status}
+        WHERE
+            ai_id =#{aiId}
+        AND dealer_id =#{dealerId}
+    </update>
 
 </mapper>
