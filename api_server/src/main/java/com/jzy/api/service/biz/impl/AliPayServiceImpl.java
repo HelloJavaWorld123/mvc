@@ -79,7 +79,7 @@ public class AliPayServiceImpl implements AliPayService {
         Map<String, String> payMap = new HashMap<>();
         payMap.put("alipayUrl", url);
         payMap.put("tradeMethod", "1");
-        payMap.put("aliWebappReturnUrl", domainUrl.concat("/pay/ali/webapp_return.shtml?orderId=".concat(order.getOrderId())));
+        payMap.put("aliWebappReturnUrl", domainUrl.concat("/pay/ali/webapp_return.shtml?orderId=" + order.getOrderId()));
         ApiResult<String> apiResult = new ApiResult<>();
         apiResult.setData(url);
         return apiResult;
