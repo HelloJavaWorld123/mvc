@@ -2,7 +2,6 @@ package com.jzy.api.service.biz.impl;
 
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
-import com.jzy.api.constant.PayConfig;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.model.biz.TradeRecord;
 import com.jzy.api.service.biz.AliPayService;
@@ -24,7 +23,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -75,11 +73,6 @@ public class AliPayServiceImpl implements AliPayService {
         tradeRecord.setType(0);
         tradeRecord.setTrusteeship(1);
         tradeRecordService.insert(tradeRecord);
-        // 支付返回参数
-        Map<String, String> payMap = new HashMap<>();
-        payMap.put("alipayUrl", url);
-        payMap.put("tradeMethod", "1");
-        payMap.put("aliWebappReturnUrl", PayConfig.getH5DomainUrl().concat("result?orderId=" + order.getOrderId()));
         ApiResult<String> apiResult = new ApiResult<>();
         apiResult.setData(url);
         return apiResult;
