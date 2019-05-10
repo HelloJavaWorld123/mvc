@@ -121,10 +121,10 @@ public class FrontOrderController extends GenericController {
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @ResponseBody
-    @RequestMapping(path = "/queryCardPwdById")
-    public ApiResult queryCardPwdById(@RequestBody CodeCnd codeCnd) {
-        orderService.queryCardPwdById(codeCnd.getOrderId());
-        return new ApiResult().success();
+    @RequestMapping(path = "/queryCardPwdByOrderId")
+    public ApiResult queryCardPwdByOrderId(@RequestBody CodeCnd codeCnd) {
+        String cardPwd = orderService.queryCardPwdByOrderId(codeCnd.getOrderId());
+        return new ApiResult<>().success(cardPwd);
     }
 
     /**

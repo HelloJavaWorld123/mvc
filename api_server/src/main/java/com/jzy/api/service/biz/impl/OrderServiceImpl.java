@@ -232,7 +232,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         if (order.getRechargeMode() == 1) {
             // 根据订单id查询卡号
             String cardNo = cardPwdService.queryCardNoByOrderId(id);
-            if (StringUtils.isEmpty(cardNo)) {
+            if (!StringUtils.isEmpty(cardNo)) {
                 order.setCardNo(cardNo);
             }
         }
@@ -247,8 +247,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param id 订单id
      */
     @Override
-    public String queryCardPwdById(String id) {
-        return orderMapper.queryCardPwdById(id);
+    public String queryCardPwdByOrderId(String id) {
+        return orderMapper.queryCardPwdByOrderId(id);
     }
 
     /**
