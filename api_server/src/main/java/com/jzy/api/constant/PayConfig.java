@@ -53,6 +53,14 @@ public class PayConfig {
      */
     private static String aliNotifyUrl;
 
+    public static String getH5DomainUrl() {
+        return h5DomainUrl;
+    }
+
+    public static void setH5DomainUrl(String h5DomainUrl) {
+        PayConfig.h5DomainUrl = h5DomainUrl;
+    }
+
     public static String getDomainUrl() {
         return domainUrl;
     }
@@ -91,5 +99,13 @@ public class PayConfig {
 
     public static void setWxNotifyUrl(String wxNotifyUrl) {
         PayConfig.wxNotifyUrl = wxNotifyUrl;
+    }
+
+    public static String getAliPayUrl() {
+        return aliPayUrl;
+    }
+
+    public static void setAliPayUrl(String aliPayUrl) {
+        PayConfig.aliPayUrl = aliPayUrl;
     }
 }
