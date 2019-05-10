@@ -48,7 +48,7 @@ public class FrontOrderVo extends GenericVo {
     /**
      * 商品id
      */
-    private Long appId;
+    private String appId;
     /**
      * 商品名称
      */

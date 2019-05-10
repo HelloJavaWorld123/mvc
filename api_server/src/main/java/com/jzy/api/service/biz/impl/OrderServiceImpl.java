@@ -122,7 +122,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     @Override
     public int tradeRefund(Order order) {
         PayService payService = paywayProvider.getPayService(order.getTradeMethod());
-        boolean isSuccess  = payService.orderBack(order);
+        boolean isSuccess = payService.orderBack(order);
         if (isSuccess) {
             return update(order);
         }
@@ -186,7 +186,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             frontOrderVo.setStatus(order.getStatus());
             frontOrderVo.setPriceTypeName(order.getPriceTypeName());
             frontOrderVo.setCreateTime(order.getCreateTime());
-            frontOrderVo.setAppId(order.getAppId());
+            frontOrderVo.setAppId(order.getAppId() + "");
             frontOrderVo.setAppName(order.getAppName());
             frontOrderVo.setAppIcon(order.getAppIcon());
             frontOrderVoList.add(frontOrderVo);
@@ -266,7 +266,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * <b>修订记录：</b><br>
      * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
-     * @param id 订单id
+     * @param id          订单id
      * @param tradeStatus 交易状态
      */
     @Override
@@ -279,10 +279,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * <b>修订记录：</b><br>
      * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
-     * @param id 订单id
-     * @param status 订单状态 0：待支付；1：充值中；2：充值成功；3：充值失败；4：充值关闭
+     * @param id          订单id
+     * @param status      订单状态 0：待支付；1：充值中；2：充值成功；3：充值失败；4：充值关闭
      * @param tradeStatus 支付状态
-     * @param supStatus sup状态，0：未提交；1：已提交；2：成功；3：失败
+     * @param supStatus   sup状态，0：未提交；1：已提交；2：成功；3：失败
      */
     @Override
     public int updateStatusTradeStatusSupStatus(String id, Integer status, String tradeStatus, Integer supStatus) {
@@ -294,10 +294,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * <b>修订记录：</b><br>
      * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
-     * @param id 订单id
-     * @param status 订单状态
+     * @param id          订单id
+     * @param status      订单状态
      * @param tradeMethod 支付方式
-     * @param outTradeNo 流水号
+     * @param outTradeNo  流水号
      */
     @Override
     public int updateStatusTradeMethod(String id, Integer status, Integer tradeMethod, String outTradeNo) {
@@ -309,7 +309,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * <b>修订记录：</b><br>
      * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
-     * @param id 订单id
+     * @param id        订单id
      * @param supStatus sup状态，0未提交1已提交2成功3失败
      */
     @Override
