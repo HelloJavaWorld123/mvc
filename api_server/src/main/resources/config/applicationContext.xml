@@ -109,6 +109,7 @@
             <tx:method name="*login" propagation="REQUIRED" />
             <tx:method name="insert*" propagation="REQUIRED" />
             <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="run*" propagation="REQUIRED" />
             <tx:method name="edit*" propagation="REQUIRED" />
             <tx:method name="save*" propagation="REQUIRED" />
             <tx:method name="add*" propagation="REQUIRED" />
