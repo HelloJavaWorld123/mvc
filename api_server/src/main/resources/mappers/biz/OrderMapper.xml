@@ -134,11 +134,11 @@
         o.create_time,
         app.id appId,
         app. NAME appName,
-        app.icon appIcon
+        image.file_url appIcon
         FROM
         `order` o
         INNER JOIN app_info app ON o.app_id = app.id
-        LEFT JOIN sys_images image ON o.app_id = image.file_url AND image.type = 1
+        LEFT JOIN sys_images image ON o.app_id = image.rel_id AND image.type = 1
         WHERE
         o.id = #{id}
     </select>
