@@ -1,6 +1,7 @@
 package com.jzy.api.service.home.impl;
 
 import com.jzy.api.cnd.home.HomeAnalysisCnd;
+import com.jzy.api.cnd.home.HomeAuthCnd;
 import com.jzy.api.model.sys.UserAuth;
 import com.jzy.api.po.arch.DataInfo;
 import com.jzy.api.po.arch.DealerAnalysisInfoPo;
@@ -162,4 +163,33 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
         return dataInfo;
     }
 
+
+    /**
+     * 加密渠道商信息
+     * @param homeAuthCnd
+     * @return
+     */
+    public String getauth(HomeAuthCnd homeAuthCnd) {
+        String businessId = homeAuthCnd.getBusinessID();
+        String userId = homeAuthCnd.getUserId();
+
+        //根据渠道商标识获取解析加密信息
+        DealerAnalysisInfoPo dealerAnalysisInfoPo = dealerService.getAnalysisInfo(businessId);
+        String data = encryption(businessId, dealerAnalysisInfoPo.getPubKey(), dealerAnalysisInfoPo.getPriKey(), userId);
+        return data;
+    }
+
+    private String encryption(String businessId, String pubkey, String prikey, String userId) {
+        String mData = "";
+        try {
+            String timestamp = "1557038625";
+            String signData = businessId + userId + "1" + timestamp + prikey;
+            String oData = "UserID=".concat(userId).concat("&Timestamp=").concat(timestamp).concat("&ApiId=1&Sign=").concat(signData);
+            String des3Decrypt = DesUtil.des3Eencrypt(oData, pubkey);
+            mData = java.net.URLDecoder.decode(des3Decrypt, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return mData;
+    }
 }
