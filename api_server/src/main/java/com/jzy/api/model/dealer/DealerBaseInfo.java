@@ -49,9 +49,9 @@ public class DealerBaseInfo extends GenericModel implements Serializable {
     /*开户行帐号*/
     private String dealerBankNo;
     //    /*登录帐号*/
-//    private String dealerLoginName;
-//    /*登录密码*/
-//    private String dealerPassword;
+    private String dealerLoginName;
+    /*登录密码*/
+    private String dealerPassword;
     /*收款方式*/
     private String dealerPaymentMethod;
     /*特殊备注*/

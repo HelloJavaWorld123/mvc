@@ -66,10 +66,6 @@ public class Dealer extends GenericModel implements Serializable {
 
 
     private String remark;
-    
-    /*登录帐号*/
-    private String dealerLoginName;
-    /*登录密码*/
-    private String dealerPassword;
+
 
 }

@@ -41,11 +41,7 @@ public class Emp extends GenericModel {
      */
     private String apiEmpToken;
 
-    public Emp(String name, String pwd, String dealerId) {
-        this.name = name;
-        this.pwd = pwd;
-        this.dealerId = dealerId;
-    }
+
 
     public Emp() {
     }

@@ -34,6 +34,7 @@ import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.nio.charset.Charset;
@@ -140,7 +141,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
                 }
             }
             //保存渠道商对应的登录用户信息
-            Emp emp = getEmp(dealer);
+            Emp emp = getEmp(dbi);
             emp.setId(tableKeyService.newKey("sys_emp", "id", 0));
             empService.insert(emp);
             //保存渠道商登录用户角色信息
@@ -162,7 +163,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
                 }
             }
             //修改渠道商登录用户信息
-            Emp emp = getEmp(dealer);
+            Emp emp = getEmp(dbi);
             empService.update(emp);
         }
     }
@@ -172,8 +173,16 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      * <b>修订记录：</b><br>
      * <li>20190511&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    private Emp getEmp(Dealer dealer) {
-        return new Emp(dealer.getDealerLoginName(), MD5Util.string2MD5(dealer.getDealerPassword()), dealer.getId().toString());
+    private Emp getEmp(DealerBaseInfo dbi) {
+        Emp emp=new Emp();
+        if (!StringUtils.isEmpty(dbi.getDealerLoginName())){
+            emp.setName(dbi.getDealerLoginName());
+        }
+        if (!StringUtils.isEmpty(dbi.getDealerPassword())){
+            emp.setPwd(MD5Util.string2MD5(dbi.getDealerPassword()));
+        }
+        emp.setDealerId(dbi.getDealerId());
+        return emp;
     }
 
     /**
