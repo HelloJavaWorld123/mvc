@@ -7,10 +7,13 @@ import com.jzy.api.cnd.arch.SaveDealerCnd;
 import com.jzy.api.dao.arch.DealerBaseInfoMapper;
 import com.jzy.api.dao.arch.DealerMapper;
 import com.jzy.api.dao.arch.DealerParamMapper;
+import com.jzy.api.dao.sys.SysEmpRoleMapper;
 import com.jzy.api.model.app.FileInfo;
 import com.jzy.api.model.dealer.Dealer;
 import com.jzy.api.model.dealer.DealerBaseInfo;
 import com.jzy.api.model.dealer.DealerParam;
+import com.jzy.api.model.sys.Emp;
+import com.jzy.api.model.sys.SysEmpRole;
 import com.jzy.api.model.sys.SysImages;
 import com.jzy.api.po.arch.DealerAnalysisInfoPo;
 import com.jzy.api.po.arch.DealerParamInfoPo;
@@ -20,7 +23,9 @@ import com.jzy.api.service.arch.DealerBaseInfoService;
 import com.jzy.api.service.arch.DealerParamService;
 import com.jzy.api.service.arch.DealerService;
 import com.jzy.api.service.key.TableKeyService;
+import com.jzy.api.service.sys.EmpService;
 import com.jzy.api.service.sys.SysImagesService;
+import com.jzy.api.util.MD5Util;
 import com.jzy.api.util.MyEncrypt;
 import com.jzy.api.vo.dealer.DealerDetailVo;
 import com.jzy.framework.bean.vo.PageVo;
@@ -64,8 +69,15 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
     @Resource
     private DealerBaseInfoMapper dealerBaseInfoMapper;
 
+
+    @Resource
+    private SysEmpRoleMapper sysEmpRoleMapper;
+
     @Resource
     private DealerBaseInfoService dealerBaseInfoService;
+
+    @Resource
+    private EmpService empService;
 
 
     @Resource
@@ -127,6 +139,16 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
                             fileInfoMapper.getFileOrignName(), fileInfoMapper.getContentType(), fileInfoMapper.getFileUrl(), fileInfoMapper.getType()));
                 }
             }
+            //保存渠道商对应的登录用户信息
+            Emp emp = getEmp(dealer);
+            emp.setId(tableKeyService.newKey("sys_emp", "id", 0));
+            empService.insert(emp);
+            //保存渠道商登录用户角色信息
+            SysEmpRole sysEmpRole = new SysEmpRole();
+            sysEmpRole.setEmpId(emp.getId().toString());
+            sysEmpRole.setRoleId("3");
+            sysEmpRoleMapper.insert(sysEmpRole);
+
         } else {//渠道商信息的修改
             //渠道商主表信息的修改
             updateDealer(dealer);
@@ -139,7 +161,19 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
                             fileInfoMapper.getFileOrignName(), fileInfoMapper.getContentType(), fileInfoMapper.getFileUrl(), fileInfoMapper.getType()));
                 }
             }
+            //修改渠道商登录用户信息
+            Emp emp = getEmp(dealer);
+            empService.update(emp);
         }
+    }
+
+    /**
+     * <b>功能描述：</b>获取渠道商对应的登录用户信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190511&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private Emp getEmp(Dealer dealer) {
+        return new Emp(dealer.getDealerLoginName(), MD5Util.string2MD5(dealer.getDealerPassword()), dealer.getId().toString());
     }
 
     /**
@@ -206,7 +240,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
     public DealerDetailVo detail(String id) {
         DealerDetailVo dealerDetailVo = dealerMapper.detail(id);
         List<DealerParamInfoPo> dealerParamInfoPos = dealerParamMapper.getDealerParamInfo(id);
-        if (dealerParamInfoPos.size()>0){
+        if (dealerParamInfoPos.size() > 0) {
             dealerDetailVo.setDpmList(dealerParamInfoPos);
         }
         return dealerDetailVo;

@@ -32,7 +32,7 @@ public class Emp extends GenericModel {
     /**
      * 商户id
      */
-    private Integer dealerId;
+    private String dealerId;
 
     //---------------------虚列--------------------------
 
@@ -40,4 +40,13 @@ public class Emp extends GenericModel {
      * 渠道商员工信息缓存token
      */
     private String apiEmpToken;
+
+    public Emp(String name, String pwd, String dealerId) {
+        this.name = name;
+        this.pwd = pwd;
+        this.dealerId = dealerId;
+    }
+
+    public Emp() {
+    }
 }

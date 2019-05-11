@@ -26,4 +26,42 @@
         name = #{username}
     </select>
 
+    <insert id="insert" parameterType="com.jzy.api.model.sys.Emp">
+            INSERT INTO  sys_emp (
+            `id`,
+            `name`,
+            `pwd`,
+            `creator_id`,
+            `modifier_id`,
+            `create_time`,
+            `modify_time`,
+            `del_flag`,
+            `dealer_id`
+            )
+            VALUES
+            (
+            #{id},
+            #{name},
+            #{pwd},
+            #{creatorId},
+            #{modifierId},
+            #{createTime},
+            #{modifyTime},
+            #{delFlag},
+            #{dealerId},
+            )
+    </insert>
+    <!--修改-->
+    <update id="update" parameterType="com.jzy.api.model.sys.Emp">
+            UPDATE sys_emp
+            SET
+            `name` = #{name},
+            `pwd` = #{pwd},
+            `modify_time` =   #{modifyTime}
+            WHERE
+            (`dealer_id` =  #{dealerId})
+
+    </update>
+
+
 </mapper>
