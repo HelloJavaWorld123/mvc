@@ -257,11 +257,11 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     private String convertCharset(String key, HttpServletRequest request) throws UnsupportedEncodingException {
-        String param = request.getParameter(key);
-        if (StringUtils.isEmpty(param)) {
-            return null;
+        String value = request.getParameter(key);
+        if (StringUtils.isEmpty(value)) {
+            return key;
         }
-        return new String(param.getBytes("ISO-8859-1"),"UTF-8");
+        return new String(value.getBytes("ISO-8859-1"),"UTF-8");
     }
 
     @Override
