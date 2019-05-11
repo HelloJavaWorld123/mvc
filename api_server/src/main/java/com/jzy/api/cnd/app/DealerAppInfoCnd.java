@@ -34,7 +34,7 @@ public class DealerAppInfoCnd{
     /**
      * 状态  0 下架  1上架  2删除
      */
-    private Integer status=0;
+    private Integer status=1;
     /**
      * 排序
      */
