@@ -48,7 +48,7 @@
             #{createTime},
             #{modifyTime},
             #{delFlag},
-            #{dealerId},
+            #{dealerId}
             )
     </insert>
     <!--修改-->
