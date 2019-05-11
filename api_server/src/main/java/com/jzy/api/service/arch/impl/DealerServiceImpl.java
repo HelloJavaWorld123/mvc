@@ -85,8 +85,8 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
     private DealerParamService dealerParamService;
 
     @Override
-    public Dealer queryDealer(Integer dealerId) {
-        return dealerMapper.queryById(dealerId.longValue());
+    public Dealer queryDealer(String dealerId) {
+        return dealerMapper.queryById(Long.valueOf(dealerId));
     }
 
     /**
