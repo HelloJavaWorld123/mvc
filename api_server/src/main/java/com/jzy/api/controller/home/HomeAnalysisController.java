@@ -64,6 +64,9 @@ public class HomeAnalysisController {
     @RequestMapping("getauth")
     public ApiResult getauth(@RequestBody HomeAuthCnd homeAuthCnd) {
         String resultData = homeAnalysisService.getauth(homeAuthCnd);
+
+//        String des3Decrypt = DesUtil.des3Decrypt("Kxl9nogO7Zixn4UMWtAu7A==", "10c17b42b5b94c4e93cd574b6e37aeeb", "utf-8");
+
         return new ApiResult<>(resultData);
     }
 }
