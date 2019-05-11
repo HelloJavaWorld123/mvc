@@ -3,6 +3,7 @@ package com.jzy.api.controller.arch;
 
 import com.jzy.api.cnd.arch.DealerListCnd;
 import com.jzy.api.cnd.arch.SaveDealerCnd;
+import com.jzy.api.cnd.arch.UpdateDealerStatusCnd;
 import com.jzy.api.model.dealer.DealerBaseInfo;
 
 import com.jzy.api.service.arch.DealerService;
@@ -91,7 +92,7 @@ public class DealerController {
      * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/detail")
-    public ApiResult detail(@RequestBody IdCnd idCnd  ) {
+    public ApiResult detail(@RequestBody IdCnd idCnd) {
         DealerDetailVo dealerDetailVo;
         try {
             dealerDetailVo = dealerService.detail(idCnd.getId().toString());
@@ -102,5 +103,16 @@ public class DealerController {
         return new ApiResult(dealerDetailVo);
     }
 
+
+    /**
+     * <b>功能描述：</b>渠道商状态修改<br>
+     * <b>修订记录：</b><br>
+     * <li>20190511&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("admin/updateDealerStatus")
+    public ApiResult updateDealerStatus(@RequestBody UpdateDealerStatusCnd updateDealerStatusCnd) {
+        dealerService.updateStatus(updateDealerStatusCnd);
+        return new ApiResult();
+    }
 
 }

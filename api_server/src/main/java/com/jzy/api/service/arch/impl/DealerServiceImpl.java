@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jzy.api.cnd.arch.DealerListCnd;
 import com.jzy.api.cnd.arch.SaveDealerCnd;
+import com.jzy.api.cnd.arch.UpdateDealerStatusCnd;
 import com.jzy.api.dao.arch.DealerBaseInfoMapper;
 import com.jzy.api.dao.arch.DealerMapper;
 import com.jzy.api.dao.arch.DealerParamMapper;
@@ -15,6 +16,7 @@ import com.jzy.api.model.dealer.DealerParam;
 import com.jzy.api.model.sys.Emp;
 import com.jzy.api.model.sys.SysEmpRole;
 import com.jzy.api.model.sys.SysImages;
+import com.jzy.api.po.arch.DataInfo;
 import com.jzy.api.po.arch.DealerAnalysisInfoPo;
 import com.jzy.api.po.arch.DealerParamInfoPo;
 import com.jzy.api.po.dealer.DealerListPo;
@@ -174,11 +176,11 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      * <li>20190511&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     private Emp getEmp(DealerBaseInfo dbi) {
-        Emp emp=new Emp();
-        if (!StringUtils.isEmpty(dbi.getDealerLoginName())){
+        Emp emp = new Emp();
+        if (!StringUtils.isEmpty(dbi.getDealerLoginName())) {
             emp.setName(dbi.getDealerLoginName());
         }
-        if (!StringUtils.isEmpty(dbi.getDealerPassword())){
+        if (!StringUtils.isEmpty(dbi.getDealerPassword())) {
             emp.setPwd(MD5Util.string2MD5(dbi.getDealerPassword()));
         }
         emp.setDealerId(dbi.getDealerId());
@@ -253,6 +255,19 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
             dealerDetailVo.setDpmList(dealerParamInfoPos);
         }
         return dealerDetailVo;
+    }
+
+    /**
+     * <b>功能描述：</b>渠道商状态修改<br>
+     * <b>修订记录：</b><br>
+     * <li>20190511&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public int updateStatus(UpdateDealerStatusCnd updateDealerStatusCnd) {
+        Dealer dealer = new Dealer();
+        dealer.setId(Long.valueOf(updateDealerStatusCnd.getDealerId()));
+        dealer.setState(updateDealerStatusCnd.getState());
+        return update(dealer);
     }
 
     @Override

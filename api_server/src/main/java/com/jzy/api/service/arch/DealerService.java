@@ -2,15 +2,18 @@ package com.jzy.api.service.arch;
 
 import com.jzy.api.cnd.arch.DealerListCnd;
 import com.jzy.api.cnd.arch.SaveDealerCnd;
+import com.jzy.api.cnd.arch.UpdateDealerStatusCnd;
 import com.jzy.api.model.dealer.Dealer;
-import com.jzy.api.model.dealer.DealerBaseInfo;
+
 import com.jzy.api.po.arch.DealerAnalysisInfoPo;
-import com.jzy.api.po.dealer.DealerListPo;
+
 import com.jzy.api.vo.dealer.DealerDetailVo;
+
 import com.jzy.framework.bean.vo.PageVo;
+
 import com.jzy.framework.service.GenericService;
 
-import java.util.List;
+
 
 /**
  * <b>功能：</b>渠道商<br>
@@ -61,6 +64,14 @@ public interface DealerService extends GenericService<Dealer> {
     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
     */
    DealerDetailVo detail(String id);
+
+
+    /**
+     * <b>功能描述：</b>渠道商状态修改<br>
+     * <b>修订记录：</b><br>
+     * <li>20190511&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+      int updateStatus(UpdateDealerStatusCnd updateDealerStatusCnd);
 
 
 }
