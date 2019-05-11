@@ -93,7 +93,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
     public List<DealerAppPriceInfoPo> getPrice(GetPriceCnd getPriceCnd) {
         String aiId = getPriceCnd.getAiId();
         String aptId = getPriceCnd.getAptId();
-        String dealerId = "1001";
+        String dealerId =getFrontDealerId();
         List<DealerAppPriceInfoPo> dealerAppPriceInfoPoList = dealerAppPriceInfoMapper.getPrice(aiId, aptId, dealerId);
         return dealerAppPriceInfoPoList;
     }
