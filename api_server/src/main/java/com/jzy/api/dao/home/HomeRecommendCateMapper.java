@@ -26,7 +26,7 @@ public interface HomeRecommendCateMapper extends GenericMapper<HomeRecommendCate
      *
      * @return
      */
-    List<HomeRecommendCateVo> getList(@Param("type") Integer type, @Param("dealerId") Long  dealerId);
+    List<HomeRecommendCateVo> getList(@Param("type") Integer type, @Param("dealerId") String  dealerId);
 
 
 }

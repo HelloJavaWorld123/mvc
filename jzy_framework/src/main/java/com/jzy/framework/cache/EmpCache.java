@@ -16,10 +16,10 @@ public class EmpCache {
     /**
      * 员工id
      */
-    private Long empId;
+    private String empId;
     /**
      * 渠道商id
      */
-    private Integer dealerId;
+    private String dealerId;
 
 }

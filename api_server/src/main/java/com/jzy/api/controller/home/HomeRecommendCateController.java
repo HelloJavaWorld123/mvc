@@ -39,11 +39,10 @@ public class HomeRecommendCateController {
     @CrossOrigin
     @ResponseBody
     @RequestMapping(value = "getList")
-    public ApiResult getList(@RequestBody HomeRecommendHotListCnd homeRecommendHotListCnd, HttpServletRequest request) {
-        Integer dealerId = null;
-        //iDealerService.queryByUseridOrDefault(request.getSession()).getId();
+    public ApiResult getList(@RequestBody HomeRecommendHotListCnd homeRecommendHotListCnd) {
+
         Integer type = homeRecommendHotListCnd.getType();
-        List<HomeRecommendCateVo> homeRecommendHotVoList = homeRecommendCateService.getList(type, Long.valueOf("1001"));
+        List<HomeRecommendCateVo> homeRecommendHotVoList = homeRecommendCateService.getList(type);
         return new ApiResult<>(homeRecommendHotVoList);
     }
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	SQL映射文件名称：职务角色表
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190511	唐永刚	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.sys.SysEmpRoleMapper">
+
+    <insert id="insert" parameterType="com.jzy.api.model.sys.SysEmpRole">
+        INSERT INTO
+            sys_emp_role
+            (
+            `emp_id`,
+            `role_id`
+            )
+            VALUES
+            (
+            #{empId},
+            #{roleId}
+            )
+</insert>
+
+
+</mapper>

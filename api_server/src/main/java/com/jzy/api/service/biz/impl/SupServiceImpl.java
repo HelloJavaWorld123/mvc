@@ -136,9 +136,11 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
                 .concat("&userOrderId=").concat(outTradeNo)
                 .concat("&status=").concat(status)
                 .concat("&mes=").concat(mes)
-                .concat("&kmInfo=").concat(kmInfo)
                 .concat("&payoffPriceTotal=").concat(payoffPriceTotal)
                 .concat("&sign=").concat(sign);
+        if (StringUtils.isEmpty(kmInfo)) {
+            responseData = responseData.concat("&kmInfo=");
+        }
         log.debug("SUP订单异步通知请求参数: " + responseData);
         // md5明文
         String md5Data = businessId + outTradeNo + status + supKey;
@@ -257,7 +259,8 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     private String convertCharset(String key, HttpServletRequest request) throws UnsupportedEncodingException {
-        return new String(request.getParameter(key).getBytes("ISO-8859-1"),"UTF-8");
+        String value = request.getParameter(key);
+        return new String(value.getBytes("ISO-8859-1"),"UTF-8");
     }
 
     @Override

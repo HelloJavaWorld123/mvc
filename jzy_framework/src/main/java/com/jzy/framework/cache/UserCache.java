@@ -7,6 +7,6 @@ public class UserCache {
 
     private String userId;
 
-    private Integer dealerId;
+    private String dealerId;
 
 }

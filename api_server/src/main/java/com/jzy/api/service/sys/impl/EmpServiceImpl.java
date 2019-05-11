@@ -72,7 +72,7 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
         String cacheDealerEmp = ApiRedisCacheConstant.CACHE_DEALER_EMP + emp.getId();
         String token = MD5Util.string2MD5(cacheDealerEmp);
         EmpCache empCache = new EmpCache();
-        empCache.setEmpId(emp.getId());
+        empCache.setEmpId(emp.getId().toString());
         empCache.setDealerId(emp.getDealerId());
         RBucket<EmpCache> bucket = redissonClient.getBucket(token);
         bucket.set(empCache);

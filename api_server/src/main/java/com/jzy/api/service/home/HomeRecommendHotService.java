@@ -23,6 +23,6 @@ public interface HomeRecommendHotService extends GenericService<HomeRecommendHot
      * <b>修订记录：</b><br>
      * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<HomeRecommendHotVo> getList(String dealerId);
+    List<HomeRecommendHotVo> getList();
 
 }

@@ -93,7 +93,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
     public List<DealerAppPriceInfoPo> getPrice(GetPriceCnd getPriceCnd) {
         String aiId = getPriceCnd.getAiId();
         String aptId = getPriceCnd.getAptId();
-        String dealerId = "1001";
+        String dealerId = getFrontDealerId();
         List<DealerAppPriceInfoPo> dealerAppPriceInfoPoList = dealerAppPriceInfoMapper.getPrice(aiId, aptId, dealerId);
         return dealerAppPriceInfoPoList;
     }
@@ -107,9 +107,10 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
     public AppDetailVo getAppDetail(String aiId) {
         AppDetailVo appDetailVo = new AppDetailVo();
         AppInfo appInfo = appInfoMapper.queryById(Long.valueOf(aiId));
+        String dealerId = getFrontDealerId();
         List<String> aiIdList = checkMap(appInfo, aiId);
         //获取前台商品详情信息
-        List<AppDetailPo> appDetailPos = dealerAppPriceInfoMapper.getFrontAppInfo(aiIdList, "1001");
+        List<AppDetailPo> appDetailPos = dealerAppPriceInfoMapper.getFrontAppInfo(aiIdList, dealerId);
         for (AppDetailPo appDetailPo : appDetailPos) {
             checkAreaAndServ(appDetailPo);
             List<AppPriceTypePo> appPriceTypelist = appPriceTypeMapper.getAppPriceTypePolist(Long.valueOf(appDetailPo.getAppId()));
@@ -188,9 +189,9 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
     public PageVo appSearchList(AppSearchListCnd appSearchListCnd) {
         Integer page = appSearchListCnd.getPage();
         Integer limit = appSearchListCnd.getLimit();
-
+        String dealeId = getFrontDealerId();
         Page<AppSearchPo> searchPoPage = PageHelper.startPage(appSearchListCnd.getPage(), appSearchListCnd.getLimit());
-        List<AppSearchPo> appSearchPos = dealerAppInfoMapper.appSearchList(appSearchListCnd.getKeyword(), "1001");
+        List<AppSearchPo> appSearchPos = dealerAppInfoMapper.appSearchList(appSearchListCnd.getKeyword(), dealeId);
         PageVo<AppSearchPo> pageVo = new PageVo<>(appSearchPos);
         pageVo.setTotalCount(searchPoPage.getTotal());
         pageVo.setPage(page);
@@ -209,9 +210,9 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
 
         Integer page = getDealerAppListCnd.getPage();
         Integer limit = getDealerAppListCnd.getLimit();
-       Page pageInfo = PageHelper.startPage(page, limit);
-        List<GetDealerAppVo>  getDealerAppVoList= dealerAppPriceInfoMapper.getList(getDealerAppListCnd);
-        PageVo<GetDealerAppVo> getDealerAppVoPageVo=new PageVo<>(getDealerAppVoList);
+        Page pageInfo = PageHelper.startPage(page, limit);
+        List<GetDealerAppVo> getDealerAppVoList = dealerAppPriceInfoMapper.getList(getDealerAppListCnd);
+        PageVo<GetDealerAppVo> getDealerAppVoPageVo = new PageVo<>(getDealerAppVoList);
         getDealerAppVoPageVo.setTotalCount(pageInfo.getTotal());
         getDealerAppVoPageVo.setPage(page);
         getDealerAppVoPageVo.setLimit(limit);

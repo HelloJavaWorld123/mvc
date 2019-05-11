@@ -37,9 +37,8 @@ public class HomeRecommendHotController {
      * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("getList")
-    public ApiResult getList(HttpServletRequest request) {
-        //Integer dealerId = iDealerService.queryByUseridOrDefault(request.getSession()).getId();
-        List<HomeRecommendHotVo> homeRecommendHotVoList = homeRecommendHotService.getList("1001");
+    public ApiResult getList() {
+        List<HomeRecommendHotVo> homeRecommendHotVoList = homeRecommendHotService.getList();
         return new ApiResult<>(homeRecommendHotVoList);
     }
 

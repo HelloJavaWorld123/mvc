@@ -105,7 +105,7 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
 
         UserCache userCache = new UserCache();
         userCache.setUserId(userId);
-        userCache.setDealerId(Integer.parseInt(dealerId));
+        userCache.setDealerId(dealerId);
 
         RBucket<UserCache> homeAnalysisInfoVoRBucket = redissonClient.getBucket(token);
         homeAnalysisInfoVoRBucket.set(userCache, 30, TimeUnit.MINUTES);

@@ -41,8 +41,8 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
      * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public List<HomeRecommendHotVo> getList(String dealerId) {
-
+    public List<HomeRecommendHotVo> getList() {
+        String dealerId=getFrontDealerId();
         List<HomeRecommendHotVo> homeRecommendHotVoList = new ArrayList<>();
         //查询分组信息
         List<GroupeDetail> groupeDetailList = homeRecommendHotMapper.getGroupeDetailList(dealerId);

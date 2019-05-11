@@ -56,7 +56,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     /**
      * 订单超时时间
      */
-    private static final int TIMEOUT = 15 * 60;
+    private static final int TIMEOUT = 15 * 60 * 1000;
 
     /**
      * <b>功能描述：</b>新增或修改订单<br>
@@ -247,8 +247,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param id 订单id
      */
     @Override
-    public String queryCardPwdByOrderId(String id) {
-        return orderMapper.queryCardPwdByOrderId(id);
+    public String queryCardPwdByOrderId(String orderId) {
+        return orderMapper.queryCardPwdByOrderId(orderId);
     }
 
     /**
