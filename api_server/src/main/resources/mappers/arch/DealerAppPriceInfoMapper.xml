@@ -13,6 +13,14 @@
 
 <mapper namespace="com.jzy.api.dao.arch.DealerAppPriceInfoMapper">
 
+    <select id="getDealerAppPriceType" resultType="com.jzy.api.model.dealer.DealerAppPriceType">
+        select is_custom as isCustom
+        from dealer_app_price_type
+        where ai_id=#{aiId}
+        and dealer_id=#{dealerId}
+        and apt_id=#{aptId}
+    </select>
+
     <!--新增-->
     <insert id="insertAppPriceType"
             parameterType="com.jzy.api.model.dealer.DealerAppPriceType">
@@ -46,7 +54,6 @@
             parameterType="com.jzy.api.cnd.arch.GetDealerAppListCnd"
             resultType="com.jzy.api.vo.dealer.GetDealerAppVo">
         <if test="status==null">
-
             SELECT
             aa.aiId,
             aa.appStatus,
@@ -61,16 +68,16 @@
             FROM
             (
             SELECT
-            ai.id as aiId,
-            ai.status as appStatus,
-            dai. status as dealerAppStatus,
+            ai.id AS aiId,
+            ai. STATUS AS appStatus,
+            dai. STATUS AS dealerAppStatus,
             ai. CODE,
             ai. NAME AS appName,
             f_get_app_cate_name (ai.cate_id) AS cateName,
             f_get_app_type_name (ai.type_id) AS typeName,
             f_get_app_company_name (ai.acp_id) AS companyName,
             dapi.discount,
-            dapi.sup_no as supNo,
+            dapi.sup_no AS supNo,
             ai.acp_id,
             ai.cate_id,
             ai.type_id
@@ -92,13 +99,14 @@
             AND dapi.dealer_id = dai.dealer_id
             WHERE
             1 = 1
+            AND ai.del_flag = 0
             AND dai.dealer_id = #{dealerId}
             UNION ALL
             SELECT
-            ai.id as aiId,
-            ai. status AS appStatus,
-            ai.code as dealerAppStatus,
-            ai. code,
+            ai.id AS aiId,
+            ai. STATUS AS appStatus,
+            ai. CODE AS dealerAppStatus,
+            ai. CODE,
             ai. NAME AS appName,
             f_get_app_cate_name (ai.cate_id) AS cateName,
             f_get_app_type_name (ai.type_id) AS typeName,
@@ -111,7 +119,9 @@
             FROM
             app_info ai
             WHERE
-            NOT EXISTS (
+            1 = 1
+            AND ai.del_flag = 0
+            AND NOT EXISTS (
             SELECT
             dai.ai_id
             FROM
@@ -121,8 +131,7 @@
             AND dai.dealer_id = #{dealerId}
             )
             ) aa
-            WHERE
-            1=1
+            WHERE 1 = 1
             <if test="status!=null ">
                 and aa. dealerAppStatus = #{status}
             </if>
@@ -190,6 +199,7 @@
             AND dapi.dealer_id = dai.dealer_id
             WHERE
             1 = 1
+            AND ai.del_flag = 0
             AND dai.dealer_id = #{dealerId}
             ) aa
             WHERE
@@ -247,7 +257,9 @@
             FROM
             app_info ai
             WHERE
-            NOT EXISTS (
+            1 = 1
+            AND ai.del_flag = 0
+            AND NOT EXISTS (
             SELECT
             dai.ai_id
             FROM
@@ -282,7 +294,7 @@
 
     <select id="getPrice" resultType="com.jzy.api.po.arch.DealerAppPriceInfoPo">
             select
-            apt_id as typeId,
+                apt_id as typeId,
                 price,
                 pay_price  as payPrice,
                 sup_price as supPrice,
@@ -290,14 +302,12 @@
                 number,
                 discount,
                 dealer_price as dealerPrice
-            FROM
-            dealer_app_price_info
-            where
-            1=1
+            FROM dealer_app_price_info
+            WHERE 1=1
             and dealer_id=#{dealerId}
-            and  apt_id=#{aptId}
+            and apt_id=#{aptId}
             and ai_id=#{aiId}
-            and status=1
+            and status=0
 
     </select>
 
@@ -312,15 +322,13 @@
         ai.game_id as gameId,
         ai.recharge_mode AS rechargeMode,
         ap.content AS content,
-        dai.is_custom AS isCustom,
         aa.main_name AS accMainName,
         aa.main_regular AS accMainRegular,
         aa.main_msg AS accMainMsg,
         aa.sub_name AS accSubName,
         aa.sub_regular AS accSubRegular,
         aa.sub_msg AS accSubMsg
-        FROM
-        dealer_app_info dai
+        FROM dealer_app_info dai
         LEFT JOIN app_info ai ON dai.ai_id = ai.id
         LEFT JOIN app_accttype aa ON ai.acct_id = aa.id
         LEFT JOIN app_page ap ON ai.id = ap.ai_id

@@ -15,7 +15,6 @@ import java.math.BigDecimal;
  */
 @Data
 public class AppPriceTypePo {
-
     private String typeId;         // 商品充值类型 - 类型ID：aptId
     private String typeName;         // 商品充值类型 - 名称
     private String typeUnit;        // 商品充值类型 - 单位
@@ -23,6 +22,8 @@ public class AppPriceTypePo {
     private BigDecimal minMum;         // 商品充值类型 - 最小充值面值
     private BigDecimal multiple;          // 商品充值类型 - 充值倍数
     private BigDecimal subscriptionRatio;   // 商品充值类型 - 1元兑换比例
-
-
+    /**
+     * 是否允许用户输入自定义金额
+     */
+    private Boolean isCustom;
 }

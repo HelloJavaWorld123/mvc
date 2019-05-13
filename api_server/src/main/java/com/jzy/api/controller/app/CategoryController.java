@@ -40,7 +40,7 @@ public class CategoryController {
     public ApiResult list() {
         List<CategoryVo> categoryList;
         try {
-            categoryList = categoryService.listByDealerId(Long.valueOf("1001"));
+            categoryList = categoryService.listByDealerId();
         } catch (Exception e) {
             logger.error("admin产品分类异常:{}", e);
             return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
@@ -68,7 +68,7 @@ public class CategoryController {
     public ApiResult dealerAppList(@RequestBody DealerAppListCnd dealerAppListCnd) {
         Map<String, Object> dealerAppList;
         try {
-            dealerAppList = categoryService.dealerAppList(dealerAppListCnd.getCateId(), Long.valueOf("1001"));
+            dealerAppList = categoryService.dealerAppList(dealerAppListCnd.getCateId());
         } catch (Exception e) {
             logger.error("admin产品分类商品列表异常:{}", e);
             return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());

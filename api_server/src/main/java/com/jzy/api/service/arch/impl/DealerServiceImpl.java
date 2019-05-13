@@ -238,6 +238,8 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
         dealer.setPrikey(prikey);
         dealer.setIdnum(idnum);
         dealer.setPubkey(pubkey);
+        dealer.setState(1);
+        dealer.setVerified(1);
         this.insert(dealer);
         return dealer;
     }

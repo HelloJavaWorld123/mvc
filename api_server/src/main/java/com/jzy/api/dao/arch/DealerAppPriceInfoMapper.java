@@ -63,6 +63,7 @@ public interface DealerAppPriceInfoMapper extends GenericMapper<DealerAppPriceIn
 
     int deleteAppPriceType(@Param("dealerId") String dealerId, @Param("aiId") String aiId);
     int insertAppPriceType(DealerAppPriceType dealerAppPriceType);
-
+    DealerAppPriceType getDealerAppPriceType(@Param("aiId") String aiId, @Param("dealerId") String dealerId,
+                                             @Param("aptId") String aptId);
 
 }

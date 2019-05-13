@@ -31,7 +31,7 @@ public class DealerAppPriceInfoCnd {
     /**
      * 支付金额
      */
-    private BigDecimal payPrice;
+    private BigDecimal payPrice=BigDecimal.ZERO;
 
     /**
      * sup价格

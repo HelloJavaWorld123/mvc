@@ -22,9 +22,9 @@ public interface CategoryService extends GenericService<Category> {
      *
      * @return List
      */
-    List<CategoryVo> listByDealerId(Long dealerId);
+    List<CategoryVo> listByDealerId();
 
-    Map<String, Object> dealerAppList(Long cateId, Long dealerId);
+    Map<String, Object> dealerAppList(Long cateId);
 
 
     /**

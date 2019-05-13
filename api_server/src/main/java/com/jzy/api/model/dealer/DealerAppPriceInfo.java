@@ -36,7 +36,7 @@ public class DealerAppPriceInfo extends GenericModel {
     /**
      * 支付金额
      */
-    private BigDecimal payPrice;
+    private BigDecimal payPrice=BigDecimal.ZERO;
 
     /**
      * sup价格
@@ -60,7 +60,7 @@ public class DealerAppPriceInfo extends GenericModel {
     /**
      * 折扣
      */
-    private BigDecimal discount;
+    private BigDecimal discount=BigDecimal.ZERO;
 
 
     /**
