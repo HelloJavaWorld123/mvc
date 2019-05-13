@@ -8,6 +8,7 @@ import com.jzy.api.po.app.AppInfoPo;
 import com.jzy.api.vo.app.AppInfoDetailVo;
 import com.jzy.api.vo.app.AppInfoListVo;
 import com.jzy.framework.bean.vo.PageVo;
+import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.service.GenericService;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public interface AppInfoService extends GenericService<AppInfo> {
      * @param appInfo {@link AppInfo}
      * @return true/false
      */
-    void save(AppInfo appInfo);
+    void save(AppInfo appInfo) throws ExcelException;
 
 
     /**
@@ -89,5 +90,13 @@ public interface AppInfoService extends GenericService<AppInfo> {
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     int getMaxCode();
+
+
+    /**
+     * <b>功能描述：</b>商品名称重复校验<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void checkName(String name) throws ExcelException;
 
 }

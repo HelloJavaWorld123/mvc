@@ -21,6 +21,7 @@ import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
+import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.result.ApiResult;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -111,8 +112,7 @@ public class AppInfoController {
      * @param saveAppInfoCnd 商品对象信息
      */
     @RequestMapping("admin/save")
-    public ApiResult save(@RequestBody SaveAppInfoCnd saveAppInfoCnd) {
-        try {
+    public ApiResult save(@RequestBody SaveAppInfoCnd saveAppInfoCnd) throws ExcelException {
             FileInfo mfile = null;
             AppInfo ai = saveAppInfoCnd.getAppInfo();
             SaveAppPriceTypeListCnd saveAppPriceTypeListCnd = new SaveAppPriceTypeListCnd();
@@ -145,6 +145,7 @@ public class AppInfoController {
                 appPageMapper.setAiId(ai.getId());
                 appInfoService.saveAppPage(appPageMapper);
             } else {//更新操作
+                appInfoService.checkName(ai.getName());
                 appInfoService.update(ai);
                 //图片修改
                 if (null != mfile) {
@@ -158,10 +159,6 @@ public class AppInfoController {
                 appPageMapper.setAiId(ai.getId());
                 appInfoService.updateAppPage(appPageMapper);
             }
-        } catch (Exception e) {
-            logger.error("admin添加产品异常:{}", e);
-            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
-        }
         return new ApiResult<>();
     }
 

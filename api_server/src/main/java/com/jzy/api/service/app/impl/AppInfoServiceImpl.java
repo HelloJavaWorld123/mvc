@@ -17,7 +17,10 @@ import com.jzy.api.vo.app.AppInfoListVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
+import com.jzy.framework.exception.ExcelException;
+import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.impl.GenericServiceImpl;
+import org.omg.CORBA.portable.ApplicationException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -76,13 +79,24 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void save(AppInfo appInfo) {
-        List<AppInfo> list = listName(appInfo.getName());
-        if (list != null && list.size() > 0) {
-            throw new BusException("商品名称重复：".concat(appInfo.getName()));
-        }
+    public void save(AppInfo appInfo) throws ExcelException {
+        checkName(appInfo.getName());
         this.insert(appInfo);
     }
+
+    /**
+     * <b>功能描述：</b>商品名称重复校验<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+
+    public void checkName(String name) throws ExcelException {
+        List<AppInfo> list = listName(name);
+        if (list != null && list.size() > 0) {
+            throw new ExcelException("商品名称重复：".concat(name));
+        }
+    }
+
 
     /**
      * <b>功能描述：</b>查询名称列表<br>
@@ -137,11 +151,11 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
      */
     @Override
     public PageVo listPage(AppInfoListCnd appInfoListCnd) {
-        Integer  page=appInfoListCnd.getPage();
-        Integer  limit=appInfoListCnd.getLimit();
+        Integer page = appInfoListCnd.getPage();
+        Integer limit = appInfoListCnd.getLimit();
         Page<AppInfoListVo> infoListVoPage = PageHelper.startPage(page, limit);
-        List<AppInfoListVo>  appInfoListVoList=  appInfoMapper.listPage(appInfoListCnd);
-        PageVo<AppInfoListVo> pageVo=new PageVo<>(appInfoListVoList);
+        List<AppInfoListVo> appInfoListVoList = appInfoMapper.listPage(appInfoListCnd);
+        PageVo<AppInfoListVo> pageVo = new PageVo<>(appInfoListVoList);
         pageVo.setTotalCount(infoListVoPage.getTotal());
         pageVo.setPage(page);
         pageVo.setLimit(limit);
@@ -170,9 +184,9 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
     public void updateAppPage(AppPage appPage) {
         //删除
         appPage.setModifyTime(new Date());
-       if(appPageMapper.update(appPage)==0){
+        if (appPageMapper.update(appPage) == 0) {
             this.saveAppPage(appPage);
-       }
+        }
     }
 
     @Override
