@@ -145,7 +145,7 @@ public class AppInfoController {
                 appPageMapper.setAiId(ai.getId());
                 appInfoService.saveAppPage(appPageMapper);
             } else {//更新操作
-                appInfoService.checkName(ai.getName());
+                appInfoService.checkName(ai.getName(), ai.getId() + "");
                 appInfoService.update(ai);
                 //图片修改
                 if (null != mfile) {
