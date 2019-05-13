@@ -204,6 +204,8 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     private void updateDealer(Dealer dealer) {
+        dealer.setState(1);
+        dealer.setVerified(1);
         update(dealer);
     }
 
