@@ -7,16 +7,17 @@ import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPage;
 import com.jzy.api.model.app.FileInfo;
 import com.jzy.api.model.sys.SysImages;
-import com.jzy.api.po.app.AppInfoPo;
 import com.jzy.api.service.app.AppInfoService;
 import com.jzy.api.service.app.AppPriceTypeService;
 import com.jzy.api.service.app.IMongoService;
 import com.jzy.api.service.key.TableKeyService;
+import com.jzy.api.service.oss.AliyunOssService;
 import com.jzy.api.service.sys.SysImagesService;
 import com.jzy.api.util.HanyuPinyinUtil;
 import com.jzy.api.util.RegexUtils;
 import com.jzy.api.vo.app.AppInfoDetailVo;
 import com.jzy.api.vo.app.AppInfoListVo;
+import com.jzy.common.enums.DirectoryEnum;
 import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
@@ -37,6 +38,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -67,6 +70,9 @@ public class AppInfoController {
 
     @Resource
     private TableKeyService tableKeyService;
+
+    @Resource
+    private AliyunOssService aliyunOssService;
 
 
     /**
@@ -122,12 +128,13 @@ public class AppInfoController {
             }
             ai = verification(ai);
             //保存图片信息
-            if (!StringUtils.isEmpty(ai.getId())) {//更新操作时，先进行图片的删除操作
+            /*if (!StringUtils.isEmpty(ai.getId())) {//更新操作时，先进行图片的删除操作
                 SysImages imagesMapper = sysImagesService.getImageByaiId(ai.getId());
                 if (null != imagesMapper) {
-                    iMongoService.deleteFile(imagesMapper.getFileUrl());
+                    //iMongoService.deleteFile(imagesMapper.getFileUrl());
+                    aliyunOssService.delete(imagesMapper.getFileUrl());
                 }
-            }
+            }*/
             if (StringUtils.isEmpty(ai.getId())) {//新增操作
                 ai.setId(tableKeyService.newKey("app_info", "id", 0));
                 ai.setPagePath("");
@@ -243,12 +250,60 @@ public class AppInfoController {
      * <b>修订记录：</b><br>
      * <li>20190422&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
+//    @RequestMapping("admin/uploadFile")
+//    public ApiResult uploadFile(@RequestParam(value = "file", required = false) MultipartFile mfile) {
+//        String fileUrl = "";
+//        try {
+//            if (mfile != null) {
+//                fileUrl = iMongoService.uploadFile(mfile);
+//            }
+//        } catch (Exception e) {
+//            logger.error("图片上传失败！:{}", e);
+//            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
+//        }
+//
+//        return new ApiResult<>(new FileInfo(fileUrl, mfile.getOriginalFilename(), mfile.getContentType()));
+//    }
+
+    /**oss 上传
+     * @Description
+     * @Author lchl
+     * @Date 2019/5/13 11:13 AM
+     * @param mfile
+     * @return com.jzy.framework.result.ApiResult
+     */
     @RequestMapping("admin/uploadFile")
-    public ApiResult uploadFile(@RequestParam(value = "file", required = false) MultipartFile mfile) {
+    public ApiResult uploadFile(@RequestParam(value = "file", required = true) MultipartFile mfile
+            ,@RequestParam(value = "directoryType") Integer directoryType) {
+
         String fileUrl = "";
+
         try {
-            if (mfile != null) {
-                fileUrl = iMongoService.uploadFile(mfile);
+
+            if(null != mfile){
+                String filename = mfile.getOriginalFilename();
+                if(!"".equals(filename.trim())){
+                    File newFile = new File(filename);
+                    FileOutputStream os = new FileOutputStream(newFile);
+                    os.write(mfile.getBytes());
+                    os.close();
+                    mfile.transferTo(newFile);
+                    //上传到OSS
+                    if(directoryType == DirectoryEnum.DIRECTORY_APP_ENUM.getCode()){
+                        fileUrl = aliyunOssService.upload(newFile, DirectoryEnum.DIRECTORY_APP_ENUM.getMsg());
+                    }else if(directoryType == DirectoryEnum.DIRECTORY_DEALER_ENUM.getCode()){
+                        fileUrl = aliyunOssService.upload(newFile, DirectoryEnum.DIRECTORY_DEALER_ENUM.getMsg());
+                    }else if(directoryType == DirectoryEnum.DIRECTORY_RCI_ENUM.getCode()){
+                        fileUrl = aliyunOssService.upload(newFile, DirectoryEnum.DIRECTORY_RCI_ENUM.getMsg());
+                    }else if(directoryType == DirectoryEnum.DIRECTORY_RECOMMEND_ENUM.getCode()){
+                        fileUrl = aliyunOssService.upload(newFile, DirectoryEnum.DIRECTORY_RECOMMEND_ENUM.getMsg());
+                    }else if(directoryType == DirectoryEnum.DIRECTORY_FEEDBACK_ENUM.getCode()){
+                        fileUrl = aliyunOssService.upload(newFile, DirectoryEnum.DIRECTORY_FEEDBACK_ENUM.getMsg());
+                    }else{
+                        logger.error("图片上传失败！:{}", "没有此目录");
+                        return new ApiResult().fail(ResultEnum.PARAM_ERR.getMsg());
+                    }
+                }
             }
         } catch (Exception e) {
             logger.error("图片上传失败！:{}", e);
@@ -292,7 +347,7 @@ public class AppInfoController {
             IOUtils.copy(ds.getInputStream(), response.getOutputStream());
         } catch (IOException e) {
             logger.error("文件上传失败！");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 }

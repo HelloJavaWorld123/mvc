@@ -11,6 +11,7 @@ import com.jzy.api.model.sys.SysImages;
 import com.jzy.api.service.app.IMongoService;
 import com.jzy.api.service.home.DealerHomeCateService;
 import com.jzy.api.service.key.TableKeyService;
+import com.jzy.api.service.oss.AliyunOssService;
 import com.jzy.api.service.sys.SysImagesService;
 import com.jzy.api.vo.home.DealerHomeCateVo;
 import com.jzy.common.enums.ResultEnum;
@@ -46,11 +47,14 @@ public class ManageCarouselController {
     @Resource
     private SysImagesService sysImagesService;
 
-    @Resource
-    private IMongoService iMongoService;
+    /*@Resource
+    private IMongoService iMongoService;*/
 
     @Resource
     private TableKeyService tableKeyService;
+
+    @Resource
+    private AliyunOssService aliyunOssService;
 
     @RequestMapping("index")
     public ApiResult index(@RequestBody DealerHomeCateListCnd listCnd) {
@@ -89,12 +93,13 @@ public class ManageCarouselController {
             }
 
             //保存图片信息
-            if (!StringUtils.isEmpty(infoCnd.getId())) {//更新操作时，先进行图片的删除操作
+            /*if (!StringUtils.isEmpty(infoCnd.getId())) {//更新操作时，先进行图片的删除操作
                 SysImages imagesMapper = sysImagesService.getImageByaiId(infoCnd.getId());
                 if (null != imagesMapper) {
-                    iMongoService.deleteFile(imagesMapper.getFileUrl());
+                    //iMongoService.deleteFile(imagesMapper.getFileUrl());
+                    aliyunOssService.delete(imagesMapper.getFileUrl());
                 }
-            }
+            }*/
 
             HomeRecommendCate HRC = new HomeRecommendCate();
             HRC.setRciName(infoCnd.getRciName());
