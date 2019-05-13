@@ -41,6 +41,10 @@ public class PayCnd extends GenericCnd {
      */
     private BigDecimal tradeFee;
     /**
+     * 渠道商价格
+     */
+    private BigDecimal dealerPrice;
+    /**
      * 折扣
      */
     private BigDecimal discount;

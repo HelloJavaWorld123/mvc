@@ -119,6 +119,10 @@ public class Order extends GenericModel {
      */
     private BigDecimal tradeFee = BigDecimal.ZERO;
     /**
+     * 渠道商价格
+     */
+    private BigDecimal dealerPrice = BigDecimal.ZERO;
+    /**
      * 支付交易状态
      */
     private String tradeStatus;

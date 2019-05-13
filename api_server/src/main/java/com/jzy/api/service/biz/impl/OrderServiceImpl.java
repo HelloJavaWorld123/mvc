@@ -8,6 +8,8 @@ import com.jzy.api.cnd.biz.RunMonthOrderCnd;
 import com.jzy.api.dao.biz.OrderMapper;
 import com.jzy.api.model.biz.CardPwd;
 import com.jzy.api.model.biz.Order;
+import com.jzy.api.model.dealer.Dealer;
+import com.jzy.api.service.arch.DealerService;
 import com.jzy.api.service.biz.CardPwdService;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.service.biz.PayService;
@@ -31,6 +33,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static com.jzy.api.model.biz.Order.TradeStatusConst.REFUND_SICCESS;
+
 /**
  * <b>功能：</b>订单业务处理<br>
  * <b>Copyright JZY</b>
@@ -52,6 +56,9 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
     @Resource
     private CardPwdService cardPwdService;
+
+    @Resource
+    private DealerService dealerService;
 
     /**
      * 订单超时时间
@@ -329,6 +336,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         return orderMapper.queryOrderStatus(orderId);
     }
 
+
+
     /**
      * <b>功能描述：</b>根据订单id查询订单详情<br>
      * <b>修订记录：</b><br>
@@ -336,7 +345,15 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      */
     @Override
     public void queryBackOrderById(String id) {
+        Order order = orderMapper.queryBackOrderById(id);
+        // 当订单为退款状态时，查询退款单号
+        if (REFUND_SICCESS.equals(order.getTradeStatus())) {
 
+        }
+        // 当sup的状态不等于2时，查询sup的返回错误信息
+        if (order.getSupStatus() != 2) {
+
+        }
     }
 
     /**

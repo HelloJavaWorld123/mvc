@@ -37,6 +37,7 @@
         <result column="game_serv" property="gameServ"/>
         <result column="trade_method" property="tradeMethod"/>
         <result column="trade_fee" property="tradeFee"/>
+        <result column="dealer_price" property="dealerPrice"/>
         <result column="trade_status" property="tradeStatus"/>
         <result column="invoice_status" property="invoiceStatus"/>
         <result column="remark" property="remark"/>
@@ -51,6 +52,9 @@
         <result column="appId" property="appId"/>
         <result column="appName" property="appName"/>
         <result column="appIcon" property="appIcon"/>
+
+        <result column="dealerNum" property="dealerNum"/>
+        <result column="dealerName" property="dealerName"/>
     </resultMap>
 
     <!-- 新增订单 -->
@@ -272,6 +276,40 @@
         `order`
         WHERE
         id = #{id}
+    </select>
+
+    <!-- 根据订单id查询后台订单详情 -->
+    <select id="queryBackOrderById" resultMap="order">
+        SELECT
+        o.id,
+        o. CODE,
+        o.price,
+        o.number,
+        o.discount,
+        o.total_fee,
+        o.trade_fee,
+        o.price_type_name,
+        o.acct_type,
+        o.account,
+        o.game_area,
+        o.game_serv,
+        o. STATUS,
+        o.create_time,
+        o.trade_method,
+        o.trade_fee,
+        o.del_flag,
+        o.dealer_price,
+        o.modify_time,
+        app.id appId,
+        app. NAME appName,
+        d.idnum dealerNum,
+        d.name dealerName
+        FROM
+        `order` o
+        INNER JOIN app_info app ON o.app_id = app.id
+        INNER JOIN dealer d ON o.dealer_id = d.id
+        WHERE
+        o.id = #{id}
     </select>
 
     <!-- 共同更新参数 -->
