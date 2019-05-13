@@ -31,7 +31,7 @@
         />
     </redisson:client>
 
-    <mongo:mongo-client id="mongo" replica-set="${mongo.hosts}" credentials="${mongo.username}:${mongo.password}@${mongo.gfsdatabasename}">
+    <mongo:mongo-client id="mongo" replica-set="${mongo.hosts}" >
         <mongo:client-options
                 connections-per-host="${mongo.connectionsPerHost}"
                 threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
