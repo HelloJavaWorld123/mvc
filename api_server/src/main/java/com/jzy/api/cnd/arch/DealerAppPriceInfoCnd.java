@@ -55,7 +55,7 @@ public class DealerAppPriceInfoCnd {
     /**
      * 折扣
      */
-    private BigDecimal discount;
+    private BigDecimal discount=BigDecimal.ZERO;
 
 
     /**
@@ -84,4 +84,10 @@ public class DealerAppPriceInfoCnd {
      * 状态 0 下架 1上架  默认0
      */
     private Integer status = 0;
+
+
+    /**
+     * 是否允许用户自定义输入金额
+     */
+    private Integer isCustom=0;
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	SQL映射文件名称：渠道商商品充值类型
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190513	唐永刚	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace=" com.jzy.api.dao.arch.DealerAppPriceTypeMapper">
+
+    <!--新增-->
+    <insert id="insert"
+            parameterType="com.jzy.api.model.dealer.DealerAppPriceType">
+        INSERT INTO
+            dealer_app_price_type (
+            `id`,
+            `ai_id`,
+            `apt_id`,
+            `dealer_id`,
+            `is_custom`
+        )
+        VALUES(
+            #{id},
+            #{aiId},
+            #{aptId},
+            #{dealerId},
+            #{isCustom}
+    </insert>
+    <!--输出-->
+    <delete id="delete">
+            delete from
+            dealer_app_price_type
+            where
+            ealer_id=#{dealerId}
+            and ai_id=#{aiId}
+    </delete>
+
+
+</mapper>

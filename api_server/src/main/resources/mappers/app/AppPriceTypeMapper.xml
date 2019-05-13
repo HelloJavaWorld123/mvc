@@ -36,6 +36,24 @@
         AND ai_id =#{aiId}
 </select>
 
+    <!--    查询当前商品充值类型列表-->
+    <select id="getAppPriceTypelist"
+            resultType="com.jzy.api.po.dealer.AppPriceTypeListPo">
+                SELECT
+                apt.`id` AS aptId,
+                apt.`name`,
+                dapt.is_custom AS isCustom
+                FROM
+                app_price_type apt
+                LEFT JOIN dealer_app_price_type dapt
+                ON apt.id = dapt.apt_id
+                AND apt.ai_id = dapt.ai_id
+                WHERE
+                1 = 1
+                AND dapt.ai_id = #{aiId}
+                AND dapt.dealer_id = #{dealerId}
+</select>
+
     <!--    前台营业查询当前充值类型商品列表-->
     <select id="getAppPriceTypePolist"
             resultType="com.jzy.api.po.arch.AppPriceTypePo">

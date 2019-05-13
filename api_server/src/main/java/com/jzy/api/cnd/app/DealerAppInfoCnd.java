@@ -40,9 +40,4 @@ public class DealerAppInfoCnd{
      */
     private Integer sort=1000;
 
-    /**
-     *是否允许用户自定义输入金额
-     */
-    private Integer  isCustom=0;
-
 }

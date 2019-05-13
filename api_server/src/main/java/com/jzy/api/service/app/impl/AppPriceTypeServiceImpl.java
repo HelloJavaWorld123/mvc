@@ -3,6 +3,7 @@ package com.jzy.api.service.app.impl;
 import com.jzy.api.cnd.app.SaveAppPriceTypeListCnd;
 import com.jzy.api.dao.app.AppPriceTypeMapper;
 import com.jzy.api.model.app.AppPriceType;
+import com.jzy.api.po.dealer.AppPriceTypeListPo;
 import com.jzy.api.service.app.AppPriceTypeService;
 import com.jzy.api.service.key.TableKeyService;
 import com.jzy.framework.dao.GenericMapper;
@@ -62,12 +63,22 @@ public class AppPriceTypeServiceImpl extends GenericServiceImpl<AppPriceType> im
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
+    public List<AppPriceTypeListPo> getAppPriceTypelist(String  aiId, String dealerId) {
+        List<AppPriceTypeListPo> appPriceTypeMappers = appPriceTypeMapper.getAppPriceTypelist(aiId,dealerId);
+        return appPriceTypeMappers;
+
+    }
+
+    /**
+     * <b>功能描述：</b>查询当前商品充值类型列表<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
     public List<AppPriceType> getAppPriceTypelist(Long id) {
         List<AppPriceType> appPriceTypeMappers = appPriceTypeMapper.getAppPriceTypelist(id);
         return appPriceTypeMappers;
 
     }
-
     @Override
     protected GenericMapper<AppPriceType> getGenericMapper() {
         return null;

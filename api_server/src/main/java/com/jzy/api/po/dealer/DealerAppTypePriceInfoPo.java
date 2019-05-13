@@ -30,6 +30,12 @@ public class DealerAppTypePriceInfoPo {
      */
     private String aptId;
 
+
+    /**
+     * 是否允许用户自定义输入金额
+     */
+    private Integer isCustom;
+
     /**
      * 充值面值列表
      */

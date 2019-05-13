@@ -2,6 +2,8 @@ package com.jzy.api.service.app;
 
 import com.jzy.api.cnd.app.SaveAppPriceTypeListCnd;
 import com.jzy.api.model.app.AppPriceType;
+import com.jzy.api.po.arch.AppPriceTypePo;
+import com.jzy.api.po.dealer.AppPriceTypeListPo;
 import com.jzy.framework.service.GenericService;
 
 import java.util.List;
@@ -16,21 +18,30 @@ import java.util.List;
  * </ul>
  */
 
-public interface AppPriceTypeService  extends GenericService<AppPriceType> {
-/**
- * <b>功能描述：</b>批量保存充值列表<br>
- * <b>修订记录：</b><br>
- * <li>20190419&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
- */
-  void saveAppPriceTypeList(SaveAppPriceTypeListCnd saveAppPriceTypeListCnd);
+public interface AppPriceTypeService extends GenericService<AppPriceType> {
+    /**
+     * <b>功能描述：</b>批量保存充值列表<br>
+     * <b>修订记录：</b><br>
+     * <li>20190419&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void saveAppPriceTypeList(SaveAppPriceTypeListCnd saveAppPriceTypeListCnd);
 
 
-  /**
-   * <b>功能描述：</b>查询当前商品充值类型列表<br>
-   * <b>修订记录：</b><br>
-   * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-   */
+    /**
+     * <b>功能描述：</b>查询当前商品充值类型列表<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
 
-  List<AppPriceType> getAppPriceTypelist(Long id);
+    List<AppPriceTypeListPo> getAppPriceTypelist(String aiId, String dealerId);
+
+
+    /**
+     * <b>功能描述：</b>查询当前商品充值类型列表<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+
+    List<AppPriceType> getAppPriceTypelist(Long id);
 
 }

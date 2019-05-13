@@ -10,14 +10,17 @@ import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.dao.app.AppPriceTypeMapper;
 import com.jzy.api.dao.arch.DealerAppInfoMapper;
 import com.jzy.api.dao.arch.DealerAppPriceInfoMapper;
+import com.jzy.api.dao.arch.DealerAppPriceTypeMapper;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPriceType;
 import com.jzy.api.model.dealer.DealerAppInfo;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
+import com.jzy.api.model.dealer.DealerAppPriceType;
 import com.jzy.api.po.app.AppGameListPo;
 import com.jzy.api.po.arch.AppDetailPo;
 import com.jzy.api.po.arch.AppPriceTypePo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
+import com.jzy.api.po.dealer.AppPriceTypeListPo;
 import com.jzy.api.po.dealer.AppSearchPo;
 import com.jzy.api.po.dealer.DealerAppTypePriceInfoPo;
 import com.jzy.api.service.app.AppInfoService;
@@ -78,6 +81,9 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
 
     @Resource
     private DealerAppInfoService dealerAppInfoService;
+
+    @Resource
+    private DealerAppPriceTypeMapper dealerAppPriceTypeMapper;
 
     @Override
     protected GenericMapper<DealerAppPriceInfo> getGenericMapper() {
@@ -228,6 +234,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
     @Override
     public DealerAppPriceInfoDetailVo getDealerAppDetail(GetPriceInfoCnd getPriceInfoCnd) {
         String dealerId = getPriceInfoCnd.getDealerId();
+        String aiId = getPriceInfoCnd.getAiId();
         DealerAppPriceInfoDetailVo dealerAppPriceInfoDetailVo = new DealerAppPriceInfoDetailVo();
         List<DealerAppTypePriceInfoPo> dealerAppTypePriceInfoList = new ArrayList<>(10);
         dealerAppPriceInfoDetailVo.setDealerAppTypePriceInfoList(dealerAppTypePriceInfoList);
@@ -236,13 +243,14 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         dealerAppPriceInfoDetailVo.setAppName(appinfo.getName());
         dealerAppPriceInfoDetailVo.setAppCode(appinfo.getCode());
         //查询充值类型列表
-        List<AppPriceType> appPriceTypeMapperList = appPriceTypeService.getAppPriceTypelist(Long.valueOf(getPriceInfoCnd.getAiId()));
-        for (AppPriceType appPriceType : appPriceTypeMapperList) {
+        List<AppPriceTypeListPo> appPriceTypeMapperList = appPriceTypeService.getAppPriceTypelist(getPriceInfoCnd.getAiId(), getPriceInfoCnd.getDealerId());
+        for (AppPriceTypeListPo appPriceType : appPriceTypeMapperList) {
             DealerAppTypePriceInfoPo dealerAppTypePriceInfo = new DealerAppTypePriceInfoPo();
             dealerAppTypePriceInfo.setTypeName(appPriceType.getName());
-            dealerAppTypePriceInfo.setAptId(appPriceType.getId().toString());
+            dealerAppTypePriceInfo.setAptId(appPriceType.getAptId());
+            dealerAppTypePriceInfo.setIsCustom(appPriceType.getIsCustom());
             //获取商品面值详情
-            List<DealerAppPriceInfoPo> dealerAppPriceInfoList = dealerAppPriceInfoMapper.getDealerAppPriceInfo(appPriceType.getId(), appPriceType.getAiId(), dealerId);
+            List<DealerAppPriceInfoPo> dealerAppPriceInfoList = dealerAppPriceInfoMapper.getDealerAppPriceInfo(appPriceType.getAptId(), aiId, dealerId);
             dealerAppTypePriceInfo.setDealerAppPriceInfoPoList(dealerAppPriceInfoList);
             dealerAppTypePriceInfoList.add(dealerAppTypePriceInfo);
         }
@@ -267,6 +275,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         }
         //全量更新  物理删除
         dealerAppPriceInfoMapper.deleteByDealerIdAndaiId(aiId, dealerId);
+        dealerAppPriceTypeMapper.delete(dealerId, aiId);
         //更新
         for (DealerAppPriceInfoCnd dapi : savePriceInfoCnd.getDealerAppPriceInfoPoList()) {
             DealerAppPriceInfo dealerAppPriceInfo = new DealerAppPriceInfo();
@@ -275,6 +284,14 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
             dealerAppPriceInfo.setAiId(aiId);
             dealerAppPriceInfo.setDealerId(dealerId);
             this.insert(dealerAppPriceInfo);
+            //保存是否自定义金额
+            DealerAppPriceType dealerAppPriceType = new DealerAppPriceType();
+            dealerAppPriceType.setAiId(aiId);
+            dealerAppPriceType.setDealerId(dealerId);
+            dealerAppPriceType.setAptId(dealerAppPriceInfo.getAptId());
+            dealerAppPriceType.setIsCustom(dapi.getIsCustom());
+            dealerAppPriceTypeMapper.insert(dealerAppPriceType);
+
         }
 
     }
