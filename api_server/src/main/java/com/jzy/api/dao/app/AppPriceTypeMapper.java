@@ -46,7 +46,7 @@ public interface AppPriceTypeMapper extends GenericMapper<AppPriceType> {
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<AppPriceType> getAppPriceTypelist(@Param("aiId") Long aiId);
+    List<AppPriceType> getAppPriceTypelistByaiId(@Param("aiId") Long aiId);
 
 
 

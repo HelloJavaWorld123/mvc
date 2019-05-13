@@ -14,7 +14,7 @@
 <mapper namespace="com.jzy.api.dao.app.AppPriceTypeMapper">
 
     <!--    查询当前商品充值类型列表-->
-    <select id="getAppPriceTypelist"
+    <select id="getAppPriceTypelistByaiId"
             resultType="com.jzy.api.model.app.AppPriceType">
         SELECT
             `id`,

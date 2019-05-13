@@ -75,7 +75,7 @@ public class AppPriceTypeServiceImpl extends GenericServiceImpl<AppPriceType> im
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     public List<AppPriceType> getAppPriceTypelist(Long id) {
-        List<AppPriceType> appPriceTypeMappers = appPriceTypeMapper.getAppPriceTypelist(id);
+        List<AppPriceType> appPriceTypeMappers = appPriceTypeMapper.getAppPriceTypelistByaiId(id);
         return appPriceTypeMappers;
 
     }
