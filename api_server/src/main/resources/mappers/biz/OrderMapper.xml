@@ -318,7 +318,7 @@
         SELECT
         o.id,
         o.code,
-        o.out_trade_no
+        o.out_trade_no,
         d.idnum dealerNum,
         d. NAME dealerName,
         o.account,
@@ -354,6 +354,8 @@
             OR d.idnum LIKE '%' || #{key} || '%'
             )
         </if>
+        ORDER BY
+        o.modify_time
     </select>
 
     <!-- 共同更新参数 -->

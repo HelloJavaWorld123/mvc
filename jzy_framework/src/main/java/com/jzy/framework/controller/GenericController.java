@@ -48,13 +48,14 @@ public abstract class GenericController  {
     protected <T extends GenericVo> List<T> convert(List<? extends Object> models, Class<T> vo) {
         if (models != null && models.size() > 0) {
             // 针对同一类型的集合进行优化，只获取一次对象，减少从Map中遍历的次数，提高效率
-            BeanCopier beanCopier = CglibBeanCopierUtils.getBeanCopier(models.get(0), vo);
+//            BeanCopier beanCopier = CglibBeanCopierUtils.getBeanCopier(models.get(0), vo);
             List<T> list = new ArrayList<>();
             for (Object model : models) {
                 try {
                     if (model != null) {
                         T t = vo.newInstance();
-                        beanCopier.copy(model, t, null);
+                        CglibBeanCopierUtils.copyProperties(model, t);
+                        // beanCopier.copy(model, t, null);
                         list.add(t);
                     }
                 } catch (Exception e) {
