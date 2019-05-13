@@ -30,6 +30,7 @@
             #{aptId},
             #{dealerId},
             #{isCustom}
+            )
     </insert>
     <!--输出-->
     <delete id="delete">

@@ -276,7 +276,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         }
         //全量更新  物理删除
         dealerAppPriceInfoMapper.deleteByDealerIdAndaiId(aiId, dealerId);
-        dealerAppPriceTypeMapper.delete(dealerId, aiId);
+        dealerAppPriceInfoMapper.deleteAppPriceType(dealerId, aiId);
         //更新
         for (DealerAppPriceInfoCnd dapi : savePriceInfoCnd.getDealerAppPriceInfoPoList()) {
             DealerAppPriceInfo dealerAppPriceInfo = new DealerAppPriceInfo();
@@ -287,11 +287,12 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
             this.insert(dealerAppPriceInfo);
             //保存是否自定义金额
             DealerAppPriceType dealerAppPriceType = new DealerAppPriceType();
+            dealerAppPriceType.setId(tableKeyService.newKey("dealer_app_price_type", "id", 0));
             dealerAppPriceType.setAiId(aiId);
             dealerAppPriceType.setDealerId(dealerId);
             dealerAppPriceType.setAptId(dealerAppPriceInfo.getAptId());
             dealerAppPriceType.setIsCustom(dapi.getIsCustom());
-            dealerAppPriceTypeMapper.insert(dealerAppPriceType);
+            dealerAppPriceInfoMapper.insertAppPriceType(dealerAppPriceType);
 
         }
 

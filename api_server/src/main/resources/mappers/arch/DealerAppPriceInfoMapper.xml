@@ -13,6 +13,33 @@
 
 <mapper namespace="com.jzy.api.dao.arch.DealerAppPriceInfoMapper">
 
+    <!--新增-->
+    <insert id="insertAppPriceType"
+            parameterType="com.jzy.api.model.dealer.DealerAppPriceType">
+        INSERT INTO
+            dealer_app_price_type (
+            `id`,
+            `ai_id`,
+            `apt_id`,
+            `dealer_id`,
+            `is_custom`
+        )
+        VALUES(
+            #{id},
+            #{aiId},
+            #{aptId},
+            #{dealerId},
+            #{isCustom}
+        )
+    </insert>
+    <delete id="deleteAppPriceType">
+        delete from
+        dealer_app_price_type
+        where
+        dealer_id=#{dealerId}
+        and ai_id=#{aiId}
+    </delete>
+
     <!-- 前台查询商品价格接口-->
 
     <select id="getList"
