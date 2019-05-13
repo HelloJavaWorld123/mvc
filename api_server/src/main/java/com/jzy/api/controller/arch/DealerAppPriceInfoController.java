@@ -86,7 +86,7 @@ public class DealerAppPriceInfoController {
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("admin/getDealerAppDetail")
+        @RequestMapping("admin/getDealerAppDetail")
     public ApiResult getDealerAppDetail(@RequestBody GetPriceInfoCnd getPriceInfoCnd) {
         DealerAppPriceInfoDetailVo dealerAppPriceInfoDetailVo = dealerAppPriceInfoService.getDealerAppDetail(getPriceInfoCnd);
         return new ApiResult<>(dealerAppPriceInfoDetailVo);

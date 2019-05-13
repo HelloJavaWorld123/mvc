@@ -243,14 +243,15 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         dealerAppPriceInfoDetailVo.setAppName(appinfo.getName());
         dealerAppPriceInfoDetailVo.setAppCode(appinfo.getCode());
         //查询充值类型列表
-        List<AppPriceTypeListPo> appPriceTypeMapperList = appPriceTypeService.getAppPriceTypelist(getPriceInfoCnd.getAiId(), getPriceInfoCnd.getDealerId());
-        for (AppPriceTypeListPo appPriceType : appPriceTypeMapperList) {
+        List<AppPriceType> appPriceTypeMapperList = appPriceTypeService.getAppPriceTypelist(Long.valueOf(getPriceInfoCnd.getAiId()));
+        for (AppPriceType appPriceType : appPriceTypeMapperList) {
             DealerAppTypePriceInfoPo dealerAppTypePriceInfo = new DealerAppTypePriceInfoPo();
             dealerAppTypePriceInfo.setTypeName(appPriceType.getName());
-            dealerAppTypePriceInfo.setAptId(appPriceType.getAptId());
-            dealerAppTypePriceInfo.setIsCustom(appPriceType.getIsCustom());
+            dealerAppTypePriceInfo.setAptId(appPriceType.getId().toString());
+           // DealerAppPriceType dealerAppPriceType=dealerAppPriceTypeMapper.getDealerAppPriceType(aiId,dealerId,appPriceType.getId().toString());
+           // dealerAppTypePriceInfo.setIsCustom(dealerAppPriceType.getIsCustom());
             //获取商品面值详情
-            List<DealerAppPriceInfoPo> dealerAppPriceInfoList = dealerAppPriceInfoMapper.getDealerAppPriceInfo(appPriceType.getAptId(), aiId, dealerId);
+            List<DealerAppPriceInfoPo> dealerAppPriceInfoList = dealerAppPriceInfoMapper.getDealerAppPriceInfo(appPriceType.getId().toString(), aiId, dealerId);
             dealerAppTypePriceInfo.setDealerAppPriceInfoPoList(dealerAppPriceInfoList);
             dealerAppTypePriceInfoList.add(dealerAppTypePriceInfo);
         }

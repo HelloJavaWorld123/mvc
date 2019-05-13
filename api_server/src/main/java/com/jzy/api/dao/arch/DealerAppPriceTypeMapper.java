@@ -1,6 +1,7 @@
 package com.jzy.api.dao.arch;
 
 import com.jzy.api.model.dealer.DealerAppPriceType;
+import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -12,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190513&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;唐永刚&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
-public interface DealerAppPriceTypeMapper {
+public interface DealerAppPriceTypeMapper extends GenericMapper<DealerAppPriceType> {
 
     /**
      * <b>功能描述：</b>新增<br>
@@ -27,5 +28,13 @@ public interface DealerAppPriceTypeMapper {
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     int delete(@Param("dealerId") String dealerId, @Param("aiId") String aiId);
+
+    /**
+     * <b>功能描述：</b>获取是否自定义金额<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    DealerAppPriceType getDealerAppPriceType(@Param("aiId") String aiId, @Param("dealerId") String dealerId,
+                        @Param("aptId") String aptId);
 
 }

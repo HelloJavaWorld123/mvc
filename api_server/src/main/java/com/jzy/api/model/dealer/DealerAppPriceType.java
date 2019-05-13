@@ -1,5 +1,6 @@
 package com.jzy.api.model.dealer;
 
+import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
 
 /**
@@ -13,11 +14,7 @@ import lombok.Data;
  */
 
 @Data
-public class DealerAppPriceType {
-    /**
-     * 主键
-     */
-    private String id;
+public class DealerAppPriceType  extends GenericModel {
 
     /**
      * 商品表主键
