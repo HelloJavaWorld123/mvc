@@ -165,7 +165,7 @@ public interface OrderService extends GenericService<Order> {
      * <b>修订记录：</b><br>
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    void queryBackOrderList(BackOrderCnd backOrderCnd);
+    PageVo queryBackOrderList(BackOrderCnd backOrderCnd);
 
     /**
      * <b>功能描述：</b>月订单列表查询<br>

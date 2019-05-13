@@ -313,6 +313,11 @@
         o.id = #{id}
     </select>
 
+    <!-- 订单列表查询 -->
+    <select id="queryBackOrderList" resultMap="order">
+        
+    </select>
+
     <!-- 共同更新参数 -->
     <sql id="updateCommon">
         modifier_id = #{modifierId}, modify_time = #{modifyTime}
