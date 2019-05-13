@@ -307,8 +307,7 @@
             and dealer_id=#{dealerId}
             and apt_id=#{aptId}
             and ai_id=#{aiId}
-            and status=0
-
+            and status=1
     </select>
 
 
@@ -343,8 +342,6 @@
             #{item}
         </foreach>
         and ai.status=1
-
-
     </select>
 
 
