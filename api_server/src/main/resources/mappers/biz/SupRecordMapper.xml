@@ -74,7 +74,19 @@
         supRecord.bg_resp_amount,
         supRecord.remark,
         supRecord.purchaser_price
-        FROM order_sup_record supRecord
+        FROM
+        order_sup_record supRecord
+        WHERE
+        supRecord.order_id = #{orderId}
+    </select>
+
+    <!-- 根据订单id查询sup金额和返回备注 -->
+    <select id="queryPurchaserPriceAndRemarkByOrderId" resultMap="supRecord">
+        SELECT
+        supRecord.remark,
+        supRecord.purchaser_price
+        FROM
+        order_sup_record supRecord
         WHERE
         supRecord.order_id = #{orderId}
     </select>

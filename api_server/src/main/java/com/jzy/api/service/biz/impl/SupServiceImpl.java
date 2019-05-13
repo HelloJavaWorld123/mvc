@@ -263,6 +263,18 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         return new String(value.getBytes("ISO-8859-1"),"UTF-8");
     }
 
+    /**
+     * <b>功能描述：</b>根据订单id查询sup金额和返回备注<br>
+     * <b>修订记录：</b><br>
+     * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param orderId 订单id
+     */
+    @Override
+    public SupRecord queryPurchaserPriceAndRemarkByOrderId(String orderId) {
+        return supRecordMapper.queryPurchaserPriceAndRemarkByOrderId(orderId);
+    }
+
     @Override
     protected GenericMapper<SupRecord> getGenericMapper() {
         return supRecordMapper;

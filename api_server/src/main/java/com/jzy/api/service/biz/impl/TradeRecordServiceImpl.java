@@ -72,7 +72,6 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
         return tradeRecordMapper.updateBgRespByOperatorStatus(markId, status, bgRespData, operator, oldStatus);
     }
 
-
     /**
      * <b>功能描述：</b>查询<br>
      * <b>修订记录：</b><br>
@@ -85,6 +84,16 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
     @Override
     public TradeRecord queryOperator(String operator, Integer type, Integer status) {
         return tradeRecordMapper.queryOperator(operator, type, status);
+    }
+
+    /**
+     * <b>功能描述：</b>当订单为退款状态时，查询退款单号<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public TradeRecord queryRefundCodeByOutTradeNo(String orderId) {
+        return tradeRecordMapper.queryRefundCodeByOutTradeNo(orderId);
     }
 
     @Override

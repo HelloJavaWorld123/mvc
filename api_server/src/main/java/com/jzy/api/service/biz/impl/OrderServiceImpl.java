@@ -8,11 +8,11 @@ import com.jzy.api.cnd.biz.RunMonthOrderCnd;
 import com.jzy.api.dao.biz.OrderMapper;
 import com.jzy.api.model.biz.CardPwd;
 import com.jzy.api.model.biz.Order;
+import com.jzy.api.model.biz.SupRecord;
+import com.jzy.api.model.biz.TradeRecord;
 import com.jzy.api.model.dealer.Dealer;
 import com.jzy.api.service.arch.DealerService;
-import com.jzy.api.service.biz.CardPwdService;
-import com.jzy.api.service.biz.OrderService;
-import com.jzy.api.service.biz.PayService;
+import com.jzy.api.service.biz.*;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.DateUtils;
 import com.jzy.api.vo.biz.FrontOrderVo;
@@ -58,7 +58,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     private CardPwdService cardPwdService;
 
     @Resource
-    private DealerService dealerService;
+    private TradeRecordService tradeRecordService;
+
+    @Resource
+    private SupService supService;
 
     /**
      * 订单超时时间
@@ -336,8 +339,6 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         return orderMapper.queryOrderStatus(orderId);
     }
 
-
-
     /**
      * <b>功能描述：</b>根据订单id查询订单详情<br>
      * <b>修订记录：</b><br>
@@ -348,11 +349,17 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         Order order = orderMapper.queryBackOrderById(id);
         // 当订单为退款状态时，查询退款单号
         if (REFUND_SICCESS.equals(order.getTradeStatus())) {
-
+            TradeRecord tradeRecord = tradeRecordService.queryRefundCodeByOutTradeNo(id);
+            if (tradeRecord != null) {
+                order.setRefundCode(tradeRecord.getTradeRecordId());
+                order.setRefundOutTradeNo(tradeRecord.getMarkId());
+            }
         }
-        // 当sup的状态不等于2时，查询sup的返回错误信息
-        if (order.getSupStatus() != 2) {
-
+        // 查询sup的购买金额或sup返回备注
+        SupRecord supRecord = supService.queryPurchaserPriceAndRemarkByOrderId(order.getOutTradeNo());
+        if (supRecord != null) {
+            order.setPurchaserPrice(supRecord.getPurchaserPrice());
+            order.setSupRemark(supRecord.getRemark());
         }
     }
 
