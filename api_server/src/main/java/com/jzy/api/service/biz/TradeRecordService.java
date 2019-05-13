@@ -63,4 +63,11 @@ public interface TradeRecordService extends GenericService<TradeRecord> {
      * @param status 交易状态
      */
     TradeRecord queryOperator(String operator, Integer type , Integer status);
+
+    /**
+     * <b>功能描述：</b>当订单为退款状态时，查询退款单号<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    TradeRecord queryRefundCodeByOutTradeNo(String outTradeNo);
 }

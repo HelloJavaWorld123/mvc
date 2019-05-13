@@ -100,7 +100,15 @@
         AND status = #{oldStatus}
     </update>
 
-
+    <!-- 当订单为退款状态时，查询退款单号 -->
+    <select id="queryRefundCodeByOutTradeNo" resultType="com.jzy.api.model.biz.TradeRecord">
+         SELECT
+         id tradeRecordId,
+         mark_id markId
+         FROM trade_record
+         WHERE
+         operator = #{operator}
+    </select>
 
     <!-- 查询 -->
     <select id="queryOperator" resultType="com.jzy.api.model.biz.TradeRecord">

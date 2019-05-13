@@ -158,6 +158,22 @@ public class Order extends GenericModel {
      */
     private String cardNo;
     /**
+     * 购买金额
+     */
+    private BigDecimal purchaserPrice;
+    /**
+     * sup返回备注
+     */
+    private String supRemark;
+    /**
+     * 退单单号
+     */
+    private String refundCode;
+    /**
+     * 第三方返回流水单号
+     */
+    private String refundOutTradeNo;
+    /**
      * 订单交易状态
      */
     public class TradeStatusConst {
