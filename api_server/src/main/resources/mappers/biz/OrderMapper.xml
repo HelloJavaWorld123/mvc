@@ -282,7 +282,8 @@
     <select id="queryBackOrderById" resultMap="order">
         SELECT
         o.id,
-        o. CODE,
+        o.code,
+        o.out_trade_no,
         o.price,
         o.number,
         o.discount,

@@ -158,7 +158,7 @@ public interface OrderService extends GenericService<Order> {
      * <b>修订记录：</b><br>
      * <li>20190510&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    void queryBackOrderById(String id);
+    Order queryBackOrderById(String id);
 
     /**
      * <b>功能描述：</b>订单列表查询<br>

@@ -4,7 +4,9 @@ import com.jzy.api.cnd.biz.BackOrderCnd;
 import com.jzy.api.cnd.biz.CodeCnd;
 import com.jzy.api.cnd.biz.MonthOrderCnd;
 import com.jzy.api.cnd.biz.RunMonthOrderCnd;
+import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.OrderService;
+import com.jzy.api.vo.biz.BackOrderDetailVo;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
@@ -40,8 +42,9 @@ public class OrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/queryBackOrderById")
     public ApiResult queryBackOrderById(@RequestBody CodeCnd codeCnd) {
-        orderService.queryBackOrderById(codeCnd.getOrderId());
-        return new ApiResult<>().success();
+        Order order = orderService.queryBackOrderById(codeCnd.getOrderId());
+        BackOrderDetailVo orderDetailVo = convert(order, BackOrderDetailVo.class);
+        return new ApiResult<>().success(orderDetailVo);
     }
 
     /**
