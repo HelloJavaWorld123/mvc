@@ -84,6 +84,7 @@ public class PayController extends GenericController {
         order.setRechargeMode(payCnd.getRechargeMode());
         // 交易状态为待支付
         order.setTradeStatus(Order.TradeStatusConst.WAIT_PAY);
+        order.setDealerPrice(payCnd.getDealerPrice());
         return order;
     }
     

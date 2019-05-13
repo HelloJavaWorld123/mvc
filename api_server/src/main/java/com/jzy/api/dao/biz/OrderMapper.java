@@ -138,4 +138,11 @@ public interface OrderMapper extends GenericMapper<Order> {
      * @param orderId 订单id
      */
     Order queryOrderStatus(String orderId);
+
+    /**
+     * <b>功能描述：</b>根据订单id查询后台订单详情<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    Order queryBackOrderById(String orderId);
 }
