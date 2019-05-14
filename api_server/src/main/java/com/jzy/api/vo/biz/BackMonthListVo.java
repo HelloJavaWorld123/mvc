@@ -23,6 +23,14 @@ public class BackMonthListVo extends GenericVo {
      * 渠道商价格总金额
      */
     private BigDecimal dealerPriceTotal;
+    /**
+     * 商户编号
+     */
+    private String dealerNum;
+    /**
+     * 商户名称
+     */
+    private String dealerName;
 //    /**
 //     * 商户李瑞总金额
 //     */

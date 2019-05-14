@@ -356,9 +356,9 @@
         </if>
         <if test="key != null and key!= ''">
             AND (
-            o.code LIKE '%' || #{key} || '%'
-            OR o.out_trade_no LIKE '%' || #{key} || '%'
-            OR d.idnum LIKE '%' || #{key} || '%'
+            o.code LIKE concat(concat('%',#{key}),'%')
+            OR o.out_trade_no LIKE concat(concat('%',#{key}),'%')
+            OR d.idnum LIKE concat(concat('%',#{key}),'%')
             )
         </if>
         ORDER BY
@@ -369,6 +369,8 @@
     <select id="queryMonthOrderList" resultMap="order">
         SELECT
         dealer_id,
+        idnum dealerNum,
+        name dealerName,
         modify_time timeInterval,
         IFNULL(SUM(price), 0) priceTotal,
         IFNULL(SUM(trade_fee), 0) tradeFeeTotal,
@@ -376,23 +378,26 @@
         FROM
             (
                 SELECT
-                    CODE,
-                    dealer_id,
-                    date_format(modify_time, '%y-%d') modify_time,
-                    price,
-                    trade_fee,
-                    dealer_price
+                o.dealer_id,
+                d.idnum,
+                d.name,
+                date_format(o.modify_time, '%Y-%d') modify_time,
+                o.price,
+                o.trade_fee,
+                o.dealer_price
                 FROM
-                    `order`
-                WHERE
-                    sup_status = 2
-                AND STATUS = 2
-                -- AND trade_status = 'pay_success'
+                `order` o
+                INNER JOIN dealer d ON o.dealer_id = d.id
                 <if test="key != null and key != ''">
-                  AND dealer_id LIKE '%' || #{key} || '%'
+                   AND (d.idnum LIKE concat(concat('%',#{key}),'%') OR d.name LIKE concat(concat('%',#{key}),'%'))
                 </if>
-                AND modify_time >= #{startDate}
-                AND modify_time &lt; #{endDate}
+                WHERE
+                o.del_flag = 0
+                AND o.sup_status = 2
+                AND o.STATUS = 2
+                -- AND trade_status = 'pay_success'
+                AND o.modify_time >= #{startDate}
+                AND o.modify_time &lt; #{endDate}
             ) a
         GROUP BY
         dealer_id,
