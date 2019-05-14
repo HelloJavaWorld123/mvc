@@ -191,12 +191,14 @@
     </select>
 
     <!-- 根据订单id查询卡密 -->
-    <select id="queryCardPwdByOrderId" resultType="java.lang.String">
+    <select id="queryCardPwdByIdAndCardNo" resultType="java.lang.String">
         SELECT
         card_pwd
         FROM
         order_cardkey
-        WHERE order_id = #{orderId}
+        WHERE
+        id = #{cardPwdId}
+        AND card_no = #{cardNo}
     </select>
 
     <!-- 更新订单状态 -->

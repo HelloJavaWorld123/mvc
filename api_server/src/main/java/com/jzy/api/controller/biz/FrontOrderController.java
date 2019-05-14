@@ -1,5 +1,6 @@
 package com.jzy.api.controller.biz;
 
+import com.jzy.api.cnd.biz.CardPwdCnd;
 import com.jzy.api.cnd.biz.CodeCnd;
 import com.jzy.api.cnd.biz.OrderListCnd;
 import com.jzy.api.model.biz.Order;
@@ -124,9 +125,9 @@ public class FrontOrderController extends GenericController {
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @ResponseBody
-    @RequestMapping(path = "/queryCardPwdByOrderId")
-    public ApiResult queryCardPwdByOrderId(@RequestBody CodeCnd codeCnd) {
-        String cardPwd = orderService.queryCardPwdByOrderId(codeCnd.getOrderId());
+    @RequestMapping(path = "/queryCardPwdByIdAndCardNo")
+    public ApiResult queryCardPwdByIdAndCardNo(@RequestBody CardPwdCnd cardPwdCnd) {
+        String cardPwd = orderService.queryCardPwdByIdAndCardNo(cardPwdCnd.getCardPwdId(), cardPwdCnd.getCardNo());
         return new ApiResult<>().success(cardPwd);
     }
 

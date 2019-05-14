@@ -94,7 +94,7 @@ public interface OrderService extends GenericService<Order> {
      *
      * @param id 订单id
      */
-    String queryCardPwdByOrderId(String id);
+    String queryCardPwdByIdAndCardNo(String cardPwdId, String cardNo);
 
     /**
      * <b>功能描述：</b>更新订单充值状态<br>

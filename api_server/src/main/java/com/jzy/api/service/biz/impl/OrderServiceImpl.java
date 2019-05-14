@@ -256,8 +256,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param orderId 订单id
      */
     @Override
-    public String queryCardPwdByOrderId(String orderId) {
-        return orderMapper.queryCardPwdByOrderId(orderId);
+    public String queryCardPwdByIdAndCardNo(String cardPwdId, String cardNo) {
+        return orderMapper.queryCardPwdByIdAndCardNo(cardPwdId, cardNo);
     }
 
     /**
