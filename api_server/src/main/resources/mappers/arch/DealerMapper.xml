@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 
+<!--
 	SQL映射文件名称：渠道商基础信息
 	————————————————————————————————————
 	修改日期		作者		变更内容
@@ -39,7 +39,7 @@
         WHERE
             idnum =#{idNum}
         AND verified = 1
-        AND state = 0
+        AND state = 1
     </select>
 
     <!--  渠道商列表查询  -->
