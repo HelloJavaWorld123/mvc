@@ -10,9 +10,12 @@ import com.jzy.api.model.biz.CardPwd;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.model.biz.SupRecord;
 import com.jzy.api.model.biz.TradeRecord;
+import com.jzy.api.model.dealer.Dealer;
+import com.jzy.api.service.arch.DealerService;
 import com.jzy.api.service.biz.*;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.DateUtils;
+import com.jzy.api.util.DesUtil;
 import com.jzy.api.vo.biz.FrontOrderVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
@@ -60,6 +63,9 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
     @Resource
     private SupService supService;
+
+    @Resource
+    private DealerService dealerService;
 
     /**
      * 订单超时时间
@@ -257,7 +263,12 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      */
     @Override
     public String queryCardPwdByIdAndCardNo(String cardPwdId, String cardNo) {
-        return orderMapper.queryCardPwdByIdAndCardNo(cardPwdId, cardNo);
+        String cardPwd = orderMapper.queryCardPwdByIdAndCardNo(cardPwdId, cardNo);
+        if (StringUtils.isEmpty(cardPwd)) {
+            throw new BusException("卡密不存在！");
+        }
+        Dealer dealer = dealerService.queryDealer(getDealerId());
+        return DesUtil.des3Decrypt(cardPwd, dealer.getSupKey(), "utf-8");
     }
 
     /**
