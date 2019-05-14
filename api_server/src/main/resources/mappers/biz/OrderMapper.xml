@@ -342,7 +342,8 @@
         o.dealer_price,
         o.trade_method,
         o. status,
-        o.sup_status
+        o.sup_status,
+        o.pay_time
         FROM
         `order` o
         INNER JOIN app_info app ON o.app_id = app.id
