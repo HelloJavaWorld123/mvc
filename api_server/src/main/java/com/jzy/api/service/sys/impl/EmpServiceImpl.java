@@ -100,7 +100,7 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public List<Emp> checkNameList(String name,Long id) {
+    public List<Emp> checkNameList(String name,String id) {
         return  empMapper.checkNameList(name,id);
     }
 

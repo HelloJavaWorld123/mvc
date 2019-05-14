@@ -172,7 +172,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
             }
             //修改渠道商登录用户信息
             Emp emp = getEmp(dbi);
-            if (empService.checkNameList(emp.getName(), emp.getId()).size() > 0) {
+            if (empService.checkNameList(emp.getName(), emp.getDealerId()).size() > 0) {
                 throw new ExcelException("渠道商登录用户名重复，请重新输入！");
             }
             empService.update(emp);

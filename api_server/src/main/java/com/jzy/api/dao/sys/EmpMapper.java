@@ -30,6 +30,6 @@ public interface EmpMapper extends GenericMapper<Emp> {
      * <b>修订记录：</b><br>
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<Emp> checkNameList(@Param("name") String name,@Param("id") Long id);
+    List<Emp> checkNameList(@Param("name") String name,@Param("dealerId") String dealerId);
 
 }
