@@ -296,6 +296,9 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
                 dealerAppPriceInfo.setId(tableKeyService.newKey("dealer_app_price_info", "id", 0));
                 dealerAppPriceInfo.setAiId(aiId);
                 dealerAppPriceInfo.setDealerId(dealerId);
+                if (dealerAppPriceInfoCnd.getPayPrice() == null) {
+                    dealerAppPriceInfo.setPayPrice(BigDecimal.ZERO);
+                }
                 dealerAppPriceInfo.setAptId(dealerAppPriceTypeCnd.getAptId());
                 this.insert(dealerAppPriceInfo);
             }
