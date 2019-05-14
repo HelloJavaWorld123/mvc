@@ -38,7 +38,6 @@ import javax.annotation.Resource;
 @ResponseBody
 @RequestMapping("dealer")
 public class DealerController {
-    private final static Logger logger = LoggerFactory.getLogger(DealerController.class);
 
     @Resource
     private DealerService dealerService;
@@ -50,13 +49,7 @@ public class DealerController {
      */
     @RequestMapping("admin/getList")
     public ApiResult getList(@RequestBody DealerListCnd dealerListCnd) {
-        PageVo pageVo;
-        try {
-            pageVo = dealerService.getList(dealerListCnd);
-        } catch (Exception e) {
-            logger.error("渠道商列表异常:{}", e);
-            return new ApiResult("查询失败");
-        }
+        PageVo pageVo = dealerService.getList(dealerListCnd);
         return new ApiResult<>(pageVo);
     }
 
@@ -68,19 +61,15 @@ public class DealerController {
      */
     @RequestMapping("admin/save")
     public ApiResult save(@RequestBody SaveDealerCnd saveDealerCnd) {
-        try {
-            String telephone = saveDealerCnd.getDealerBaseInfoMapper().getDealerTelephone();
-            //手机号码校验
-            if (null != telephone && !"".equals(telephone)) {
-                if (!PhoneCheckUtil.isPhoneLegal(telephone)) {
-                    return new ApiResult("手机号为空,或格式不正确");
-                }
+
+        String telephone = saveDealerCnd.getDealerBaseInfoMapper().getDealerTelephone();
+        //手机号码校验
+        if (null != telephone && !"".equals(telephone)) {
+            if (!PhoneCheckUtil.isPhoneLegal(telephone)) {
+                return new ApiResult("手机号为空,或格式不正确");
             }
-            dealerService.save(saveDealerCnd);
-        } catch (Exception e) {
-            logger.error("渠道商更新异常:{}", e);
-            return new ApiResult("更新失败");
         }
+        dealerService.save(saveDealerCnd);
         return new ApiResult<>();
 
 
@@ -93,13 +82,7 @@ public class DealerController {
      */
     @RequestMapping("admin/detail")
     public ApiResult detail(@RequestBody IdCnd idCnd) {
-        DealerDetailVo dealerDetailVo;
-        try {
-            dealerDetailVo = dealerService.detail(idCnd.getId().toString());
-        } catch (Exception e) {
-            logger.error("渠道商查询异常:{}", e);
-            return new ApiResult("查询失败");
-        }
+        DealerDetailVo dealerDetailVo = dealerService.detail(idCnd.getId().toString());
         return new ApiResult(dealerDetailVo);
     }
 

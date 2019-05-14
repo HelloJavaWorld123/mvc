@@ -85,7 +85,7 @@ public class AppInfoController {
     public ApiResult index(@RequestBody AppInfoListCnd appInfoListCnd) {
         PageVo<AppInfoListVo> result;
         try {
-             result=   appInfoService.listPage(appInfoListCnd);
+            result = appInfoService.listPage(appInfoListCnd);
         } catch (Exception e) {
             logger.error("admin产品列表异常:{}", e);
             return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
@@ -119,15 +119,15 @@ public class AppInfoController {
      */
     @RequestMapping("admin/save")
     public ApiResult save(@RequestBody SaveAppInfoCnd saveAppInfoCnd) throws ExcelException {
-            FileInfo mfile = null;
-            AppInfo ai = saveAppInfoCnd.getAppInfo();
-            SaveAppPriceTypeListCnd saveAppPriceTypeListCnd = new SaveAppPriceTypeListCnd();
-            AppPage appPageMapper = saveAppInfoCnd.getAppPage();
-            if (null != saveAppInfoCnd.getFileInfo()) {
-                mfile = saveAppInfoCnd.getFileInfo();
-            }
-            ai = verification(ai);
-            //保存图片信息
+        FileInfo mfile = null;
+        AppInfo ai = saveAppInfoCnd.getAppInfo();
+        SaveAppPriceTypeListCnd saveAppPriceTypeListCnd = new SaveAppPriceTypeListCnd();
+        AppPage appPageMapper = saveAppInfoCnd.getAppPage();
+        if (null != saveAppInfoCnd.getFileInfo()) {
+            mfile = saveAppInfoCnd.getFileInfo();
+        }
+        ai = verification(ai);
+        //保存图片信息
             /*if (!StringUtils.isEmpty(ai.getId())) {//更新操作时，先进行图片的删除操作
                 SysImages imagesMapper = sysImagesService.getImageByaiId(ai.getId());
                 if (null != imagesMapper) {
@@ -135,37 +135,41 @@ public class AppInfoController {
                     aliyunOssService.delete(imagesMapper.getFileUrl());
                 }
             }*/
-            if (StringUtils.isEmpty(ai.getId())) {//新增操作
-                ai.setId(tableKeyService.newKey("app_info", "id", 0));
-                ai.setPagePath("");
-                ai.setCode(String.valueOf(appInfoService.getMaxCode() + 1));
-                appInfoService.save(ai);
-                //图片新增
-                if (null != mfile) {
-                    sysImagesService.save(getSystemImagesMapper(ai, mfile));
-                }
-                //保存充值类型信息
-                saveAppPriceTypeListCnd.setAiId(ai.getId());
-                saveAppPriceTypeListCnd.setAppPriceTypeList(saveAppInfoCnd.getAppPriceTypeList());
-                appPriceTypeService.saveAppPriceTypeList(saveAppPriceTypeListCnd);
-                //保存富文本信息
-                appPageMapper.setAiId(ai.getId());
-                appInfoService.saveAppPage(appPageMapper);
-            } else {//更新操作
-                appInfoService.checkName(ai.getName(), ai.getId() + "");
-                appInfoService.update(ai);
-                //图片修改
-                if (null != mfile) {
-                    sysImagesService.update(getSystemImagesMapper(ai, mfile));
-                }
-                //保存充值类型信息
-                saveAppPriceTypeListCnd.setAiId(ai.getId());
-                saveAppPriceTypeListCnd.setAppPriceTypeList(saveAppInfoCnd.getAppPriceTypeList());
-                appPriceTypeService.saveAppPriceTypeList(saveAppPriceTypeListCnd);
-                //修改富文本信息
-                appPageMapper.setAiId(ai.getId());
-                appInfoService.updateAppPage(appPageMapper);
+        if (StringUtils.isEmpty(ai.getId())) {//新增操作
+            ai.setId(tableKeyService.newKey("app_info", "id", 0));
+            ai.setPagePath("");
+            ai.setCode(String.valueOf(appInfoService.getMaxCode() + 1));
+            appInfoService.save(ai);
+            //图片新增
+            if (null != mfile) {
+                sysImagesService.save(getSystemImagesMapper(ai, mfile));
             }
+            //保存充值类型信息
+            saveAppPriceTypeListCnd.setAiId(ai.getId());
+            saveAppPriceTypeListCnd.setAppPriceTypeList(saveAppInfoCnd.getAppPriceTypeList());
+            appPriceTypeService.saveAppPriceTypeList(saveAppPriceTypeListCnd);
+            //保存富文本信息
+            appPageMapper.setAiId(ai.getId());
+            appInfoService.saveAppPage(appPageMapper);
+        } else {//更新操作
+            appInfoService.checkName(ai.getName(), ai.getId() + "");
+            appInfoService.update(ai);
+            //图片修改
+            if (null != mfile) {
+                SysImages sysImages = getSystemImagesMapper(ai, mfile);
+                Integer flag = sysImagesService.update(sysImages);
+                if (flag == 0) {
+                    sysImagesService.save(sysImages);
+                }
+            }
+            //保存充值类型信息
+            saveAppPriceTypeListCnd.setAiId(ai.getId());
+            saveAppPriceTypeListCnd.setAppPriceTypeList(saveAppInfoCnd.getAppPriceTypeList());
+            appPriceTypeService.saveAppPriceTypeList(saveAppPriceTypeListCnd);
+            //修改富文本信息
+            appPageMapper.setAiId(ai.getId());
+            appInfoService.updateAppPage(appPageMapper);
+        }
         return new ApiResult<>();
     }
 
@@ -176,7 +180,7 @@ public class AppInfoController {
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     private SysImages getSystemImagesMapper(AppInfo ai, FileInfo mfile) {
-        return new SysImages(tableKeyService.newKey("app_info", "id", 0), ai.getId().toString(), mfile.getFileOrignName(), mfile.getContentType(), ai.getIcon(), 1);
+        return new SysImages(tableKeyService.newKey("sys_images", "id", 0), ai.getId().toString(), mfile.getFileOrignName(), mfile.getContentType(), ai.getIcon(), 1);
     }
 
     /**
@@ -265,41 +269,43 @@ public class AppInfoController {
 //        return new ApiResult<>(new FileInfo(fileUrl, mfile.getOriginalFilename(), mfile.getContentType()));
 //    }
 
-    /**oss 上传
+    /**
+     * oss 上传
+     *
+     * @param mfile
+     * @return com.jzy.framework.result.ApiResult
      * @Description
      * @Author lchl
      * @Date 2019/5/13 11:13 AM
-     * @param mfile
-     * @return com.jzy.framework.result.ApiResult
      */
     @RequestMapping("admin/uploadFile")
     public ApiResult uploadFile(@RequestParam(value = "file", required = true) MultipartFile mfile
-            ,@RequestParam(value = "directoryType") Integer directoryType) {
+            , @RequestParam(value = "directoryType") Integer directoryType) {
 
         String fileUrl = "";
 
         try {
 
-            if(null != mfile){
+            if (null != mfile) {
                 String filename = mfile.getOriginalFilename();
-                if(!"".equals(filename.trim())){
+                if (!"".equals(filename.trim())) {
                     File newFile = new File(filename);
                     FileOutputStream os = new FileOutputStream(newFile);
                     os.write(mfile.getBytes());
                     os.close();
                     mfile.transferTo(newFile);
                     //上传到OSS
-                    if(directoryType == DirectoryEnum.DIRECTORY_APP_ENUM.getCode()){
+                    if (directoryType == DirectoryEnum.DIRECTORY_APP_ENUM.getCode()) {
                         fileUrl = aliyunOssService.upload(newFile, DirectoryEnum.DIRECTORY_APP_ENUM.getMsg());
-                    }else if(directoryType == DirectoryEnum.DIRECTORY_DEALER_ENUM.getCode()){
+                    } else if (directoryType == DirectoryEnum.DIRECTORY_DEALER_ENUM.getCode()) {
                         fileUrl = aliyunOssService.upload(newFile, DirectoryEnum.DIRECTORY_DEALER_ENUM.getMsg());
-                    }else if(directoryType == DirectoryEnum.DIRECTORY_RCI_ENUM.getCode()){
+                    } else if (directoryType == DirectoryEnum.DIRECTORY_RCI_ENUM.getCode()) {
                         fileUrl = aliyunOssService.upload(newFile, DirectoryEnum.DIRECTORY_RCI_ENUM.getMsg());
-                    }else if(directoryType == DirectoryEnum.DIRECTORY_RECOMMEND_ENUM.getCode()){
+                    } else if (directoryType == DirectoryEnum.DIRECTORY_RECOMMEND_ENUM.getCode()) {
                         fileUrl = aliyunOssService.upload(newFile, DirectoryEnum.DIRECTORY_RECOMMEND_ENUM.getMsg());
-                    }else if(directoryType == DirectoryEnum.DIRECTORY_FEEDBACK_ENUM.getCode()){
+                    } else if (directoryType == DirectoryEnum.DIRECTORY_FEEDBACK_ENUM.getCode()) {
                         fileUrl = aliyunOssService.upload(newFile, DirectoryEnum.DIRECTORY_FEEDBACK_ENUM.getMsg());
-                    }else{
+                    } else {
                         logger.error("图片上传失败！:{}", "没有此目录");
                         return new ApiResult().fail(ResultEnum.PARAM_ERR.getMsg());
                     }
