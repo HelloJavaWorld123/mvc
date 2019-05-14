@@ -182,9 +182,9 @@
             AND o.status = #{status}
         </if>
         <if test="status == 10">
-            AND o.status IN (2,3,4)
+            AND o.status IN (2,3)
         </if>
-        <if test="status == null">
+        <if test="status == null or status == ''">
             AND o.status != 4
         </if>
         ORDER BY o.create_time DESC

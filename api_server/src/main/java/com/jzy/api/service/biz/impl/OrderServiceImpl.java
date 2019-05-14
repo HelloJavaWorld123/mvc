@@ -267,7 +267,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         if (StringUtils.isEmpty(cardPwd)) {
             throw new BusException("卡密不存在！");
         }
-        Dealer dealer = dealerService.queryDealer(getDealerId());
+        Dealer dealer = dealerService.queryDealer(getFrontDealerId());
         return DesUtil.des3Decrypt(cardPwd, dealer.getSupKey(), "utf-8");
     }
 
