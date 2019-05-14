@@ -49,9 +49,9 @@ public class AliyunOssServiceImpl implements AliyunOssService {
         String fileUrl = "";
         try {
             if(null!=fileHost &&!"".equals(fileHost)){
-                fileUrl = fileHost +    "/"  + UUID.randomUUID().toString().replace("-", "");
+                fileUrl = fileHost +    "/"  + UUID.randomUUID().toString().replace("-", "").concat(file.getName().substring(file.getName().lastIndexOf(".")));
             }else{
-                fileUrl = UUID.randomUUID().toString().replace("-", "");
+                fileUrl = UUID.randomUUID().toString().replace("-", "").concat(file.getName().substring(file.getName().lastIndexOf(".")));
             }
             PutObjectResult objectResult = ossClient.putObject(new PutObjectRequest(bucketName, fileUrl, file));
             logger.debug(JSON.toJSONString(objectResult));
@@ -80,9 +80,9 @@ public class AliyunOssServiceImpl implements AliyunOssService {
         String fileUrl = "";
         try {
             if(null!=directoryName &&!"".equals(directoryName)){
-                fileUrl = directoryName +    "/"  + UUID.randomUUID().toString().replace("-", "");
+                fileUrl = directoryName +    "/"  + UUID.randomUUID().toString().replace("-", "").concat(file.getName().substring(file.getName().lastIndexOf(".")));
             }else{
-                fileUrl = UUID.randomUUID().toString().replace("-", "");
+                fileUrl = UUID.randomUUID().toString().replace("-", "").concat(file.getName().substring(file.getName().lastIndexOf(".")));
             }
             ossClient.putObject(new PutObjectRequest(bucketName, fileUrl, file));
 
