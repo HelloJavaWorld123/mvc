@@ -62,4 +62,67 @@
             FROM
                 app_cate
     </select>
+
+    <!--insert-->
+    <insert id="insert" parameterType="com.jzy.api.model.app.Category">
+    	INSERT INTO app_cate (
+            `id`,
+            `name`,
+            `sort`,
+            `creator_id`,
+            `modifier_id`,
+            `create_time`,
+            `modify_time`
+        )
+        VALUES
+            (
+            #{id},
+            #{name},
+            #{sort},
+            #{creatorId},
+            #{modifierId},
+            #{createTime},
+            #{modifyTime}
+            )
+    </insert>
+
+    <!--根据产品分类名称查询数量-->
+    <select id="getByName" resultType="java.lang.Integer">
+        select count(1) from app_cate where name=#{name}
+    </select>
+
+    <!--根据产品分类删除-->
+    <delete id="delete">
+        delete from app_cate where id=#{id}
+    </delete>
+
+    <!--根据产品分类name和id查询数量-->
+    <select id="getCountByNameNoId" resultType="java.lang.Integer">
+        select count(1) from app_cate where name=#{name} and id!=#{id}
+    </select>
+
+    <!-- 修改-->
+    <update id="update" parameterType="com.jzy.api.model.app.Category">
+        update
+        app_cate
+        set
+        `name` = #{name},
+        `sort` = #{sort},
+        `modifier_id` =  #{modifierId},
+        `modify_time` =  #{modifyTime}
+        where
+        id = #{id}
+    </update>
+
+    <!--产品分类分页查询-->
+    <select id="listPage" parameterType="com.jzy.api.cnd.app.CategoryCnd"
+            resultType="com.jzy.api.vo.app.CategoryVo">
+        select id,name,sort from app_cate
+        <where>
+            <if test="name!=null">
+                name like CONCAT('%',#{name},'%')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
 </mapper>

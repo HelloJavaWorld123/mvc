@@ -1,14 +1,24 @@
 package com.jzy.api.controller.app;
 
+import com.jzy.api.cnd.app.AppGameCnd;
 import com.jzy.api.cnd.app.GameListCnd;
 import com.jzy.api.cnd.app.GetServInfoCnd;
+import com.jzy.api.model.app.AppGame;
 import com.jzy.api.po.app.AppGamePo;
 import com.jzy.api.service.app.AppGameService;
+import com.jzy.api.service.key.TableKeyService;
+import com.jzy.api.util.CommUtils;
+import com.jzy.api.util.MyStringUtil;
 import com.jzy.api.vo.app.AppGameListVo;
+import com.jzy.api.vo.app.AppGameVo;
+import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.IdCnd;
+import com.jzy.framework.bean.vo.PageVo;
+import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 
 import static com.jzy.common.enums.ResultEnum.OPERATION_FAILED;
 
@@ -39,6 +50,9 @@ public class AppGameController {
 
     @Resource
     private AppGameService appGameService;
+
+    @Resource
+    private TableKeyService tableKeyService;
 
 
     /**
@@ -80,5 +94,85 @@ public class AppGameController {
         return new ApiResult<>(gameList);
     }
 
+    /**
+     * <b>功能描述：</b>游戏大区分页查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("admin/index")
+    public ApiResult index(@RequestBody AppGameCnd appGameCnd) {
+        PageVo<AppGameVo> result;
+        try {
+            result = appGameService.listPage(appGameCnd);
+        } catch (Exception e) {
+            logger.error("admin游戏大区分页查询异常:{}", e);
+            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
+        }
+        return new ApiResult<>(result);
+    }
+
+    /**
+     * <b>功能描述：</b>根据厂商添加游戏<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("admin/save")
+    public ApiResult save(@RequestBody AppGameCnd appGameCnd) {
+        try {
+            AppGame appGame = new AppGame();
+            BeanUtils.copyProperties(appGameCnd,appGame);
+            appGame.setId(tableKeyService.newKey("app_game", "id", 0));
+            appGameService.save(appGame);
+        }catch (BusException e){
+            return new ApiResult().fail(e.getMessage());
+        }catch (Exception e){
+            logger.error("admin厂商下面的游戏:{}", e);
+            return new ApiResult().fail(ResultEnum.OPERATION_FAILED);
+        }
+        return new ApiResult<>();
+    }
+
+    /**
+     * <b>功能描述：</b>游戏，大区，服务，物理删除<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @return {@l}ink ApiResult
+     */
+    @RequestMapping("admin/delete")
+    public ApiResult deleteBatch(@RequestBody IdCnd idCnd) {
+        try {
+            appGameService.delete(idCnd.getId());
+        }catch (BusException e){
+            return new ApiResult().fail(e.getMessage());
+        }catch (Exception e){
+            logger.error("admin游戏大区服务删除:{}", e);
+            return new ApiResult().fail(OPERATION_FAILED);
+        }
+        return new ApiResult<>();
+    }
+
+    /**
+     * <b>功能描述：</b>编辑游戏大区<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("admin/update")
+    public ApiResult update(@RequestBody AppGameCnd appGameCnd) {
+        try {
+            AppGame appGame = appGameService.getById(appGameCnd.getId());
+            if (Objects.isNull(appGame)) {
+                return new ApiResult(ResultEnum.APP_EMPTY);
+            }
+            appGame.setName(appGameCnd.getName());
+            appGameService.edit(appGame);
+        }catch (BusException e){
+            return new ApiResult().fail(e.getMessage());
+        }catch (Exception e){
+            logger.error("admin游戏大区编辑:{}", e);
+            return new ApiResult().fail(ResultEnum.OPERATION_FAILED);
+        }
+        return new ApiResult<>();
+    }
 
 }

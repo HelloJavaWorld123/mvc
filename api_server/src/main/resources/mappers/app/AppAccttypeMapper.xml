@@ -12,7 +12,8 @@
  -->
 
 <mapper namespace="com.jzy.api.dao.app.AppAccttypeMapper">
-    <!--列表查询-->
+
+	<!--列表查询-->
     <select id="list" resultType="com.jzy.api.po.app.AppAccttypeListPo">
 	SELECT
 	act.id,
@@ -25,7 +26,83 @@
 	FROM
 	app_accttype act
 
-</select>
+	</select>
 
+	<!--根据账号名称查询数量-->
+    <select id="getByName" resultType="java.lang.Integer">
+		select count(1) from app_accttype where main_name=#{mainName} and sub_name=#{subName}
+	</select>
+
+	<!--insert-->
+	<insert id="insert" parameterType="com.jzy.api.model.app.AppAccttype">
+    	INSERT INTO app_accttype (
+            `id`,
+            `main_name`,
+            `main_regular`,
+            `main_msg`,
+            `sub_name`,
+            `sub_regular`,
+            `sub_msg`,
+            `creator_id`,
+            `modifier_id`,
+            `create_time`,
+            `modify_time`,
+            `del_flag`
+        )
+        VALUES
+            (
+            #{id},
+            #{mainName},
+            #{mainRegular},
+            #{mainMsg},
+            #{subName},
+            #{subRegular},
+            #{subMsg},
+            #{creatorId},
+            #{modifierId},
+            #{createTime},
+            #{modifyTime},
+            #{delFlag}
+            )
+    </insert>
+
+	<!--账号类型删除-->
+	<delete id="delete">
+		delete from app_accttype where id=#{id}
+	</delete>
+
+	<select id="getByNameNoId" resultType="java.lang.Integer">
+		select count(1) from app_accttype where main_name=#{mainName} and sub_name=#{subName} and id!=#{id}
+	</select>
+
+    <!-- 修改-->
+	<update id="update" parameterType="com.jzy.api.model.app.AppAccttype">
+        UPDATE
+        app_accttype
+        SET
+        `main_name` = #{mainName},
+		`main_regular` = #{mainRegular},
+		`main_msg` = #{mainMsg},
+		`sub_name`= #{subName},
+		`sub_regular`= #{subRegular},
+		`sub_msg`= #{subMsg},
+        `modifier_id` =  #{modifierId},
+        `modify_time` =  #{modifyTime}
+        WHERE
+        id = #{id}
+    </update>
+
+    <!--账号类型分页查询-->
+    <select id="listPage" parameterType="com.jzy.api.cnd.app.AppAccttypeCnd"
+            resultType="com.jzy.api.vo.app.AppAccttypeVo">
+        select id,main_name as mainName,main_regular as mainRegular,main_msg as mainMsg,
+        sub_name as subName,sub_regular as subRegular,sub_msg as subMsg from app_accttype
+        <where>
+            <if test="mainName!=null">
+                main_name like CONCAT('%',#{mainName},'%')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
 
 </mapper>

@@ -1,9 +1,12 @@
 package com.jzy.api.dao.app;
 
 
+import com.jzy.api.cnd.app.AppTypeCnd;
 import com.jzy.api.model.app.AppType;
 import com.jzy.api.po.app.AppTypePo;
+import com.jzy.api.vo.app.AppTypeVo;
 import com.jzy.framework.dao.GenericMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -25,4 +28,31 @@ public interface AppTypeMapper extends GenericMapper<AppType> {
      */
     List<AppTypePo> getList();
 
+    /**
+     * <b>功能描述：</b>产品类型删除<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void delete(@Param("id") Long id);
+
+    /**
+     * <b>功能描述：</b>根据name查询产品类型数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getByName(@Param("name") String name);
+
+    /**
+     * <b>功能描述：</b>根据name,id查询产品类型数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getCountByNameNoId(@Param("name") String name, @Param("id") Long id);
+
+    /**
+     * <b>功能描述：</b>产品类型分页查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<AppTypeVo> listPage(AppTypeCnd appTypeCnd);
 }
