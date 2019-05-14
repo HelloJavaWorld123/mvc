@@ -11,6 +11,7 @@ import com.jzy.api.vo.dealer.DealerDetailVo;
 
 import com.jzy.framework.bean.vo.PageVo;
 
+import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.service.GenericService;
 
 
@@ -55,7 +56,7 @@ public interface DealerService extends GenericService<Dealer> {
      * <b>修订记录：</b><br>
      * <li>20190422&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    void save(SaveDealerCnd saveDealerCnd);
+    void save(SaveDealerCnd saveDealerCnd) throws ExcelException;
 
 
    /**

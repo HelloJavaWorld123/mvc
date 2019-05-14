@@ -11,6 +11,7 @@ import com.jzy.api.util.PhoneCheckUtil;
 import com.jzy.api.vo.dealer.DealerDetailVo;
 import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
+import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.result.ApiResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +61,7 @@ public class DealerController {
      * <li>20190422&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/save")
-    public ApiResult save(@RequestBody SaveDealerCnd saveDealerCnd) {
+    public ApiResult save(@RequestBody SaveDealerCnd saveDealerCnd) throws ExcelException {
 
         String telephone = saveDealerCnd.getDealerBaseInfoMapper().getDealerTelephone();
         //手机号码校验

@@ -32,6 +32,7 @@ import com.jzy.api.util.MyEncrypt;
 import com.jzy.api.vo.dealer.DealerDetailVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
+import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import freemarker.core.BugException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -126,7 +127,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      * <li>20190422&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void save(SaveDealerCnd saveDealerCnd) {
+    public void save(SaveDealerCnd saveDealerCnd) throws ExcelException {
         Dealer dealer = saveDealerCnd.getDealerMapper();
         dealer.setState(1);
         DealerBaseInfo dbi = saveDealerCnd.getDealerBaseInfoMapper();
@@ -148,7 +149,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
             Emp emp = getEmp(dbi);
             emp.setId(tableKeyService.newKey("sys_emp", "id", 0));
             if (empService.checkNameList(emp.getName(), null).size() > 0) {
-                throw new BugException("渠道商名称重复，请重新输入");
+                throw new ExcelException("渠道商登录用户名重复，请重新输入！");
             }
             empService.insert(emp);
             //保存渠道商登录用户角色信息
@@ -172,7 +173,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
             //修改渠道商登录用户信息
             Emp emp = getEmp(dbi);
             if (empService.checkNameList(emp.getName(), emp.getId()).size() > 0) {
-                throw new BugException("渠道商名称重复，请重新输入");
+                throw new ExcelException("渠道商登录用户名重复，请重新输入！");
             }
             empService.update(emp);
         }
