@@ -132,7 +132,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
         List<FileInfo> fileInfoMapperList = saveDealerCnd.getFileInfoMapper();
         if (null == dbi.getDealerId() || "".equals(dbi.getDealerId())) {//渠道商信息的新增
             //渠道商主表信息的添加
-            dealer = insertDealer(dealer);
+            dealer = insertDealer(dealer,dbi);
             //渠道商基础信息和配置信息新增
             dbi = insertDealerBaseInfo(dealer, dbi, dpmList);
             //修改图片信息
@@ -154,7 +154,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
 
         } else {//渠道商信息的修改
             //渠道商主表信息的修改
-            updateDealer(dealer);
+            updateDealer(dealer,dbi);
             //渠道商基础信息和配置信息的修改
             updateDealerBaseInfo(dbi, dpmList);
             //图片信息修改
@@ -203,9 +203,10 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      * <b>修订记录：</b><br>
      * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    private void updateDealer(Dealer dealer) {
-        dealer.setState(1);
-        dealer.setVerified(1);
+    private void updateDealer(Dealer dealer,DealerBaseInfo dbi) {
+        dealer.setName(dbi.getDealerName());
+        dealer.setContact(dbi.getDealerContact());
+        dealer.setTelno(dbi.getDealerTelephone());
         update(dealer);
     }
 
@@ -230,7 +231,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      * <b>修订记录：</b><br>
      * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    private Dealer insertDealer(Dealer dealer) {
+    private Dealer insertDealer(Dealer dealer,DealerBaseInfo dbi) {
         //获取经销商标识最大值
         String maxNum = dealerMapper.getMaxIdNum();
         String idnum = "Num".concat(String.valueOf(Integer.parseInt(maxNum) + 1));
@@ -240,8 +241,9 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
         dealer.setPrikey(prikey);
         dealer.setIdnum(idnum);
         dealer.setPubkey(pubkey);
-        dealer.setState(1);
-        dealer.setVerified(1);
+        dealer.setName(dbi.getDealerName());
+        dealer.setContact(dbi.getDealerContact());
+        dealer.setTelno(dbi.getDealerTelephone());
         this.insert(dealer);
         return dealer;
     }
