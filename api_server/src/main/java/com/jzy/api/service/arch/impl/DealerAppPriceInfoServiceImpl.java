@@ -299,6 +299,9 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
                 if (dealerAppPriceInfoCnd.getPayPrice() == null) {
                     dealerAppPriceInfo.setPayPrice(BigDecimal.ZERO);
                 }
+                if (dealerAppPriceInfoCnd.getDiscount()==null){
+                    dealerAppPriceInfo.setDiscount(BigDecimal.ZERO);
+                }
                 dealerAppPriceInfo.setAptId(dealerAppPriceTypeCnd.getAptId());
                 this.insert(dealerAppPriceInfo);
             }
