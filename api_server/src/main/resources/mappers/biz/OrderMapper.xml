@@ -373,7 +373,7 @@
             AND (
             o.code LIKE concat(concat('%',#{key}),'%')
             OR o.out_trade_no LIKE concat(concat('%',#{key}),'%')
-            OR d.idnum LIKE concat(concat('%',#{key}),'%')
+            OR d.name LIKE concat(concat('%',#{key}),'%')
             )
         </if>
         ORDER BY
@@ -391,7 +391,7 @@
         `order` o
         INNER JOIN dealer d ON o.dealer_id = d.id
         <if test="key != null and key != ''">
-            AND (d.idnum LIKE concat(concat('%',#{key}),'%') OR d.name LIKE concat(concat('%',#{key}),'%'))
+            AND d.name LIKE concat(concat('%',#{key}),'%')
         </if>
         WHERE
         o.sup_status = 2
@@ -427,7 +427,7 @@
                 `order` o
                 INNER JOIN dealer d ON o.dealer_id = d.id
                 <if test="key != null and key != ''">
-                   AND (d.idnum LIKE concat(concat('%',#{key}),'%') OR d.name LIKE concat(concat('%',#{key}),'%'))
+                   AND d.name LIKE concat(concat('%',#{key}),'%')
                 </if>
                 WHERE
                 o.del_flag = 0
