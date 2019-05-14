@@ -187,6 +187,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         for (Order order : orderList) {
             FrontOrderVo frontOrderVo = new FrontOrderVo();
             frontOrderVo.setOrderId(order.getOrderId());
+            frontOrderVo.setCode(order.getCode());
             frontOrderVo.setPrice(order.getPrice());
             frontOrderVo.setTotalFee(order.getTotalFee());
             frontOrderVo.setTradeFee(order.getTradeFee());

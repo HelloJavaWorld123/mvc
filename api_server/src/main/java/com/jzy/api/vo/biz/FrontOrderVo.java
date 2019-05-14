@@ -22,6 +22,10 @@ public class FrontOrderVo extends GenericVo {
      */
     private String orderId;
     /**
+     * 订单编号
+     */
+    private String code;
+    /**
      * 面值
      */
     private BigDecimal price;

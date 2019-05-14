@@ -161,6 +161,7 @@
     <select id="queryFrontOrderList" resultType="com.jzy.api.model.biz.Order">
         SELECT
         o.id orderId,
+        o.code,
         o.price,
         o.status,
         o.total_fee totalFee,
@@ -175,7 +176,7 @@
         INNER JOIN app_info app ON o.app_id = app.id
         LEFT JOIN sys_images AS img ON img.type = 1 AND img.rel_id = app.id
         WHERE
-        o.del_flag != 1
+        o.del_flag == 0
         AND o.user_id = #{userId}
         <if test="status != null and status != 10">
             AND o.status = #{status}
@@ -357,8 +358,14 @@
         <if test="supStatus != null">
             AND o.sup_status = #{supStatus}
         </if>
-        <if test="status != null">
+        <if test="status != null and status != 10">
             AND o.status = #{status}
+        </if>
+        <if test="status == 10">
+            AND o.status IN (2,3,4)
+        </if>
+        <if test="status == null">
+            AND o.status != 4
         </if>
         <if test="key != null and key!= ''">
             AND (
@@ -371,7 +378,7 @@
         o.modify_time
     </select>
 
-    <!-- 订单列表统计 -->
+    <!-- 已完成订单列表统计 -->
     <select id="queryBackOrderCount" resultMap="order">
         SELECT
         IFNULL(SUM(price), 0) priceTotal,
