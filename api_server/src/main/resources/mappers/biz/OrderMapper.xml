@@ -419,7 +419,7 @@
                 o.dealer_id,
                 d.idnum,
                 d.name,
-                date_format(o.modify_time, '%Y-%d') modify_time,
+                date_format(o.modify_time, '%Y-%m') modify_time,
                 o.price,
                 o.trade_fee,
                 o.dealer_price
