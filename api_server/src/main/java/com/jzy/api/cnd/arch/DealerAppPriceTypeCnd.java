@@ -1,13 +1,14 @@
 package com.jzy.api.cnd.arch;
 
-import com.jzy.api.cnd.app.DealerAppInfoCnd;
+import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <b>功能：</b>保存渠道商定价信息<br>
+ * <b>功能：</b>渠道商商品定价入参<br>
  * <b>Copyright JZY</b>
  * <ul>
  * <li>版本&nbsp;&nbsp;&nbsp;&nbsp;修改日期&nbsp;&nbsp;&nbsp;&nbsp;部　　门&nbsp;&nbsp;&nbsp;&nbsp;作　者&nbsp;&nbsp;&nbsp;&nbsp;变更内容</li>
@@ -16,14 +17,21 @@ import java.util.List;
  * </ul>
  */
 @Data
-public class SavePriceInfoCnd {
+public class DealerAppPriceTypeCnd {
 
     /**
-     * 渠道商商品表入参
+     * 充值类型主键
      */
-    private DealerAppInfoCnd dealerAppInfoCnd;
+    private String aptId;
 
 
-    private List<DealerAppPriceTypeCnd> dealerAppPriceTypeCndList = new ArrayList<>();
+    /**
+     * 是否允许用户自定义输入金额
+     */
+    private Integer isCustom = 0;
+
+
+    private List<DealerAppPriceInfoCnd> dealerAppPriceInfoCnds = new ArrayList<>();
+
 
 }

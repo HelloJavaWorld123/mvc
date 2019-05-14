@@ -20,7 +20,6 @@ import com.jzy.api.po.app.AppGameListPo;
 import com.jzy.api.po.arch.AppDetailPo;
 import com.jzy.api.po.arch.AppPriceTypePo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
-import com.jzy.api.po.dealer.AppPriceTypeListPo;
 import com.jzy.api.po.dealer.AppSearchPo;
 import com.jzy.api.po.dealer.DealerAppTypePriceInfoPo;
 import com.jzy.api.service.app.AppInfoService;
@@ -35,15 +34,11 @@ import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.springframework.beans.BeanUtils;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <b>功能：</b>渠道商商品定价<br>
@@ -251,9 +246,9 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
             dealerAppTypePriceInfo.setAptId(appPriceType.getId().toString());
 
             DealerAppPriceType dealerAppPriceType = dealerAppPriceInfoMapper.getDealerAppPriceType(aiId, dealerId, appPriceType.getId().toString());
-            if (dealerAppPriceType == null){
+            if (dealerAppPriceType == null) {
                 dealerAppTypePriceInfo.setIsCustom(0);
-            }else{
+            } else {
                 dealerAppTypePriceInfo.setIsCustom(dealerAppPriceType.getIsCustom());
             }
             //获取商品面值详情
@@ -284,28 +279,28 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         dealerAppPriceInfoMapper.deleteByDealerIdAndaiId(aiId, dealerId);
         dealerAppPriceInfoMapper.deleteAppPriceType(dealerId, aiId);
         //更新
-        for (DealerAppPriceInfoCnd dapi : savePriceInfoCnd.getDealerAppPriceInfoPoList()) {
-            DealerAppPriceInfo dealerAppPriceInfo = new DealerAppPriceInfo();
-            BeanUtils.copyProperties(dapi, dealerAppPriceInfo);
-            dealerAppPriceInfo.setId(tableKeyService.newKey("dealer_app_price_info", "id", 0));
-            dealerAppPriceInfo.setAiId(aiId);
-            dealerAppPriceInfo.setDealerId(dealerId);
-            if (dealerAppPriceInfo.getPayPrice() == null) {
-                dealerAppPriceInfo.setPayPrice(BigDecimal.ZERO);
-            }
-            if (dealerAppPriceInfo.getDiscount() == null) {
-                dealerAppPriceInfo.setDiscount(BigDecimal.ZERO);
-            }
-            this.insert(dealerAppPriceInfo);
+        for (DealerAppPriceTypeCnd dealerAppPriceTypeCnd : savePriceInfoCnd.getDealerAppPriceTypeCndList()) {
             //保存是否自定义金额
             DealerAppPriceType dealerAppPriceType = new DealerAppPriceType();
             dealerAppPriceType.setId(tableKeyService.newKey("dealer_app_price_type", "id", 0));
             dealerAppPriceType.setAiId(aiId);
             dealerAppPriceType.setDealerId(dealerId);
-            dealerAppPriceType.setAptId(dealerAppPriceInfo.getAptId());
-            dealerAppPriceType.setIsCustom(dapi.getIsCustom());
+            dealerAppPriceType.setAptId(dealerAppPriceTypeCnd.getAptId());
+            dealerAppPriceType.setIsCustom(dealerAppPriceTypeCnd.getIsCustom());
             dealerAppPriceInfoMapper.insertAppPriceType(dealerAppPriceType);
+
+            //保存面值信息
+            for (DealerAppPriceInfoCnd dealerAppPriceInfoCnd : dealerAppPriceTypeCnd.getDealerAppPriceInfoCnds()) {
+                DealerAppPriceInfo dealerAppPriceInfo = new DealerAppPriceInfo();
+                BeanUtils.copyProperties(dealerAppPriceInfoCnd, dealerAppPriceInfo);
+                dealerAppPriceInfo.setId(tableKeyService.newKey("dealer_app_price_info", "id", 0));
+                dealerAppPriceInfo.setAiId(aiId);
+                dealerAppPriceInfo.setDealerId(dealerId);
+                dealerAppPriceInfo.setAptId(dealerAppPriceTypeCnd.getAptId());
+                this.insert(dealerAppPriceInfo);
+            }
         }
+
 
     }
 
