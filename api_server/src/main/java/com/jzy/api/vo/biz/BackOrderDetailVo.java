@@ -1,30 +1,26 @@
-package com.jzy.api.model.biz;
+package com.jzy.api.vo.biz;
 
-import com.jzy.framework.bean.model.GenericModel;
+import com.jzy.framework.bean.vo.GenericVo;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * <b>功能：</b>订单<br>
+ * <b>功能：</b>订单信息<br>
  * <b>Copyright JZY</b>
  * <ul>
  * <li>版本&nbsp;&nbsp;&nbsp;&nbsp;修改日期&nbsp;&nbsp;&nbsp;&nbsp;部　　门&nbsp;&nbsp;&nbsp;&nbsp;作　者&nbsp;&nbsp;&nbsp;&nbsp;变更内容</li>
  * <hr>
- * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190426&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;邓冲&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
+ * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190420&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;邓冲&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
 @Data
-public class Order extends GenericModel {
+public class BackOrderDetailVo extends GenericVo {
     /**
      * 订单id
      */
     private String orderId;
-    /**
-     * 第三方支付账号
-     */
-    private String markId;
     /**
      * 订单编号:时间戳+6位随机数
      */
@@ -33,28 +29,6 @@ public class Order extends GenericModel {
      * 支付/提交SUP订单 - 商户订单号
      */
     private String outTradeNo;
-    /**
-     * 用户ID
-     */
-    private String userId;
-    /**
-     * 充值模式
-     * 0直充 1 卡密
-     */
-    private Integer rechargeMode;
-
-    /**
-     * sup商品提交分组编号
-     */
-    private String supNo;
-    /**
-     * sup商品提交金额
-     */
-    private BigDecimal supPrice;
-    /**
-     * sup状态，0未提交;1已提交;2成功;3失败
-     */
-    private Integer supStatus = 0;
     /**
      * 折扣
      */
@@ -72,10 +46,6 @@ public class Order extends GenericModel {
      */
     private Integer status = 0;
     /**
-     * 订单类型:1服务,2游戏,3商品
-     */
-    private Integer type;
-    /**
      * 订单应付总金额
      */
     private BigDecimal totalFee;
@@ -83,10 +53,6 @@ public class Order extends GenericModel {
      * 充值类型名称
      */
     private String priceTypeName;
-    /**
-     * 充值类型单位
-     */
-    private String priceTypeUnit;
     /**
      * 主账号类型名称
      */
@@ -112,10 +78,6 @@ public class Order extends GenericModel {
      */
     private Integer tradeMethod;
     /**
-     * 支付交易号
-     */
-    private String tradeCode = "";
-    /**
      * 实付总金额
      */
     private BigDecimal tradeFee = BigDecimal.ZERO;
@@ -124,25 +86,9 @@ public class Order extends GenericModel {
      */
     private BigDecimal dealerPrice = BigDecimal.ZERO;
     /**
-     * 支付交易状态
+     * 是否删除
      */
-    private String tradeStatus;
-    /**
-     * 开票状态
-     */
-    private Integer invoiceStatus;
-    /**
-     * 备注
-     */
-    private String remark = "";
-    /**
-     * 商户id
-     */
-    private String dealerId;
-
-
-    //--------------------序列-----------------------------
-
+    private Integer delFlag;
     /**
      * 商品id
      */
@@ -151,14 +97,6 @@ public class Order extends GenericModel {
      * 商品名称
      */
     private String appName;
-    /**
-     * 商品图片
-     */
-    private String appIcon;
-    /**
-     * 卡号
-     */
-    private String cardNo;
     /**
      * 购买金额
      */
@@ -184,33 +122,15 @@ public class Order extends GenericModel {
      */
     private String dealerName;
     /**
+     * 下单时间
+     */
+    private Date createTime;
+    /**
+     * 完成时间
+     */
+    private Date modifyTime;
+    /**
      * 支付时间
      */
     private Date payTime;
-    /**
-     * 订单交易状态
-     */
-    public class TradeStatusConst {
-
-        /** 待支付 */
-        public static final String WAIT_PAY = "wait_pay";
-
-        /** 已支付可以退款 */
-        public static final String PAY_SUCCESS = "pay_success";
-        /** 支付失败 */
-        public static final String PAY_FAI = "pay_fai";
-
-        /** 待退款 */
-        public static final String WAIT_REFUND = "wait_refund";
-
-        /** 已退款 */
-        public static final String REFUND_SICCESS = "refund_success";
-
-        /** 退款驳回 */
-        public static final String REFUND_REJECT = "refund_reject";
-
-        /** 完成不可以退款 */
-        public static final String FINISHED = "finished";
-
-    }
 }

@@ -1,10 +1,15 @@
 package com.jzy.api.controller.biz;
 
+import com.github.pagehelper.Page;
 import com.jzy.api.cnd.biz.BackOrderCnd;
 import com.jzy.api.cnd.biz.CodeCnd;
 import com.jzy.api.cnd.biz.MonthOrderCnd;
 import com.jzy.api.cnd.biz.RunMonthOrderCnd;
+import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.OrderService;
+import com.jzy.api.vo.biz.BackOrderDetailVo;
+import com.jzy.api.vo.biz.BackOrderListVo;
+import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <b>功能：</b>后端订单业务处理<br>
@@ -40,8 +46,9 @@ public class OrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/queryBackOrderById")
     public ApiResult queryBackOrderById(@RequestBody CodeCnd codeCnd) {
-        orderService.queryBackOrderById(codeCnd.getOrderId());
-        return new ApiResult<>().success();
+        Order order = orderService.queryBackOrderById(codeCnd.getOrderId());
+        BackOrderDetailVo orderDetailVo = convert(order, BackOrderDetailVo.class);
+        return new ApiResult<>().success(orderDetailVo);
     }
 
     /**
@@ -52,8 +59,14 @@ public class OrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/queryBackOrderList")
     public ApiResult queryBackOrderList(@RequestBody BackOrderCnd backOrderCnd) {
-        orderService.queryBackOrderList(backOrderCnd);
-        return new ApiResult<>().success();
+        PageVo<Order> orderPageVo = orderService.queryBackOrderList(backOrderCnd);
+        PageVo<BackOrderListVo> pageVo = new PageVo<>();
+        pageVo.setPage(orderPageVo.getPage());
+        pageVo.setLimit(orderPageVo.getLimit());
+        pageVo.setTotalCount(orderPageVo.getTotalCount());
+        List<BackOrderListVo> rowList = convert(orderPageVo.getRows(), BackOrderListVo.class);
+        pageVo.setRows(rowList);
+        return new ApiResult<>().success(pageVo);
     }
 
     /**

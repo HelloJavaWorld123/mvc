@@ -282,7 +282,8 @@
     <select id="queryBackOrderById" resultMap="order">
         SELECT
         o.id,
-        o. CODE,
+        o.code,
+        o.out_trade_no,
         o.price,
         o.number,
         o.discount,
@@ -310,6 +311,51 @@
         INNER JOIN dealer d ON o.dealer_id = d.id
         WHERE
         o.id = #{id}
+    </select>
+
+    <!-- 订单列表查询 -->
+    <select id="queryBackOrderList" resultMap="order">
+        SELECT
+        o.id,
+        o.code,
+        o.out_trade_no,
+        d.idnum dealerNum,
+        d. NAME dealerName,
+        o.account,
+        app. NAME appName,
+        o.price,
+        o.discount,
+        o.total_fee,
+        o.trade_fee,
+        o.dealer_price,
+        o.trade_method,
+        o. status,
+        o.sup_status
+        FROM
+        `order` o
+        INNER JOIN app_info app ON o.app_id = app.id
+        INNER JOIN dealer d ON o.dealer_id = d.id
+        WHERE
+        1 = 1
+        <if test="startDate != null and endDate != null">
+            AND o.modify_time >= #{startDate}
+            AND o.modify_time &lt; #{endDate}
+        </if>
+        <if test="supStatus != null">
+            AND o.sup_status = #{supStatus}
+        </if>
+        <if test="status != null">
+            AND o.status = #{status}
+        </if>
+        <if test="key != null and key!= ''">
+            AND (
+            o.code LIKE '%' || #{key} || '%'
+            OR o.out_trade_no LIKE '%' || #{key} || '%'
+            OR d.idnum LIKE '%' || #{key} || '%'
+            )
+        </if>
+        ORDER BY
+        o.modify_time
     </select>
 
     <!-- 共同更新参数 -->

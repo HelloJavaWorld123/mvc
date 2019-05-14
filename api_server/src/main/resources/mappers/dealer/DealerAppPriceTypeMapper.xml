@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 
+<!--
 	SQL映射文件名称：渠道商商品充值类型
 	————————————————————————————————————
 	修改日期		作者		变更内容
@@ -30,26 +30,27 @@
             #{aptId},
             #{dealerId},
             #{isCustom}
+            )
     </insert>
     <!--输出-->
     <delete id="delete">
             delete from
             dealer_app_price_type
             where
-            ealer_id=#{dealerId}
+            dealer_id=#{dealerId}
             and ai_id=#{aiId}
     </delete>
 
-<!--  获取是否自定义金额  -->
+    <!--  获取是否自定义金额  -->
 
     <select id="getDealerAppPriceType" resultType="com.jzy.api.model.dealer.DealerAppPriceType">
-            select is_custom
-            from
-            dealer_app_price_type
-            where
-            ai_id=#{aiId}
-            and dealer_id=#{dealerId}
-            and apt_id=#{apt}
+        select is_custom
+        from
+        dealer_app_price_type
+        where
+        ai_id=#{aiId}
+        and dealer_id=#{dealerId}
+        and apt_id=#{apt}
     </select>
 
 </mapper>

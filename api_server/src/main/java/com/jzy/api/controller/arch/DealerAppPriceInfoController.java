@@ -114,13 +114,4 @@ public class DealerAppPriceInfoController {
         dealerAppPriceInfoService.batchUpdateStatus(batchUpdateStatusCnd);
         return new ApiResult<>();
     }
-
-
-
-
-
-
-
-
-
 }

@@ -2,6 +2,7 @@ package com.jzy.api.dao.arch;
 
 import com.jzy.api.cnd.arch.GetDealerAppListCnd;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
+import com.jzy.api.model.dealer.DealerAppPriceType;
 import com.jzy.api.po.arch.AppDetailPo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
 import com.jzy.api.vo.dealer.GetDealerAppVo;
@@ -60,5 +61,9 @@ public interface DealerAppPriceInfoMapper extends GenericMapper<DealerAppPriceIn
      */
     int deleteByDealerIdAndaiId(@Param("aiId") String aiId, @Param("dealerId") String dealerId);
 
+    int deleteAppPriceType(@Param("dealerId") String dealerId, @Param("aiId") String aiId);
+    int insertAppPriceType(DealerAppPriceType dealerAppPriceType);
+    DealerAppPriceType getDealerAppPriceType(@Param("aiId") String aiId, @Param("dealerId") String dealerId,
+                                             @Param("aptId") String aptId);
 
 }

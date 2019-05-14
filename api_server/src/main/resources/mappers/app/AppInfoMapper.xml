@@ -76,7 +76,6 @@
             `spll_letter`,
             `recharge_mode`,
             `status`,
-            `sort`,
             `describe`,
             `page_path`,
             `remark`,
@@ -104,7 +103,6 @@
             #{spllLetter},
             #{rechargeMode},
             #{status},
-            #{sort},
             #{describe},
             #{pagePath},
             #{remark},
@@ -204,16 +202,18 @@
     <!--    查询名称列表-->
     <select id="listName" resultType="com.jzy.api.model.app.AppInfo">
         SELECT
-                id,
-                `code`,
-                `name`,
-                icon,
-                label
-            FROM
-                app_info ai
-            WHERE
-                1 = 1
-                AND ai.name = #{name}
+            id,
+            `code`,
+            `name`,
+            icon,
+            label
+        FROM
+            app_info ai
+        WHERE ai.del_flag = 0
+        AND ai.name = #{name}
+        <if test="id!=null">
+            AND ai.id != #{id}
+        </if>
     </select>
 
     <!-- 查询商品信息-->

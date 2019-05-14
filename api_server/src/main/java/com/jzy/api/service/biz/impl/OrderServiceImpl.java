@@ -345,7 +345,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * <li>20190510&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void queryBackOrderById(String id) {
+    public Order queryBackOrderById(String id) {
         Order order = orderMapper.queryBackOrderById(id);
         // 当订单为退款状态时，查询退款单号
         if (REFUND_SICCESS.equals(order.getTradeStatus())) {
@@ -356,11 +356,12 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             }
         }
         // 查询sup的购买金额或sup返回备注
-        SupRecord supRecord = supService.queryPurchaserPriceAndRemarkByOrderId(order.getOutTradeNo());
+        SupRecord supRecord = supService.queryPurchaserPriceAndRemarkByOrderId(id);
         if (supRecord != null) {
             order.setPurchaserPrice(supRecord.getPurchaserPrice());
             order.setSupRemark(supRecord.getRemark());
         }
+        return order;
     }
 
     /**
@@ -369,8 +370,20 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void queryBackOrderList(BackOrderCnd backOrderCnd) {
-
+    public PageVo<Order> queryBackOrderList(BackOrderCnd backOrderCnd) {
+        PageVo<Order> pageVo = new PageVo<>();
+        Page page = PageHelper.startPage(backOrderCnd.getPage(), backOrderCnd.getLimit());
+        // 订单列表查询
+        List<Order> orderList = orderMapper.queryBackOrderList(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
+                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey());
+        if (orderList == null || orderList.isEmpty()) {
+            return pageVo;
+        }
+        pageVo.setPage(page.getPageNum());
+        pageVo.setLimit(page.getPageSize());
+        pageVo.setTotalCount(page.getTotal());
+        pageVo.setRows(orderList);
+        return pageVo;
     }
 
     /**

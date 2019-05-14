@@ -22,17 +22,17 @@ public class CategoryServiceImpl extends GenericServiceImpl<Category> implements
     private CategoryMapper categoryMapper;
 
     @Override
-    public List<CategoryVo> listByDealerId(Long dealerId) {
+    public List<CategoryVo> listByDealerId() {
         // todo: 需要添加 redis 缓存，参看老版本代码
-        // todo: 需要筛选当前 渠道商下，有商品的分类，某个分类下没有对接商品，则不显示其分类
+        String dealerId=getFrontDealerId();
         List<CategoryVo> categoryList = categoryMapper.listByDealerId(dealerId);
         return categoryList;
     }
 
     @Override
-    public Map<String, Object> dealerAppList(Long cateId, Long dealerId) {
+    public Map<String, Object> dealerAppList(Long cateId) {
         Map<String, Object> params = new HashMap<>();
-
+        String dealerId=getFrontDealerId();
         List<DealerAppListVo> dealerAppList = categoryMapper.dealerAppList(cateId, dealerId);
         List<DealerAppListVo> dealerAppHotList = null;
 

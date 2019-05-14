@@ -19,9 +19,9 @@ import java.util.List;
  */
 public interface CategoryMapper extends GenericMapper<Category> {
 
-    List<CategoryVo> listByDealerId(@Param("dealerId") Long dealerId);
+    List<CategoryVo> listByDealerId(@Param("dealerId") String dealerId);
 
-    List<DealerAppListVo> dealerAppList(@Param("cateId") Long cateId, @Param("dealerId") Long dealerId);
+    List<DealerAppListVo> dealerAppList(@Param("cateId") Long cateId, @Param("dealerId") String dealerId);
 
     /**
      * <b>功能描述：</b>产品分类列表查询（后台查询使用）<br>

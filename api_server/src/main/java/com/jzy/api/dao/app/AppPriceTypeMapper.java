@@ -31,7 +31,7 @@ public interface AppPriceTypeMapper extends GenericMapper<AppPriceType> {
      * <b>修订记录：</b><br>
      * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<AppPriceTypePo> getAppPriceTypePolist(@Param("aiId") Long aiId);
+    List<AppPriceTypePo> getAppPriceTypePolist(@Param("aiId") Long aiId, @Param("dealerId") Long dealerId);
 
     /**
      * <b>功能描述：</b>物理删除当前商品下的所有充值类型<br>
