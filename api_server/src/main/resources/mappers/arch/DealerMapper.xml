@@ -49,10 +49,9 @@
         dbi.dealer_id AS dealerId,
         dbi.dealer_name as dealerName,
         dbi.dealer_short_name AS dealerShortName,
-        dbi.dealer_no AS dealerNo,
         dbi.dealer_payment_method AS dealerPaymentMethod,
         d.state AS state,
-        d.idnum AS idnum
+        d.idnum AS idNum
         FROM
         dealer d
         left JOIN

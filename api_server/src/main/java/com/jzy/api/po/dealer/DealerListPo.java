@@ -48,5 +48,5 @@ public class DealerListPo {
     /**
      * 商户编号
      */
-    private String dealerNo;
+    private String idNum;
 }
