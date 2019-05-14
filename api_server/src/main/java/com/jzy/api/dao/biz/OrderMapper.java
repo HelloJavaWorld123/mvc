@@ -161,4 +161,16 @@ public interface OrderMapper extends GenericMapper<Order> {
     List<Order> queryBackOrderList(@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate,
                                    @Param("supStatus") Integer supStatus, @Param("status") Integer status,
                                    @Param("key") String key);
+
+    /**
+     * <b>功能描述：</b>月订单列表查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param startDate 开始时间
+     * @param endDate 结束时间
+     * @param key 商户名称
+     */
+    List<Order> queryMonthOrderList(@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate,
+                                    @Param("key") String key);
 }
