@@ -53,13 +53,17 @@
     </insert>
     <!--修改-->
     <update id="update" parameterType="com.jzy.api.model.sys.Emp">
-            UPDATE sys_emp
-            SET
+        UPDATE sys_emp
+        SET
+        <if test="name!=null">
             `name` = #{name},
+        </if>
+        <if test="pwd!=null">
             `pwd` = #{pwd},
-            `modify_time` =   #{modifyTime}
-            WHERE
-            (`dealer_id` =  #{dealerId})
+        </if>
+        `modify_time` = #{modifyTime}
+        WHERE
+        (`dealer_id` = #{dealerId})
 
     </update>
 

@@ -99,8 +99,7 @@
             d.prikey as prikey,
             d.sup_businessid as supBusinessid,
             d.sup_key as supKey,
-            se. NAME AS dealerLoginName,
-            se.pwd AS dealerPassword
+            se. NAME AS dealerLoginName
         FROM
             dealer d
         LEFT JOIN dealer_base_info dbi
