@@ -161,6 +161,7 @@
     <select id="queryFrontOrderList" resultType="com.jzy.api.model.biz.Order">
         SELECT
         o.id orderId,
+        o.code,
         o.price,
         o.status,
         o.total_fee totalFee,
