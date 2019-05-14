@@ -4,8 +4,8 @@ import com.jzy.api.model.biz.Order;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -101,13 +101,6 @@ public interface OrderMapper extends GenericMapper<Order> {
     int updateStatusTradeStatusSupStatus(@Param("id") String id, @Param("status") Integer status,
                                          @Param("tradeStatus") String tradeStatus, @Param("supStatus") Integer supStatus);
 
-    int updateStatusTrade(@Param("id") String id, @Param("status") Integer status, @Param("tradeCode") String tradeCode,
-                          @Param("tradeFee") BigDecimal tradeFee, @Param("tradeStatus") String tradeStatus);
-
-    int updateStatusSupStatusTrade(@Param("id") String id, @Param("status") Integer status, @Param("supStatus") Integer supStatus,
-                                   @Param("tradeCode") String tradeCode, @Param("tradeFee") BigDecimal tradeFee,
-                                   @Param("tradeStatus") String tradeStatus);
-
     /**
      * <b>功能描述：</b>更新订单的支付方式，流水号，交易状态<br>
      * <b>修订记录：</b><br>
@@ -128,8 +121,9 @@ public interface OrderMapper extends GenericMapper<Order> {
      *
      * @param id 订单id
      * @param supStatus sup状态，0未提交1已提交2成功3失败
+     * @param finishTime 完成/到账时间
      */
-    int updateSupStatus(@Param("id") String id, @Param("supStatus") Integer supStatus);
+    int updateSupStatus(@Param("id") String id, @Param("supStatus") Integer supStatus, @Param("finishTime")Date finishTime);
 
     /**
      * <b>功能描述：</b>查询订单状态<br>

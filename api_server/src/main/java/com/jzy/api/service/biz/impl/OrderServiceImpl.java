@@ -6,12 +6,9 @@ import com.jzy.api.cnd.biz.BackOrderCnd;
 import com.jzy.api.cnd.biz.MonthOrderCnd;
 import com.jzy.api.cnd.biz.RunMonthOrderCnd;
 import com.jzy.api.dao.biz.OrderMapper;
-import com.jzy.api.model.biz.CardPwd;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.model.biz.SupRecord;
 import com.jzy.api.model.biz.TradeRecord;
-import com.jzy.api.model.dealer.Dealer;
-import com.jzy.api.service.arch.DealerService;
 import com.jzy.api.service.biz.*;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.DateUtils;
@@ -254,7 +251,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * <b>修订记录：</b><br>
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
-     * @param id 订单id
+     * @param orderId 订单id
      */
     @Override
     public String queryCardPwdByOrderId(String orderId) {
@@ -324,7 +321,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      */
     @Override
     public int updateSupStatus(String id, Integer supStatus) {
-        return orderMapper.updateSupStatus(id, supStatus);
+        return orderMapper.updateSupStatus(id, supStatus, new Date());
     }
 
     /**

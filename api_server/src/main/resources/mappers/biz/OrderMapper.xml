@@ -305,13 +305,14 @@
         o.account,
         o.game_area,
         o.game_serv,
-        o. STATUS,
-        o.create_time,
+        o.status,
         o.trade_method,
         o.trade_fee,
         o.del_flag,
         o.dealer_price,
-        o.modify_time,
+        o.create_time,
+        o.pay_time,
+        o.finish_time,
         app.id appId,
         app. NAME appName,
         d.idnum dealerNum,
@@ -349,8 +350,8 @@
         WHERE
         1 = 1
         <if test="startDate != null and endDate != null">
-            AND o.modify_time >= #{startDate}
-            AND o.modify_time &lt; #{endDate}
+            AND o.create_time >= #{startDate}
+            AND o.create_time &lt; #{endDate}
         </if>
         <if test="supStatus != null">
             AND o.sup_status = #{supStatus}
@@ -387,8 +388,8 @@
         AND o.status = 2
         AND trade_status = 'pay_success'
         <if test="startDate != null and endDate != null">
-            AND o.modify_time >= #{startDate}
-            AND o.modify_time &lt; #{endDate}
+            AND o.create_time >= #{startDate}
+            AND o.create_time &lt; #{endDate}
         </if>
     </select>
 
@@ -420,8 +421,8 @@
                 </if>
                 WHERE
                 o.del_flag = 0
-                AND o.modify_time >= #{startDate}
-                AND o.modify_time &lt; #{endDate}
+                AND o.create_time >= #{startDate}
+                AND o.create_time &lt; #{endDate}
             ) a
         GROUP BY
         dealer_id,

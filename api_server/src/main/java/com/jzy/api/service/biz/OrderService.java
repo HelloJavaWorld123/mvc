@@ -7,10 +7,8 @@ import com.jzy.api.model.biz.Order;
 import com.jzy.api.vo.biz.FrontOrderVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.service.GenericService;
-import org.apache.ibatis.annotations.Param;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 
 /**
  * <b>功能：</b>订单业务处理<br>
@@ -149,9 +147,8 @@ public interface OrderService extends GenericService<Order> {
      *
      * @param id 订单id
      * @param supStatus sup状态，0未提交1已提交2成功3失败
-     * @param finishTime 完成/到账时间
      */
-    int updateSupStatus(@Param("id") String id, @Param("supStatus") Integer supStatus, @Param("finishTime") Date finishTime);
+    int updateSupStatus(String id, Integer supStatus);
 
     //===============================后端订单列表接口========================================
 
