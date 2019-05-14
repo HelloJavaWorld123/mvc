@@ -342,12 +342,18 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         map.put("联通流量", 1);
         map.put("电信流量", 1);
         if (map.containsKey(appInfo.getName())) {
-            aiIdList.add("15570566368665931");
-            aiIdList.add("155705663681750532");
-            aiIdList.add("155705663683486412");
-            aiIdList.add("155705663793823380");
-            aiIdList.add("155705663795659260");
-            aiIdList.add("155705663797342898");
+            aiIdList.add("155783336067314875");
+            aiIdList.add("155783336070334393");
+            aiIdList.add("155783336072170274");
+            aiIdList.add("155783336580257848");
+            aiIdList.add("155783336578421968");
+            aiIdList.add("155783336576738330");
+            //155783336067314875	移动话费
+            //155783336070334393	联通话费
+            //155783336072170274	电信话费
+            //155783336576738330	电信流量
+            //155783336578421968	联通流量
+            //155783336580257848	移动流量
         } else {
             aiIdList.add(aiId);
         }
