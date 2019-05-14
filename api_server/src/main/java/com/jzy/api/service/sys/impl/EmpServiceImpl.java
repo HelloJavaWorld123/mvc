@@ -18,6 +18,7 @@ import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -48,7 +49,7 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
      * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
      * @param username 用户名
-     * @param pwd 密码
+     * @param pwd      密码
      */
     @Override
     public Emp login(String username, String pwd) {
@@ -91,6 +92,16 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
             throw new BugException("当前用户不存在");
         }
         return emp;
+    }
+
+    /**
+     * <b>功能描述：</b>用户名称校验<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public List<Emp> checkNameList(String name,Long id) {
+        return  empMapper.checkNameList(name,id);
     }
 
     @Override

@@ -33,6 +33,7 @@ import com.jzy.api.vo.dealer.DealerDetailVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
+import freemarker.core.BugException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -133,7 +134,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
         List<FileInfo> fileInfoMapperList = saveDealerCnd.getFileInfoMapper();
         if (null == dbi.getDealerId() || "".equals(dbi.getDealerId())) {//渠道商信息的新增
             //渠道商主表信息的添加
-            dealer = insertDealer(dealer,dbi);
+            dealer = insertDealer(dealer, dbi);
             //渠道商基础信息和配置信息新增
             dbi = insertDealerBaseInfo(dealer, dbi, dpmList);
             //修改图片信息
@@ -146,6 +147,9 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
             //保存渠道商对应的登录用户信息
             Emp emp = getEmp(dbi);
             emp.setId(tableKeyService.newKey("sys_emp", "id", 0));
+            if (empService.checkNameList(emp.getName(), null).size() > 0) {
+                throw new BugException("渠道商名称重复，请重新输入");
+            }
             empService.insert(emp);
             //保存渠道商登录用户角色信息
             SysEmpRole sysEmpRole = new SysEmpRole();
@@ -155,7 +159,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
 
         } else {//渠道商信息的修改
             //渠道商主表信息的修改
-            updateDealer(dealer,dbi);
+            updateDealer(dealer, dbi);
             //渠道商基础信息和配置信息的修改
             updateDealerBaseInfo(dbi, dpmList);
             //图片信息修改
@@ -167,6 +171,9 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
             }
             //修改渠道商登录用户信息
             Emp emp = getEmp(dbi);
+            if (empService.checkNameList(emp.getName(), emp.getId()).size() > 0) {
+                throw new BugException("渠道商名称重复，请重新输入");
+            }
             empService.update(emp);
         }
     }
@@ -204,7 +211,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      * <b>修订记录：</b><br>
      * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    private void updateDealer(Dealer dealer,DealerBaseInfo dbi) {
+    private void updateDealer(Dealer dealer, DealerBaseInfo dbi) {
         dealer.setName(dbi.getDealerName());
         dealer.setContact(dbi.getDealerContact());
         dealer.setTelno(dbi.getDealerTelephone());
@@ -232,11 +239,11 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      * <b>修订记录：</b><br>
      * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    private Dealer insertDealer(Dealer dealer,DealerBaseInfo dbi) {
+    private Dealer insertDealer(Dealer dealer, DealerBaseInfo dbi) {
         //获取经销商标识最大值
         String maxNum = dealerMapper.getMaxIdNum();
         String idnum = "Num".concat(String.valueOf(Integer.parseInt(maxNum) + 1));
-        String pubkey  = MyEncrypt.getInstance().obscureMd5(idnum);
+        String pubkey = MyEncrypt.getInstance().obscureMd5(idnum);
         String prikey = Base64.getEncoder().encodeToString(pubkey.getBytes(Charset.forName("UTF-8"))).replace("=", "");
         dealer.setId(tableKeyService.newKey("dealer", "id", 0));
         dealer.setPrikey(prikey);

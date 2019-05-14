@@ -3,6 +3,8 @@ package com.jzy.api.service.sys;
 import com.jzy.api.model.sys.Emp;
 import com.jzy.framework.service.GenericService;
 
+import java.util.List;
+
 /**
  * <b>功能：</b>这里写功能描述<br>
  * <b>Copyright JZY</b>
@@ -20,7 +22,7 @@ public interface EmpService extends GenericService<Emp> {
      * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
      * @param username 用户名
-     * @param pwd 密码
+     * @param pwd      密码
      */
     Emp login(String username, String pwd);
 
@@ -30,4 +32,13 @@ public interface EmpService extends GenericService<Emp> {
      * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     Emp queryEmpByUsername(String username);
+
+
+    /**
+     * <b>功能描述：</b>用户名称校验<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<Emp> checkNameList(String name,Long id);
+
 }

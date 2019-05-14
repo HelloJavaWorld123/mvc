@@ -64,4 +64,35 @@
     </update>
 
 
+    /**
+    *
+    <b>功能描述：</b>
+    <br>
+    *
+    <b>修订记录：</b>
+    <br>
+    *
+    <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li>
+    <br>
+    */
+    List
+    <Emp>
+    (@Param("name") String name);
+
+    <!--   用户名称校验-->
+
+    <select id="checkNameList" resultType="com.jzy.api.model.sys.Emp">
+
+        select
+        name,
+        pwd
+        from
+        sys_emp
+        where
+        name=#{name}
+        <if test="id!=null">
+            and id!=#{id}
+        </if>
+    </select>
+
 </mapper>
