@@ -192,6 +192,10 @@ public class Order extends GenericModel {
      */
     private BigDecimal priceTotal;
     /**
+     * 应付总金额
+     */
+    private BigDecimal totalFeeTotal;
+    /**
      * 实付总金额
      */
     private BigDecimal tradeFeeTotal;

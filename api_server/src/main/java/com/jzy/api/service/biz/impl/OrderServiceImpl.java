@@ -382,6 +382,18 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     }
 
     /**
+     * <b>功能描述：</b>订单列表已完成订单统计<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public Order queryBackOrderCount(BackOrderCnd backOrderCnd) {
+        Page page = PageHelper.startPage(backOrderCnd.getPage(), backOrderCnd.getLimit(), false);
+        return orderMapper.queryBackOrderCount(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
+                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey());
+    }
+
+    /**
      * <b>功能描述：</b>月订单列表查询<br>
      * <b>修订记录：</b><br>
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
