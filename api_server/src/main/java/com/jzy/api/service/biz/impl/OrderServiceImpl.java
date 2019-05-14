@@ -371,19 +371,14 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      */
     @Override
     public PageVo<Order> queryBackOrderList(BackOrderCnd backOrderCnd) {
-        PageVo<Order> pageVo = new PageVo<>();
         Page page = PageHelper.startPage(backOrderCnd.getPage(), backOrderCnd.getLimit());
         // 订单列表查询
         List<Order> orderList = orderMapper.queryBackOrderList(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
                 backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey());
         if (orderList == null || orderList.isEmpty()) {
-            return pageVo;
+            return new PageVo<>();
         }
-        pageVo.setPage(page.getPageNum());
-        pageVo.setLimit(page.getPageSize());
-        pageVo.setTotalCount(page.getTotal());
-        pageVo.setRows(orderList);
-        return pageVo;
+        return new PageVo<>(page.getPageNum(), page.getPageSize(), page.getTotal(), orderList);
     }
 
     /**
@@ -392,8 +387,14 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void queryMonthOrderList(MonthOrderCnd monthOrderCnd) {
-
+    public PageVo<Order> queryMonthOrderList(MonthOrderCnd monthOrderCnd) {
+        Page page = PageHelper.startPage(monthOrderCnd.getPage(), monthOrderCnd.getLimit());
+        List<Order> orderList = orderMapper.queryMonthOrderList(monthOrderCnd.getStartDate(),
+                monthOrderCnd.getEndDate(), monthOrderCnd.getKey());
+        if (orderList == null || orderList.isEmpty()) {
+            return new PageVo<>();
+        }
+        return new PageVo<>(page.getPageNum(), page.getPageSize(), page.getTotal(), orderList);
     }
 
     /**

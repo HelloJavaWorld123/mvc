@@ -172,7 +172,7 @@ public interface OrderService extends GenericService<Order> {
      * <b>修订记录：</b><br>
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    void queryMonthOrderList(MonthOrderCnd monthOrderCnd);
+    PageVo<Order> queryMonthOrderList(MonthOrderCnd monthOrderCnd);
 
     /**
      * <b>功能描述：</b>归档月账单数据<br>

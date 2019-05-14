@@ -14,7 +14,9 @@ import lombok.Data;
  */
 @Data
 public class MonthOrderCnd extends ReportPageCnd {
-
-
+    /**
+     * 商户名称
+     */
+    private String key;
 
 }

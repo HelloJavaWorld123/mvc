@@ -41,6 +41,12 @@ public class PageVo<T> extends GenericVo {
     public PageVo() {
     }
 
+    public PageVo(Integer page, Integer limit, Long totalCount) {
+        this.page = page;
+        this.limit = limit;
+        this.totalCount = totalCount;
+    }
+
     public PageVo(Integer page, Integer limit, Long totalCount, List<T> rows) {
         this.page = page;
         this.limit = limit;
