@@ -269,7 +269,8 @@
         UPDATE
         `order`
         SET
-        sup_status = #{supStatus}
+        sup_status = #{supStatus},
+        modify_time = now()
         WHERE
         id = #{id}
     </update>
