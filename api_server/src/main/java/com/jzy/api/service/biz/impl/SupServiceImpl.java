@@ -75,6 +75,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         order.setTradeCode(order.getTradeCode());
         order.setTradeFee(order.getTradeFee());
         order.setTradeStatus(Order.TradeStatusConst.PAY_SUCCESS);
+        order.setPayTime(new Date());
         orderService.update(order);
         // 构造请求SUP参数
         String requestData = buildRequestParam(order);
@@ -91,7 +92,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         String resultCode = resultMap.get("result");
         // sup同步返回成功
         if (SupConfig.SUP_STATUS_01.equals(resultCode)) {
-            orderService.updateSupStatus(order.getOrderId(), 1);
+            orderService.updateSupStatus(order.getOrderId(), 1, new Date());
         } else {
             // sup同步返回失败，退单
             tradeRefund(order);

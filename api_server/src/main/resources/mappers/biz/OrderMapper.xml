@@ -48,6 +48,8 @@
         <result column="modifier_id" property="modifierId"/>
         <result column="create_time" property="createTime"/>
         <result column="modify_time" property="modifyTime"/>
+        <result column="pay_time" property="payTime"/>
+        <result column="finish_time" property="finishTime"/>
 
         <result column="appId" property="appId"/>
         <result column="appName" property="appName"/>
@@ -96,6 +98,7 @@
         del_flag = #{delFlag},
         invoice_status = #{invoiceStatus},
         remark = #{remark},
+        pay_time = #{payTime},
         <include refid="updateCommon"/>
         WHERE
         id = #{orderId}
@@ -270,7 +273,7 @@
         `order`
         SET
         sup_status = #{supStatus},
-        modify_time = now()
+        finish_time = #{finishTime}
         WHERE
         id = #{id}
     </update>
