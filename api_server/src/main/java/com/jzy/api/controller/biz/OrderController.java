@@ -8,6 +8,7 @@ import com.jzy.api.cnd.biz.RunMonthOrderCnd;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.vo.biz.BackMonthListVo;
+import com.jzy.api.vo.biz.BackOrderCountVo;
 import com.jzy.api.vo.biz.BackOrderDetailVo;
 import com.jzy.api.vo.biz.BackOrderListVo;
 import com.jzy.framework.bean.vo.PageVo;
@@ -68,6 +69,19 @@ public class OrderController extends GenericController {
         List<BackOrderListVo> rowList = convert(orderPageVo.getRows(), BackOrderListVo.class);
         pageVo.setRows(rowList);
         return new ApiResult<>().success(pageVo);
+    }
+
+    /**
+     * <b>功能描述：</b>订单列表已完成订单统计<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @ResponseBody
+    @RequestMapping(path = "/queryBackOrderCount")
+    public ApiResult queryBackOrderCount(@RequestBody BackOrderCnd backOrderCnd) {
+        Order order = orderService.queryBackOrderCount(backOrderCnd);
+        BackOrderCountVo backOrderCountVo = convert(order, BackOrderCountVo.class);
+        return new ApiResult<>().success(backOrderCountVo);
     }
 
     /**

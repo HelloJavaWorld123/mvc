@@ -163,6 +163,21 @@ public interface OrderMapper extends GenericMapper<Order> {
                                    @Param("key") String key);
 
     /**
+     * <b>功能描述：</b>订单列表已完成订单统计<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param startDate 开始时间
+     * @param endDate 结束时间
+     * @param supStatus sup状态 0未提交1已提交2成功3失败
+     * @param status 订单状态；0待支付, 1充值中,   2充值成功,  3充值失败,  4充值关闭
+     * @param key 模糊查询参数 商户编号，订单编号，流水编号，用户手机号
+     */
+    Order queryBackOrderCount(@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate,
+                             @Param("supStatus") Integer supStatus, @Param("status") Integer status,
+                             @Param("key") String key);
+
+    /**
      * <b>功能描述：</b>月订单列表查询<br>
      * <b>修订记录：</b><br>
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>

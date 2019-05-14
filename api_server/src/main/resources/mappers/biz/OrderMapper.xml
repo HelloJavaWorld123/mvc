@@ -59,9 +59,9 @@
 
         <result column="timeInterval" property="timeInterval"/>
         <result column="priceTotal" property="priceTotal"/>
+        <result column="totalFeeTotal" property="totalFeeTotal"/>
         <result column="tradeFeeTotal" property="tradeFeeTotal"/>
         <result column="dealerPriceTotal" property="dealerPriceTotal"/>
-
     </resultMap>
 
     <!-- 新增订单 -->
@@ -365,6 +365,29 @@
         o.modify_time
     </select>
 
+    <!-- 订单列表统计 -->
+    <select id="queryBackOrderCount" resultMap="order">
+        SELECT
+        IFNULL(SUM(price), 0) priceTotal,
+        IFNULL(SUM(total_fee), 0) totalFeeTotal,
+        IFNULL(SUM(trade_fee), 0) tradeFeeTotal,
+        IFNULL(SUM(dealer_price), 0) dealerPriceTotal
+        FROM
+        `order` o
+        INNER JOIN dealer d ON o.dealer_id = d.id
+        <if test="key != null and key != ''">
+            AND (d.idnum LIKE concat(concat('%',#{key}),'%') OR d.name LIKE concat(concat('%',#{key}),'%'))
+        </if>
+        WHERE
+        o.sup_status = 2
+        AND o.status = 2
+        AND trade_status = 'pay_success'
+        <if test="startDate != null and endDate != null">
+            AND o.modify_time >= #{startDate}
+            AND o.modify_time &lt; #{endDate}
+        </if>
+    </select>
+
     <!-- 月订单列表查询 -->
     <select id="queryMonthOrderList" resultMap="order">
         SELECT
@@ -393,9 +416,6 @@
                 </if>
                 WHERE
                 o.del_flag = 0
-                AND o.sup_status = 2
-                AND o.STATUS = 2
-                -- AND trade_status = 'pay_success'
                 AND o.modify_time >= #{startDate}
                 AND o.modify_time &lt; #{endDate}
             ) a
