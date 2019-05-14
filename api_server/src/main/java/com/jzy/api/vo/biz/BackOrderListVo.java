@@ -4,6 +4,7 @@ import com.jzy.framework.bean.vo.GenericVo;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 public class BackOrderListVo extends GenericVo {
@@ -67,4 +68,16 @@ public class BackOrderListVo extends GenericVo {
      * sup状态，0未提交;1已提交;2成功;3失败
      */
     private String supStatus;
+    /**
+     * 充值时间
+     */
+    private Date payTime;
+//    /**
+//     * 渠道商利润
+//     */
+//    private BigDecimal merchantProfit;
+
+    public BigDecimal getMerchantProfit() {
+        return this.tradeFee.subtract(this.dealerPrice);
+    }
 }

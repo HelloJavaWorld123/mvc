@@ -1,25 +1,15 @@
 package com.jzy.api.controller.biz;
 
-import com.alibaba.fastjson.JSONObject;
 import com.jzy.api.annos.WithoutLogin;
-import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.AliPayService;
-import com.jzy.api.service.biz.OrderService;
-import com.jzy.api.service.biz.TradeRecordService;
-import com.jzy.api.util.AlipayUtil;
-import com.jzy.api.util.MyHttp;
 import com.jzy.framework.controller.GenericController;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.ModelMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 /**
  * <b>功能：</b>支付宝支付<br>
@@ -36,13 +26,7 @@ import java.util.Map;
 public class AliPayController extends GenericController {
 
     @Resource
-    private OrderService orderService;
-
-    @Resource
     private AliPayService aliPayService;
-
-    @Resource
-    private TradeRecordService tradeRecordService;
 
     /**
      * <b>功能描述：</b>支付宝异步通知支付结果<br>

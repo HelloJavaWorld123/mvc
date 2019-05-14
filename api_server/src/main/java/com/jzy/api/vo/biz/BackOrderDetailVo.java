@@ -126,11 +126,11 @@ public class BackOrderDetailVo extends GenericVo {
      */
     private Date createTime;
     /**
-     * 完成时间
-     */
-    private Date modifyTime;
-    /**
      * 支付时间
      */
     private Date payTime;
+    /**
+     * 完成/到账时间
+     */
+    private Date finishTime;
 }

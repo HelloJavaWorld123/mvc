@@ -48,6 +48,8 @@
         <result column="modifier_id" property="modifierId"/>
         <result column="create_time" property="createTime"/>
         <result column="modify_time" property="modifyTime"/>
+        <result column="pay_time" property="payTime"/>
+        <result column="finish_time" property="finishTime"/>
 
         <result column="appId" property="appId"/>
         <result column="appName" property="appName"/>
@@ -96,6 +98,7 @@
         del_flag = #{delFlag},
         invoice_status = #{invoiceStatus},
         remark = #{remark},
+        pay_time = #{payTime},
         <include refid="updateCommon"/>
         WHERE
         id = #{orderId}
@@ -270,7 +273,7 @@
         `order`
         SET
         sup_status = #{supStatus},
-        modify_time = now()
+        finish_time = #{finishTime}
         WHERE
         id = #{id}
     </update>
@@ -302,13 +305,14 @@
         o.account,
         o.game_area,
         o.game_serv,
-        o. STATUS,
-        o.create_time,
+        o.status,
         o.trade_method,
         o.trade_fee,
         o.del_flag,
         o.dealer_price,
-        o.modify_time,
+        o.create_time,
+        o.pay_time,
+        o.finish_time,
         app.id appId,
         app. NAME appName,
         d.idnum dealerNum,
@@ -338,7 +342,8 @@
         o.dealer_price,
         o.trade_method,
         o. status,
-        o.sup_status
+        o.sup_status,
+        o.pay_time
         FROM
         `order` o
         INNER JOIN app_info app ON o.app_id = app.id
@@ -346,8 +351,8 @@
         WHERE
         1 = 1
         <if test="startDate != null and endDate != null">
-            AND o.modify_time >= #{startDate}
-            AND o.modify_time &lt; #{endDate}
+            AND o.create_time >= #{startDate}
+            AND o.create_time &lt; #{endDate}
         </if>
         <if test="supStatus != null">
             AND o.sup_status = #{supStatus}
@@ -384,8 +389,8 @@
         AND o.status = 2
         AND trade_status = 'pay_success'
         <if test="startDate != null and endDate != null">
-            AND o.modify_time >= #{startDate}
-            AND o.modify_time &lt; #{endDate}
+            AND o.create_time >= #{startDate}
+            AND o.create_time &lt; #{endDate}
         </if>
     </select>
 
@@ -417,8 +422,8 @@
                 </if>
                 WHERE
                 o.del_flag = 0
-                AND o.modify_time >= #{startDate}
-                AND o.modify_time &lt; #{endDate}
+                AND o.create_time >= #{startDate}
+                AND o.create_time &lt; #{endDate}
             ) a
         GROUP BY
         dealer_id,

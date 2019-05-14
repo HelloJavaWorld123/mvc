@@ -188,6 +188,10 @@ public class Order extends GenericModel {
      */
     private Date payTime;
     /**
+     * 完成时间/到账时间
+     */
+    private Date finishTime;
+    /**
      * 总面值
      */
     private BigDecimal priceTotal;

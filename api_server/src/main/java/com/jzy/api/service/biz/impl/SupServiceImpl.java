@@ -4,18 +4,20 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jzy.api.constant.SupConfig;
-import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.dao.biz.SupRecordMapper;
 import com.jzy.api.model.biz.CardPwd;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.model.biz.SupRecord;
 import com.jzy.api.model.dealer.Dealer;
 import com.jzy.api.service.arch.DealerService;
-import com.jzy.api.service.biz.*;
+import com.jzy.api.service.biz.CardPwdService;
+import com.jzy.api.service.biz.OrderService;
+import com.jzy.api.service.biz.PayService;
+import com.jzy.api.service.biz.SupService;
+import com.jzy.api.service.wx.WXPayUtil;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.MyEncrypt;
 import com.jzy.api.util.MyHttp;
-import com.jzy.api.service.wx.WXPayUtil;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +32,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -75,6 +76,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         order.setTradeCode(order.getTradeCode());
         order.setTradeFee(order.getTradeFee());
         order.setTradeStatus(Order.TradeStatusConst.PAY_SUCCESS);
+        order.setPayTime(new Date());
         orderService.update(order);
         // 构造请求SUP参数
         String requestData = buildRequestParam(order);

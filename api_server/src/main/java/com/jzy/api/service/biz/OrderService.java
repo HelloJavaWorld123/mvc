@@ -7,7 +7,6 @@ import com.jzy.api.model.biz.Order;
 import com.jzy.api.vo.biz.FrontOrderVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.service.GenericService;
-import org.apache.ibatis.annotations.Param;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -149,7 +148,7 @@ public interface OrderService extends GenericService<Order> {
      * @param id 订单id
      * @param supStatus sup状态，0未提交1已提交2成功3失败
      */
-    int updateSupStatus(@Param("id") String id, @Param("supStatus") Integer supStatus);
+    int updateSupStatus(String id, Integer supStatus);
 
     //===============================后端订单列表接口========================================
 
