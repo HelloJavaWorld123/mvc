@@ -1,14 +1,17 @@
 package com.jzy.api.dao.app;
 
+import com.jzy.api.cnd.app.AppGameCnd;
 import com.jzy.api.cnd.app.GameListCnd;
 import com.jzy.api.cnd.app.GetServInfoCnd;
 import com.jzy.api.model.app.AppGame;
 import com.jzy.api.po.app.AppGameListPo;
 import com.jzy.api.po.app.AppGamePo;
 import com.jzy.api.vo.app.AppGameListVo;
+import com.jzy.api.vo.app.AppGameVo;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -60,5 +63,59 @@ public interface AppGameMapper extends GenericMapper<AppGame> {
      */
     List<AppGamePo> getList(GameListCnd gameListCnd);
 
+    /**
+     * <b>功能描述：</b>根据厂商id查询游戏数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getCountByPId(@Param("pId") Long pId);
 
+    /**
+     * <b>功能描述：</b>根据pid,name,type查询数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getByIdNameType(@Param("pId") String pId, @Param("name") String name, @Param("type") String type);
+
+    /**
+     * <b>功能描述：</b>根据pid查询游戏信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    AppGame getByPid(@Param("pId") String pId);
+
+    /**
+     * <b>功能描述：</b>根据id查询appgame<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    AppGame getById(@Param("id") Long id);
+
+    /**
+     * <b>功能描述：</b>根据pid下面所有appgame<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<AppGame> getListByPid(@Param("pId") Long pId);
+
+    /**
+     * <b>功能描述：</b>根据id批量删除<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void deleteBatch(List<Long> pidList);
+
+    /**
+     * <b>功能描述：</b>根据name和id查询游戏大区数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getByNameNotId(@Param("name") String name,@Param("id") Long id);
+
+    /**
+     * <b>功能描述：</b>游戏大区分页查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<AppGameVo> listPage(AppGameCnd appGameCnd);
 }

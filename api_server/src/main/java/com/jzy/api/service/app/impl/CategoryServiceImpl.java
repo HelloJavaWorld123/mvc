@@ -1,13 +1,22 @@
 package com.jzy.api.service.app.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.jzy.api.cnd.app.CategoryCnd;
+import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.dao.app.CategoryMapper;
 import com.jzy.api.model.app.Category;
 import com.jzy.api.service.app.CategoryService;
 import com.jzy.api.vo.app.CategoryVo;
 import com.jzy.api.vo.app.DealerAppListVo;
+import com.jzy.common.enums.ResultEnum;
+import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
+import com.jzy.framework.exception.BusException;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -20,6 +29,9 @@ public class CategoryServiceImpl extends GenericServiceImpl<Category> implements
 
     @Resource
     private CategoryMapper categoryMapper;
+
+    @Resource
+    private AppInfoMapper appInfoMapper;
 
     @Override
     public List<CategoryVo> listByDealerId() {
@@ -55,6 +67,67 @@ public class CategoryServiceImpl extends GenericServiceImpl<Category> implements
     @Override
     public List<CategoryVo> getList() {
         return categoryMapper.getList();
+    }
+
+    /**
+     * <b>功能描述：</b>产品分类分页查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public PageVo listPage(CategoryCnd categoryCnd) {
+        Integer page = categoryCnd.getPage();
+        Integer limit = categoryCnd.getLimit();
+        Page<CategoryVo> infoListVoPage = PageHelper.startPage(page, limit);
+        List<CategoryVo> appInfoListVoList = categoryMapper.listPage(categoryCnd);
+        PageVo<CategoryVo> pageVo = new PageVo<>(appInfoListVoList);
+        pageVo.setTotalCount(infoListVoPage.getTotal());
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        return pageVo;
+    }
+
+    /**
+     * <b>功能描述：</b>产品分类添加<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public void save(Category category) {
+        int count = categoryMapper.getByName(category.getName());
+        if(count>0){
+            throw new BusException(category.getName()+"产品分类名称已经存在");
+        }
+        this.insert(category);
+    }
+
+    /**
+     * <b>功能描述：</b>产品分类删除<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
+    @Override
+    public void delete(Long id) {
+        int count =  appInfoMapper.getCountByCateId(id);
+        if(count>0){
+            throw new BusException(ResultEnum.APP_UNABLE_DELETE.getMsg());
+        }
+        categoryMapper.delete(id);
+    }
+
+    /**
+     * <b>功能描述：</b>产品分类编辑<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public void edit(Category category) {
+        int count =  categoryMapper.getCountByNameNoId(category.getName(),category.getId());
+        if(count>0){
+            throw new BusException(ResultEnum.APP_UNABLE_DELETE.getMsg());
+        }
+        this.update(category);
     }
 
     @Override

@@ -1,10 +1,11 @@
 package com.jzy.api.service.app;
 
 
+import com.jzy.api.cnd.app.AppCompanyCnd;
 import com.jzy.api.model.app.AppCompany;
-import com.jzy.api.model.app.AppType;
 import com.jzy.api.po.app.AppCompanyPo;
-import com.jzy.api.po.app.AppTypePo;
+import com.jzy.api.vo.app.AppCompanyVo;
+import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.service.GenericService;
 
 import java.util.List;
@@ -29,4 +30,31 @@ public interface AppCompanyService extends GenericService<AppCompany> {
     List<AppCompanyPo> getList();
 
 
+    /**
+     * <b>功能描述：</b>厂商添加<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int save(AppCompany appCompany);
+
+    /**
+     * <b>功能描述：</b>厂商删除<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void delete(Long id);
+
+    /**
+     * <b>功能描述：</b>厂商编辑<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void edit(AppCompany appCompany);
+
+    /**
+     * <b>功能描述：</b>厂商列表分页查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    PageVo<AppCompanyVo> listPage(AppCompanyCnd appCompanyCnd);
 }

@@ -1,8 +1,12 @@
 package com.jzy.api.dao.app;
 
+import com.jzy.api.cnd.app.AppAccttypeCnd;
 import com.jzy.api.model.app.AppAccttype;
 import com.jzy.api.po.app.AppAccttypeListPo;
+import com.jzy.api.vo.app.AppAccttypeVo;
+import com.jzy.api.vo.app.AppCompanyVo;
 import com.jzy.framework.dao.GenericMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -24,5 +28,31 @@ public interface AppAccttypeMapper extends GenericMapper<AppAccttype> {
      */
     List<AppAccttypeListPo> list();
 
+    /**
+     * <b>功能描述：</b>根据name查询账号类型数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getByName(@Param("mainName") String mainName, @Param("subName") String subName);
 
+    /**
+     * <b>功能描述：</b>账号类型删除<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void delete(@Param("id") Long id);
+
+    /**
+     * <b>功能描述：</b>根据name,id查询账号类型数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getByNameNoId(@Param("mainName") String mainName,@Param("subName") String subName,@Param("id") Long id);
+
+    /**
+     * <b>功能描述：</b>账号类型分页查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<AppAccttypeVo> listPage(AppAccttypeCnd appAccttypeCnd);
 }

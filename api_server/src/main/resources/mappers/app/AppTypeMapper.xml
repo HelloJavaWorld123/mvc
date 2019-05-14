@@ -20,7 +20,57 @@
 		`sort`
 		FROM
 		app_type
-</select>
+	</select>
+
+	<!--insert-->
+	<insert id="insert" parameterType="com.jzy.api.model.app.AppType">
+    	INSERT INTO app_type (
+            `id`,
+            `name`,
+            `sort`,
+            `creator_id`,
+            `modifier_id`,
+            `create_time`,
+            `modify_time`
+        )
+        VALUES
+            (
+            #{id},
+            #{name},
+            #{sort},
+            #{creatorId},
+            #{modifierId},
+            #{createTime},
+            #{modifyTime}
+            )
+    </insert>
+
+    <!--删除-->
+	<delete id="delete" >
+		delete from app_type where id=#{id}
+	</delete>
+
+    <!--根据name查询数量-->
+	<select id="getByName" resultType="java.lang.Integer">
+		select count(1) from app_type where name=#{name}
+	</select>
+
+    <!--根据name,id查询数量-->
+    <select id="getCountByNameNoId" resultType="java.lang.Integer">
+        select count(1) from app_type where name=#{name} and id!=#{id}
+    </select>
+
+    <!--分页查询产品类型-->
+    <select id="listPage" parameterType="com.jzy.api.cnd.app.AppTypeCnd"
+            resultType="com.jzy.api.vo.app.AppTypeVo">
+        select id,name,sort from app_type
+        <where>
+            <if test="name!=null">
+                name like CONCAT('%',#{name},'%')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
 
 
 </mapper>
