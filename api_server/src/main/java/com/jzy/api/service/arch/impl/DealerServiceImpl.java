@@ -234,8 +234,8 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
         //获取经销商标识最大值
         String maxNum = dealerMapper.getMaxIdNum();
         String idnum = "Num".concat(String.valueOf(Integer.parseInt(maxNum) + 1));
-        String prikey = MyEncrypt.getInstance().obscureMd5(idnum);
-        String pubkey = Base64.getEncoder().encodeToString(prikey.getBytes(Charset.forName("UTF-8"))).replace("=", "");
+        String pubkey  = MyEncrypt.getInstance().obscureMd5(idnum);
+        String prikey = Base64.getEncoder().encodeToString(pubkey.getBytes(Charset.forName("UTF-8"))).replace("=", "");
         dealer.setId(tableKeyService.newKey("dealer", "id", 0));
         dealer.setPrikey(prikey);
         dealer.setIdnum(idnum);

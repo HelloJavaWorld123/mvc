@@ -188,6 +188,22 @@ public class Order extends GenericModel {
      */
     private Date payTime;
     /**
+     * 总面值
+     */
+    private BigDecimal priceTotal;
+    /**
+     * 实付总金额
+     */
+    private BigDecimal tradeFeeTotal;
+    /**
+     * 渠道商价格总金额
+     */
+    private BigDecimal dealerPriceTotal;
+    /**
+     * 时间间隔
+     */
+    private String timeInterval;
+    /**
      * 订单交易状态
      */
     public class TradeStatusConst {

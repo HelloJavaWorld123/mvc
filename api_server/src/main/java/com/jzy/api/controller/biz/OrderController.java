@@ -7,6 +7,7 @@ import com.jzy.api.cnd.biz.MonthOrderCnd;
 import com.jzy.api.cnd.biz.RunMonthOrderCnd;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.OrderService;
+import com.jzy.api.vo.biz.BackMonthListVo;
 import com.jzy.api.vo.biz.BackOrderDetailVo;
 import com.jzy.api.vo.biz.BackOrderListVo;
 import com.jzy.framework.bean.vo.PageVo;
@@ -77,8 +78,11 @@ public class OrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/queryMonthOrderList")
     public ApiResult queryMonthOrderList(@RequestBody MonthOrderCnd monthOrderCnd) {
-        orderService.queryMonthOrderList(monthOrderCnd);
-        return new ApiResult<>().success();
+        PageVo<Order> orderPageVo = orderService.queryMonthOrderList(monthOrderCnd);
+        PageVo<BackMonthListVo> pageVo = new PageVo<>(orderPageVo.getPage(), orderPageVo.getLimit(), orderPageVo.getTotalCount());
+        List<BackMonthListVo> rowList = convert(orderPageVo.getRows(), BackMonthListVo.class);
+        pageVo.setRows(rowList);
+        return new ApiResult<>().success(pageVo);
     }
 
     /**
