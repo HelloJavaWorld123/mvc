@@ -127,6 +127,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
     @Override
     public void save(SaveDealerCnd saveDealerCnd) {
         Dealer dealer = saveDealerCnd.getDealerMapper();
+        dealer.setState(1);
         DealerBaseInfo dbi = saveDealerCnd.getDealerBaseInfoMapper();
         List<DealerParam> dpmList = saveDealerCnd.getDpmList();
         List<FileInfo> fileInfoMapperList = saveDealerCnd.getFileInfoMapper();
