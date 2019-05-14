@@ -6,6 +6,7 @@ import com.jzy.api.cnd.biz.BackOrderCnd;
 import com.jzy.api.cnd.biz.MonthOrderCnd;
 import com.jzy.api.cnd.biz.RunMonthOrderCnd;
 import com.jzy.api.dao.biz.OrderMapper;
+import com.jzy.api.model.biz.CardPwd;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.model.biz.SupRecord;
 import com.jzy.api.model.biz.TradeRecord;
@@ -239,9 +240,9 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         // 卡密需要查询卡密信息
         if (order.getRechargeMode() == 1) {
             // 根据订单id查询卡号
-            String cardNo = cardPwdService.queryCardNoByOrderId(id);
-            if (!StringUtils.isEmpty(cardNo)) {
-                order.setCardNo(cardNo);
+            List<CardPwd> cardPwdList = cardPwdService.queryCardPwdListByOrderId(id);
+            if (cardPwdList != null && !cardPwdList.isEmpty()) {
+                order.setCardPwdList(cardPwdList);
             }
         }
         return order;

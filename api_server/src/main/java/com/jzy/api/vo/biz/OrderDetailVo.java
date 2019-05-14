@@ -4,7 +4,9 @@ import com.jzy.framework.bean.vo.GenericVo;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <b>功能：</b>订单详情<br>
@@ -99,5 +101,5 @@ public class OrderDetailVo extends GenericVo {
     /**
      * 卡号
      */
-    private String cardNo;
+    private List<CardPwdVo> cardPwdList = new ArrayList<>();
 }

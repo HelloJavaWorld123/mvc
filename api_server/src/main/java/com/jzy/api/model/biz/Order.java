@@ -4,7 +4,9 @@ import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <b>功能：</b>订单<br>
@@ -142,7 +144,7 @@ public class Order extends GenericModel {
 
 
     //--------------------序列-----------------------------
-
+    private List<CardPwd> cardPwdList;
     /**
      * 商品id
      */

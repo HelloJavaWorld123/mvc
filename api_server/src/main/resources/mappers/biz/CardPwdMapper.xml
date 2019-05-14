@@ -48,9 +48,10 @@
     </select>
 
     <!-- 根据订单id查询卡号 -->
-    <select id="queryCardNoByOrderId" resultType="java.lang.String">
+    <select id="queryCardPwdListByOrderId" resultType="com.jzy.api.model.biz.CardPwd">
         SELECT
-        card_no
+        id cardPwdId,
+        card_no cardNo
         FROM
         order_cardkey
         WHERE

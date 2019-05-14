@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <b>功能：</b>卡密<br>
@@ -58,8 +59,8 @@ public class CardPwdServiceImpl extends GenericServiceImpl<CardPwd> implements C
      * @param orderId 订单id
      */
     @Override
-    public String queryCardNoByOrderId(String orderId) {
-        return cardPwdMapper.queryCardNoByOrderId(orderId);
+    public List<CardPwd> queryCardPwdListByOrderId(String orderId) {
+        return cardPwdMapper.queryCardPwdListByOrderId(orderId);
     }
 
     @Override

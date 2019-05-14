@@ -4,6 +4,7 @@ import com.jzy.api.cnd.biz.CodeCnd;
 import com.jzy.api.cnd.biz.OrderListCnd;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.OrderService;
+import com.jzy.api.vo.biz.CardPwdVo;
 import com.jzy.api.vo.biz.FrontOrderVo;
 import com.jzy.api.vo.biz.OrderDetailVo;
 import com.jzy.api.vo.biz.StatusVo;
@@ -85,7 +86,9 @@ public class FrontOrderController extends GenericController {
         orderDetailVo.setAppName(order.getAppName());
         orderDetailVo.setAppIcon(order.getAppIcon());
         orderDetailVo.setRechargeMode(order.getRechargeMode());
-        orderDetailVo.setCardNo(order.getCardNo());
+        if (order.getCardPwdList() != null && !order.getCardPwdList().isEmpty()) {
+            orderDetailVo.setCardPwdList(convert(order.getCardPwdList(), CardPwdVo.class));
+        }
         return orderDetailVo;
     }
 

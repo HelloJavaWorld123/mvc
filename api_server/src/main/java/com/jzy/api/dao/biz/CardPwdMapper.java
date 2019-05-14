@@ -5,6 +5,8 @@ import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.access.method.P;
 
+import java.util.List;
+
 /**
  * <b>功能：</b>卡密<br>
  * <b>Copyright JZY</b>
@@ -39,5 +41,5 @@ public interface CardPwdMapper extends GenericMapper<CardPwd> {
      *
      * @param orderId 订单id
      */
-    String queryCardNoByOrderId(String orderId);
+    List<CardPwd> queryCardPwdListByOrderId(String orderId);
 }
