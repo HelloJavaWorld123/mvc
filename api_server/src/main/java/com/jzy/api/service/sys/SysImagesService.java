@@ -34,4 +34,11 @@ public interface SysImagesService extends GenericService<SysImages> {
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     void updateSysImages(SysImages SysImages);
+
+    /**
+     * <b>功能描述：</b>商品详情图片列表物理删除<br>
+     * <b>修订记录：</b><br>
+     * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    Integer deleteByRelId(Long aiId);
 }

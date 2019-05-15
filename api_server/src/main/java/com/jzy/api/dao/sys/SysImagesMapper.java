@@ -52,7 +52,14 @@ public interface SysImagesMapper extends GenericMapper<SysImages> {
      * <b>修订记录：</b><br>
      * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<FileInfo>  queryImagesList(@Param("aiId") String aiId, @Param("type") Integer type);
+    List<FileInfo> queryImagesList(@Param("aiId") String aiId, @Param("type") Integer type);
+
+    /**
+     * <b>功能描述：</b>商品详情图片列表物理删除<br>
+     * <b>修订记录：</b><br>
+     * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int deleteByRelId(@Param("aiId") Long aiId);
 
 
 }

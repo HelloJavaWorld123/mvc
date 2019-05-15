@@ -154,6 +154,8 @@ public class AppInfoController {
         } else {//更新操作
             appInfoService.checkName(ai.getName(), ai.getId() + "");
             appInfoService.update(ai);
+            //商品详情图片列表物理删除
+            sysImagesService.deleteByRelId(ai.getId());
             //图片修改
             if(fileInfos.size()>0){
                 for (FileInfo fileInfo:fileInfos){
@@ -183,7 +185,7 @@ public class AppInfoController {
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     private SysImages getSystemImagesMapper(AppInfo ai, FileInfo mfile) {
-        return new SysImages(tableKeyService.newKey("sys_images", "id", 0), ai.getId().toString(), mfile.getFileOrignName(), mfile.getContentType(), ai.getIcon(), 1);
+        return new SysImages(tableKeyService.newKey("sys_images", "id", 0), ai.getId().toString(), mfile.getFileOrignName(), mfile.getContentType(), mfile.getFileUrl(), mfile.getType());
     }
 
     /**

@@ -83,4 +83,13 @@
 			and  type=#{type}
 			order  by modify_time desc
 	</select>
+    <!--	商品详情图片列表物理删除-->
+    <delete id="deleteByRelId">
+			delete from
+			sys_images
+			where
+			rel_id=#{aiId}
+	</delete>
+
+
 </mapper>
