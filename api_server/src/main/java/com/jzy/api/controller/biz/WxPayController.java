@@ -87,7 +87,9 @@ public class WxPayController extends GenericController {
     @WithoutLogin
     @RequestMapping("/payCallback")
     public String payCallback(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        log.debug("wxPayCallBack");
         Map<String, String> notifyMap = WXPayUtil.xmlToMap(MyHttp.readRequestData(req));
+        log.debug("wx callback param is " + notifyMap.toString());
         return wxPayService.updateWxCallBack(notifyMap);
     }
 

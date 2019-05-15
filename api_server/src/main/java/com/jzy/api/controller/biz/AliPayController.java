@@ -36,6 +36,7 @@ public class AliPayController extends GenericController {
     @WithoutLogin
     @RequestMapping(path = "/payCallback")
     public void payCallback(HttpServletRequest req, HttpServletResponse resp) {
+        log.debug("payCallback");
         // 处理支付宝回调结果
         aliPayService.updateAliPayCallback(req, resp);
     }
