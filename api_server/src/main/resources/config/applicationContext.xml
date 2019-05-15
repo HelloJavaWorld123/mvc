@@ -13,7 +13,6 @@
 
     <!-- 自动扫描 -->
     <context:component-scan base-package="com.jzy.api.base,
-    com.jzy.api.constant,
                                           com.jzy.api.dao
                                           com.jzy.api.model
                                           com.jzy.api.service">
