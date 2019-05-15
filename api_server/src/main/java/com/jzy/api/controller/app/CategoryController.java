@@ -1,12 +1,19 @@
 package com.jzy.api.controller.app;
 
+import com.jzy.api.cnd.app.CategoryCnd;
 import com.jzy.api.cnd.app.DealerAppListCnd;
+import com.jzy.api.model.app.Category;
 import com.jzy.api.service.app.CategoryService;
+import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.vo.app.CategoryVo;
 import com.jzy.common.enums.ResultEnum;
+import com.jzy.framework.bean.cnd.IdCnd;
+import com.jzy.framework.bean.vo.PageVo;
+import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+
+import static com.jzy.common.enums.ResultEnum.OPERATION_FAILED;
 
 /**
  * 产品分类controller
@@ -32,6 +41,9 @@ public class CategoryController {
     @Resource
     private CategoryService categoryService;
 
+    @Resource
+    private TableKeyService tableKeyService;
+
     /**
      * 产品分类列表(H5使用)
      * @return {@link ApiResult}
@@ -46,6 +58,23 @@ public class CategoryController {
             return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
         }
         return new ApiResult<>(categoryList);
+    }
+
+    /**
+     * <b>功能描述：</b>产品分类分页查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("admin/index")
+    public ApiResult index(@RequestBody CategoryCnd categoryCnd) {
+        PageVo<CategoryVo> result;
+        try {
+            result = categoryService.listPage(categoryCnd);
+        } catch (Exception e) {
+            logger.error("admin产品分类分页查询异常:{}", e);
+            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
+        }
+        return new ApiResult<>(result);
     }
 
    /**
@@ -74,5 +103,67 @@ public class CategoryController {
             return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
         }
         return new ApiResult<>(dealerAppList);
+    }
+
+    /**
+     * <b>功能描述：</b>添加产品分类<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("admin/save")
+    public ApiResult save(@RequestBody CategoryCnd categoryCnd) {
+        try {
+            Category category = new Category();
+            BeanUtils.copyProperties(categoryCnd,category);
+            category.setId(tableKeyService.newKey("app_cate", "id", 0));
+            categoryService.save(category);
+        }catch (BusException e){
+            return new ApiResult().fail(e.getMessage());
+        }catch (Exception e){
+            logger.error("admin产品分类添加:{}", e);
+            return new ApiResult().fail(ResultEnum.OPERATION_FAILED);
+        }
+        return new ApiResult<>();
+    }
+
+    /**
+     * <b>功能描述：</b>产品分类，物理删除<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @return {@l}ink ApiResult
+     */
+    @RequestMapping("admin/delete")
+    public ApiResult deleteBatch(@RequestBody IdCnd idCnd) {
+        try {
+            categoryService.delete(Long.valueOf(idCnd.getId()));
+        }catch (BusException e){
+            return new ApiResult().fail(e.getMessage());
+        }catch (Exception e){
+            logger.error("admin产品分类删除:{}", e);
+            return new ApiResult().fail(OPERATION_FAILED);
+        }
+        return new ApiResult<>();
+    }
+
+    /**
+     * <b>功能描述：</b>编辑产品分类<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("admin/update")
+    public ApiResult update(@RequestBody CategoryCnd categoryCnd) {
+        try {
+            Category category = new Category();
+            BeanUtils.copyProperties(categoryCnd,category);
+            category.setId(categoryCnd.getId());
+            categoryService.edit(category);
+        }catch (BusException e){
+            return new ApiResult().fail(e.getMessage());
+        }catch (Exception e){
+            logger.error("admin产品分类编辑:{}", e);
+            return new ApiResult().fail(ResultEnum.OPERATION_FAILED);
+        }
+        return new ApiResult<>();
     }
 }

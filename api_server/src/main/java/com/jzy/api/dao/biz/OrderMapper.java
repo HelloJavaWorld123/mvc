@@ -48,13 +48,13 @@ public interface OrderMapper extends GenericMapper<Order> {
     List<Order> queryFrontOrderList(@Param("status") Integer status, @Param("userId") String userId);
 
     /**
-     * <b>功能描述：</b>根据订单id查询卡密<br>
+     * <b>功能描述：</b>根据订单id和卡号查询卡密<br>
      * <b>修订记录：</b><br>
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
      * @param id 订单id
      */
-    String queryCardPwdByOrderId(String id);
+    String queryCardPwdByIdAndCardNo(@Param("cardPwdId") String cardPwdId, @Param("cardNo") String cardNo);
 
     /**
      * <b>功能描述：</b>根据订单id关闭订单<br>

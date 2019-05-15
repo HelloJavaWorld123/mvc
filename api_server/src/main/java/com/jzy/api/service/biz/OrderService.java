@@ -9,6 +9,7 @@ import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.service.GenericService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <b>功能：</b>订单业务处理<br>
@@ -94,7 +95,7 @@ public interface OrderService extends GenericService<Order> {
      *
      * @param id 订单id
      */
-    String queryCardPwdByOrderId(String id);
+    String queryCardPwdByIdAndCardNo(String cardPwdId, String cardNo);
 
     /**
      * <b>功能描述：</b>更新订单充值状态<br>
@@ -165,6 +166,13 @@ public interface OrderService extends GenericService<Order> {
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     PageVo<Order> queryBackOrderList(BackOrderCnd backOrderCnd);
+
+    /**
+     * <b>功能描述：</b>导出订单列表查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<Order> queryExcelExportBackOrderList(BackOrderCnd backOrderCnd);
 
     /**
      * <b>功能描述：</b>订单列表统计<br>

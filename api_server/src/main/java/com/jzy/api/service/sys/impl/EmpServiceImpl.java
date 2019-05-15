@@ -3,15 +3,14 @@ package com.jzy.api.service.sys.impl;
 import com.jzy.api.constant.ApiRedisCacheConstant;
 import com.jzy.api.dao.sys.EmpMapper;
 import com.jzy.api.model.auth.Role;
-import com.jzy.framework.cache.EmpCache;
 import com.jzy.api.model.sys.Emp;
 import com.jzy.api.service.auth.AuthService;
 import com.jzy.api.service.sys.EmpService;
 import com.jzy.api.util.MD5Util;
+import com.jzy.framework.cache.EmpCache;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.service.impl.GenericServiceImpl;
-import freemarker.core.BugException;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
@@ -89,7 +88,7 @@ public class EmpServiceImpl extends GenericServiceImpl<Emp> implements EmpServic
     public Emp queryEmpByUsername(String username) {
         Emp emp = empMapper.queryEmpByUsername(username);
         if (emp == null) {
-            throw new BugException("当前用户不存在");
+            throw new BusException("当前用户不存在");
         }
         return emp;
     }

@@ -6,12 +6,16 @@ import com.jzy.api.cnd.biz.BackOrderCnd;
 import com.jzy.api.cnd.biz.MonthOrderCnd;
 import com.jzy.api.cnd.biz.RunMonthOrderCnd;
 import com.jzy.api.dao.biz.OrderMapper;
+import com.jzy.api.model.biz.CardPwd;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.model.biz.SupRecord;
 import com.jzy.api.model.biz.TradeRecord;
+import com.jzy.api.model.dealer.Dealer;
+import com.jzy.api.service.arch.DealerService;
 import com.jzy.api.service.biz.*;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.DateUtils;
+import com.jzy.api.util.DesUtil;
 import com.jzy.api.vo.biz.FrontOrderVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
@@ -59,6 +63,9 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
     @Resource
     private SupService supService;
+
+    @Resource
+    private DealerService dealerService;
 
     /**
      * 订单超时时间
@@ -239,9 +246,9 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         // 卡密需要查询卡密信息
         if (order.getRechargeMode() == 1) {
             // 根据订单id查询卡号
-            String cardNo = cardPwdService.queryCardNoByOrderId(id);
-            if (!StringUtils.isEmpty(cardNo)) {
-                order.setCardNo(cardNo);
+            List<CardPwd> cardPwdList = cardPwdService.queryCardPwdListByOrderId(id);
+            if (cardPwdList != null && !cardPwdList.isEmpty()) {
+                order.setCardPwdList(cardPwdList);
             }
         }
         return order;
@@ -255,8 +262,13 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param orderId 订单id
      */
     @Override
-    public String queryCardPwdByOrderId(String orderId) {
-        return orderMapper.queryCardPwdByOrderId(orderId);
+    public String queryCardPwdByIdAndCardNo(String cardPwdId, String cardNo) {
+        String cardPwd = orderMapper.queryCardPwdByIdAndCardNo(cardPwdId, cardNo);
+        if (StringUtils.isEmpty(cardPwd)) {
+            throw new BusException("卡密不存在！");
+        }
+        Dealer dealer = dealerService.queryDealer(getFrontDealerId());
+        return DesUtil.des3Decrypt(cardPwd, dealer.getSupKey(), "utf-8");
     }
 
     /**
@@ -380,13 +392,25 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     }
 
     /**
+     * <b>功能描述：</b>导出订单列表查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public List<Order> queryExcelExportBackOrderList(BackOrderCnd backOrderCnd) {
+        PageHelper.startPage(backOrderCnd.getPage(), backOrderCnd.getLimit(), false);
+        return orderMapper.queryBackOrderList(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
+                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey());
+    }
+
+    /**
      * <b>功能描述：</b>订单列表已完成订单统计<br>
      * <b>修订记录：</b><br>
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
     public Order queryBackOrderCount(BackOrderCnd backOrderCnd) {
-        Page page = PageHelper.startPage(backOrderCnd.getPage(), backOrderCnd.getLimit(), false);
+        PageHelper.startPage(backOrderCnd.getPage(), backOrderCnd.getLimit(), false);
         return orderMapper.queryBackOrderCount(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
                 backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey());
     }
@@ -418,7 +442,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     }
 
     @Override
-    protected GenericMapper getGenericMapper() {
+    protected GenericMapper<Order> getGenericMapper() {
         return orderMapper;
     }
 }

@@ -1,5 +1,6 @@
 package com.jzy.api.dao.app;
 
+import com.jzy.api.cnd.app.CategoryCnd;
 import com.jzy.api.model.app.Category;
 import com.jzy.api.vo.app.CategoryVo;
 import com.jzy.api.vo.app.DealerAppListVo;
@@ -30,4 +31,31 @@ public interface CategoryMapper extends GenericMapper<Category> {
      */
     List<CategoryVo> getList();
 
+    /**
+     * <b>功能描述：</b>根据name查询产品分类数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getByName(@Param("name") String name);
+
+    /**
+     * <b>功能描述：</b>删除产品分类<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void delete(@Param("id") Long id);
+
+    /**
+     * <b>功能描述：</b>根据name和id查询产品分类数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getCountByNameNoId(@Param("name") String name, @Param("id") Long id);
+
+    /**
+     * <b>功能描述：</b>产品分类分页查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<CategoryVo> listPage(CategoryCnd categoryCnd);
 }

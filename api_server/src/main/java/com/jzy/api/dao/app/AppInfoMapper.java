@@ -87,4 +87,38 @@ public interface AppInfoMapper extends GenericMapper<AppInfo> {
     List<String> getIdByName(@Param("nameList") List<String> nameList);
 
 
+    /**
+     * <b>功能描述：</b>根据类型id查询商品数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getCountByTypeId(@Param("typeId") Long typeId);
+
+    /**
+     * <b>功能描述：</b>根据厂商id查询商品数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getCountByAcpId(@Param("acpId") Long acpId);
+
+    /**
+     * <b>功能描述：</b>根据game_id查询商品数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getByGameId(@Param("gameId") Long gameId);
+
+    /**
+     * <b>功能描述：</b>根据cate_id查询商品数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getCountByCateId(@Param("cateId") Long cateId);
+
+    /**
+     * <b>功能描述：</b>通过acct_id查询商品数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getCountByAcctTypeId(@Param("acctId") Long acctId);
 }

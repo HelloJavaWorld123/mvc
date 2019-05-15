@@ -12,7 +12,6 @@
  -->
 
 <mapper namespace="com.jzy.api.dao.app.AppGameMapper">
-
     <!--    前台渠道商对应商品查询区-->
     <select id="getAreaInfo" resultType="com.jzy.api.po.app.AppGameListPo">
         SELECT
@@ -106,4 +105,102 @@
 
     </select>
 
+    <!--insert-->
+    <insert id="insert" parameterType="com.jzy.api.model.app.AppGame">
+    	INSERT INTO app_game (
+            `id`,
+            `p_id`,
+            `name`,
+            `type`,
+            `status`,
+            `creator_id`,
+            `modifier_id`,
+            `create_time`,
+            `modify_time`
+        )
+        VALUES
+            (
+            #{id},
+            #{pId},
+            #{name},
+            #{type},
+            #{status},
+            #{creatorId},
+            #{modifierId},
+            #{createTime},
+            #{modifyTime}
+            )
+    </insert>
+
+    <!--根据id获取appgame-->
+    <select id="queryById" resultType="com.jzy.api.model.app.AppGame">
+         SELECT
+              id,p_id,name,type,status,sort
+          FROM
+            app_game
+          WHERE id = #{id}
+    </select>
+
+    <!-- 根据p_id获取游戏个数-->
+    <select id="getCountByPId" resultType="Integer">
+        SELECT
+        count(1)
+        FROM
+        app_game where p_id=#{pId} and type=1
+    </select>
+
+    <!-- 根据p_id,name,type获取个数-->
+    <select id="getByIdNameType" resultType="java.lang.Integer">
+        select count(1) from app_game where p_id=#{pId} and name=#{name} and type=#{type}
+    </select>
+
+    <!-- 根据p_id获取appgame信息-->
+    <select id="getByPid" resultType="com.jzy.api.model.app.AppGame">
+        select p_id,name,type,status,sort,remark from app_game where id=#{pId}
+    </select>
+
+    <!-- 根据id获取appgame信息-->
+    <select id="getById" resultType="com.jzy.api.model.app.AppGame">
+        select id,p_id,name,type,status,sort,remark from app_game where id=#{id}
+    </select>
+
+    <select id="getListByPid" resultType="com.jzy.api.model.app.AppGame">
+         select id from app_game where p_id=#{pId}
+    </select>
+
+    <!--批量删除-->
+    <delete id="deleteBatch">
+        delete from app_game where id in (
+          <foreach collection="list" item="id" separator=",">
+            #{id}
+          </foreach>)
+    </delete>
+
+    <!--根据name和id查询游戏大区数量-->
+    <select id="getByNameNotId" resultType="java.lang.Integer">
+        select count(1) from app_game where name=#{name} and id!=#{id}
+    </select>
+
+    <!-- 修改-->
+    <update id="update" parameterType="com.jzy.api.model.app.AppGame">
+        UPDATE
+        app_game
+        SET
+        `name` = #{name},
+        `modifier_id` =  #{modifierId},
+        `modify_time` =  #{modifyTime}
+        WHERE
+        id = #{id}
+    </update>
+
+    <!--游戏大区分页查询-->
+    <select id="listPage"  parameterType="com.jzy.api.cnd.app.AppGameCnd"
+            resultType="com.jzy.api.vo.app.AppGameVo">
+        select id,p_id as pid,name,type,status from app_game
+        where p_id=#{pId} and type=#{type}
+        <if test="name!=null">
+            and name like CONCAT('%',#{name},'%')
+        </if>
+        order by create_time desc
+    </select>
 </mapper>

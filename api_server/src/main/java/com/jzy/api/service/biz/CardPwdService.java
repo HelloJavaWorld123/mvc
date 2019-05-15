@@ -3,6 +3,8 @@ package com.jzy.api.service.biz;
 import com.jzy.api.model.biz.CardPwd;
 import com.jzy.framework.service.GenericService;
 
+import java.util.List;
+
 /**
  * <b>功能：</b>卡密<br>
  * <b>Copyright JZY</b>
@@ -40,6 +42,6 @@ public interface CardPwdService extends GenericService<CardPwd> {
      *
      * @param orderId 订单id
      */
-    String queryCardNoByOrderId(String orderId);
+    List<CardPwd> queryCardPwdListByOrderId(String orderId);
 
 }

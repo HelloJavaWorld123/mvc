@@ -1,11 +1,12 @@
 package com.jzy.api.dao.app;
 
 
+import com.jzy.api.cnd.app.AppCompanyCnd;
 import com.jzy.api.model.app.AppCompany;
-import com.jzy.api.model.app.AppType;
 import com.jzy.api.po.app.AppCompanyPo;
-import com.jzy.api.po.app.AppTypePo;
+import com.jzy.api.vo.app.AppCompanyVo;
 import com.jzy.framework.dao.GenericMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,4 +28,31 @@ public interface AppCompanyMapper extends GenericMapper<AppCompany> {
      */
     List<AppCompanyPo> getList();
 
+    /**
+     * <b>功能描述：</b>厂商删除<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void delete(@Param("id") Long id);
+
+    /**
+     * <b>功能描述：</b>根据厂商name查询数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getCountByName(@Param("name") String name);
+
+    /**
+     * <b>功能描述：</b>根据厂商name和id查询数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getByNameNotId(@Param("name") String name,@Param("id") Long id);
+
+    /**
+     * <b>功能描述：</b>厂商分页查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<AppCompanyVo> listPage(AppCompanyCnd appCompanyCnd);
 }

@@ -19,7 +19,70 @@
 		`name`
 		FROM
 		app_company
-</select>
+	</select>
+
+	<!--添加-->
+	<insert id="insert" parameterType="com.jzy.api.model.app.AppCompany">
+    	INSERT INTO app_company (
+            `id`,
+            `name`,
+            `icon`,
+            `creator_id`,
+            `modifier_id`,
+            `create_time`,
+            `modify_time`
+        )
+        VALUES
+            (
+            #{id},
+            #{name},
+            #{icon},
+            #{creatorId},
+            #{modifierId},
+            #{createTime},
+            #{modifyTime}
+            )
+    </insert>
+
+	<!-- 修改-->
+	<update id="update" parameterType="com.jzy.api.model.app.AppCompany">
+        UPDATE
+        app_company
+        SET
+        `name` = #{name},
+        `icon` = #{icon},
+        `modifier_id` =  #{modifierId},
+        `modify_time` =  #{modifyTime}
+        WHERE
+        id = #{id}
+    </update>
+
+	<!--删除厂商-->
+	<delete id="delete" >
+		delete from app_company where id=#{id}
+	</delete>
+
+	<!--根据厂商name查询数量-->
+	<select id="getCountByName" resultType="java.lang.Integer">
+		select count(1) from app_company where name=#{name}
+	</select>
+
+	<!--根据厂商name和id查询数量-->
+	<select id="getByNameNotId" resultType="java.lang.Integer">
+		select count(1) from app_company where name=#{name} and id!=#{id}
+	</select>
+
+    <!--厂商列表分页查询-->
+    <select id="listPage" parameterType="com.jzy.api.cnd.app.AppCompanyCnd"
+            resultType="com.jzy.api.vo.app.AppCompanyVo">
+        select id,name,icon from app_company
+        <where>
+            <if test="name!=null">
+                name like CONCAT('%',#{name},'%')
+            </if>
+        </where>
+         order by create_time desc
+    </select>
 
 
 </mapper>
