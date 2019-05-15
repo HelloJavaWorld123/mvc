@@ -35,7 +35,7 @@ public class ExcelBuilder {
     /**
      * <b>功能描述：</b>ListMap数据转换为excel<br>
      * <b>修订记录：</b><br>
-     * <li>20131120&nbsp;&nbsp;|&nbsp;&nbsp;刘庆魁&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li> <br>
+     * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li> <br>
      * <br>
      * @param sheetName sheet页的名称
      * @param headers 表格标题栏
@@ -96,11 +96,11 @@ public class ExcelBuilder {
         cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
         return cellStyle;
     }
-
+    
     /**
      * <b>功能描述：</b>调整工作表的列宽<br>
      * <b>修订记录：</b><br>
-     * <li>20170524&nbsp;&nbsp;|&nbsp;&nbsp;lhc&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     * <li>20170524&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     public void setColumnWidth(HSSFSheet sheet, int columnNameSize) {
         for (int i = 0; i < columnNameSize; i++) {
@@ -153,9 +153,7 @@ public class ExcelBuilder {
     /**
      * <b>功能描述：</b>执行每列插入数据的方法<br>
      * <b>修订记录：</b><br>
-     * <li>20130624&nbsp;&nbsp;|&nbsp;&nbsp;扈健成&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li>
-     * <li>20140311&nbsp;&nbsp;|&nbsp;&nbsp;扈健成&nbsp;&nbsp;|&nbsp;&nbsp;布尔类型导出对钩和空白</li>
-     * <br>
+     * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
      * @param columnNames    需要导出的列字段名称
      * @param row            Excel行对象
@@ -192,8 +190,7 @@ public class ExcelBuilder {
     /**
      * <b>功能描述：</b>单元格进行赋值<br>
      * <b>修订记录：</b><br>
-     * <li>20170524&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     * <li>20171019&nbsp;&nbsp;|&nbsp;&nbsp;翟凤玺&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     private void setCellValue(HSSFCell cell, Object value, HSSFCellStyle[] dateCellStyles) {
         if (value == null) {
@@ -246,7 +243,7 @@ public class ExcelBuilder {
     /**
      * <b>功能描述：</b>初始化工作表数量<br>
      * <b>修订记录：</b><br>
-     * <li>20170524&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     private int getSheetNum(int size, int rowNumber) {
         int sheetNum;//初始化工作表数量

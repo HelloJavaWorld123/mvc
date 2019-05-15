@@ -27,10 +27,17 @@ public interface ExcelExportService extends GenericService<ExcelExport> {
     PageVo<ExcelExport> queryExcelExportList(PageCnd pageCnd);
 
     /**
+     * <b>功能描述：</b>根据md5查询excel导出<br>
+     * <b>修订记录：</b><br>
+     * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    boolean isAlreadyExport(String md5);
+
+    /**
      * <b>功能描述：</b>导出<br>
      * <b>修订记录：</b><br>
      * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    void export(List<BackOrderListVo> rowList);
+    void orderExport(List<BackOrderListVo> rowList, Long id);
 
 }

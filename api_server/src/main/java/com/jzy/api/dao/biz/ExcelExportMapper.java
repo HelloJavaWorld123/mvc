@@ -25,4 +25,11 @@ public interface ExcelExportMapper extends GenericMapper<ExcelExport> {
      */
     List<ExcelExport> queryExcelExportList(Integer dealerId);
 
+    /**
+     * <b>功能描述：</b>根据md5查询excel导出<br>
+     * <b>修订记录：</b><br>
+     * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    boolean isAlreadyExport(String md5);
+
 }

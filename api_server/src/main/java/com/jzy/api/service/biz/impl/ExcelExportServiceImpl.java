@@ -55,12 +55,22 @@ public class ExcelExportServiceImpl extends GenericServiceImpl<ExcelExport> impl
     }
 
     /**
+     * <b>功能描述：</b>根据md5查询excel导出<br>
+     * <b>修订记录：</b><br>
+     * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public boolean isAlreadyExport(String md5) {
+        return excelExportMapper.isAlreadyExport(md5);
+    }
+
+    /**
      * <b>功能描述：</b>导出<br>
      * <b>修订记录：</b><br>
      * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void export(List<BackOrderListVo> rowList) {
+    public void orderExport(List<BackOrderListVo> rowList, Long id) {
 
         String[] headers = {"订单编号", "第三方流水单号", "渠道商编号", "渠道商名称","充值帐号", "商品名称",
                 "面值", "折扣", "支付金额", "实付金额","渠道商价格", "支付方式", "订单状态","sup状态",
@@ -69,6 +79,7 @@ public class ExcelExportServiceImpl extends GenericServiceImpl<ExcelExport> impl
                 "price", "discount", "totalFee", "tradeFee", "dealerPrice", "payWayName", "status", "supStatus",
                 "payTime", "merchantProfit"};
 
+        ExcelExport excelExport = new ExcelExport();
         List<BackOrderExportListVo> data = getData(rowList);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayInputStream in = null;
@@ -78,9 +89,15 @@ public class ExcelExportServiceImpl extends GenericServiceImpl<ExcelExport> impl
             long length = fileByte.length;
             in = new ByteArrayInputStream(fileByte);
             String fileName = "order_" + System.currentTimeMillis();
-            aliyunOssService.uploadFile(in, length, fileName, ".xls");
+            String fileUrl = aliyunOssService.uploadFile(in, length, fileName, ".xls");
+            excelExport.setFileUrl(fileUrl);
+            excelExport.setId(id);
+            excelExport.setStatus(2);
+            update(excelExport);
         } catch (Exception ignore) {
-
+            excelExport.setId(id);
+            excelExport.setStatus(2);
+            update(excelExport);
         } finally {
             try {
                 out.close();
