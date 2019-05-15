@@ -171,6 +171,7 @@
         app_price_type
         where
         ai_id=#{aiId}
+        and  del_flag=0
     </select>
 
 
