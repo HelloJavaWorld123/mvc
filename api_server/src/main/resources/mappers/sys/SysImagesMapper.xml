@@ -67,4 +67,20 @@
 	and  type=#{type}
 
 </delete>
+
+
+    <!--	查询富文本图片信息-->
+    <select id="queryImagesList" resultType="com.jzy.api.model.app.FileInfo">
+			select
+			`file_name` as fileOrignName,
+			`file_type` as contentType,
+			file_url as fileUrl,
+			type
+			from
+			sys_images
+			where
+			rel_id=#{aiId}
+			and  type=#{type}
+			order  by modify_time desc
+	</select>
 </mapper>

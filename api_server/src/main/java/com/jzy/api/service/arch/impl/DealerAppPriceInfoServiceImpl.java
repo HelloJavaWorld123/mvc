@@ -11,8 +11,10 @@ import com.jzy.api.dao.app.AppPriceTypeMapper;
 import com.jzy.api.dao.arch.DealerAppInfoMapper;
 import com.jzy.api.dao.arch.DealerAppPriceInfoMapper;
 import com.jzy.api.dao.arch.DealerAppPriceTypeMapper;
+import com.jzy.api.dao.sys.SysImagesMapper;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPriceType;
+import com.jzy.api.model.app.FileInfo;
 import com.jzy.api.model.dealer.DealerAppInfo;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
 import com.jzy.api.model.dealer.DealerAppPriceType;
@@ -80,7 +82,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
     private DealerAppInfoService dealerAppInfoService;
 
     @Resource
-    private DealerAppPriceTypeMapper dealerAppPriceTypeMapper;
+    private SysImagesMapper sysImagesMapper;
 
     @Override
     protected GenericMapper<DealerAppPriceInfo> getGenericMapper() {
@@ -246,17 +248,21 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
             dealerAppTypePriceInfo.setTypeName(appPriceType.getName());
             dealerAppTypePriceInfo.setAptId(appPriceType.getId());
 
-            DealerAppPriceType dealerAppPriceType = dealerAppPriceInfoMapper.getDealerAppPriceType(aiId, dealerId, appPriceType.getId().toString());
+            DealerAppPriceType dealerAppPriceType = dealerAppPriceInfoMapper.getDealerAppPriceType(aiId, dealerId, appPriceType.getId());
             if (dealerAppPriceType == null) {
                 dealerAppTypePriceInfo.setIsCustom(0);
             } else {
                 dealerAppTypePriceInfo.setIsCustom(dealerAppPriceType.getIsCustom());
             }
             //获取商品面值详情
-            List<DealerAppPriceInfoPo> dealerAppPriceInfoList = dealerAppPriceInfoMapper.getDealerAppPriceInfo(appPriceType.getId().toString(), aiId, dealerId);
+            List<DealerAppPriceInfoPo> dealerAppPriceInfoList = dealerAppPriceInfoMapper.getDealerAppPriceInfo(appPriceType.getId(), aiId, dealerId);
             dealerAppTypePriceInfo.setDealerAppPriceInfoPoList(dealerAppPriceInfoList);
             dealerAppTypePriceInfoList.add(dealerAppTypePriceInfo);
         }
+
+        //查询富文本图片信息
+        List<FileInfo> fileInfos = sysImagesMapper.queryImagesList(aiId,6);
+        dealerAppPriceInfoDetailVo.setFileInfoList(fileInfos);
         return dealerAppPriceInfoDetailVo;
     }
 

@@ -1,5 +1,6 @@
 package com.jzy.api.vo.dealer;
 
+import com.jzy.api.model.app.FileInfo;
 import com.jzy.api.po.dealer.DealerAppTypePriceInfoPo;
 import lombok.Data;
 
@@ -36,5 +37,9 @@ public class DealerAppPriceInfoDetailVo {
      */
     private List<DealerAppTypePriceInfoPo> dealerAppTypePriceInfoList = new ArrayList<>(10);
 
+    /**
+     * 渠道商图片信息（富文本）
+     */
+    private List<FileInfo> fileInfoList = new ArrayList<>();
 
 }

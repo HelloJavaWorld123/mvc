@@ -1,8 +1,11 @@
 package com.jzy.api.dao.sys;
 
+import com.jzy.api.model.app.FileInfo;
 import com.jzy.api.model.sys.SysImages;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <b>功能：</b>图片信息<br>
@@ -42,6 +45,14 @@ public interface SysImagesMapper extends GenericMapper<SysImages> {
      * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     void delete(@Param("relId") String relId, @Param("type") Integer type);
+
+
+    /**
+     * <b>功能描述：</b>查询富文本图片信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<FileInfo>  queryImagesList(@Param("aiId") String aiId, @Param("type") Integer type);
 
 
 }
