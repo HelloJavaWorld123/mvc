@@ -122,6 +122,10 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
             appDetailPo.setAppPriceTypePoList(appPriceTypelist);
         }
         appDetailVo.setAppDetailPoList(appDetailPos);
+
+        //查询富文本图片信息
+        List<FileInfo> fileInfos = sysImagesMapper.queryImagesList(aiId,6);
+        appDetailVo.setFileInfoList(fileInfos);
         return appDetailVo;
     }
 
@@ -260,9 +264,6 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
             dealerAppTypePriceInfoList.add(dealerAppTypePriceInfo);
         }
 
-        //查询富文本图片信息
-        List<FileInfo> fileInfos = sysImagesMapper.queryImagesList(aiId,6);
-        dealerAppPriceInfoDetailVo.setFileInfoList(fileInfos);
         return dealerAppPriceInfoDetailVo;
     }
 

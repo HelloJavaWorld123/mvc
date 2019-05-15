@@ -37,9 +37,5 @@ public class DealerAppPriceInfoDetailVo {
      */
     private List<DealerAppTypePriceInfoPo> dealerAppTypePriceInfoList = new ArrayList<>(10);
 
-    /**
-     * 渠道商图片信息（富文本）
-     */
-    private List<FileInfo> fileInfoList = new ArrayList<>();
 
 }

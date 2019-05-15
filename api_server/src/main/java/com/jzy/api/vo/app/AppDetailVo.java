@@ -1,5 +1,6 @@
 package com.jzy.api.vo.app;
 
+import com.jzy.api.model.app.FileInfo;
 import com.jzy.api.po.arch.AppDetailPo;
 import lombok.Data;
 
@@ -19,6 +20,11 @@ import java.util.List;
 public class AppDetailVo {
 
     private List<AppDetailPo> appDetailPoList = new ArrayList<>();
+
+    /**
+     * 渠道商图片信息（富文本）
+     */
+    private List<FileInfo> fileInfoList = new ArrayList<>();
 
 
 }
