@@ -34,7 +34,7 @@ public class SaveAppInfoCnd {
     /**
      * 商品文本信息
      */
-    private com.jzy.api.model.app.AppPage appPage;
+    //private com.jzy.api.model.app.AppPage appPage;
 
     /**
      * 文件信息

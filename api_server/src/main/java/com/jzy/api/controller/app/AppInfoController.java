@@ -122,7 +122,7 @@ public class AppInfoController {
         List<FileInfo> fileInfos=  saveAppInfoCnd.getFileInfoList();
         AppInfo ai = saveAppInfoCnd.getAppInfo();
         SaveAppPriceTypeListCnd saveAppPriceTypeListCnd = new SaveAppPriceTypeListCnd();
-        AppPage appPageMapper = saveAppInfoCnd.getAppPage();
+        //AppPage appPageMapper = saveAppInfoCnd.getAppPage();
         ai = verification(ai);
         //保存图片信息
             /*if (!StringUtils.isEmpty(ai.getId())) {//更新操作时，先进行图片的删除操作
@@ -149,8 +149,8 @@ public class AppInfoController {
             saveAppPriceTypeListCnd.setAppPriceTypeList(saveAppInfoCnd.getAppPriceTypeList());
             appPriceTypeService.saveAppPriceTypeList(saveAppPriceTypeListCnd);
             //保存富文本信息
-            appPageMapper.setAiId(ai.getId());
-            appInfoService.saveAppPage(appPageMapper);
+//            appPageMapper.setAiId(ai.getId());
+//            appInfoService.saveAppPage(appPageMapper);
         } else {//更新操作
             appInfoService.checkName(ai.getName(), ai.getId() + "");
             appInfoService.update(ai);
@@ -160,10 +160,10 @@ public class AppInfoController {
             if(fileInfos.size()>0){
                 for (FileInfo fileInfo:fileInfos){
                     SysImages sysImages = getSystemImagesMapper(ai, fileInfo);
-                    Integer flag = sysImagesService.update(sysImages);
-                    if (flag == 0) {
+                   // Integer flag = sysImagesService.update(sysImages);
+                    //if (flag == 0) {
                         sysImagesService.save(sysImages);
-                    }
+                   // }
                 }
             }
 
@@ -172,8 +172,8 @@ public class AppInfoController {
             saveAppPriceTypeListCnd.setAppPriceTypeList(saveAppInfoCnd.getAppPriceTypeList());
             appPriceTypeService.saveAppPriceTypeList(saveAppPriceTypeListCnd);
             //修改富文本信息
-            appPageMapper.setAiId(ai.getId());
-            appInfoService.updateAppPage(appPageMapper);
+//            appPageMapper.setAiId(ai.getId());
+//            appInfoService.updateAppPage(appPageMapper);
         }
         return new ApiResult<>();
     }
