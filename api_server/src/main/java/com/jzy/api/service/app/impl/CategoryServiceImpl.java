@@ -36,16 +36,16 @@ public class CategoryServiceImpl extends GenericServiceImpl<Category> implements
     @Override
     public List<CategoryVo> listByDealerId() {
         // todo: 需要添加 redis 缓存，参看老版本代码
-        String dealerId=getFrontDealerId();
-        List<CategoryVo> categoryList = categoryMapper.listByDealerId(dealerId);
+        Integer dealerId=getFrontDealerId();
+        List<CategoryVo> categoryList = categoryMapper.listByDealerId(dealerId + "");
         return categoryList;
     }
 
     @Override
     public Map<String, Object> dealerAppList(Long cateId) {
         Map<String, Object> params = new HashMap<>();
-        String dealerId=getFrontDealerId();
-        List<DealerAppListVo> dealerAppList = categoryMapper.dealerAppList(cateId, dealerId);
+        Integer dealerId=getFrontDealerId();
+        List<DealerAppListVo> dealerAppList = categoryMapper.dealerAppList(cateId, dealerId + "");
         List<DealerAppListVo> dealerAppHotList = null;
 
         // 使用lambda表达式过滤出结果并放到 dealerAppHotList 列表里

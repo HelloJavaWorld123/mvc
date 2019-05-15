@@ -68,8 +68,11 @@
         FROM
         order_export_record
         WHERE
-        dealer_id = #{dealerId}
-        AND create_time >= date_add(now(), INTERVAL 7 DAY)
+        1 = 1
+        <if test="dealerId != null">
+            AND dealer_id = #{dealerId}
+        </if>
+        AND create_time >= date_add(now(), INTERVAL -7 DAY)
         AND create_time &lt; now()
         AND del_flag = 0
     </select>

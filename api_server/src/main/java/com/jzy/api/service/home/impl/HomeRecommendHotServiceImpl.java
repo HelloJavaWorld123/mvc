@@ -42,11 +42,11 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
      */
     @Override
     public List<HomeRecommendHotVo> getList() {
-        String dealerId=getFrontDealerId();
+        Integer dealerId=getFrontDealerId();
         List<HomeRecommendHotVo> homeRecommendHotVoList = new ArrayList<>();
         //查询分组信息
-        List<GroupeDetail> groupeDetailList = homeRecommendHotMapper.getGroupeDetailList(dealerId);
-        List<HomeRecommendHot> HomeRecommendHots = homeRecommendHotMapper.queryHotList(dealerId);
+        List<GroupeDetail> groupeDetailList = homeRecommendHotMapper.getGroupeDetailList(dealerId + "");
+        List<HomeRecommendHot> HomeRecommendHots = homeRecommendHotMapper.queryHotList(dealerId + "");
         //拼装数据
         for (GroupeDetail groupeDetail : groupeDetailList) {
             HomeRecommendHotVo homeRecommendHotVo = new HomeRecommendHotVo();

@@ -60,8 +60,8 @@ public class AuthServiceImpl extends GenericServiceImpl<Auth> implements AuthSer
     @Transactional(propagation= Propagation.REQUIRED,rollbackFor=Exception.class,timeout=1,isolation= Isolation.DEFAULT)
     @Override
     public int insertA(Long id, String name) {
-        String dealerId = getDealerId();
-        authMapper.insert(id, name);
+        // String dealerId = getDealerId();
+        // authMapper.insert("1", name);
         throw new RuntimeException();
     }
 
