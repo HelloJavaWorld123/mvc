@@ -6,6 +6,7 @@ import com.jzy.api.model.biz.ExcelExport;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.ExcelExportService;
 import com.jzy.api.service.biz.OrderService;
+import com.jzy.api.vo.biz.BackOrderListVo;
 import com.jzy.api.vo.biz.ExcelExportVo;
 import com.jzy.framework.bean.cnd.PageCnd;
 import com.jzy.framework.bean.vo.PageVo;
@@ -52,7 +53,9 @@ public class ExcelExportController extends GenericController {
         if (orderList == null || orderList.isEmpty()) {
             return new ApiResult().fail("导出订单列表为空");
         }
-        return null;
+        List<BackOrderListVo> rowList = convert(orderList, BackOrderListVo.class);
+        excelExportService.export(rowList);
+        return new ApiResult().success();
     }
 
     /**
