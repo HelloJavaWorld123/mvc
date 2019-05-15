@@ -1,5 +1,6 @@
 package com.jzy.api.po.arch;
 
+import com.jzy.api.model.app.FileInfo;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -105,6 +106,12 @@ public class AppDetailPo {
      * 商品充值类型列表
      */
     private List<AppPriceTypePo> appPriceTypePoList = new ArrayList<>();
+
+
+    /**
+     * 渠道商图片信息（富文本）
+     */
+    private List<FileInfo> fileInfoList = new ArrayList<>();
 
 
 }

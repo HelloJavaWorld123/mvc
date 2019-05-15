@@ -120,12 +120,12 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
             checkAreaAndServ(appDetailPo);
             List<AppPriceTypePo> appPriceTypelist = appPriceTypeMapper.getAppPriceTypePolist(Long.valueOf(appDetailPo.getAppId()), Long.valueOf(dealerId));
             appDetailPo.setAppPriceTypePoList(appPriceTypelist);
+            //查询富文本图片信息
+            List<FileInfo> fileInfos = sysImagesMapper.queryImagesList(appDetailPo.getAppId(),6);
+            appDetailPo.setFileInfoList(fileInfos);
         }
         appDetailVo.setAppDetailPoList(appDetailPos);
 
-        //查询富文本图片信息
-        List<FileInfo> fileInfos = sysImagesMapper.queryImagesList(aiId,6);
-        appDetailVo.setFileInfoList(fileInfos);
         return appDetailVo;
     }
 

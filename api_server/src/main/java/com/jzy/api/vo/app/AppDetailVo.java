@@ -21,10 +21,5 @@ public class AppDetailVo {
 
     private List<AppDetailPo> appDetailPoList = new ArrayList<>();
 
-    /**
-     * 渠道商图片信息（富文本）
-     */
-    private List<FileInfo> fileInfoList = new ArrayList<>();
-
 
 }
