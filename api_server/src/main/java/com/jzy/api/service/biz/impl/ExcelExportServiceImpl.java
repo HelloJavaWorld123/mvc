@@ -48,7 +48,7 @@ public class ExcelExportServiceImpl extends GenericServiceImpl<ExcelExport> impl
     @Override
     public PageVo<ExcelExport> queryExcelExportList(PageCnd pageCnd) {
         Page page = PageHelper.startPage(pageCnd.getPage(), pageCnd.getLimit(), false);
-        List<ExcelExport> excelExportList = excelExportMapper.queryExcelExportList(Integer.parseInt(getDealerId()));
+        List<ExcelExport> excelExportList = excelExportMapper.queryExcelExportList(getDealerId());
         PageVo<ExcelExport> pageVo = new PageVo<>(page.getPageNum(), page.getPageSize());
         pageVo.setRows(excelExportList);
         return pageVo;

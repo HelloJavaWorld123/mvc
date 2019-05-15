@@ -86,7 +86,7 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
         homeAnalysisInfoVo.setDealerParamInfoPos(dealerParamInfoPos);
         homeAnalysisInfoVo.setBusinessId(businessId);
 
-        String token = cacheUserCache(homeAnalysisInfoVo.getUserId(), dealerAnalysisInfoPo.getDealerId());
+        String token = cacheUserCache(homeAnalysisInfoVo.getUserId(), Integer.parseInt(dealerAnalysisInfoPo.getDealerId()));
 
         homeAnalysisInfoVo.setToken(token);
 
@@ -100,7 +100,7 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
      * <b>修订记录：</b><br>
      * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    private String cacheUserCache(String userId, String dealerId) {
+    private String cacheUserCache(String userId, Integer dealerId) {
         String token = MD5Util.string2MD5(userId);
 
         UserCache userCache = new UserCache();

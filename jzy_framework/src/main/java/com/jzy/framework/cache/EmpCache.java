@@ -20,6 +20,6 @@ public class EmpCache {
     /**
      * 渠道商id
      */
-    private String dealerId;
+    private Integer dealerId;
 
 }

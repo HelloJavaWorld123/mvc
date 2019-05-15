@@ -32,7 +32,7 @@ public class Emp extends GenericModel {
     /**
      * 商户id
      */
-    private String dealerId;
+    private Integer dealerId;
 
     //---------------------虚列--------------------------
 

@@ -103,7 +103,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             isTempOrder = true;
             order.setOrderId(CommUtils.uniqueOrderStr());
             order.setCode(DateUtils.date2TimeStr(new Date()).concat(CommUtils.authCode()));
-            order.setDealerId(getFrontDealerId());
+            order.setDealerId(getFrontDealerId() + "");
         }
         order.setOutTradeNo(order.getOrderId().concat(CommUtils.getStringRandom(7)));
         // 获取具体的支付方式
@@ -267,7 +267,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         if (StringUtils.isEmpty(cardPwd)) {
             throw new BusException("卡密不存在！");
         }
-        Dealer dealer = dealerService.queryDealer(getFrontDealerId());
+        Dealer dealer = dealerService.queryDealer(getFrontDealerId() + "");
         return DesUtil.des3Decrypt(cardPwd, dealer.getSupKey(), "utf-8");
     }
 

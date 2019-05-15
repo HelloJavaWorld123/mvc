@@ -41,7 +41,7 @@ public abstract class GenericServiceImpl<T extends GenericModel> implements Gene
      * <b>修订记录：</b><br>
      * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    protected String getDealerId() {
+    protected Integer getDealerId() {
         return getDealer().getDealerId();
     }
 
@@ -63,7 +63,7 @@ public abstract class GenericServiceImpl<T extends GenericModel> implements Gene
      * <b>修订记录：</b><br>
      * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    protected String getFrontDealerId() {
+    protected Integer getFrontDealerId() {
         return getUser().getDealerId();
     }
 
