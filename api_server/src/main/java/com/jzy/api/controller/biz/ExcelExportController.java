@@ -6,7 +6,8 @@ import com.jzy.api.model.biz.ExcelExport;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.ExcelExportService;
 import com.jzy.api.service.biz.OrderService;
-import com.jzy.framework.bean.cnd.ReportPageCnd;
+import com.jzy.api.vo.biz.ExcelExportVo;
+import com.jzy.framework.bean.cnd.PageCnd;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
@@ -59,13 +60,13 @@ public class ExcelExportController extends GenericController {
      */
     @WithoutLogin
     @RequestMapping(path = "/queryExcelExportList")
-    public ApiResult queryExcelExportList(@RequestBody ReportPageCnd reportPageCnd) {
-        List<ExcelExport> excelExportList = excelExportService.queryExcelExportList(reportPageCnd);
+    public ApiResult queryExcelExportList(@RequestBody PageCnd pageCnd) {
+        List<ExcelExport> excelExportList = excelExportService.queryExcelExportList(pageCnd);
         if (excelExportList == null || excelExportList.isEmpty()) {
             return new ApiResult().fail("导出订单列表为空");
         }
-
-        return null;
+        List<ExcelExportVo> excelExportVoList = convert(excelExportList, ExcelExportVo.class);
+        return new ApiResult<>(excelExportVoList);
     }
 
 }
