@@ -20,7 +20,7 @@
         del_flag, creator_id, modifier_id, create_time, modify_time
         )
         VALUES(
-        #{excelExportId}, #{fileName}, #{type}, #{fileUrl}, #{startDate}, #{endDate}, #{status}, #{remark}, #{dealerId},
+        #{id}, #{fileName}, #{type}, #{fileUrl}, #{startDate}, #{endDate}, #{status}, #{remark}, #{dealerId},
         #{delFlag}, #{creatorId}, #{modifierId}, #{createTime}, #{modifyTime}
         )
     </insert>
@@ -34,7 +34,7 @@
         status = #{status},
         modify_time = #{modifyTime}
         WHERE
-        id = #{excelExportId}
+        id = #{id}
         AND del_flag = 0
     </update>
 
@@ -74,7 +74,7 @@
         AND del_flag = 0
     </select>
 
-    <!-- 是否已经导出  -->>
+    <!-- 是否已经导出  -->
     <select id="isAlreadyExport" resultType="java.lang.Boolean">
         SELECT
         COUNT(1) > 0

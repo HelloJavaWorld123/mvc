@@ -79,6 +79,7 @@ public class ExcelExportServiceImpl extends GenericServiceImpl<ExcelExport> impl
                 "price", "discount", "totalFee", "tradeFee", "dealerPrice", "payWayName", "status", "supStatus",
                 "payTime", "merchantProfit"};
 
+        ExcelExport excelExport = new ExcelExport();
         List<BackOrderExportListVo> data = getData(rowList);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayInputStream in = null;
@@ -88,9 +89,15 @@ public class ExcelExportServiceImpl extends GenericServiceImpl<ExcelExport> impl
             long length = fileByte.length;
             in = new ByteArrayInputStream(fileByte);
             String fileName = "order_" + System.currentTimeMillis();
-            aliyunOssService.uploadFile(in, length, fileName, ".xls");
+            String fileUrl = aliyunOssService.uploadFile(in, length, fileName, ".xls");
+            excelExport.setFileUrl(fileUrl);
+            excelExport.setId(id);
+            excelExport.setStatus(2);
+            update(excelExport);
         } catch (Exception ignore) {
-
+            excelExport.setId(id);
+            excelExport.setStatus(2);
+            update(excelExport);
         } finally {
             try {
                 out.close();
