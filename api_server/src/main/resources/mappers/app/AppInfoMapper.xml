@@ -264,5 +264,43 @@
 
     </select>
 
+    <!-- 根据type_id获取商品个数-->
+    <select id="getCountByTypeId" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM
+        app_info where type_id=#{typeId}
+    </select>
 
+    <!-- 根据acp_id获取商品个数-->
+    <select id="getCountByAcpId" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM
+        app_info where acp_id=#{acpId}
+    </select>
+
+    <!-- 根据game_id获取商品个数-->
+    <select id="getByGameId" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM
+        app_info where game_id=#{gameId}
+    </select>
+
+    <!-- 根据cate_id获取商品个数-->
+    <select id="getCountByCateId" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM
+        app_info where cate_id=#{cateId}
+    </select>
+
+    <!-- 根据acct_id获取商品个数-->
+    <select id="getCountByAcctTypeId" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM
+        app_info where acct_id=#{acctId}
+    </select>
 </mapper>

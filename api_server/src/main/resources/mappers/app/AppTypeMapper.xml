@@ -61,7 +61,7 @@
     </select>
 
     <!--分页查询产品类型-->
-    <select id="listPage" parameterType="com.jzy.api.cnd.app.AppTypeCnd"
+    <select id="listPage" parameterType="com.jzy.api.cnd.app.AppTypeListCnd"
             resultType="com.jzy.api.vo.app.AppTypeVo">
         select id,name,sort from app_type
         <where>

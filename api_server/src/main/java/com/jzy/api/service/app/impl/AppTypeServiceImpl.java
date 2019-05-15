@@ -3,6 +3,7 @@ package com.jzy.api.service.app.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jzy.api.cnd.app.AppTypeCnd;
+import com.jzy.api.cnd.app.AppTypeListCnd;
 import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.dao.app.AppTypeMapper;
 import com.jzy.api.model.app.AppType;
@@ -56,11 +57,11 @@ private AppInfoMapper appInfoMapper;
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public PageVo listPage(AppTypeCnd appTypeCnd) {
-        Integer page = appTypeCnd.getPage();
-        Integer limit = appTypeCnd.getLimit();
+    public PageVo listPage(AppTypeListCnd appTypeListCnd) {
+        Integer page = appTypeListCnd.getPage();
+        Integer limit = appTypeListCnd.getLimit();
         Page<AppTypeVo> infoListVoPage = PageHelper.startPage(page, limit);
-        List<AppTypeVo> appInfoListVoList = appTypeMapper.listPage(appTypeCnd);
+        List<AppTypeVo> appInfoListVoList = appTypeMapper.listPage(appTypeListCnd);
         PageVo<AppTypeVo> pageVo = new PageVo<>(appInfoListVoList);
         pageVo.setTotalCount(infoListVoPage.getTotal());
         pageVo.setPage(page);

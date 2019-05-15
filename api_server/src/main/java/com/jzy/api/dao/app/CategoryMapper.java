@@ -1,6 +1,7 @@
 package com.jzy.api.dao.app;
 
 import com.jzy.api.cnd.app.CategoryCnd;
+import com.jzy.api.cnd.app.CategoryListCnd;
 import com.jzy.api.model.app.Category;
 import com.jzy.api.vo.app.CategoryVo;
 import com.jzy.api.vo.app.DealerAppListVo;
@@ -57,5 +58,5 @@ public interface CategoryMapper extends GenericMapper<Category> {
      * <b>修订记录：</b><br>
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<CategoryVo> listPage(CategoryCnd categoryCnd);
+    List<CategoryVo> listPage(CategoryListCnd categoryListCnd);
 }

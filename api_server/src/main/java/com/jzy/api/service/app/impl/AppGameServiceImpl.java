@@ -3,6 +3,7 @@ package com.jzy.api.service.app.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jzy.api.cnd.app.AppGameCnd;
+import com.jzy.api.cnd.app.AppGameListCnd;
 import com.jzy.api.cnd.app.GameListCnd;
 import com.jzy.api.cnd.app.GetServInfoCnd;
 import com.jzy.api.dao.app.AppGameMapper;
@@ -94,11 +95,11 @@ public class AppGameServiceImpl extends GenericServiceImpl<AppGame> implements A
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public PageVo listPage(AppGameCnd appGameCnd) {
-        Integer page = appGameCnd.getPage();
-        Integer limit = appGameCnd.getLimit();
+    public PageVo listPage(AppGameListCnd appGameListCnd) {
+        Integer page = appGameListCnd.getPage();
+        Integer limit = appGameListCnd.getLimit();
         Page<AppGameVo> infoListVoPage = PageHelper.startPage(page, limit);
-        List<AppGameVo> appGameList = appGameMapper.listPage(appGameCnd);
+        List<AppGameVo> appGameList = appGameMapper.listPage(appGameListCnd);
         PageVo<AppGameVo> pageVo = new PageVo<>(appGameList);
         pageVo.setTotalCount(infoListVoPage.getTotal());
         pageVo.setPage(page);

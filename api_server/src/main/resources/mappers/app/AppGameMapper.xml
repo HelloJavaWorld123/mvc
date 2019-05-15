@@ -113,6 +113,7 @@
             `name`,
             `type`,
             `status`,
+            `sort`,
             `creator_id`,
             `modifier_id`,
             `create_time`,
@@ -125,6 +126,7 @@
             #{name},
             #{type},
             #{status},
+            #{sort},
             #{creatorId},
             #{modifierId},
             #{createTime},
@@ -187,6 +189,9 @@
         app_game
         SET
         `name` = #{name},
+        <if test="sort!=null">
+            `sort` = #{sort},
+        </if>
         `modifier_id` =  #{modifierId},
         `modify_time` =  #{modifyTime}
         WHERE
@@ -194,9 +199,9 @@
     </update>
 
     <!--游戏大区分页查询-->
-    <select id="listPage"  parameterType="com.jzy.api.cnd.app.AppGameCnd"
+    <select id="listPage"  parameterType="com.jzy.api.cnd.app.AppGameListCnd"
             resultType="com.jzy.api.vo.app.AppGameVo">
-        select id,p_id as pid,name,type,status from app_game
+        select id,p_id as pid,name,type,status,sort from app_game
         where p_id=#{pId} and type=#{type}
         <if test="name!=null">
             and name like CONCAT('%',#{name},'%')

@@ -1,6 +1,7 @@
 package com.jzy.api.service.app;
 
 import com.jzy.api.cnd.app.AppGameCnd;
+import com.jzy.api.cnd.app.AppGameListCnd;
 import com.jzy.api.cnd.app.GameListCnd;
 import com.jzy.api.cnd.app.GetServInfoCnd;
 import com.jzy.api.model.app.AppGame;
@@ -85,5 +86,5 @@ public interface AppGameService extends GenericService<AppGame> {
      * <b>修订记录：</b><br>
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    PageVo<AppGameVo> listPage(AppGameCnd appGameCnd);
+    PageVo<AppGameVo> listPage(AppGameListCnd appGameListCnd);
 }

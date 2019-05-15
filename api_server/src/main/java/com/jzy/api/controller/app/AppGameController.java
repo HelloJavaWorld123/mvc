@@ -1,6 +1,7 @@
 package com.jzy.api.controller.app;
 
 import com.jzy.api.cnd.app.AppGameCnd;
+import com.jzy.api.cnd.app.AppGameListCnd;
 import com.jzy.api.cnd.app.GameListCnd;
 import com.jzy.api.cnd.app.GetServInfoCnd;
 import com.jzy.api.model.app.AppGame;
@@ -100,10 +101,10 @@ public class AppGameController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/index")
-    public ApiResult index(@RequestBody AppGameCnd appGameCnd) {
+    public ApiResult index(@RequestBody AppGameListCnd appGameListCnd) {
         PageVo<AppGameVo> result;
         try {
-            result = appGameService.listPage(appGameCnd);
+            result = appGameService.listPage(appGameListCnd);
         } catch (Exception e) {
             logger.error("admin游戏大区分页查询异常:{}", e);
             return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());

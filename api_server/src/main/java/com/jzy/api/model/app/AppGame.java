@@ -28,12 +28,12 @@ public class AppGame extends GenericModel {
     private String name;
 
     /**
-     * 类型 0 游戏  1 大区   2服务器
+     * 类型 1游戏2大区3服务
      */
     private String type;
 
     /**
-     * 状态 0 有区有服  1 有区没服  2 有服没区(一个默认大区)
+     * 状态：1有区有服  2有区没服  3有服没区(一个默认大区)
      */
     private String status;
 

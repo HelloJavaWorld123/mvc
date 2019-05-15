@@ -1,6 +1,7 @@
 package com.jzy.api.controller.app;
 
 import com.jzy.api.cnd.app.AppTypeCnd;
+import com.jzy.api.cnd.app.AppTypeListCnd;
 import com.jzy.api.model.app.AppType;
 import com.jzy.api.po.app.AppTypePo;
 import com.jzy.api.service.app.AppTypeService;
@@ -72,10 +73,10 @@ public class AppTypeController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/index")
-    public ApiResult index(@RequestBody AppTypeCnd appTypeCnd) {
+    public ApiResult index(@RequestBody AppTypeListCnd appTypeListCnd) {
         PageVo<AppTypeVo> result;
         try {
-            result = appTypeService.listPage(appTypeCnd);
+            result = appTypeService.listPage(appTypeListCnd);
         } catch (Exception e) {
             logger.error("admin产品类型分页查询异常:{}", e);
             return new ApiResult().fail(OPERATION_FAILED);
@@ -136,11 +137,12 @@ public class AppTypeController {
         try {
             AppType appType = new AppType();
             BeanUtils.copyProperties(appTypeCnd,appType);
+            appType.setId(appTypeCnd.getId());
             appTypeService.edit(appType);
         }catch (BusException e){
             return new ApiResult().fail(e.getMessage());
         }catch (Exception e){
-            logger.error("admin产品类型添加:{}", e);
+            logger.error("admin产品类型编辑异常:{}", e);
             return new ApiResult().fail(OPERATION_FAILED);
         }
         return new ApiResult<>();

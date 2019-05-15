@@ -93,7 +93,7 @@
     </update>
 
     <!--账号类型分页查询-->
-    <select id="listPage" parameterType="com.jzy.api.cnd.app.AppAccttypeCnd"
+    <select id="listPage" parameterType="com.jzy.api.cnd.app.AppAccttypeListCnd"
             resultType="com.jzy.api.vo.app.AppAccttypeVo">
         select id,main_name as mainName,main_regular as mainRegular,main_msg as mainMsg,
         sub_name as subName,sub_regular as subRegular,sub_msg as subMsg from app_accttype

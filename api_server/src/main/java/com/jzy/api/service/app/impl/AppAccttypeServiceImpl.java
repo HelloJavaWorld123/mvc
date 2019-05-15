@@ -3,6 +3,7 @@ package com.jzy.api.service.app.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jzy.api.cnd.app.AppAccttypeCnd;
+import com.jzy.api.cnd.app.AppAccttypeListCnd;
 import com.jzy.api.dao.app.AppAccttypeMapper;
 import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.model.app.AppAccttype;
@@ -110,11 +111,11 @@ public class AppAccttypeServiceImpl extends GenericServiceImpl<AppAccttype> impl
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public PageVo listPage(AppAccttypeCnd appAccttypeCnd) {
-        Integer page = appAccttypeCnd.getPage();
-        Integer limit = appAccttypeCnd.getLimit();
+    public PageVo listPage(AppAccttypeListCnd appAccttypeListCnd) {
+        Integer page = appAccttypeListCnd.getPage();
+        Integer limit = appAccttypeListCnd.getLimit();
         Page<AppAccttypeVo> infoListVoPage = PageHelper.startPage(page, limit);
-        List<AppAccttypeVo> appAcctTypeList = appAccttypeMapper.listPage(appAccttypeCnd);
+        List<AppAccttypeVo> appAcctTypeList = appAccttypeMapper.listPage(appAccttypeListCnd);
         PageVo<AppAccttypeVo> pageVo = new PageVo<>(appAcctTypeList);
         pageVo.setTotalCount(infoListVoPage.getTotal());
         pageVo.setPage(page);
