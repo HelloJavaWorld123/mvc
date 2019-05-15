@@ -17,10 +17,6 @@ import java.util.Date;
 @Data
 public class ExcelExport extends GenericModel {
     /**
-     * 主键
-     */
-    private String excelExportId;
-    /**
      * 文件名
      */
     private String fileName;

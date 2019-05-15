@@ -74,4 +74,15 @@
         AND del_flag = 0
     </select>
 
+    <!-- 是否已经导出  -->>
+    <select id="isAlreadyExport" resultType="java.lang.Boolean">
+        SELECT
+        COUNT(1) > 0
+        FROM
+        order_export_record
+        WHERE
+        md5 = #{md5}
+        AND del_flag = 0
+    </select>
+
 </mapper>

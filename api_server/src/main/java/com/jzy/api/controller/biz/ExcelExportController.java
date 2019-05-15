@@ -6,6 +6,9 @@ import com.jzy.api.model.biz.ExcelExport;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.ExcelExportService;
 import com.jzy.api.service.biz.OrderService;
+import com.jzy.api.service.key.TableKeyService;
+import com.jzy.api.util.CommUtils;
+import com.jzy.api.util.MD5Util;
 import com.jzy.api.vo.biz.BackOrderListVo;
 import com.jzy.api.vo.biz.ExcelExportVo;
 import com.jzy.framework.bean.cnd.PageCnd;
@@ -41,6 +44,9 @@ public class ExcelExportController extends GenericController {
     @Resource
     private ExcelExportService excelExportService;
 
+    @Resource
+    private TableKeyService tableKeyService;
+
     /**
      * <b>功能描述：</b>订单列表接口导出<br>
      * <b>修订记录：</b><br>
@@ -54,7 +60,12 @@ public class ExcelExportController extends GenericController {
             return new ApiResult().fail("导出订单列表为空");
         }
         List<BackOrderListVo> rowList = convert(orderList, BackOrderListVo.class);
-        excelExportService.export(rowList);
+        ExcelExport excelExport = new ExcelExport();
+        excelExport.setId(tableKeyService.newKey("order_export_record", "id", 10000));
+        excelExport.setStartDate(backOrderCnd.getStartDate());
+        excelExport.setEndDate(backOrderCnd.getEndDate());
+        excelExportService.insert(excelExport);
+        excelExportService.orderExport(rowList, excelExport.getId());
         return new ApiResult().success();
     }
 
