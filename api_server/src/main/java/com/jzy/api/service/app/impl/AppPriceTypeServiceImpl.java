@@ -36,6 +36,7 @@ public class AppPriceTypeServiceImpl extends GenericServiceImpl<AppPriceType> im
     @Resource
     private TableKeyService tableKeyService;
 
+
     /**
      * <b>功能描述：</b>充值类型批量操作<br>
      * <b>修订记录：</b><br>
@@ -45,15 +46,28 @@ public class AppPriceTypeServiceImpl extends GenericServiceImpl<AppPriceType> im
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
     public void saveAppPriceTypeList(SaveAppPriceTypeListCnd saveAppPriceTypeListCnd) {
         Long aiId = saveAppPriceTypeListCnd.getAiId();
-        //物理删除当前商品下的所有充值类型
-        appPriceTypeMapper.deleteByAiId(aiId);
+        List<String> saveList = new ArrayList<>();
         for (AppPriceType appPriceType : saveAppPriceTypeListCnd.getAppPriceTypeList()) {
             appPriceType.setAiId(aiId);
-            appPriceType.setId(tableKeyService.newKey("app_price_type", "id", 0));
-            Date dateTime = new Date();
-            appPriceType.setCreateTime(dateTime);
-            appPriceType.setModifyTime(dateTime);
-            appPriceTypeMapper.insert(appPriceType);
+            if (appPriceType.getId() == null) {
+                appPriceType.setId(tableKeyService.newKey("app_price_type", "id", 0));
+                this.insert(appPriceType);
+            } else {
+                this.update(appPriceType);
+            }
+            saveList.add(appPriceType.getId().toString());
+        }
+        //保存到数据库的id列表和查询出来的id列表求差集，做删除操作
+        List<String> queryList = appPriceTypeMapper.getIdList(aiId);
+        queryList.removeAll(saveList);
+        if (queryList.size() > 0) {
+            for (String aptId : queryList) {
+                AppPriceType appPriceType = new AppPriceType();
+                appPriceType.setDelFlag(1);
+                appPriceType.setId(Long.valueOf(aptId));
+                appPriceType.setAiId(aiId);
+                this.update(appPriceType);
+            }
         }
     }
 
@@ -63,8 +77,8 @@ public class AppPriceTypeServiceImpl extends GenericServiceImpl<AppPriceType> im
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    public List<AppPriceTypeListPo> getAppPriceTypelist(String  aiId, String dealerId) {
-        List<AppPriceTypeListPo> appPriceTypeMappers = appPriceTypeMapper.getAppPriceTypelist(aiId,dealerId);
+    public List<AppPriceTypeListPo> getAppPriceTypelist(String aiId, String dealerId) {
+        List<AppPriceTypeListPo> appPriceTypeMappers = appPriceTypeMapper.getAppPriceTypelist(aiId, dealerId);
         return appPriceTypeMappers;
 
     }
@@ -79,8 +93,9 @@ public class AppPriceTypeServiceImpl extends GenericServiceImpl<AppPriceType> im
         return appPriceTypeMappers;
 
     }
+
     @Override
     protected GenericMapper<AppPriceType> getGenericMapper() {
-        return null;
+        return appPriceTypeMapper;
     }
 }

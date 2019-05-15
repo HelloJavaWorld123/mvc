@@ -175,6 +175,17 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
         appPageMapper.insert(appPage);
     }
 
+
+    /**
+     * <b>功能描述：</b>根据商品名称获取商品Id<br>
+     * <b>修订记录：</b><br>
+     * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+
+    public List<String> getIdByName(List<String> nameList) {
+        return appInfoMapper.getIdByName(nameList);
+    }
+
     /**
      * <b>功能描述：</b>修改富文本内容<br>
      * <b>修订记录：</b><br>

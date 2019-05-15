@@ -299,7 +299,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
                 if (dealerAppPriceInfoCnd.getPayPrice() == null) {
                     dealerAppPriceInfo.setPayPrice(BigDecimal.ZERO);
                 }
-                if (dealerAppPriceInfoCnd.getDiscount()==null){
+                if (dealerAppPriceInfoCnd.getDiscount() == null) {
                     dealerAppPriceInfo.setDiscount(BigDecimal.ZERO);
                 }
                 dealerAppPriceInfo.setAptId(dealerAppPriceTypeCnd.getAptId());
@@ -328,26 +328,15 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
     }
 
     /**
-     * <b>功能描述：</b>创建商品名称常量<br>
+     * <b>功能描述：</b>根据商品名称获取商品Id<br>
      * <b>修订记录：</b><br>
      * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     private List<String> checkMap(AppInfo appInfo, String aiId) {
-        Map<String, Object> map = new HashMap<>();
-        List<String> aiIdList = new ArrayList<>();
-        map.put("移动话费", 1);
-        map.put("联通话费", 1);
-        map.put("电信话费", 1);
-        map.put("移动流量", 1);
-        map.put("联通流量", 1);
-        map.put("电信流量", 1);
-        if (map.containsKey(appInfo.getName())) {
-            aiIdList.add("15570566368665931");
-            aiIdList.add("155705663681750532");
-            aiIdList.add("155705663683486412");
-            aiIdList.add("155705663793823380");
-            aiIdList.add("155705663795659260");
-            aiIdList.add("155705663797342898");
+        List<String> aiIdList = new ArrayList<>(10);
+        List<String> nameList = Arrays.asList("移动话费", "电信话费", "移动流量", "联通流量", "联通话费", "电信流量");
+        if (nameList.contains(appInfo.getName())) {
+            aiIdList = appInfoService.getIdByName(nameList);
         } else {
             aiIdList.add(aiId);
         }

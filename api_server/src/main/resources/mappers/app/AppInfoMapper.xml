@@ -202,13 +202,13 @@
     <!--    查询名称列表-->
     <select id="listName" resultType="com.jzy.api.model.app.AppInfo">
         SELECT
-            id,
-            `code`,
-            `name`,
-            icon,
-            label
+        id,
+        `code`,
+        `name`,
+        icon,
+        label
         FROM
-            app_info ai
+        app_info ai
         WHERE ai.del_flag = 0
         AND ai.name = #{name}
         <if test="id!=null">
@@ -245,6 +245,23 @@
         WHERE
             1 = 1
     AND ai.id = #{aiId}
+    </select>
+
+    <!--根据商品名称获取商品Id -->
+    <select id="getIdByName" resultType="String">
+        select
+        id
+        from
+        app_info
+        where
+        1=1
+        and name in
+        <foreach collection="nameList" item="item" open="(" separator=","
+                 close=")" index="index">
+            #{item}
+        </foreach>
+
+
     </select>
 
 

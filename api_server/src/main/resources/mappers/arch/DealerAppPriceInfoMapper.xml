@@ -334,14 +334,14 @@
         LEFT JOIN sys_images as img ON img.type = 1 AND img.rel_id = ai.id
         WHERE
         dai.dealer_id = #{dealerId}
-        AND dai. STATUS = 1
+        AND dai. STATUS = 0
         and dai.ai_id
         in
         <foreach collection="aiIdList" index="index" item="item" open="("
                  close=")" separator=",">
             #{item}
         </foreach>
-        and ai.status=1
+        and ai.status=0
     </select>
 
 

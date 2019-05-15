@@ -34,6 +34,7 @@
         WHERE
             1 = 1
         AND ai_id =#{aiId}
+        and del_flag=0
 </select>
 
     <!--    查询当前商品充值类型列表-->
@@ -115,5 +116,62 @@
         WHERE
             ai_id =#{aiId}
     </delete>
+
+    <update id="update" parameterType="com.jzy.api.model.app.AppPriceType">
+
+        UPDATE app_price_type
+        SET
+        <if test="aiId!=null">
+            `ai_id` = #{aiId},
+        </if>
+        <if test="name!=null">
+            `name` = #{name},
+        </if>
+        <if test="unit!=null">
+            `unit` = #{unit},
+        </if>
+        <if test="maxmum!=null">
+            `maxmum` = #{maxmum},
+        </if>
+        <if test="minmum!=null">
+            `minmum` = #{minmum},
+        </if>
+        <if test="multiple!=null">
+            `multiple` = #{multiple},
+        </if>
+        <if test="subscriptionRatio!=null">
+            `subscription_ratio` = #{subscriptionRatio},
+        </if>
+        <if test="modifierId!=null">
+            `modifier_id` = #{modifierId},
+        </if>
+        <if test="creatorId!=null">
+            `creator_id` = #{creatorId},
+        </if>
+        <if test="delFlag!=null">
+            `del_flag` = #{delFlag},
+        </if>
+        <if test="createTime!=null">
+            `create_time` = #{createTime},
+        </if>
+        <if test="modifyTime!=null">
+            `modify_time` = #{modifyTime}
+        </if>
+        WHERE
+        (`id` = #{id})
+
+    </update>
+
+
+    <!--保存到数据库的id列表和查询出来的id列表求差集，做删除操作-->
+    <select id="getIdList" resultType="String">
+        select
+        id
+        from
+        app_price_type
+        where
+        ai_id=#{aiId}
+    </select>
+
 
 </mapper>

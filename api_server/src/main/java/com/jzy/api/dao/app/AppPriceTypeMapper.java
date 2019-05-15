@@ -49,5 +49,12 @@ public interface AppPriceTypeMapper extends GenericMapper<AppPriceType> {
     List<AppPriceType> getAppPriceTypelistByaiId(@Param("aiId") Long aiId);
 
 
+    /**
+     * <b>功能描述：</b>保存到数据库的id列表和查询出来的id列表求差集，做删除操作<br>
+     * <b>修订记录：</b><br>
+     * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+
+    List<String> getIdList(@Param("aiId") Long aiId);
 
 }

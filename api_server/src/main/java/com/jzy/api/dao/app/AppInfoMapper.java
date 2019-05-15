@@ -68,7 +68,7 @@ public interface AppInfoMapper extends GenericMapper<AppInfo> {
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<AppInfo> listName(@Param("name") String name,@Param("id") String ai_id);
+    List<AppInfo> listName(@Param("name") String name, @Param("id") String ai_id);
 
     /**
      * <b>功能描述：</b>查询商品信息<br>
@@ -76,6 +76,15 @@ public interface AppInfoMapper extends GenericMapper<AppInfo> {
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     AppInfo queryById(@Param("aiId") Long aiId);
+
+
+    /**
+     * <b>功能描述：</b>根据商品名称获取商品Id<br>
+     * <b>修订记录：</b><br>
+     * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+
+    List<String> getIdByName(@Param("nameList") List<String> nameList);
 
 
 }
