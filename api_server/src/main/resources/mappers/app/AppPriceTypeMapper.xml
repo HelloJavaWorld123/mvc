@@ -72,6 +72,7 @@
         LEFT JOIN dealer_app_price_type as dapt ON apt.ai_id = dapt.ai_id AND apt.id = dapt.apt_id AND dapt.dealer_id = #{dealerId}
         WHERE 1 = 1
         AND apt.ai_id = #{aiId}
+        and apt.del_flag=0
     </select>
     <!--新增-->
     <insert id="insert" parameterType="com.jzy.api.model.app.AppPriceType">
