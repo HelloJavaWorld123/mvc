@@ -2,9 +2,8 @@ package com.jzy.api.service.biz;
 
 import com.jzy.api.model.biz.ExcelExport;
 import com.jzy.framework.bean.cnd.PageCnd;
+import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.service.GenericService;
-
-import java.util.List;
 
 /**
  * <b>功能：</b>Excel导出数据记录<br>
@@ -22,6 +21,6 @@ public interface ExcelExportService extends GenericService<ExcelExport> {
      * <b>修订记录：</b><br>
      * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<ExcelExport> queryExcelExportList(PageCnd pageCnd);
+    PageVo<ExcelExport> queryExcelExportList(PageCnd pageCnd);
 
 }

@@ -1,5 +1,6 @@
 package com.jzy.api.service.biz.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jzy.api.dao.biz.ExcelExportMapper;
 import com.jzy.api.model.biz.ExcelExport;
@@ -7,6 +8,7 @@ import com.jzy.api.service.biz.ExcelExportService;
 import com.jzy.framework.bean.cnd.PageCnd;
 import com.jzy.framework.bean.cnd.ReportPageCnd;
 import com.jzy.framework.bean.model.GenericModel;
+import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.springframework.stereotype.Service;
@@ -35,9 +37,12 @@ public class ExcelExportServiceImpl extends GenericServiceImpl<ExcelExport> impl
      * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public List<ExcelExport> queryExcelExportList(PageCnd pageCnd) {
-        PageHelper.startPage(pageCnd.getPage(), pageCnd.getLimit(), false);
-        return excelExportMapper.queryExcelExportList(Integer.parseInt(getDealerId()));
+    public PageVo<ExcelExport> queryExcelExportList(PageCnd pageCnd) {
+        Page page = PageHelper.startPage(pageCnd.getPage(), pageCnd.getLimit(), false);
+        List<ExcelExport> excelExportList = excelExportMapper.queryExcelExportList(Integer.parseInt(getDealerId()));
+        PageVo<ExcelExport> pageVo = new PageVo<>(page.getPageNum(), page.getPageSize());
+        pageVo.setRows(excelExportList);
+        return pageVo;
     }
 
     @Override
