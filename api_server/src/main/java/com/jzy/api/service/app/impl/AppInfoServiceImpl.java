@@ -59,7 +59,7 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
         //获取商品富文本
         AppPage appPage = appPageMapper.getPageInfoByAiId(aiId);
         //获取多图片信息
-        List<FileInfo> fileInfos = sysImagesMapper.queryImagesList(aiId.toString(), 6);
+        List<FileInfo> fileInfos = sysImagesMapper.queryImagesList(aiId.toString());
         AppInfoDetailVo appInfoDetailVo = new AppInfoDetailVo(appInfoPo, appPriceTypeMappers, appPage);
         appInfoDetailVo.setFileInfoList(fileInfos);
         return appInfoDetailVo;
