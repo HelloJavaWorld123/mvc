@@ -72,14 +72,14 @@
         id, code, out_trade_no, user_id, app_id, sup_no, sup_price, sup_status, discount,
         price, number, status, type, total_fee, price_type_name, price_type_unit,
         acct_type, account, game_account, game_area, game_serv, trade_method, trade_code,
-        trade_fee, trade_status, invoice_status, remark, recharge_mode, dealer_id,
+        trade_fee, trade_status, invoice_status, remark, recharge_mode, dealer_id, dealer_price,
         del_flag, creator_id, modifier_id, create_time, modify_time
         )
         VALUES (
         #{orderId}, #{code}, #{outTradeNo}, #{userId}, #{appId}, #{supNo}, #{supPrice}, #{supStatus}, #{discount},
         #{price}, #{number}, #{status}, #{type}, #{totalFee}, #{priceTypeName}, #{priceTypeUnit},
         #{acctType}, #{account}, #{gameAccount}, #{gameArea}, #{gameServ}, #{tradeMethod}, #{tradeCode},
-        #{tradeFee}, #{tradeStatus}, #{invoiceStatus}, #{remark}, #{rechargeMode}, #{dealerId},
+        #{tradeFee}, #{tradeStatus}, #{invoiceStatus}, #{remark}, #{rechargeMode}, #{dealerId}, #{dealerPrice},
         #{delFlag}, #{creatorId}, #{modifierId}, #{createTime}, #{modifyTime}
         )
     </insert>
@@ -117,15 +117,16 @@
     <!-- 根据订单id查询订单详情 -->
     <select id="queryOrderById" resultMap="order">
         SELECT
-        id, code, out_trade_no, user_id, app_id, sup_no, sup_price, sup_status, discount,
-        price, number, status, type, total_fee, price_type_name, price_type_unit,
-        acct_type, account, game_account, game_area, game_serv, trade_method, trade_code,
-        trade_fee, trade_status, invoice_status, remark, recharge_mode, dealer_id,
-        create_time, modify_time
+        o.id, o.code, o.out_trade_no, o.user_id, o.app_id, app.name appName, o.sup_no, o.sup_price, o.sup_status, o.discount,
+        o.price, o.number, o.status, o.type, o.total_fee, o.price_type_name, o.price_type_unit,
+        o.acct_type, o.account, o.game_account, o.game_area, o.game_serv, o.trade_method, o.trade_code,
+        o.trade_fee, o.trade_status, o.invoice_status, o.remark, o.recharge_mode, o.dealer_id,
+        o.create_time, o.modify_time
         FROM
-        `order`
+        `order` o
+        INNER JOIN app_info app ON o.app_id = app.id
         WHERE
-        id = #{orderId}
+        o.id = #{orderId}
     </select>
 
     <!-- 根据订单id查询订单详情 -->
