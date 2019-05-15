@@ -1,6 +1,7 @@
 package com.jzy.api.service.app;
 
 import com.jzy.api.cnd.app.CategoryCnd;
+import com.jzy.api.cnd.app.CategoryListCnd;
 import com.jzy.api.model.app.Category;
 import com.jzy.api.vo.app.CategoryVo;
 import com.jzy.framework.bean.vo.PageVo;
@@ -62,5 +63,5 @@ public interface CategoryService extends GenericService<Category> {
      * <b>修订记录：</b><br>
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    PageVo<CategoryVo> listPage(CategoryCnd categoryCnd);
+    PageVo<CategoryVo> listPage(CategoryListCnd categoryListCnd);
 }

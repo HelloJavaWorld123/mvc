@@ -1,6 +1,7 @@
 package com.jzy.api.controller.app;
 
 import com.jzy.api.cnd.app.CategoryCnd;
+import com.jzy.api.cnd.app.CategoryListCnd;
 import com.jzy.api.cnd.app.DealerAppListCnd;
 import com.jzy.api.model.app.Category;
 import com.jzy.api.service.app.CategoryService;
@@ -66,13 +67,13 @@ public class CategoryController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/index")
-    public ApiResult index(@RequestBody CategoryCnd categoryCnd) {
+    public ApiResult index(@RequestBody CategoryListCnd categoryListCnd) {
         PageVo<CategoryVo> result;
         try {
-            result = categoryService.listPage(categoryCnd);
+            result = categoryService.listPage(categoryListCnd);
         } catch (Exception e) {
             logger.error("admin产品分类分页查询异常:{}", e);
-            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
+            return new ApiResult().fail(ResultEnum.OPERATION_FAILED);
         }
         return new ApiResult<>(result);
     }
@@ -93,6 +94,7 @@ public class CategoryController {
         }
         return new ApiResult<>(categoryList);
     }
+
     @RequestMapping("dealerAppList")
     public ApiResult dealerAppList(@RequestBody DealerAppListCnd dealerAppListCnd) {
         Map<String, Object> dealerAppList;

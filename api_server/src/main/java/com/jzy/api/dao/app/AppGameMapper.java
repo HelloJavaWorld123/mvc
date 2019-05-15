@@ -1,6 +1,7 @@
 package com.jzy.api.dao.app;
 
 import com.jzy.api.cnd.app.AppGameCnd;
+import com.jzy.api.cnd.app.AppGameListCnd;
 import com.jzy.api.cnd.app.GameListCnd;
 import com.jzy.api.cnd.app.GetServInfoCnd;
 import com.jzy.api.model.app.AppGame;
@@ -117,5 +118,5 @@ public interface AppGameMapper extends GenericMapper<AppGame> {
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<AppGameVo> listPage(AppGameCnd appGameCnd);
+    List<AppGameVo> listPage(AppGameListCnd appGameListCnd);
 }

@@ -1,9 +1,10 @@
 package com.jzy.api.cnd.app;
 
+import com.jzy.framework.bean.cnd.PageCnd;
 import lombok.Data;
 
 /**
- * <b>功能：</b>厂商表<br>
+ * <b>功能：</b>应用类型<br>
  * <b>Copyright JZY</b>
  * <ul>
  * <li>版本&nbsp;&nbsp;&nbsp;&nbsp;修改日期&nbsp;&nbsp;&nbsp;&nbsp;部　　门&nbsp;&nbsp;&nbsp;&nbsp;作　者&nbsp;&nbsp;&nbsp;&nbsp;变更内容</li>
@@ -12,20 +13,22 @@ import lombok.Data;
  * </ul>
  */
 @Data
-public class AppCompanyCnd {
+public class AppTypeListCnd extends PageCnd {
 
     /**
      * 主键
      */
     private Long id;
-
     /**
-     * 名称
+     * 应用分类名称
      */
     private String name;
 
     /**
-     * 厂商icon
+     * 序列:值越小越靠前,默认1
      */
-    private String icon;
+    private Integer sort;
+
+
+
 }

@@ -2,6 +2,7 @@ package com.jzy.api.dao.app;
 
 
 import com.jzy.api.cnd.app.AppTypeCnd;
+import com.jzy.api.cnd.app.AppTypeListCnd;
 import com.jzy.api.model.app.AppType;
 import com.jzy.api.po.app.AppTypePo;
 import com.jzy.api.vo.app.AppTypeVo;
@@ -54,5 +55,5 @@ public interface AppTypeMapper extends GenericMapper<AppType> {
      * <b>修订记录：</b><br>
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<AppTypeVo> listPage(AppTypeCnd appTypeCnd);
+    List<AppTypeVo> listPage(AppTypeListCnd appTypeListCnd);
 }

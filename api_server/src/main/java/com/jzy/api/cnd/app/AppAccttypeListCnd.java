@@ -1,5 +1,6 @@
 package com.jzy.api.cnd.app;
 
+import com.jzy.framework.bean.cnd.PageCnd;
 import lombok.Data;
 
 /**
@@ -12,7 +13,7 @@ import lombok.Data;
  * </ul>
  */
 @Data
-public class AppAccttypeCnd {
+public class AppAccttypeListCnd extends PageCnd {
 
     /**
      * 主键

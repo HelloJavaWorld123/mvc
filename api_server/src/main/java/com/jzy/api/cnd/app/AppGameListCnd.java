@@ -1,9 +1,11 @@
 package com.jzy.api.cnd.app;
 
+import com.jzy.framework.bean.cnd.PageCnd;
+import com.jzy.framework.bean.vo.PageVo;
 import lombok.Data;
 
 /**
- * <b>功能：</b>应用账号类型<br>
+ * <b>功能：</b>游戏表<br>
  * <b>Copyright JZY</b>
  * <ul>
  * <li>版本&nbsp;&nbsp;&nbsp;&nbsp;修改日期&nbsp;&nbsp;&nbsp;&nbsp;部　　门&nbsp;&nbsp;&nbsp;&nbsp;作　者&nbsp;&nbsp;&nbsp;&nbsp;变更内容</li>
@@ -12,42 +14,37 @@ import lombok.Data;
  * </ul>
  */
 @Data
-public class AppAccttypeCnd {
+public class AppGameListCnd extends PageCnd {
 
     /**
      * 主键
      */
+
     private Long id;
+    /**
+     * 父id
+     */
+    private String pId;
 
     /**
-     * 主账号名称
+     * 名称
      */
-    private String mainName;
+    private String name;
 
     /**
-     * 主账号正则
+     * 类型 0 游戏  1 大区   2服务器
      */
-    private String mainRegular;
+    private String type;
 
     /**
-     * 主账号错误提示信息
+     * 状态：1有区有服  2有区没服  3有服没区(一个默认大区)
      */
-    private String mainMsg;
+    private String status;
 
     /**
-     * 副账号名称
+     * 排序
      */
-    private String subName;
-
-    /**
-     * 副账号正则
-     */
-    private String subRegular;
-
-    /**
-     * 副账号错误提示信息
-     */
-    private String subMsg;
+    private String sort;
 
 
 }

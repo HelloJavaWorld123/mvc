@@ -2,6 +2,7 @@ package com.jzy.api.service.app;
 
 
 import com.jzy.api.cnd.app.AppCompanyCnd;
+import com.jzy.api.cnd.app.AppCompanyListCnd;
 import com.jzy.api.model.app.AppCompany;
 import com.jzy.api.po.app.AppCompanyPo;
 import com.jzy.api.vo.app.AppCompanyVo;
@@ -56,5 +57,5 @@ public interface AppCompanyService extends GenericService<AppCompany> {
      * <b>修订记录：</b><br>
      * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    PageVo<AppCompanyVo> listPage(AppCompanyCnd appCompanyCnd);
+    PageVo<AppCompanyVo> listPage(AppCompanyListCnd appCompanyListCnd);
 }

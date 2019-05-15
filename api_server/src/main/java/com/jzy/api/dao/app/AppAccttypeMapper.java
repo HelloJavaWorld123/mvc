@@ -1,6 +1,7 @@
 package com.jzy.api.dao.app;
 
 import com.jzy.api.cnd.app.AppAccttypeCnd;
+import com.jzy.api.cnd.app.AppAccttypeListCnd;
 import com.jzy.api.model.app.AppAccttype;
 import com.jzy.api.po.app.AppAccttypeListPo;
 import com.jzy.api.vo.app.AppAccttypeVo;
@@ -54,5 +55,5 @@ public interface AppAccttypeMapper extends GenericMapper<AppAccttype> {
      * <b>修订记录：</b><br>
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<AppAccttypeVo> listPage(AppAccttypeCnd appAccttypeCnd);
+    List<AppAccttypeVo> listPage(AppAccttypeListCnd appAccttypeListCnd);
 }

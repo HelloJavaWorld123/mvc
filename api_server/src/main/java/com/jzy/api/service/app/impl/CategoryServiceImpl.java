@@ -3,6 +3,7 @@ package com.jzy.api.service.app.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jzy.api.cnd.app.CategoryCnd;
+import com.jzy.api.cnd.app.CategoryListCnd;
 import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.dao.app.CategoryMapper;
 import com.jzy.api.model.app.Category;
@@ -75,11 +76,11 @@ public class CategoryServiceImpl extends GenericServiceImpl<Category> implements
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public PageVo listPage(CategoryCnd categoryCnd) {
-        Integer page = categoryCnd.getPage();
-        Integer limit = categoryCnd.getLimit();
+    public PageVo listPage(CategoryListCnd categoryListCnd) {
+        Integer page = categoryListCnd.getPage();
+        Integer limit = categoryListCnd.getLimit();
         Page<CategoryVo> infoListVoPage = PageHelper.startPage(page, limit);
-        List<CategoryVo> appInfoListVoList = categoryMapper.listPage(categoryCnd);
+        List<CategoryVo> appInfoListVoList = categoryMapper.listPage(categoryListCnd);
         PageVo<CategoryVo> pageVo = new PageVo<>(appInfoListVoList);
         pageVo.setTotalCount(infoListVoPage.getTotal());
         pageVo.setPage(page);

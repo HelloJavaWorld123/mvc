@@ -1,13 +1,12 @@
 package com.jzy.api.controller.app;
 
 import com.jzy.api.cnd.app.AppAccttypeCnd;
-import com.jzy.api.cnd.app.AppCompanyCnd;
+import com.jzy.api.cnd.app.AppAccttypeListCnd;
 import com.jzy.api.model.app.AppAccttype;
 import com.jzy.api.po.app.AppAccttypeListPo;
 import com.jzy.api.service.app.AppAccttypeService;
 import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.vo.app.AppAccttypeVo;
-import com.jzy.api.vo.app.AppCompanyVo;
 import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
@@ -19,7 +18,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -70,10 +68,10 @@ public class AppAccttypeController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/index")
-    public ApiResult index(@RequestBody AppAccttypeCnd appAccttypeCnd) {
+    public ApiResult index(@RequestBody AppAccttypeListCnd appAccttypeListCnd) {
         PageVo<AppAccttypeVo> result;
         try {
-            result = appAccttypeService.listPage(appAccttypeCnd);
+            result = appAccttypeService.listPage(appAccttypeListCnd);
         } catch (Exception e) {
             logger.error("admin账号类别列表异常:{}", e);
             return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());

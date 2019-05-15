@@ -1,6 +1,7 @@
 package com.jzy.api.controller.app;
 
 import com.jzy.api.cnd.app.AppCompanyCnd;
+import com.jzy.api.cnd.app.AppCompanyListCnd;
 import com.jzy.api.model.app.AppCompany;
 import com.jzy.api.po.app.AppCompanyPo;
 import com.jzy.api.service.app.AppCompanyService;
@@ -61,10 +62,10 @@ public class AppCompanyController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/index")
-    public ApiResult index(@RequestBody AppCompanyCnd appCompanyCnd) {
+    public ApiResult index(@RequestBody AppCompanyListCnd appCompanyListCnd) {
         PageVo<AppCompanyVo> result;
         try {
-            result = appCompanyService.listPage(appCompanyCnd);
+            result = appCompanyService.listPage(appCompanyListCnd);
         } catch (Exception e) {
             logger.error("admin厂商列表异常:{}", e);
             return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());

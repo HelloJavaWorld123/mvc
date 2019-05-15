@@ -3,6 +3,7 @@ package com.jzy.api.service.app.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jzy.api.cnd.app.AppCompanyCnd;
+import com.jzy.api.cnd.app.AppCompanyListCnd;
 import com.jzy.api.dao.app.AppCompanyMapper;
 import com.jzy.api.dao.app.AppGameMapper;
 import com.jzy.api.dao.app.AppInfoMapper;
@@ -60,11 +61,11 @@ public class AppCompanyServiceImpl extends GenericServiceImpl<AppCompany> implem
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public PageVo listPage(AppCompanyCnd appCompanyCnd) {
-        Integer page = appCompanyCnd.getPage();
-        Integer limit = appCompanyCnd.getLimit();
+    public PageVo listPage(AppCompanyListCnd appCompanyListCnd) {
+        Integer page = appCompanyListCnd.getPage();
+        Integer limit = appCompanyListCnd.getLimit();
         Page<AppCompanyVo> infoListVoPage = PageHelper.startPage(page, limit);
-        List<AppCompanyVo> appInfoListVoList = appCompanyMapper.listPage(appCompanyCnd);
+        List<AppCompanyVo> appInfoListVoList = appCompanyMapper.listPage(appCompanyListCnd);
         PageVo<AppCompanyVo> pageVo = new PageVo<>(appInfoListVoList);
         pageVo.setTotalCount(infoListVoPage.getTotal());
         pageVo.setPage(page);

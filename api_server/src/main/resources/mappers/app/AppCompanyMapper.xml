@@ -73,7 +73,7 @@
 	</select>
 
     <!--厂商列表分页查询-->
-    <select id="listPage" parameterType="com.jzy.api.cnd.app.AppCompanyCnd"
+    <select id="listPage" parameterType="com.jzy.api.cnd.app.AppCompanyListCnd"
             resultType="com.jzy.api.vo.app.AppCompanyVo">
         select id,name,icon from app_company
         <where>

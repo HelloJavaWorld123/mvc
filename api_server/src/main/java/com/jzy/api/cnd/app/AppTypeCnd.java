@@ -1,6 +1,5 @@
 package com.jzy.api.cnd.app;
 
-import com.jzy.framework.bean.vo.PageVo;
 import lombok.Data;
 
 /**
@@ -13,7 +12,7 @@ import lombok.Data;
  * </ul>
  */
 @Data
-public class AppTypeCnd extends PageVo {
+public class AppTypeCnd {
 
     /**
      * 主键

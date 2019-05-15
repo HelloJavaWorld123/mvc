@@ -115,7 +115,7 @@
     </update>
 
     <!--产品分类分页查询-->
-    <select id="listPage" parameterType="com.jzy.api.cnd.app.CategoryCnd"
+    <select id="listPage" parameterType="com.jzy.api.cnd.app.CategoryListCnd"
             resultType="com.jzy.api.vo.app.CategoryVo">
         select id,name,sort from app_cate
         <where>
@@ -123,6 +123,6 @@
                 name like CONCAT('%',#{name},'%')
             </if>
         </where>
-        order by create_time desc
+        order by sort asc
     </select>
 </mapper>

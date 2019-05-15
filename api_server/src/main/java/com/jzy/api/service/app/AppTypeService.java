@@ -2,6 +2,7 @@ package com.jzy.api.service.app;
 
 
 import com.jzy.api.cnd.app.AppTypeCnd;
+import com.jzy.api.cnd.app.AppTypeListCnd;
 import com.jzy.api.model.app.AppType;
 import com.jzy.api.po.app.AppTypePo;
 import com.jzy.api.vo.app.AppTypeVo;
@@ -55,5 +56,5 @@ public interface AppTypeService extends GenericService<AppType> {
      * <b>修订记录：</b><br>
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    PageVo<AppTypeVo> listPage(AppTypeCnd appTypeCnd);
+    PageVo<AppTypeVo> listPage(AppTypeListCnd appTypeListCnd);
 }

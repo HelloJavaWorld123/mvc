@@ -1,5 +1,6 @@
 package com.jzy.api.cnd.app;
 
+import com.jzy.framework.bean.cnd.PageCnd;
 import lombok.Data;
 
 /**
@@ -8,7 +9,7 @@ import lombok.Data;
  * @since JDK1.8
  */
 @Data
-public class CategoryCnd{
+public class CategoryListCnd extends PageCnd {
 
     /**
      * id
