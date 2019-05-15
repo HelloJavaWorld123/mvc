@@ -12,6 +12,7 @@ import com.jzy.api.vo.oss.OssPolicyVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,17 +31,33 @@ import java.util.*;
 @Service
 public class AliyunOssServiceImpl implements AliyunOssService {
     private Logger logger = LoggerFactory.getLogger(AliyunOssServiceImpl.class);
-    @Autowired
-    private OssProperties ossProperties;
+//    @Autowired
+//    private OssProperties ossProperties;
+    @Value("${oss.accessKeyId}")
+    private String accessKeyId;
+    @Value("${oss.accessKeySecret}")
+    private String accessKeySecret;
+    @Value("${oss.ossFileURIPre}")
+    private String ossFileURIPre;
+    @Value("${oss.ossBucketName}")
+    private String bucketName;
+    @Value("${oss.ossEndpoint}")
+    private String endpoint;
+    @Value("${oss.ossFilePathPre}")
+    private String fileHost;
+    @Value("${oss.callbackUrl}")
+    private String callbackUrl;
+
+
 
     public  String upload(File file) throws IOException {
 
         logger.debug("=========>OSS文件上传开始："+file.getName());
-        String accessKeyId= ossProperties.getAccessKeyId();
-        String accessKeySecret=ossProperties.getAccessKeySecret();
-        String bucketName=ossProperties.getOssBucketName();
-        String fileHost=ossProperties.getOssFilePathPre();
-        String endpoint = ossProperties.getOssEndpoint();
+//        String accessKeyId= ossProperties.getAccessKeyId();
+//        String accessKeySecret=ossProperties.getAccessKeySecret();
+//        String bucketName=ossProperties.getOssBucketName();
+//        String fileHost=ossProperties.getOssFilePathPre();
+//        String endpoint = ossProperties.getOssEndpoint();
         if(null == file){
             return null;
         }
@@ -68,10 +85,10 @@ public class AliyunOssServiceImpl implements AliyunOssService {
     public  String upload(File file,String directoryName){
 
         logger.debug("=========>OSS文件上传开始："+file.getName()+"---directoryName---"+directoryName);
-        String accessKeyId= ossProperties.getAccessKeyId();
-        String accessKeySecret=ossProperties.getAccessKeySecret();
-        String bucketName=ossProperties.getOssBucketName();
-        String endpoint = ossProperties.getOssEndpoint();
+//        String accessKeyId= ossProperties.getAccessKeyId();
+//        String accessKeySecret=ossProperties.getAccessKeySecret();
+//        String bucketName=ossProperties.getOssBucketName();
+//        String endpoint = ossProperties.getOssEndpoint();
         if(null == file){
             return null;
         }
@@ -101,10 +118,10 @@ public class AliyunOssServiceImpl implements AliyunOssService {
 
         logger.debug("=========>OSS文件删除开始");
         boolean flag = false;
-        String accessKeyId= ossProperties.getAccessKeyId();
-        String accessKeySecret=ossProperties.getAccessKeySecret();
-        String bucketName=ossProperties.getOssBucketName();
-        String endpoint = ossProperties.getOssEndpoint();
+//        String accessKeyId= ossProperties.getAccessKeyId();
+//        String accessKeySecret=ossProperties.getAccessKeySecret();
+//        String bucketName=ossProperties.getOssBucketName();
+//        String endpoint = ossProperties.getOssEndpoint();
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
         try {
             DeleteObjectsResult deleteObjectsResult = ossClient.deleteObjects(new DeleteObjectsRequest(bucketName).withKeys(keys));
@@ -129,10 +146,10 @@ public class AliyunOssServiceImpl implements AliyunOssService {
 
     public void delete(String key){
         logger.debug("=========>OSS单文件删除开始");
-        String accessKeyId= ossProperties.getAccessKeyId();
-        String accessKeySecret=ossProperties.getAccessKeySecret();
-        String bucketName=ossProperties.getOssBucketName();
-        String endpoint = ossProperties.getOssEndpoint();
+//        String accessKeyId= ossProperties.getAccessKeyId();
+//        String accessKeySecret=ossProperties.getAccessKeySecret();
+//        String bucketName=ossProperties.getOssBucketName();
+//        String endpoint = ossProperties.getOssEndpoint();
         // 创建OSSClient实例。
         OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
         try {
@@ -150,10 +167,10 @@ public class AliyunOssServiceImpl implements AliyunOssService {
 
     public OSSObject getOssFileObject(String fileKey){
         logger.debug("=========>OSS文件获取开始：");
-        String accessKeyId= ossProperties.getAccessKeyId();
-        String accessKeySecret=ossProperties.getAccessKeySecret();
-        String bucketName=ossProperties.getOssBucketName();
-        String endpoint = ossProperties.getOssEndpoint();
+//        String accessKeyId= ossProperties.getAccessKeyId();
+//        String accessKeySecret=ossProperties.getAccessKeySecret();
+//        String bucketName=ossProperties.getOssBucketName();
+//        String endpoint = ossProperties.getOssEndpoint();
 
         OSS client = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
         OSSObject ossObject = client.getObject(bucketName,fileKey);
@@ -165,10 +182,10 @@ public class AliyunOssServiceImpl implements AliyunOssService {
 
         OssPolicyVo ossPolicyVo = new OssPolicyVo();
 
-        String accessKeyId= ossProperties.getAccessKeyId();
-        String accessKeySecret=ossProperties.getAccessKeySecret();
-        String endpoint = ossProperties.getOssEndpoint();
-        String ossFileURIPre = ossProperties.getOssFileURIPre();
+//        String accessKeyId= ossProperties.getAccessKeyId();
+//        String accessKeySecret=ossProperties.getAccessKeySecret();
+//        String endpoint = ossProperties.getOssEndpoint();
+//        String ossFileURIPre = ossProperties.getOssFileURIPre();
 
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
         try {
@@ -193,7 +210,7 @@ public class AliyunOssServiceImpl implements AliyunOssService {
             ossPolicyVo.setExpire(String.valueOf(expireEndTime / 1000));
 
             JSONObject jasonCallback = new JSONObject();
-            jasonCallback.put("callbackUrl", ossProperties.getCallbackUrl());
+            jasonCallback.put("callbackUrl", callbackUrl);
             jasonCallback.put("callbackBody","filename=${object}&size=${size}&mimeType=${mimeType}");
             jasonCallback.put("callbackBodyType", "application/x-www-form-urlencoded");
             String base64CallbackBody = BinaryUtil.toBase64String(jasonCallback.toString().getBytes());
