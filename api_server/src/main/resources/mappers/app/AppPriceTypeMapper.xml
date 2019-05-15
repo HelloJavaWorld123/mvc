@@ -15,7 +15,7 @@
 
     <!--    查询当前商品充值类型列表-->
     <select id="getAppPriceTypelistByaiId"
-            resultType="com.jzy.api.model.app.AppPriceType">
+            resultType="com.jzy.api.po.app.AppPriceTypeForDetailPo">
         SELECT
             `id`,
             `ai_id` as aiId,

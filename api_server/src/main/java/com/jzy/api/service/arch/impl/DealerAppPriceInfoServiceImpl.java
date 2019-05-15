@@ -17,6 +17,7 @@ import com.jzy.api.model.dealer.DealerAppInfo;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
 import com.jzy.api.model.dealer.DealerAppPriceType;
 import com.jzy.api.po.app.AppGameListPo;
+import com.jzy.api.po.app.AppPriceTypeForDetailPo;
 import com.jzy.api.po.arch.AppDetailPo;
 import com.jzy.api.po.arch.AppPriceTypePo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
@@ -239,11 +240,11 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         dealerAppPriceInfoDetailVo.setAppName(appinfo.getName());
         dealerAppPriceInfoDetailVo.setAppCode(appinfo.getCode());
         //查询充值类型列表
-        List<AppPriceType> appPriceTypeMapperList = appPriceTypeService.getAppPriceTypelist(Long.valueOf(getPriceInfoCnd.getAiId()));
-        for (AppPriceType appPriceType : appPriceTypeMapperList) {
+        List<AppPriceTypeForDetailPo> appPriceTypeMapperList = appPriceTypeService.getAppPriceTypelist(Long.valueOf(getPriceInfoCnd.getAiId()));
+        for (AppPriceTypeForDetailPo appPriceType : appPriceTypeMapperList) {
             DealerAppTypePriceInfoPo dealerAppTypePriceInfo = new DealerAppTypePriceInfoPo();
             dealerAppTypePriceInfo.setTypeName(appPriceType.getName());
-            dealerAppTypePriceInfo.setAptId(appPriceType.getId().toString());
+            dealerAppTypePriceInfo.setAptId(appPriceType.getId());
 
             DealerAppPriceType dealerAppPriceType = dealerAppPriceInfoMapper.getDealerAppPriceType(aiId, dealerId, appPriceType.getId().toString());
             if (dealerAppPriceType == null) {

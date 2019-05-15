@@ -1,6 +1,7 @@
 package com.jzy.api.dao.app;
 
 import com.jzy.api.model.app.AppPriceType;
+import com.jzy.api.po.app.AppPriceTypeForDetailPo;
 import com.jzy.api.po.arch.AppPriceTypePo;
 import com.jzy.api.po.dealer.AppPriceTypeListPo;
 import com.jzy.framework.dao.GenericMapper;
@@ -46,7 +47,7 @@ public interface AppPriceTypeMapper extends GenericMapper<AppPriceType> {
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<AppPriceType> getAppPriceTypelistByaiId(@Param("aiId") Long aiId);
+    List<AppPriceTypeForDetailPo> getAppPriceTypelistByaiId(@Param("aiId") Long aiId);
 
 
     /**

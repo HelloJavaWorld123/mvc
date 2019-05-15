@@ -10,6 +10,7 @@ import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPage;
 import com.jzy.api.model.app.AppPriceType;
 import com.jzy.api.po.app.AppInfoPo;
+import com.jzy.api.po.app.AppPriceTypeForDetailPo;
 import com.jzy.api.service.app.AppInfoService;
 import com.jzy.api.service.app.AppPriceTypeService;
 import com.jzy.api.vo.app.AppInfoDetailVo;
@@ -49,7 +50,7 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
     public AppInfoDetailVo getAppInfo(Long aiId) {
 
         AppInfoPo appInfoPo = appInfoMapper.getAppInfo(aiId);
-        List<AppPriceType> appPriceTypeMappers = appPriceTypeService.getAppPriceTypelist(aiId);
+        List<AppPriceTypeForDetailPo> appPriceTypeMappers = appPriceTypeService.getAppPriceTypelist(aiId);
         //获取商品富文本
         AppPage appPage = appPageMapper.getPageInfoByAiId(aiId);
         return new AppInfoDetailVo(appInfoPo, appPriceTypeMappers, appPage);

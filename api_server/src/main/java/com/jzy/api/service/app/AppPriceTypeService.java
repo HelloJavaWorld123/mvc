@@ -2,6 +2,7 @@ package com.jzy.api.service.app;
 
 import com.jzy.api.cnd.app.SaveAppPriceTypeListCnd;
 import com.jzy.api.model.app.AppPriceType;
+import com.jzy.api.po.app.AppPriceTypeForDetailPo;
 import com.jzy.api.po.arch.AppPriceTypePo;
 import com.jzy.api.po.dealer.AppPriceTypeListPo;
 import com.jzy.framework.service.GenericService;
@@ -42,6 +43,6 @@ public interface AppPriceTypeService extends GenericService<AppPriceType> {
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
 
-    List<AppPriceType> getAppPriceTypelist(Long id);
+    List<AppPriceTypeForDetailPo> getAppPriceTypelist(Long id);
 
 }

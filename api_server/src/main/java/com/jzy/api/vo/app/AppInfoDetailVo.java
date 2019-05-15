@@ -4,6 +4,7 @@ import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPage;
 import com.jzy.api.model.app.AppPriceType;
 import com.jzy.api.po.app.AppInfoPo;
+import com.jzy.api.po.app.AppPriceTypeForDetailPo;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class AppInfoDetailVo {
     /**
      * 商品充值类型列表
      */
-    private List<AppPriceType> AppPriceTypeList = new ArrayList<>(10);
+    private List<AppPriceTypeForDetailPo> AppPriceTypeList = new ArrayList<>(10);
 
     /**
      * 商品文本信息
@@ -36,7 +37,7 @@ public class AppInfoDetailVo {
     private AppPage appPage;
 
 
-    public AppInfoDetailVo(AppInfoPo AppInfo, List<AppPriceType> AppPriceTypeList, AppPage AppPage) {
+    public AppInfoDetailVo(AppInfoPo AppInfo, List<AppPriceTypeForDetailPo> AppPriceTypeList, AppPage AppPage) {
         this.appInfo = AppInfo;
         this.AppPriceTypeList = AppPriceTypeList;
         this.appPage = AppPage;
