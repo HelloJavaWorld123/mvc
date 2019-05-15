@@ -36,11 +36,10 @@ public class SaveAppInfoCnd {
      */
     private com.jzy.api.model.app.AppPage appPage;
 
-
     /**
      * 文件信息
      */
-    private FileInfo fileInfo;
+    private List<FileInfo> fileInfoList = new ArrayList<>();
 
 
 }

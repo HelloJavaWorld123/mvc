@@ -119,13 +119,10 @@ public class AppInfoController {
      */
     @RequestMapping("admin/save")
     public ApiResult save(@RequestBody SaveAppInfoCnd saveAppInfoCnd) throws ExcelException {
-        FileInfo mfile = null;
+        List<FileInfo> fileInfos=  saveAppInfoCnd.getFileInfoList();
         AppInfo ai = saveAppInfoCnd.getAppInfo();
         SaveAppPriceTypeListCnd saveAppPriceTypeListCnd = new SaveAppPriceTypeListCnd();
         AppPage appPageMapper = saveAppInfoCnd.getAppPage();
-        if (null != saveAppInfoCnd.getFileInfo()) {
-            mfile = saveAppInfoCnd.getFileInfo();
-        }
         ai = verification(ai);
         //保存图片信息
             /*if (!StringUtils.isEmpty(ai.getId())) {//更新操作时，先进行图片的删除操作
@@ -141,9 +138,12 @@ public class AppInfoController {
             ai.setCode(String.valueOf(appInfoService.getMaxCode() + 1));
             appInfoService.save(ai);
             //图片新增
-            if (null != mfile) {
-                sysImagesService.save(getSystemImagesMapper(ai, mfile));
+            if(fileInfos.size()>0){
+                for (FileInfo mfile:fileInfos){
+                    sysImagesService.save(getSystemImagesMapper(ai, mfile));
+                }
             }
+
             //保存充值类型信息
             saveAppPriceTypeListCnd.setAiId(ai.getId());
             saveAppPriceTypeListCnd.setAppPriceTypeList(saveAppInfoCnd.getAppPriceTypeList());
@@ -155,13 +155,16 @@ public class AppInfoController {
             appInfoService.checkName(ai.getName(), ai.getId() + "");
             appInfoService.update(ai);
             //图片修改
-            if (null != mfile) {
-                SysImages sysImages = getSystemImagesMapper(ai, mfile);
-                Integer flag = sysImagesService.update(sysImages);
-                if (flag == 0) {
-                    sysImagesService.save(sysImages);
+            if(fileInfos.size()>0){
+                for (FileInfo fileInfo:fileInfos){
+                    SysImages sysImages = getSystemImagesMapper(ai, fileInfo);
+                    Integer flag = sysImagesService.update(sysImages);
+                    if (flag == 0) {
+                        sysImagesService.save(sysImages);
+                    }
                 }
             }
+
             //保存充值类型信息
             saveAppPriceTypeListCnd.setAiId(ai.getId());
             saveAppPriceTypeListCnd.setAppPriceTypeList(saveAppInfoCnd.getAppPriceTypeList());
