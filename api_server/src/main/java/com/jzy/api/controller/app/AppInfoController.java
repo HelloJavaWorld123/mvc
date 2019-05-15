@@ -305,6 +305,8 @@ public class AppInfoController {
                         fileUrl = aliyunOssService.upload(newFile, DirectoryEnum.DIRECTORY_RECOMMEND_ENUM.getMsg());
                     } else if (directoryType == DirectoryEnum.DIRECTORY_FEEDBACK_ENUM.getCode()) {
                         fileUrl = aliyunOssService.upload(newFile, DirectoryEnum.DIRECTORY_FEEDBACK_ENUM.getMsg());
+                    }else if (directoryType == DirectoryEnum.DIRECTORY_APPDETAIL_ENUM.getCode()) {
+                        fileUrl = aliyunOssService.upload(newFile, DirectoryEnum.DIRECTORY_APPDETAIL_ENUM.getMsg());
                     } else {
                         logger.error("图片上传失败！:{}", "没有此目录");
                         return new ApiResult().fail(ResultEnum.PARAM_ERR.getMsg());

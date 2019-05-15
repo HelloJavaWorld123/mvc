@@ -17,8 +17,9 @@ public enum DirectoryEnum {
     //首页推荐
     DIRECTORY_RECOMMEND_ENUM(4, "recommend"),
     //反馈
-    DIRECTORY_FEEDBACK_ENUM(5, "feedback")
-    ;
+    DIRECTORY_FEEDBACK_ENUM(5, "feedback"),
+    //商品详情多图片
+    DIRECTORY_APPDETAIL_ENUM(6, "appdetail");
 
     private int code;
 
