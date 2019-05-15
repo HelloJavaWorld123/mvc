@@ -6,9 +6,11 @@ import com.jzy.api.cnd.app.AppInfoListCnd;
 import com.jzy.api.cnd.app.UpdateStatusBatchCnd;
 import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.dao.app.AppPageMapper;
+import com.jzy.api.dao.sys.SysImagesMapper;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPage;
 import com.jzy.api.model.app.AppPriceType;
+import com.jzy.api.model.app.FileInfo;
 import com.jzy.api.po.app.AppInfoPo;
 import com.jzy.api.po.app.AppPriceTypeForDetailPo;
 import com.jzy.api.service.app.AppInfoService;
@@ -40,6 +42,9 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
     @Resource
     private AppPageMapper appPageMapper;
 
+    @Resource
+    private SysImagesMapper sysImagesMapper;
+
 
     /**
      * <b>功能描述：</b>获取商品详细信息<br>
@@ -53,7 +58,11 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
         List<AppPriceTypeForDetailPo> appPriceTypeMappers = appPriceTypeService.getAppPriceTypelist(aiId);
         //获取商品富文本
         AppPage appPage = appPageMapper.getPageInfoByAiId(aiId);
-        return new AppInfoDetailVo(appInfoPo, appPriceTypeMappers, appPage);
+        //获取多图片信息
+        List<FileInfo> fileInfos = sysImagesMapper.queryImagesList(aiId.toString(), 6);
+        AppInfoDetailVo appInfoDetailVo = new AppInfoDetailVo(appInfoPo, appPriceTypeMappers, appPage);
+        appInfoDetailVo.setFileInfoList(fileInfos);
+        return appInfoDetailVo;
     }
 
     /**
