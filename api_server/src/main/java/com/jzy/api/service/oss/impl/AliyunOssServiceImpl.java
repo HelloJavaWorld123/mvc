@@ -242,7 +242,7 @@ public class AliyunOssServiceImpl implements AliyunOssService {
      * <li>20170613&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     public String uploadFile(InputStream in, long length, String fileName, String extName) {
-        OSS client = new OSSClientBuilder().build(ossProperties.getOssEndpoint(), ossProperties.getAccessKeyId(), ossProperties.getAccessKeySecret());
+        OSS client = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
         String rootPath = "order/"  + fileName.split("_")[0] +"/";
 
@@ -251,7 +251,7 @@ public class AliyunOssServiceImpl implements AliyunOssService {
         } catch(Exception e) {
             throw new BusException("文件上传失败");
         }
-        String filePath = ossProperties.getOssFileURIPre() + "/" + rootPath + fileName + extName;
+        String filePath = ossFileURIPre + "/" + rootPath + fileName + extName;
         logger.debug(filePath);
         return filePath.replace("-internal", "");
     }
@@ -264,7 +264,7 @@ public class AliyunOssServiceImpl implements AliyunOssService {
     private void operater(InputStream input, long length, OSS client, String key) {
         ObjectMetadata objectMeta = new ObjectMetadata();
         objectMeta.setContentLength(length);
-        client.putObject(ossProperties.getOssBucketName(), key, input, objectMeta);
+        client.putObject(bucketName, key, input, objectMeta);
     }
 
 }
