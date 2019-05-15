@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public interface AliyunOssService {
@@ -64,4 +65,6 @@ public interface AliyunOssService {
      * @return void
      */
     public void ossCallBack(HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    String uploadFile(InputStream in, long length, String fileName, String extName);
 }

@@ -9,6 +9,7 @@ import com.jzy.api.constant.OssProperties;
 import com.jzy.api.service.oss.AliyunOssService;
 import com.jzy.api.util.OssUtil;
 import com.jzy.api.vo.oss.OssPolicyVo;
+import com.jzy.framework.exception.BusException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,6 @@ public class AliyunOssServiceImpl implements AliyunOssService {
             return null;
         }
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-
         String fileUrl = "";
         try {
             if(null!=fileHost &&!"".equals(fileHost)){
@@ -234,6 +234,37 @@ public class AliyunOssServiceImpl implements AliyunOssService {
         } else {
             OssUtil.response(request, response, "{\"Status\":\"verdify not ok\"}", HttpServletResponse.SC_BAD_REQUEST);
         }
+    }
+
+    /**
+     * <b>功能描述：</b>上传文件到云<br>
+     * <b>修订记录：</b><br>
+     * <li>20170613&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    public String uploadFile(InputStream in, long length, String fileName, String extName) {
+        OSS client = new OSSClientBuilder().build(ossProperties.getOssEndpoint(), ossProperties.getAccessKeyId(), ossProperties.getAccessKeySecret());
+
+        String rootPath = "order/"  + fileName.split("_")[0] +"/";
+
+        try {
+            operater(in, length, client, rootPath +fileName + extName);
+        } catch(Exception e) {
+            throw new BusException("文件上传失败");
+        }
+        String filePath = ossProperties.getOssFileURIPre() + "/" + rootPath + fileName + extName;
+        logger.debug(filePath);
+        return filePath.replace("-internal", "");
+    }
+
+    /**
+     * <b>功能描述：</b>具体上传<br>
+     * <b>修订记录：</b><br>
+     * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private void operater(InputStream input, long length, OSS client, String key) {
+        ObjectMetadata objectMeta = new ObjectMetadata();
+        objectMeta.setContentLength(length);
+        client.putObject(ossProperties.getOssBucketName(), key, input, objectMeta);
     }
 
 }

@@ -16,7 +16,7 @@ import java.util.Date;
  * </ul>
  */
 @Data
-public class BackOrderExportListVo extends GenericVo {
+public class BackOrderExportListVo extends GenericVo{
     /**
      * 订单编号
      */
@@ -91,14 +91,13 @@ public class BackOrderExportListVo extends GenericVo {
      * <b>修订记录：</b><br>
      * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    public String getPayWayName(int payWayId) {
+    public void setPayWayName(int payWayId) {
         if (payWayId == 0) {
-            return "微信";
+            this.payWayName = "微信";
         }
         if (payWayId == 1) {
-            return "支付宝";
+            this.payWayName = "支付宝";
         }
-        return "";
     }
 
     /**
@@ -106,14 +105,14 @@ public class BackOrderExportListVo extends GenericVo {
      * <b>修订记录：</b><br>
      * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    public String getStatus(int status) {
+    public void setStatus(int status) {
         if (status == 0) {
-            return "待支付";
+            this.status = "待支付";
         }
         if (status == 1) {
-            return "充值中";
+            this.status = "充值中";
         }
-        return "已完成";
+        this.status = "已完成";
     }
 
     /**
@@ -121,16 +120,16 @@ public class BackOrderExportListVo extends GenericVo {
      * <b>修订记录：</b><br>
      * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    public String getSupStatus(int supStatus) {
+    public void setSupStatus(int supStatus) {
         if (supStatus == 0) {
-            return "未提交";
+            this.supStatus = "未提交";
         }
         if (supStatus == 1) {
-            return "处理中";
+            this.supStatus = "处理中";
         }
         if (supStatus == 2) {
-            return "成功";
+            this.supStatus = "成功";
         }
-        return "失败";
+        this.supStatus = "失败";
     }
 }
