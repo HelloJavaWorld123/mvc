@@ -121,7 +121,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
             List<AppPriceTypePo> appPriceTypelist = appPriceTypeMapper.getAppPriceTypePolist(Long.valueOf(appDetailPo.getAppId()), Long.valueOf(dealerId));
             appDetailPo.setAppPriceTypePoList(appPriceTypelist);
             //查询富文本图片信息
-            List<FileInfo> fileInfos = sysImagesMapper.queryImagesList(appDetailPo.getAppId(),6);
+            List<FileInfo> fileInfos = sysImagesMapper.queryImagesList(appDetailPo.getAppId());
             appDetailPo.setFileInfoList(fileInfos);
         }
         appDetailVo.setAppDetailPoList(appDetailPos);
