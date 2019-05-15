@@ -14,6 +14,7 @@ import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -59,7 +60,7 @@ public class ExcelExportController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @WithoutLogin
+    @ResponseBody
     @RequestMapping(path = "/queryExcelExportList")
     public ApiResult queryExcelExportList(@RequestBody PageCnd pageCnd) {
         PageVo<ExcelExport> exportPageVo = excelExportService.queryExcelExportList(pageCnd);
