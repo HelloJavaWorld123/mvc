@@ -1,10 +1,12 @@
 package com.jzy.framework.service.impl;
 
+import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.model.GenericModel;
 import com.jzy.framework.cache.EmpCache;
 import com.jzy.framework.cache.ThreadLocalCache;
 import com.jzy.framework.cache.UserCache;
 import com.jzy.framework.dao.GenericMapper;
+import com.jzy.framework.exception.BusException;
 import com.jzy.framework.service.GenericService;
 
 import java.util.Date;
@@ -26,26 +28,13 @@ public abstract class GenericServiceImpl<T extends GenericModel> implements Gene
      * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     protected EmpCache getDealer() {
-        return ThreadLocalCache.getContextHolder().getEmpCache();
+        EmpCache empCache = ThreadLocalCache.getContextHolder().getEmpCache();
+        if (empCache == null) {
+            throw new BusException(ResultEnum.SESSION_VALID.getMsg());
+        }
+        return empCache;
     }
 
-    /**
-     * <b>功能描述：</b>获取前端渠道商信息<br>
-     * <b>修订记录：</b><br>
-     * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    protected String getFrontDealerId() {
-        return ThreadLocalCache.getContextHolder().getUserCache().getDealerId();
-    }
-
-    /**
-     * <b>功能描述：</b>获取前端用户id信息<br>
-     * <b>修订记录：</b><br>
-     * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    protected String getUserId() {
-        return ThreadLocalCache.getContextHolder().getUserCache().getUserId();
-    }
 
     /**
      * <b>功能描述：</b>获取前台渠道商id<br>
@@ -62,8 +51,31 @@ public abstract class GenericServiceImpl<T extends GenericModel> implements Gene
      * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     protected UserCache getUser() {
-        return ThreadLocalCache.getContextHolder().getUserCache();
+        UserCache userCache = ThreadLocalCache.getContextHolder().getUserCache();
+        if (userCache == null) {
+            throw new BusException(ResultEnum.SESSION_VALID.getMsg());
+        }
+        return userCache;
     }
+
+    /**
+     * <b>功能描述：</b>获取前端渠道商信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    protected String getFrontDealerId() {
+        return getUser().getDealerId();
+    }
+
+    /**
+     * <b>功能描述：</b>获取前端用户id信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    protected String getUserId() {
+        return getUser().getUserId();
+    }
+
 
     /**
      * <b>功能描述：</b>新增<br>

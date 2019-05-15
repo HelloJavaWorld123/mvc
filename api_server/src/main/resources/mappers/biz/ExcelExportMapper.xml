@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+	SQL映射文件名称：订单处理
+	————————————————————————————————————
+	修改日期		作者		变更内容
+	20190515    	邓冲	    创建了该文件
+	————————————————————————————————————
+	陕西佳之易网络科技有限公司 版本所有
+ -->
+
+<mapper namespace="com.jzy.api.dao.biz.ExcelExportMapper">
+
+    <!-- 新增操作记录 -->
+    <insert id="insert" parameterType="com.jzy.api.model.biz.ExcelExport">
+        INSERT INTO order_export_record (
+        id, file_name, type, file_url, start_date, end_date, status, remark, dealer_id,
+        del_flag, creator_id, modifier_id, create_time, modify_time
+        )
+        VALUES(
+        #{excelExportId}, #{fileName}, #{type}, #{fileUrl}, #{startDate}, #{endDate}, #{status}, #{remark}, #{dealerId},
+        #{delFlag}, #{creatorId}, #{modifierId}, #{createTime}, #{modifyTime}
+        )
+    </insert>
+
+    <!-- 更新操作记录 -->
+    <update id="update" parameterType="com.jzy.api.model.biz.ExcelExport">
+        UPDATE
+        order_export_record
+        SET
+        file_url = #{fileUrl},
+        status = #{status},
+        modify_time = #{modifyTime}
+        WHERE
+        id = #{excelExportId}
+        AND del_flag = 0
+    </update>
+
+    <!-- 更新操作记录 -->
+    <select id="queryById" resultType="com.jzy.api.model.biz.ExcelExport">
+        SELECT
+        id excelExportId,
+        file_name,
+        type,
+        file_url,
+        req_data,
+        status,
+        remark,
+        dealer_id
+        FROM
+        order_export_record
+        WHERE
+        id = #{id}
+        AND del_flag = 0
+    </select>
+
+    <!-- excel到处历史记录列表查询 -->
+    <select id="queryExcelExportList" resultType="com.jzy.api.model.biz.ExcelExport">
+        SELECT
+        id excelExportId,
+        create_time,
+        start_date,
+        end_date,
+        file_url,
+        status
+        FROM
+        order_export_record
+        WHERE
+        dealer_id = #{dealerId}
+        AND create_time >= date_add(now(), INTERVAL 7 DAY)
+        AND create_time &lt; now()
+        AND del_flag = 0
+    </select>
+
+</mapper>
