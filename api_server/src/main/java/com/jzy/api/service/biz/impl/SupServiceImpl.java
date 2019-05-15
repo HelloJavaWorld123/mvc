@@ -72,7 +72,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         if (order.getSupStatus() != 0) {
             return;
         }
-        order.setStatus(1);
+        order.setSupStatus(1);
         order.setTradeCode(order.getTradeCode());
         order.setTradeFee(order.getTradeFee());
         order.setTradeStatus(Order.TradeStatusConst.PAY_SUCCESS);
