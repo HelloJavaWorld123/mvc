@@ -42,7 +42,7 @@
         <if test="acpId!=null">
             AND ai.acp_id = #{acpId}
         </if>
-        <if test="typeId">
+        <if test="typeId!=null">
             AND ai.type_id = #{typeId}
         </if>
         <if test="rechargeMode!=null">
