@@ -4,6 +4,7 @@ import com.jzy.api.cnd.biz.CodeCnd;
 import com.jzy.api.cnd.biz.PayCnd;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.arch.DealerAppInfoService;
+import com.jzy.api.service.arch.DealerAppPriceInfoService;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.vo.biz.StatusVo;
 import com.jzy.common.enums.ResultEnum;
@@ -28,6 +29,9 @@ public class PayController extends GenericController {
 
     @Resource
     private DealerAppInfoService dealerAppInfoService;
+
+    @Resource
+    private DealerAppPriceInfoService dealerAppPriceInfoService;
 
     /**
      * <b>功能描述：</b>请求支付下单,初始化/更新订单,调起微信/支付宝<br>
@@ -61,8 +65,9 @@ public class PayController extends GenericController {
         if (status != 0) {
             throw new BusException(ResultEnum.APP_OFF_SHELVES);
         }
-        // 校验商品的价格，支付金额信息
-        
+        // 根据商品id获取商品价格信息
+        dealerAppPriceInfoService.queryAppPriceInfoByAppId(payCnd.getAppId());
+
     }
 
     /**

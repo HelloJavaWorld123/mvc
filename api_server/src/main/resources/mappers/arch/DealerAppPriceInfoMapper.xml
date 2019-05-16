@@ -424,4 +424,9 @@
                 )
         </insert>
 
+    <!-- 根据商品id获取商品价格信息 -->
+    <select id="queryAppPriceInfoByAppId" resultType="com.jzy.api.po.arch.DealerAppPriceInfo">
+
+    </select>
+
 </mapper>
