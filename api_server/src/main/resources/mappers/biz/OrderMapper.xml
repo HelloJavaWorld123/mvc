@@ -400,15 +400,31 @@
             AND d.name LIKE concat(concat('%',#{key}),'%')
         </if>
         WHERE
-        o.sup_status = 2
-        AND o.status = 2
-        AND trade_status = 'pay_success'
         <if test="startDate != null and endDate != null">
             AND o.create_time >= #{startDate}
             AND o.create_time &lt; #{endDate}
         </if>
         <if test="dealerId != 0">
             AND o.dealer_id = #{dealerId}
+        </if>
+        <if test="supStatus != null">
+            AND o.sup_status = #{supStatus}
+        </if>
+        <if test="status != null and status != 10">
+            AND o.status = #{status}
+        </if>
+        <if test="status == 10">
+            AND o.status IN (2,3,4)
+        </if>
+        <if test="status == null">
+            AND o.status != 4
+        </if>
+        <if test="key != null and key!= ''">
+            AND (
+            o.code LIKE concat(concat('%',#{key}),'%')
+            OR o.out_trade_no LIKE concat(concat('%',#{key}),'%')
+            OR d.name LIKE concat(concat('%',#{key}),'%')
+            )
         </if>
     </select>
 
