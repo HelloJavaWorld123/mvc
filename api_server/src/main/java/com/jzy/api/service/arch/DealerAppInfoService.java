@@ -14,5 +14,12 @@ import com.jzy.framework.service.GenericService;
  */
 public interface DealerAppInfoService extends GenericService<DealerAppInfo> {
 
-
+    /**
+     * <b>功能描述：</b>根据商品id查询商品是否存在<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param appId 商品id
+     */
+    Integer queryAppStatus(Long appId);
 }

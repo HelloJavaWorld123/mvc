@@ -3,7 +3,9 @@ package com.jzy.api.cnd.biz;
 import com.jzy.framework.bean.cnd.GenericCnd;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
@@ -26,23 +28,28 @@ public class PayCnd extends GenericCnd {
      * 支付方式
      * 0微信,1支付宝
      */
+    @NotNull
     private Integer tradeMethod;
     /**
      * 充值模式
      * 0直充 1 卡密
      */
+    @NotNull
     private Integer rechargeMode;
     /**
      * 订单应付总金额
      */
+    @NotNull
     private BigDecimal totalFee;
     /**
      * 实付总金额
      */
+    @NotNull
     private BigDecimal tradeFee;
     /**
      * 渠道商价格
      */
+    @NotNull
     private BigDecimal dealerPrice;
     /**
      * 折扣
@@ -51,18 +58,22 @@ public class PayCnd extends GenericCnd {
     /**
      * sup商品提交金额
      */
+    @NotNull
     private BigDecimal supPrice;
     /**
      * sup商品编号
      */
+    @NotBlank
     private String supNo;
     /**
      * 购买数量
      */
+    @NotNull
     private Integer number;
     /**
      * 订单类型:1服务,2游戏,3商品
      */
+    @NotNull
     private Integer type;
     /**
      * 充值类型名称
@@ -95,9 +106,11 @@ public class PayCnd extends GenericCnd {
     /**
      * 商品id
      */
+    @NotNull
     private Long appId;
     /**
      * 商品名称
      */
+    @NotBlank
     private String appName;
 }

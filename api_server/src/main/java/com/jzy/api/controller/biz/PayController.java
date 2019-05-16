@@ -3,9 +3,11 @@ package com.jzy.api.controller.biz;
 import com.jzy.api.cnd.biz.CodeCnd;
 import com.jzy.api.cnd.biz.PayCnd;
 import com.jzy.api.model.biz.Order;
+import com.jzy.api.service.arch.DealerAppInfoService;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.vo.biz.StatusVo;
 import com.jzy.framework.controller.GenericController;
+import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +25,9 @@ public class PayController extends GenericController {
     @Resource
     private OrderService orderService;
 
+    @Resource
+    private DealerAppInfoService dealerAppInfoService;
+
     /**
      * <b>功能描述：</b>请求支付下单,初始化/更新订单,调起微信/支付宝<br>
      * <b>修订记录：</b><br>
@@ -31,12 +36,30 @@ public class PayController extends GenericController {
     @RequestMapping("/pay")
     public ApiResult pay(HttpServletRequest request, @RequestBody PayCnd payCnd) {
         log.debug("支付请求参数为：" + payCnd.toString());
+        // 数据一致性校验
+        validate(payCnd);
         ApiResult<String> apiResult = new ApiResult<>();
         Order order = getOrder(payCnd);
         String linkUrl = orderService.insertOrUpdateOrder(request, order, payCnd.getTradeMethod());
         apiResult.setData(linkUrl);
         log.debug("支付返回url地址为: " + linkUrl);
         return apiResult.success();
+    }
+
+    /**
+     * <b>功能描述：</b>数据一致性校验<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private void validate(PayCnd payCnd) {
+        // 根据商品id获取商品信息
+        Integer status = dealerAppInfoService.queryAppStatus(payCnd.getAppId());
+        if (status == null) {
+            throw new BusException("商品已下架，请核实！");
+        }
+        if (status != 0) {
+            throw new BusException("商品已下架，请核实！");
+        }
     }
 
     /**
