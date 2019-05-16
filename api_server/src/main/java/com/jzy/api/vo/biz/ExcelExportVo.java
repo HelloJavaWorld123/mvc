@@ -19,11 +19,11 @@ public class ExcelExportVo extends GenericVo {
     /**
      * 主键
      */
-    private String excelExportId;
+    private Long id;
     /**
      * 提交时间
      */
-    private String createTime;
+    private Date createTime;
     /**
      * 开始日期
      */
