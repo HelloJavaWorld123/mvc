@@ -4,6 +4,7 @@ import com.jzy.framework.bean.cnd.GenericCnd;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -28,12 +29,14 @@ public class PayCnd extends GenericCnd {
      * 支付方式
      * 0微信,1支付宝
      */
+    @Range(max = 1)
     @NotNull
     private Integer tradeMethod;
     /**
      * 充值模式
      * 0直充 1 卡密
      */
+    @Range(max = 1)
     @NotNull
     private Integer rechargeMode;
     /**
@@ -73,6 +76,7 @@ public class PayCnd extends GenericCnd {
     /**
      * 订单类型:1服务,2游戏,3商品
      */
+    @Range(min = 1, max = 3)
     @NotNull
     private Integer type;
     /**

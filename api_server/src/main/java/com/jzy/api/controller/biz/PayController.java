@@ -61,6 +61,8 @@ public class PayController extends GenericController {
         if (status != 0) {
             throw new BusException(ResultEnum.APP_OFF_SHELVES);
         }
+        // 校验商品的价格，支付金额信息
+        
     }
 
     /**
