@@ -3,6 +3,7 @@ package com.jzy.api.controller.biz;
 import com.jzy.api.cnd.biz.CodeCnd;
 import com.jzy.api.cnd.biz.PayCnd;
 import com.jzy.api.model.biz.Order;
+import com.jzy.api.model.dealer.DealerAppPriceInfo;
 import com.jzy.api.service.arch.DealerAppInfoService;
 import com.jzy.api.service.arch.DealerAppPriceInfoService;
 import com.jzy.api.service.biz.OrderService;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -42,7 +45,7 @@ public class PayController extends GenericController {
     public ApiResult pay(HttpServletRequest request, @RequestBody PayCnd payCnd) {
         log.debug("支付请求参数为：" + payCnd.toString());
         // 数据一致性校验
-        validate(payCnd);
+        // validate(payCnd);
         ApiResult<String> apiResult = new ApiResult<>();
         Order order = getOrder(payCnd);
         String linkUrl = orderService.insertOrUpdateOrder(request, order, payCnd.getTradeMethod());
@@ -66,8 +69,39 @@ public class PayController extends GenericController {
             throw new BusException(ResultEnum.APP_OFF_SHELVES);
         }
         // 根据商品id获取商品价格信息
-        dealerAppPriceInfoService.queryAppPriceInfoByAppId(payCnd.getAppId());
-
+        List<DealerAppPriceInfo> dealerAppPriceInfoList = dealerAppPriceInfoService.queryAppPriceInfoByAppId(payCnd.getAppId());
+        if (dealerAppPriceInfoList == null || dealerAppPriceInfoList.isEmpty()) {
+            throw new BusException(ResultEnum.APP_NOT_CONFIG_PRICE);
+        }
+        DealerAppPriceInfo appPriceInfo = null;
+        DealerAppPriceInfo customAppPriceInfo = null;
+        for (DealerAppPriceInfo dealerAppPriceInfo : dealerAppPriceInfoList) {
+            if (dealerAppPriceInfo.getPrice().compareTo(payCnd.getTotalFee()) == 0) {
+                appPriceInfo = dealerAppPriceInfo;
+                break;
+            }
+            if (dealerAppPriceInfo.getIsCustom() == 1) {
+                customAppPriceInfo = dealerAppPriceInfo;
+            }
+        }
+        BigDecimal actualPayAmount;
+        // 没有匹配的面值
+        if (appPriceInfo == null) {
+            if (customAppPriceInfo == null) {
+                throw new BusException(ResultEnum.APP_NOT_CONFIG_PRICE);
+            }
+            // 自定义支付金额
+            if (customAppPriceInfo.getDiscount().compareTo(BigDecimal.ZERO) == 0) {
+                actualPayAmount = payCnd.getTradeFee();
+            } else {
+                actualPayAmount = (payCnd.getTotalFee().multiply(customAppPriceInfo.getDiscount()));
+            }
+            payCnd.validateTradeFee(actualPayAmount);
+        } else {
+            // 和数据库中的面值匹配到了
+            actualPayAmount = appPriceInfo.getActualPayAmount(payCnd.getDiscount());
+            payCnd.validateTradeFee(actualPayAmount);
+        }
     }
 
     /**

@@ -38,7 +38,10 @@ public enum ResultEnum {
     //=======================支付参数校验==================================
 
     APP_NOT_EXIST(5001, "商品不存在，请核实！"),
-    APP_OFF_SHELVES(5002, "商品已下架，请核实！");
+    APP_OFF_SHELVES(5002, "商品已下架，请核实！"),
+    APP_NOT_CONFIG_PRICE(5003, "商品没有配置价格信息，请核实！"),
+    TRADE_FEE_CALC_ERROR(5004, "实付金额有误，请核实！"),
+    SUP_PRICE_ERROR(5004, "SUP价格有误，请核实！");
 
     private Integer code;
 

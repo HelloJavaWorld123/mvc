@@ -427,7 +427,7 @@
     <!-- 根据商品id获取商品价格信息 -->
     <select id="queryAppPriceInfoByAppId" resultType="com.jzy.api.model.dealer.DealerAppPriceInfo">
         SELECT
-        appInfo.sup_price,
+        appInfo.sup_price supPrice,
         appInfo.price,
         appInfo.discount,
         appInfo.dealer_price dealerPrice,

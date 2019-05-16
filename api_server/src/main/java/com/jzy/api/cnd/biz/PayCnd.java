@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.biz;
 
+import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.GenericCnd;
+import com.jzy.framework.exception.BusException;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotBlank;
@@ -57,7 +59,7 @@ public class PayCnd extends GenericCnd {
     /**
      * 折扣
      */
-    private BigDecimal discount;
+    private BigDecimal discount = BigDecimal.ZERO;
     /**
      * sup商品提交金额
      */
@@ -117,4 +119,16 @@ public class PayCnd extends GenericCnd {
      */
     @NotBlank
     private String appName;
+
+    /**
+     * <b>功能描述：</b>校验支付金额<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    public void validateTradeFee(BigDecimal actualPayAmount) {
+        int isEqual = this.tradeFee.compareTo(actualPayAmount);
+        if (isEqual != 0) {
+            throw new BusException(ResultEnum.TRADE_FEE_CALC_ERROR);
+        }
+    }
 }

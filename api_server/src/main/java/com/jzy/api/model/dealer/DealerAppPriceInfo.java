@@ -102,4 +102,28 @@ public class DealerAppPriceInfo extends GenericModel {
         }
         return isCustom;
     }
+
+    /**
+     * <b>功能描述：</b>获取实际的支付金额<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    public BigDecimal getActualPayAmount(BigDecimal discount) {
+        if (discount.compareTo(BigDecimal.ZERO) == 0) {
+            return this.price.setScale(2, BigDecimal.ROUND_HALF_UP);
+        }
+        return this.price.multiply(this.discount).setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
+
+    /**
+     * <b>功能描述：</b>获取实际的支付金额<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    public BigDecimal getCustomPayAmount() {
+        if (this.discount.compareTo(BigDecimal.ZERO) == 0) {
+            return this.price.setScale(2, BigDecimal.ROUND_HALF_UP);
+        }
+        return this.price.multiply(this.discount).setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
 }
