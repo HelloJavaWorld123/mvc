@@ -1,6 +1,7 @@
 package com.jzy.api.model.dealer;
 
 import com.jzy.framework.bean.model.GenericModel;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -89,4 +90,16 @@ public class DealerAppPriceInfo extends GenericModel {
      * 状态 0 下架 1上架  默认0
      */
     private Integer status = 0;
+
+    /**
+     * 是否自定义金额
+     */
+    private Integer isCustom;
+
+    public Integer getIsCustom() {
+        if (this.isCustom == null) {
+            return 0;
+        }
+        return isCustom;
+    }
 }
