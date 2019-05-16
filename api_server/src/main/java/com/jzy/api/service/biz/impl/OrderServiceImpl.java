@@ -151,7 +151,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param orderId 订单id
      */
     @Override
-    public int queryOrderStatusForParty(String orderId) {
+    public int updateOrderStatusByActiveQuery(String orderId) {
         Order order = orderMapper.queryOrderById(orderId);
         if (order == null) {
             throw new BusException("订单不存在");

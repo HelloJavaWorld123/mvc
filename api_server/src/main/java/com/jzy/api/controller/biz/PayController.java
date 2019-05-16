@@ -44,10 +44,10 @@ public class PayController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190419&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @RequestMapping("/queryOrderStatusForParty")
-    public ApiResult queryOrderStatusForParty(@RequestBody CodeCnd codeCnd) {
+    @RequestMapping("/updateOrderStatusByActiveQuery")
+    public ApiResult updateOrderStatusByActiveQuery(@RequestBody CodeCnd codeCnd) {
         ApiResult<StatusVo> apiResult = new ApiResult<>();
-        int status = orderService.queryOrderStatusForParty(codeCnd.getOrderId());
+        int status = orderService.updateOrderStatusByActiveQuery(codeCnd.getOrderId());
         StatusVo statusVo = new StatusVo();
         statusVo.setStatus(status);
         return apiResult.success(statusVo);
