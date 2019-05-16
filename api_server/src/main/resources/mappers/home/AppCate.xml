@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jzy.api.dao.home.AppCateMapper">
+    <!--    渠道商轮播图获取商品分类-->
+    <select id="getAppCateList" parameterType="com.jzy.api.cnd.home.GetDealerAppOrCateCnd"
+            resultType="com.jzy.api.vo.home.DealerAppCateVo">
+
+        SELECT ac.id as appCateId,ac.`name` as appCateName FROM app_cate ac WHERE 1 = 1
+        ORDER BY ac.sort asc
+
+    </select>
+    <!--渠道商轮播图获取商品信息-->
+    <select id="getDealerAppList" parameterType="com.jzy.api.cnd.home.GetDealerAppOrCateCnd" resultType="com.jzy.api.vo.home.DealerAppInfoVo" >
+        SELECT
+            ai.id AS appId,
+            ai.code as appCode,
+            ai.NAME AS appName
+        FROM
+            dealer_app_info dai,
+            app_info ai
+        WHERE
+            dai.ai_id = ai.id
+            AND dai.STATUS = 1
+            AND ai.STATUS = 1
+            AND ai.del_flag = 0
+            AND dai.dealer_id = #{dealerId}
+            <if test="queryName != null">
+                and ai.name like CONCAT('%',#{queryName},'%')
+            </if>
+
+    </select>
+    <select id="getDealerAppPriceList" parameterType="com.jzy.api.cnd.home.GetDealerAppOrCateCnd" resultType="com.jzy.api.vo.home.DealerAppInfoVo" >
+        SELECT
+            ai.id AS appId,
+            ai.CODE AS appCode,
+            ai.NAME AS appName,
+            dapi.price as appPrice,
+            dapi.id as priceId
+        FROM
+            dealer_app_price_info dapi
+            LEFT JOIN dealer_app_info dai ON ( dapi.ai_id = dai.ai_id AND dai.`status` = 1 )
+            LEFT JOIN app_info ai ON ( ai.id = dapi.ai_id AND ai.`status` = 1 )
+        WHERE
+            1 = 1
+            AND dai.STATUS = 1
+            AND ai.STATUS = 1
+            AND ai.del_flag = 0
+            AND dai.dealer_id = #{dealerId}
+            AND dapi.`status` = 1
+            <if test="queryName != null">
+                AND ai.name like CONCAT('%',#{queryName},'%')
+            </if>
+
+    </select>
+
+    <select id="getAppName" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT name from app_info where id = #{goId}
+    </select>
+
+    <select id="getAppCateName" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT name from app_cate where id = #{goId}
+    </select>
+</mapper>

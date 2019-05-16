@@ -19,13 +19,12 @@
         SELECT
             cate.rci_name as rciName ,
             cate.sort_desc as sortDesc,
-            img.file_url as imageId,
+            cate.image_url as imageId,
             cate.go_type as goType,
             cate.go_id as goId,
             cate.go_name as goName
         FROM
             home_recommend_cate AS cate
-        LEFT JOIN sys_images AS img ON img.id = cate.image_id
         WHERE
             1 = 1
         AND cate.dealer_id =#{dealerId}

@@ -64,5 +64,9 @@ public class HomeRecommendCate extends GenericModel {
      * 0 轮播图 1 推荐分类
      */
     private Integer type;
+    /**
+     *文件路径
+     */
+    private String imageUrl;
 
 }

@@ -5,7 +5,7 @@ import com.jzy.framework.bean.cnd.PageCnd;
 import lombok.Data;
 
 @Data
-public class DealerHomeCateSaveCnd extends PageCnd {
+public class DealerHomeCateSaveCnd {
 
     private Long id;
     /**
