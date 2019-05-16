@@ -52,7 +52,6 @@ public class ExcelExportController extends GenericController {
      * <b>修订记录：</b><br>
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @WithoutLogin
     @RequestMapping(path = "/orderListExcelExport")
     public ApiResult orderListExcelExport(@RequestBody BackOrderCnd backOrderCnd) {
         List<Order> orderList = orderService.queryExcelExportBackOrderList(backOrderCnd);
