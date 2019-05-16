@@ -31,25 +31,25 @@
         />
     </redisson:client>
 
-    <mongo:mongo-client id="mongo" replica-set="${mongo.hosts}" >
-        <mongo:client-options
-                connections-per-host="${mongo.connectionsPerHost}"
-                threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
-                connect-timeout="${mongo.connectTimeout}"
-                max-wait-time="${mongo.maxWaitTime}"
-                socket-keep-alive="${mongo.socketKeepAlive}"
-                socket-timeout="${mongo.socketTimeout}"
-        />
-    </mongo:mongo-client>
+    <!--<mongo:mongo-client id="mongo" replica-set="${mongo.hosts}" >-->
+        <!--<mongo:client-options-->
+                <!--connections-per-host="${mongo.connectionsPerHost}"-->
+                <!--threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"-->
+                <!--connect-timeout="${mongo.connectTimeout}"-->
+                <!--max-wait-time="${mongo.maxWaitTime}"-->
+                <!--socket-keep-alive="${mongo.socketKeepAlive}"-->
+                <!--socket-timeout="${mongo.socketTimeout}"-->
+        <!--/>-->
+    <!--</mongo:mongo-client>-->
 
-    <mongo:db-factory id="mongoDbGfsFactory" dbname="${mongo.gfsdatabasename}" mongo-ref="mongo"/>
+    <!--<mongo:db-factory id="mongoDbGfsFactory" dbname="${mongo.gfsdatabasename}" mongo-ref="mongo"/>-->
 
-    <!-- 定义一个交换器-->
-    <mongo:mapping-converter id="mongoGfsConverter" db-factory-ref="mongoDbGfsFactory"/>
+    <!--&lt;!&ndash; 定义一个交换器&ndash;&gt;-->
+    <!--<mongo:mapping-converter id="mongoGfsConverter" db-factory-ref="mongoDbGfsFactory"/>-->
 
-    <bean id="gridFsTemplate" class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
-        <constructor-arg ref="mongoDbGfsFactory"/>
-        <constructor-arg ref="mongoGfsConverter"/>
-    </bean>
+    <!--<bean id="gridFsTemplate" class="org.springframework.data.mongodb.gridfs.GridFsTemplate">-->
+        <!--<constructor-arg ref="mongoDbGfsFactory"/>-->
+        <!--<constructor-arg ref="mongoGfsConverter"/>-->
+    <!--</bean>-->
 
 </beans>
