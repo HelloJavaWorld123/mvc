@@ -6,6 +6,7 @@ import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.arch.DealerAppInfoService;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.vo.biz.StatusVo;
+import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
@@ -55,10 +56,10 @@ public class PayController extends GenericController {
         // 根据商品id获取商品信息
         Integer status = dealerAppInfoService.queryAppStatus(payCnd.getAppId());
         if (status == null) {
-            throw new BusException("商品已下架，请核实！");
+            throw new BusException(ResultEnum.APP_NOT_EXIST);
         }
         if (status != 0) {
-            throw new BusException("商品已下架，请核实！");
+            throw new BusException(ResultEnum.APP_OFF_SHELVES);
         }
     }
 

@@ -33,7 +33,12 @@ public enum ResultEnum {
     AUTH_ASSIGNERR(4006, "资源分配失败"),
     APP_UNABLE_DELETE(4020, "正在使用,无法删除"),
     APP_NAME_NOTEMPTY(4021, "名称不能为空"),
-    APP_EMPTY(4022, "资源不存在");
+    APP_EMPTY(4022, "资源不存在"),
+
+    //=======================支付参数校验==================================
+
+    APP_NOT_EXIST(5001, "商品不存在，请核实！"),
+    APP_OFF_SHELVES(5002, "商品已下架，请核实！");
 
     private Integer code;
 
