@@ -410,7 +410,6 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      */
     @Override
     public Order queryBackOrderCount(BackOrderCnd backOrderCnd) {
-        PageHelper.startPage(backOrderCnd.getPage(), backOrderCnd.getLimit(), false);
         return orderMapper.queryBackOrderCount(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
                 backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), getDealerId());
     }
