@@ -183,6 +183,8 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         } else {
             // SUP充值失败，进行支付宝或微信退单
              orderService.tradeRefund(order);
+            // SUP回调返回失败，更新订单状态
+            orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 3, Order.TradeStatusConst.REFUND_SICCESS,3);
         }
         response.getWriter().write("<receive>ok</receive>");
     }
