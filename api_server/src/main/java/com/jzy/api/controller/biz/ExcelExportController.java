@@ -64,6 +64,7 @@ public class ExcelExportController extends GenericController {
         excelExport.setId(tableKeyService.newKey("order_export_record", "id", 10000));
         excelExport.setStartDate(backOrderCnd.getStartDate());
         excelExport.setEndDate(backOrderCnd.getEndDate());
+        excelExport.setDealerId(getDealerId());
         excelExportService.insert(excelExport);
         excelExportService.orderExport(rowList, excelExport.getId());
         return new ApiResult().success();

@@ -69,7 +69,7 @@
         order_export_record
         WHERE
         1 = 1
-        <if test="dealerId != null">
+        <if test="dealerId != 0">
             AND dealer_id = #{dealerId}
         </if>
         AND create_time >= date_add(now(), INTERVAL -7 DAY)
