@@ -154,7 +154,7 @@ public interface OrderMapper extends GenericMapper<Order> {
      */
     List<Order> queryBackOrderList(@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate,
                                    @Param("supStatus") Integer supStatus, @Param("status") Integer status,
-                                   @Param("key") String key);
+                                   @Param("key") String key, @Param("dealerId") Integer dealerId);
 
     /**
      * <b>功能描述：</b>订单列表已完成订单统计<br>
@@ -169,7 +169,7 @@ public interface OrderMapper extends GenericMapper<Order> {
      */
     Order queryBackOrderCount(@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate,
                              @Param("supStatus") Integer supStatus, @Param("status") Integer status,
-                             @Param("key") String key);
+                             @Param("key") String key, @Param("dealerId") Integer dealerId);
 
     /**
      * <b>功能描述：</b>月订单列表查询<br>
@@ -181,5 +181,5 @@ public interface OrderMapper extends GenericMapper<Order> {
      * @param key 商户名称
      */
     List<Order> queryMonthOrderList(@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate,
-                                    @Param("key") String key);
+                                    @Param("key") String key, @Param("dealerId") Integer dealerId);
 }

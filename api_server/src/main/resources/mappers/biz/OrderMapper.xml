@@ -360,6 +360,9 @@
             AND o.create_time >= #{startDate}
             AND o.create_time &lt; #{endDate}
         </if>
+        <if test="dealerId != null">
+            AND o.dealer_id = #{dealerId}
+        </if>
         <if test="supStatus != null">
             AND o.sup_status = #{supStatus}
         </if>
@@ -404,6 +407,9 @@
             AND o.create_time >= #{startDate}
             AND o.create_time &lt; #{endDate}
         </if>
+        <if test="dealerId != null">
+            AND o.dealer_id = #{dealerId}
+        </if>
     </select>
 
     <!-- 月订单列表查询 -->
@@ -436,6 +442,9 @@
                 o.del_flag = 0
                 AND o.create_time >= #{startDate}
                 AND o.create_time &lt; #{endDate}
+                <if test="dealerId != null">
+                    AND o.dealer_id = #{dealerId}
+                </if>
             ) a
         GROUP BY
         dealer_id,
