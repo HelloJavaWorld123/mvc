@@ -250,6 +250,8 @@ public class AliyunOssServiceImpl implements AliyunOssService {
             operater(in, length, client, rootPath +fileName + extName);
         } catch(Exception e) {
             throw new BusException("文件上传失败");
+        }finally {
+            client.shutdown();
         }
         String filePath = ossFileURIPre + "/" + rootPath + fileName + extName;
         logger.debug(filePath);
