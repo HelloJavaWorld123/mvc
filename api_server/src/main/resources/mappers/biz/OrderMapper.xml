@@ -360,7 +360,7 @@
             AND o.create_time >= #{startDate}
             AND o.create_time &lt; #{endDate}
         </if>
-        <if test="dealerId != null">
+        <if test="dealerId != 1001">
             AND o.dealer_id = #{dealerId}
         </if>
         <if test="supStatus != null">
@@ -407,7 +407,7 @@
             AND o.create_time >= #{startDate}
             AND o.create_time &lt; #{endDate}
         </if>
-        <if test="dealerId != null">
+        <if test="dealerId != 1001">
             AND o.dealer_id = #{dealerId}
         </if>
     </select>
@@ -442,7 +442,7 @@
                 o.del_flag = 0
                 AND o.create_time >= #{startDate}
                 AND o.create_time &lt; #{endDate}
-                <if test="dealerId != null">
+                <if test="dealerId != 1001">
                     AND o.dealer_id = #{dealerId}
                 </if>
             ) a
