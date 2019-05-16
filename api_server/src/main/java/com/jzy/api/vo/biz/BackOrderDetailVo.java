@@ -133,4 +133,13 @@ public class BackOrderDetailVo extends GenericVo {
      * 完成/到账时间
      */
     private Date finishTime;
+
+    /**
+     * <b>功能描述：</b>商户利润计算<br>
+     * <b>修订记录：</b><br>
+     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    public BigDecimal getMerchantProfit() {
+        return this.tradeFee.subtract(this.dealerPrice);
+    }
 }
