@@ -92,7 +92,7 @@ public class ExcelExportServiceImpl extends GenericServiceImpl<ExcelExport> impl
             String fileUrl = aliyunOssService.uploadFile(in, length, fileName, ".xls");
             excelExport.setFileUrl(fileUrl);
             excelExport.setId(id);
-            excelExport.setStatus(2);
+            excelExport.setStatus(1);
             update(excelExport);
         } catch (Exception ignore) {
             excelExport.setId(id);
