@@ -65,7 +65,7 @@ public class PayController extends GenericController {
         if (status == null) {
             throw new BusException(ResultEnum.APP_NOT_EXIST);
         }
-        if (status != 0) {
+        if (status != 1) {
             throw new BusException(ResultEnum.APP_OFF_SHELVES);
         }
         // 根据商品id获取商品价格信息
