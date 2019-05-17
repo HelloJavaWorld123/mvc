@@ -79,6 +79,10 @@ public class OrderDetailVo extends GenericVo {
      */
     private Date createTime;
     /**
+     * 支付时间
+     */
+    private Date payTime;
+    /**
      * 订单完成时间
      */
     private Date finishTime;

@@ -147,6 +147,8 @@
         o.account,
         o.recharge_mode,
         o.create_time,
+        o.pay_time,
+        o.finish_time,
         app.id appId,
         app. NAME appName,
         image.file_url appIcon
