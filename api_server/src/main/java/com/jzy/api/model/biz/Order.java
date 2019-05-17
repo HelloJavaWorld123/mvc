@@ -196,19 +196,19 @@ public class Order extends GenericModel {
     /**
      * 总面值
      */
-    private BigDecimal priceTotal;
+    private BigDecimal priceTotal = BigDecimal.ZERO;
     /**
      * 应付总金额
      */
-    private BigDecimal totalFeeTotal;
+    private BigDecimal totalFeeTotal = BigDecimal.ZERO;
     /**
      * 实付总金额
      */
-    private BigDecimal tradeFeeTotal;
+    private BigDecimal tradeFeeTotal = BigDecimal.ZERO;
     /**
      * 渠道商价格总金额
      */
-    private BigDecimal dealerPriceTotal;
+    private BigDecimal dealerPriceTotal = BigDecimal.ZERO;
     /**
      * 时间间隔
      */
