@@ -113,6 +113,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         try {
             apiResult = payService.pay(request, order);
         } catch (Exception e) {
+            log.debug("payError", e);
             throw new PayException("支付异常");
         }
         // 是否临时订单
@@ -259,7 +260,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * <b>修订记录：</b><br>
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
-     * @param orderId 订单id
+     * @param cardPwdId 卡密id
+     * @param cardNo 卡号
      */
     @Override
     public String queryCardPwdByIdAndCardNo(String cardPwdId, String cardNo) {
