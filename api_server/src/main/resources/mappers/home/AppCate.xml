@@ -62,4 +62,13 @@
     <select id="getAppCateName" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT name from app_cate where id = #{goId}
     </select>
+
+    <select id="getPriceById" resultType="java.lang.String">
+        select price from dealer_app_price_info where id = #{goId}
+    </select>
+
+    <select id="getAppNameById" resultType="java.lang.String">
+        select a.name from app_info a inner join
+         (select ai_id from dealer_app_price_info where id = #{goId}) b on a.id=b.ai_id
+    </select>
 </mapper>

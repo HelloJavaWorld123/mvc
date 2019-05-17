@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.jzy.api.cnd.home.HomeHotListCnd;
 import com.jzy.api.cnd.home.HomeRecommendHotCnd;
 import com.jzy.api.constant.HomeEnums;
+import com.jzy.api.dao.home.AppCateMapper;
 import com.jzy.api.dao.home.HomeRecommendHotMapper;
 import com.jzy.api.model.Home.*;
 import com.jzy.api.model.app.FileInfo;
@@ -53,6 +54,8 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
 
     @Resource
     private TableKeyService tableKeyService;
+
+    @Resource AppCateMapper appCateMapper;
 
     /**
      * <b>功能描述：</b>首页查询商品推荐列表<br>
@@ -165,25 +168,28 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
         if(countGoId>0){
             throw new BusException(homeRecommendHotCnd.getGoName()+"首页推荐分组中商品名称不能相同");
         }
-        //如果是分组
-        if(homeRecommendHotCnd.getGoType()==2) {
+        //获取goname，如果是商品
+        if(homeRecommendHotCnd.getGoType() == 1){
+            homeRecommendHotCnd.setGoName(appCateMapper.getAppNameById(homeRecommendHotCnd.getGoId()));
+            homeRecommendHotCnd.setGoPrice(appCateMapper.getPriceById(homeRecommendHotCnd.getGoId()));
+        }else if(homeRecommendHotCnd.getGoType() ==2){//如果是分组
             if (homeRecommendHotCnd.getImageUrl() == null){
                 throw new BusException("首页推荐分组如果商品跳转分组必须上传图片");
             }
             if (homeRecommendHotCnd.getPosition()!=0){
                 throw new BusException("分组只能在中上，不能再其他位置");
             }
+            homeRecommendHotCnd.setGoName(appCateMapper.getAppCateName(homeRecommendHotCnd.getGoId()));
+            //生成图片信息对象
+            SysImages images = getSystemImagesMapper(homeRecommendHotCnd, mfile);
+            homeRecommendHotCnd.setImageId(images.getId().toString());
+            //添加新的图片信息
+            sysImagesService.save(images);
         }
         //修改人id
         homeRecommendHotCnd.setModifierId(getDealerId().longValue());
         //修改时间
         homeRecommendHotCnd.setModifyTime(new Date());
-
-        //生成图片信息对象
-        SysImages images = getSystemImagesMapper(homeRecommendHotCnd, mfile);
-        homeRecommendHotCnd.setImageId(images.getId().toString());
-        //添加新的图片信息
-        sysImagesService.save(images);
         //保存推荐商品信息
         homeRecommendHotMapper.edit(homeRecommendHotCnd);
     }
@@ -201,7 +207,6 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
     public List<HomeHotVo> getByGroupId(Long id) {
         return homeRecommendHotMapper.getByGroupId(id);
     }
-
     /**
      * <b>功能描述：</b>删除分组下面所有商品<br>
      * <b>修订记录：</b><br>
