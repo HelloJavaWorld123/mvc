@@ -1,6 +1,7 @@
 package com.jzy.api.model.dealer;
 
 import com.jzy.framework.bean.model.GenericModel;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -89,4 +90,40 @@ public class DealerAppPriceInfo extends GenericModel {
      * 状态 0 下架 1上架  默认0
      */
     private Integer status = 0;
+
+    /**
+     * 是否自定义金额
+     */
+    private Integer isCustom;
+
+    public Integer getIsCustom() {
+        if (this.isCustom == null) {
+            return 0;
+        }
+        return isCustom;
+    }
+
+    /**
+     * <b>功能描述：</b>获取实际的支付金额<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    public BigDecimal getActualPayAmount(BigDecimal discount) {
+        if (discount.compareTo(BigDecimal.ZERO) == 0) {
+            return this.price.setScale(2, BigDecimal.ROUND_HALF_UP);
+        }
+        return this.price.multiply(this.discount).setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
+
+    /**
+     * <b>功能描述：</b>获取实际的支付金额<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    public BigDecimal getCustomPayAmount(BigDecimal totalFee) {
+        if (this.discount.compareTo(BigDecimal.ZERO) == 0) {
+            return totalFee.setScale(2, BigDecimal.ROUND_HALF_UP);
+        }
+        return totalFee.multiply(this.discount).setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
 }

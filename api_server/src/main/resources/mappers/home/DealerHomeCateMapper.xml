@@ -22,7 +22,7 @@
         hrc.dealer_id as dealerId,
         hrc.sort_desc as sortDesc,
         hrc.rci_name as rciName,
-        img.file_url as imageUrl,
+        hrc.image_url as imageUrl,
         hrc.go_type as goType,
         hrc.go_id as goId,
         hrc.go_name as goName,
@@ -30,10 +30,9 @@
         hrc.state as status,
         hrc.type as type
         FROM home_recommend_cate hrc
-        LEFT JOIN sys_images as img ON img.type = 3 AND img.rel_id = hrc.id
         WHERE 1=1
         <if test="status!=null">
-            and hrc.status = #{status}
+            and hrc.state = #{status}
         </if>
         <if test="type!=null">
             and hrc.`type` = #{type}
@@ -50,10 +49,9 @@
         SELECT
         COUNT(1)
         FROM home_recommend_cate hrc
-        LEFT JOIN sys_images as img ON img.type = 3 AND img.rel_id = hrc.id
         WHERE 1=1
         <if test="status!=null">
-            and hrc.status = #{status}
+            and hrc.state = #{status}
         </if>
         <if test="type!=null">
             and hrc.`type` = #{type}
@@ -87,7 +85,7 @@
         hrc.dealer_id as dealerId,
         hrc.sort_desc as sortDesc,
         hrc.rci_name as rciName,
-        img.file_url as imageUrl,
+        hrc.image_url as imageUrl,
         hrc.go_type as goType,
         hrc.go_id as goId,
         hrc.go_name as goName,
@@ -95,7 +93,6 @@
         hrc.state as status,
         hrc.type as type
         FROM home_recommend_cate hrc
-        LEFT JOIN sys_images as img ON img.type = 3 AND img.rel_id = hrc.id
         WHERE 1=1
         AND hrc.id = #{id}
     </select>
@@ -111,7 +108,9 @@
             `go_id`,
             `go_name`,
             `state`,
-            `type`
+            `type`,
+            `image_url`,
+            image_id
         )
         VALUES
         (
@@ -123,7 +122,9 @@
             #{goId},
             #{goName},
             #{state},
-            #{type}
+            #{type},
+            #{imageUrl},
+            #{imageId}
         )
     </insert>
 
@@ -136,8 +137,9 @@
          `go_type` = #{goType},
          `go_id` = #{goId},
          `go_name` = #{goName},
-         `state` = #{state},
-         `type` = #{type}
+        `type` = #{type}
+        <if test="state">,`state` = #{state}</if>
+         <if test="imageUrl">,`image_url` = #{imageUrl}</if>
         WHERE `id` = #{id}
     </update>
 </mapper>

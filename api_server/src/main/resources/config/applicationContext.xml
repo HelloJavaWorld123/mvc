@@ -13,14 +13,16 @@
 
     <!-- 自动扫描 -->
     <context:component-scan base-package="com.jzy.api.base,
-                                          com.jzy.api.dao
-                                          com.jzy.api.model
+                                          com.jzy.api.dao,
+                                          com.jzy.api.model,
                                           com.jzy.api.service">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 
     </context:component-scan>
+
+    <!-- aop扫描拆分，cat的扫描在spring，参数校验的扫描放到spring mvc，规避参数校验的Validator报错 -->
     <context:component-scan base-package="com.jzy.api.aop"/>
     <aop:aspectj-autoproxy/>
     <import resource="applicationContext-empty.xml"/>

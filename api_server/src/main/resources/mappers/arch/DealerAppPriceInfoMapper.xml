@@ -424,4 +424,21 @@
                 )
         </insert>
 
+    <!-- 根据商品id获取商品价格信息 -->
+    <select id="queryAppPriceInfoByAppId" resultType="com.jzy.api.model.dealer.DealerAppPriceInfo">
+        SELECT
+        appInfo.sup_price supPrice,
+        appInfo.price,
+        appInfo.discount,
+        appInfo.dealer_price dealerPrice,
+        appType.is_custom isCustom
+        FROM
+        dealer_app_price_info appInfo
+        LEFT JOIN dealer_app_price_type appType ON appInfo.apt_id = appType.apt_id
+        WHERE
+        appInfo.ai_id = #{appId}
+        AND appInfo.dealer_id = #{dealerId}
+        AND appInfo.status = 1
+    </select>
+
 </mapper>

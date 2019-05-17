@@ -1,5 +1,7 @@
 package com.jzy.framework.exception;
 
+import com.jzy.common.enums.ResultEnum;
+
 /**
  * <b>功能：</b>业务处理异常<br>
  * <b>Copyright JZY</b>
@@ -12,6 +14,10 @@ package com.jzy.framework.exception;
 public class BusException extends RuntimeException {
 
     public BusException() {
+    }
+
+    public BusException(ResultEnum resultEnum) {
+        super(resultEnum.getMsg());
     }
 
     public BusException(String message) {

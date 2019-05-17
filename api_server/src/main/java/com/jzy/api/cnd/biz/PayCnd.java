@@ -1,9 +1,14 @@
 package com.jzy.api.cnd.biz;
 
+import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.GenericCnd;
+import com.jzy.framework.exception.BusException;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
@@ -26,43 +31,55 @@ public class PayCnd extends GenericCnd {
      * 支付方式
      * 0微信,1支付宝
      */
+    @Range(max = 1)
+    @NotNull
     private Integer tradeMethod;
     /**
      * 充值模式
      * 0直充 1 卡密
      */
+    @Range(max = 1)
+    @NotNull
     private Integer rechargeMode;
     /**
      * 订单应付总金额
      */
+    @NotNull
     private BigDecimal totalFee;
     /**
      * 实付总金额
      */
+    @NotNull
     private BigDecimal tradeFee;
     /**
      * 渠道商价格
      */
+    @NotNull
     private BigDecimal dealerPrice;
     /**
      * 折扣
      */
-    private BigDecimal discount;
+    private BigDecimal discount = BigDecimal.ZERO;
     /**
      * sup商品提交金额
      */
+    @NotNull
     private BigDecimal supPrice;
     /**
      * sup商品编号
      */
+    @NotBlank
     private String supNo;
     /**
      * 购买数量
      */
+    @NotNull
     private Integer number;
     /**
      * 订单类型:1服务,2游戏,3商品
      */
+    @Range(min = 1, max = 3)
+    @NotNull
     private Integer type;
     /**
      * 充值类型名称
@@ -95,9 +112,38 @@ public class PayCnd extends GenericCnd {
     /**
      * 商品id
      */
+    @NotNull
     private Long appId;
     /**
      * 商品名称
      */
+    @NotBlank
     private String appName;
+
+    /**
+     * <b>功能描述：</b>校验支付金额<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    public void validateTradeFee(BigDecimal actualPayAmount) {
+        int isEqual = this.tradeFee.compareTo(actualPayAmount);
+        if (isEqual != 0) {
+            throw new BusException(ResultEnum.TRADE_FEE_CALC_ERROR);
+        }
+    }
+
+    /**
+     * <b>功能描述：</b>校验SUP价格<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param rate price(面值) / supPrice的折扣
+     */
+    public void validateSupPrice(BigDecimal rate) {
+        BigDecimal inputRate = this.totalFee.divide(this.supPrice, 2, BigDecimal.ROUND_HALF_UP);
+        int isEqual = inputRate.compareTo(rate);
+        if (isEqual != 0) {
+            throw new BusException(ResultEnum.SUP_PRICE_ERROR);
+        }
+    }
 }

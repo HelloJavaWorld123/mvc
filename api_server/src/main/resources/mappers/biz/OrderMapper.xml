@@ -147,6 +147,8 @@
         o.account,
         o.recharge_mode,
         o.create_time,
+        o.pay_time,
+        o.finish_time,
         app.id appId,
         app. NAME appName,
         image.file_url appIcon
@@ -183,10 +185,7 @@
             AND o.status = #{status}
         </if>
         <if test="status == 10">
-            AND o.status IN (2,3,4)
-        </if>
-        <if test="status == null">
-            AND o.status != 4
+            AND o.status IN (2,3)
         </if>
         ORDER BY o.create_time DESC
     </select>
@@ -229,9 +228,11 @@
         SET
         status = #{status},
         trade_status = #{tradeStatus},
-        sup_status = #{supStatus}
+        sup_status = #{supStatus},
+        finish_time = now()
         WHERE
         id = #{id}
+        AND del_flag = 0
     </update>
 
     <update id="updateStatusTrade">
@@ -358,6 +359,9 @@
             AND o.create_time >= #{startDate}
             AND o.create_time &lt; #{endDate}
         </if>
+        <if test="dealerId != 0">
+            AND o.dealer_id = #{dealerId}
+        </if>
         <if test="supStatus != null">
             AND o.sup_status = #{supStatus}
         </if>
@@ -395,12 +399,32 @@
             AND d.name LIKE concat(concat('%',#{key}),'%')
         </if>
         WHERE
-        o.sup_status = 2
-        AND o.status = 2
-        AND trade_status = 'pay_success'
+        1 = 1
         <if test="startDate != null and endDate != null">
             AND o.create_time >= #{startDate}
             AND o.create_time &lt; #{endDate}
+        </if>
+        <if test="dealerId != 0">
+            AND o.dealer_id = #{dealerId}
+        </if>
+        <if test="supStatus != null">
+            AND o.sup_status = #{supStatus}
+        </if>
+        <if test="status != null and status != 10">
+            AND o.status = #{status}
+        </if>
+        <if test="status == 10">
+            AND o.status IN (2,3,4)
+        </if>
+        <if test="status == null">
+            AND o.status != 4
+        </if>
+        <if test="key != null and key!= ''">
+            AND (
+            o.code LIKE concat(concat('%',#{key}),'%')
+            OR o.out_trade_no LIKE concat(concat('%',#{key}),'%')
+            OR d.name LIKE concat(concat('%',#{key}),'%')
+            )
         </if>
     </select>
 
@@ -434,6 +458,9 @@
                 o.del_flag = 0
                 AND o.create_time >= #{startDate}
                 AND o.create_time &lt; #{endDate}
+                <if test="dealerId != 0">
+                    AND o.dealer_id = #{dealerId}
+                </if>
             ) a
         GROUP BY
         dealer_id,

@@ -4,12 +4,10 @@ import com.jzy.api.annos.WithoutLogin;
 import com.jzy.api.cnd.app.*;
 import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.model.app.AppInfo;
-import com.jzy.api.model.app.AppPage;
 import com.jzy.api.model.app.FileInfo;
 import com.jzy.api.model.sys.SysImages;
 import com.jzy.api.service.app.AppInfoService;
 import com.jzy.api.service.app.AppPriceTypeService;
-import com.jzy.api.service.app.IMongoService;
 import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.service.oss.AliyunOssService;
 import com.jzy.api.service.sys.SysImagesService;
@@ -24,10 +22,8 @@ import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.result.ApiResult;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,10 +33,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -65,8 +59,6 @@ public class AppInfoController {
 
     @Resource
     private AppInfoService appInfoService;
-    @Resource
-    private IMongoService iMongoService;
 
     @Resource
     private TableKeyService tableKeyService;
@@ -283,6 +275,7 @@ public class AppInfoController {
      * @Author lchl
      * @Date 2019/5/13 11:13 AM
      */
+    @WithoutLogin
     @RequestMapping("admin/uploadFile")
     public ApiResult uploadFile(@RequestParam(value = "file", required = true) MultipartFile mfile
             , @RequestParam(value = "directoryType") Integer directoryType) {
@@ -333,34 +326,34 @@ public class AppInfoController {
      *
      * @param icon 商品图标地址名称（mongo地址）
      */
-    @WithoutLogin
-    @RequestMapping("admin/downFile")
-    public ApiResult downFile(@RequestParam(value = "icon") String icon, HttpServletResponse response) {
-        try {
-            this.downPicture(icon, response);
-        } catch (Exception e) {
-            logger.error("图片下载异常！:{}", e);
-            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
-        }
-        return new ApiResult<>();
-    }
+//    @WithoutLogin
+//    @RequestMapping("admin/downFile")
+//    public ApiResult downFile(@RequestParam(value = "icon") String icon, HttpServletResponse response) {
+//        try {
+//            this.downPicture(icon, response);
+//        } catch (Exception e) {
+//            logger.error("图片下载异常！:{}", e);
+//            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
+//        }
+//        return new ApiResult<>();
+//    }
 
     /**
      * <b>功能描述：</b>文件上传<br>
      * <b>修订记录：</b><br>
      * <li>20190422&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    private void downPicture(String icon, HttpServletResponse response) {
-        try {
-            GridFsResource ds = iMongoService.downFile(icon);
-            //设置response头信息
-            response.reset();
-            response.setContentType("application/vnd.ms-excel");
-            response.setHeader("Content-disposition", "attachment; filename=" + icon);
-            IOUtils.copy(ds.getInputStream(), response.getOutputStream());
-        } catch (IOException e) {
-            logger.error("文件上传失败！");
-            //e.printStackTrace();
-        }
-    }
+//    private void downPicture(String icon, HttpServletResponse response) {
+//        try {
+//            GridFsResource ds = iMongoService.downFile(icon);
+//            //设置response头信息
+//            response.reset();
+//            response.setContentType("application/vnd.ms-excel");
+//            response.setHeader("Content-disposition", "attachment; filename=" + icon);
+//            IOUtils.copy(ds.getInputStream(), response.getOutputStream());
+//        } catch (IOException e) {
+//            logger.error("文件上传失败！");
+//            //e.printStackTrace();
+//        }
+//    }
 }

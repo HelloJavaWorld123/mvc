@@ -151,7 +151,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param orderId 订单id
      */
     @Override
-    public int queryOrderStatusForParty(String orderId) {
+    public int updateOrderStatusByActiveQuery(String orderId) {
         Order order = orderMapper.queryOrderById(orderId);
         if (order == null) {
             throw new BusException("订单不存在");
@@ -384,7 +384,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         Page page = PageHelper.startPage(backOrderCnd.getPage(), backOrderCnd.getLimit());
         // 订单列表查询
         List<Order> orderList = orderMapper.queryBackOrderList(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
-                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey());
+                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), getDealerId());
         if (orderList == null || orderList.isEmpty()) {
             return new PageVo<>();
         }
@@ -400,7 +400,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     public List<Order> queryExcelExportBackOrderList(BackOrderCnd backOrderCnd) {
         PageHelper.startPage(backOrderCnd.getPage(), backOrderCnd.getLimit(), false);
         return orderMapper.queryBackOrderList(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
-                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey());
+                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), getDealerId());
     }
 
     /**
@@ -410,9 +410,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      */
     @Override
     public Order queryBackOrderCount(BackOrderCnd backOrderCnd) {
-        PageHelper.startPage(backOrderCnd.getPage(), backOrderCnd.getLimit(), false);
         return orderMapper.queryBackOrderCount(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
-                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey());
+                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), getDealerId());
     }
 
     /**
@@ -424,7 +423,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     public PageVo<Order> queryMonthOrderList(MonthOrderCnd monthOrderCnd) {
         Page page = PageHelper.startPage(monthOrderCnd.getPage(), monthOrderCnd.getLimit());
         List<Order> orderList = orderMapper.queryMonthOrderList(monthOrderCnd.getStartDate(),
-                monthOrderCnd.getEndDate(), monthOrderCnd.getKey());
+                monthOrderCnd.getEndDate(), monthOrderCnd.getKey(), getDealerId());
         if (orderList == null || orderList.isEmpty()) {
             return new PageVo<>();
         }

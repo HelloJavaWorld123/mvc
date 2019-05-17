@@ -351,6 +351,15 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         return aiIdList;
     }
 
+    /**
+     * <b>功能描述：</b>根据商品id获取商品价格信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public List<DealerAppPriceInfo> queryAppPriceInfoByAppId(Long appId) {
+        return dealerAppPriceInfoMapper.queryAppPriceInfoByAppId(appId, getFrontDealerId());
+    }
 
     /*-------------------------------------------------------------------后台接口-----------------------------------------------------*/
 

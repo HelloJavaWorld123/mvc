@@ -43,7 +43,7 @@ public interface OrderService extends GenericService<Order> {
      *
      * @param orderId 订单id
      */
-    int queryOrderStatusForParty(String orderId);
+    int updateOrderStatusByActiveQuery(String orderId);
 
     /**
      * <b>功能描述：</b>查询订单状态<br>

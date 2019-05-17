@@ -56,20 +56,20 @@
         AND del_flag = 0
     </select>
 
-    <!-- excel到处历史记录列表查询 -->
+    <!-- excel导出历史记录列表查询 -->
     <select id="queryExcelExportList" resultType="com.jzy.api.model.biz.ExcelExport">
         SELECT
-        id excelExportId,
-        create_time,
-        start_date,
-        end_date,
-        file_url,
+        id,
+        create_time createTime,
+        start_date startDate,
+        end_date endDate,
+        file_url fileUrl,
         status
         FROM
         order_export_record
         WHERE
         1 = 1
-        <if test="dealerId != null">
+        <if test="dealerId != 0">
             AND dealer_id = #{dealerId}
         </if>
         AND create_time >= date_add(now(), INTERVAL -7 DAY)

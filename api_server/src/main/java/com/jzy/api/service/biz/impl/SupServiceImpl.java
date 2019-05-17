@@ -97,6 +97,8 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         } else {
             // sup同步返回失败，退单
             tradeRefund(order);
+            // 修改订单状态为已退款，支付失败
+            orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 3, Order.TradeStatusConst.REFUND_SICCESS,3);
         }
         // SUP充值记录
         SupRecord supRecord = supRecordMapper.querySupRecordByOrderId(order.getOrderId());
@@ -182,7 +184,9 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
             orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 2, Order.TradeStatusConst.FINISHED,2);
         } else {
             // SUP充值失败，进行支付宝或微信退单
-             orderService.tradeRefund(order);
+            orderService.tradeRefund(order);
+            // SUP回调返回失败，更新订单状态
+            orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 3, Order.TradeStatusConst.REFUND_SICCESS,3);
         }
         response.getWriter().write("<receive>ok</receive>");
     }

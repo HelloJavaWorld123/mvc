@@ -25,6 +25,18 @@ public class DealerAppInfoServiceImpl extends GenericServiceImpl<DealerAppInfo> 
     @Resource
     private DealerAppInfoMapper dealerAppInfoMapper;
 
+    /**
+     * <b>功能描述：</b>根据商品id查询商品是否存在<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param appId 商品id
+     */
+    @Override
+    public Integer queryAppStatus(Long appId) {
+        return dealerAppInfoMapper.queryAppStatus(appId, getFrontDealerId());
+    }
+
     @Override
     protected GenericMapper<DealerAppInfo> getGenericMapper() {
 

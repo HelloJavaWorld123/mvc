@@ -122,4 +122,15 @@
         AND dealer_id =#{dealerId}
     </update>
 
+    <!-- 查询商品的状态 -->
+    <select id="queryAppStatus" resultType="java.lang.Integer">
+        SELECT
+        status
+        FROM
+        dealer_app_info
+        WHERE
+        ai_id = #{appId}
+        AND dealer_id = #{dealerId}
+    </select>
+
 </mapper>

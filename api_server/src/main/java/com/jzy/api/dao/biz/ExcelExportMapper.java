@@ -2,6 +2,7 @@ package com.jzy.api.dao.biz;
 
 import com.jzy.api.model.biz.ExcelExport;
 import com.jzy.framework.dao.GenericMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public interface ExcelExportMapper extends GenericMapper<ExcelExport> {
      *
      * @param dealerId 商户id
      */
-    List<ExcelExport> queryExcelExportList(Integer dealerId);
+    List<ExcelExport> queryExcelExportList(@Param("dealerId") Integer dealerId);
 
     /**
      * <b>功能描述：</b>根据md5查询excel导出<br>

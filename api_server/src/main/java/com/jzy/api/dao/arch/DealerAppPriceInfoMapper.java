@@ -8,6 +8,7 @@ import com.jzy.api.po.arch.DealerAppPriceInfoPo;
 import com.jzy.api.vo.dealer.GetDealerAppVo;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.access.method.P;
 
 
 import java.util.List;
@@ -65,5 +66,15 @@ public interface DealerAppPriceInfoMapper extends GenericMapper<DealerAppPriceIn
     int insertAppPriceType(DealerAppPriceType dealerAppPriceType);
     DealerAppPriceType getDealerAppPriceType(@Param("aiId") String aiId, @Param("dealerId") String dealerId,
                                              @Param("aptId") String aptId);
+
+    /**
+     * <b>功能描述：</b>根据商品id获取商品价格信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param appId 商品id
+     * @param dealerId 渠道商id
+     */
+    List<DealerAppPriceInfo> queryAppPriceInfoByAppId(@Param("appId") Long appId, @Param("dealerId") Integer dealerId);
 
 }

@@ -1,13 +1,7 @@
 package com.jzy.api.dao.arch;
 
-import com.jzy.api.cnd.arch.BatchUpdateStatusCnd;
-import com.jzy.api.cnd.arch.GetDealerAppListCnd;
-import com.jzy.api.cnd.arch.GetPriceInfoCnd;
-import com.jzy.api.cnd.arch.SavePriceInfoCnd;
 import com.jzy.api.model.dealer.DealerAppInfo;
 import com.jzy.api.po.dealer.AppSearchPo;
-import com.jzy.api.vo.dealer.DealerAppPriceInfoDetailVo;
-import com.jzy.api.vo.dealer.GetDealerAppVo;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -38,5 +32,15 @@ public interface DealerAppInfoMapper extends GenericMapper<DealerAppInfo> {
      * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
       int updateStatus(@Param("status")  Integer status, @Param("aiId")  String aiId, @Param("dealerId")  String dealerId);
+
+      /**
+     * <b>功能描述：</b>根据商品id查询商品是否存在<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param appId 商品i
+     * @param dealerId 代理商id
+     */
+    Integer queryAppStatus(@Param("appId") Long appId, @Param("dealerId") Integer dealerId);
 
 }
