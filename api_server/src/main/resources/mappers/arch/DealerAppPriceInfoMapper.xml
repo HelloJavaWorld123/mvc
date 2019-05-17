@@ -429,6 +429,7 @@
         SELECT
         appInfo.sup_price supPrice,
         appInfo.price,
+        appInfo.pay_price payPrice,
         appInfo.discount,
         appInfo.dealer_price dealerPrice,
         appType.is_custom isCustom

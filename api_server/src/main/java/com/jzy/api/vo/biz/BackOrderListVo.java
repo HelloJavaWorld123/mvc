@@ -76,7 +76,7 @@ public class BackOrderListVo extends GenericVo {
     /**
      * sup状态，0未提交;1已提交;2成功;3失败
      */
-    private String supStatus;
+    private Integer supStatus;
     /**
      * 充值时间
      */
