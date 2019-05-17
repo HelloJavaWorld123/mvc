@@ -110,7 +110,7 @@ public class DealerAppPriceInfo extends GenericModel {
      */
     public BigDecimal getActualPayAmount(BigDecimal discount) {
         if (discount.compareTo(BigDecimal.ZERO) == 0) {
-            return this.price.setScale(2, BigDecimal.ROUND_HALF_UP);
+            return this.payPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
         }
         return this.price.multiply(this.discount).setScale(2, BigDecimal.ROUND_HALF_UP);
     }
