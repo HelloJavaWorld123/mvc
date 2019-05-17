@@ -380,7 +380,7 @@
             )
         </if>
         ORDER BY
-        o.modify_time
+        o.create_time DESC
     </select>
 
     <!-- 已完成订单列表统计 -->
