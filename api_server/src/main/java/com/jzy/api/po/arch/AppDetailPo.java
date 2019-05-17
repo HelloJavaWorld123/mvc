@@ -114,4 +114,50 @@ public class AppDetailPo {
     private List<FileInfo> fileInfoList = new ArrayList<>();
 
 
+    public String getAccMainName() {
+        if (accMainName == null) {
+            return "";
+
+        }
+        return accMainName;
+    }
+
+    public String getAccMainRegular() {
+        if (accMainRegular == null) {
+            return "";
+
+        }
+        return accMainRegular;
+    }
+
+    public String getAccMainMsg() {
+        if (accMainMsg == null) {
+            return "";
+
+        }
+        return accMainMsg;
+    }
+
+    public String getAccSubName() {
+        if (accSubName == null) {
+            return "";
+
+        }
+        return accSubName;
+    }
+
+    public String getAccSubRegular() {
+        if (accSubRegular == null) {
+            return "";
+
+        }
+        return accSubRegular;
+    }
+
+    public String getAccSubMsg() {
+        if (accSubMsg == null) {
+            return "";
+        }
+        return accSubMsg;
+    }
 }

@@ -9,6 +9,7 @@ import com.jzy.api.vo.dealer.DealerAppPriceInfoDetailVo;
 import com.jzy.api.vo.dealer.GetDealerAppVo;
 import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
+import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.result.ApiResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,7 +66,7 @@ public class DealerAppPriceInfoController {
      */
     @RequestMapping("appSearchList")
     public ApiResult appSearchList(@RequestBody AppSearchListCnd appSearchListCnd) {
-        PageVo pageInfo= dealerAppPriceInfoService.appSearchList(appSearchListCnd);
+        PageVo pageInfo = dealerAppPriceInfoService.appSearchList(appSearchListCnd);
         return new ApiResult<>(pageInfo);
     }
 
@@ -76,7 +77,7 @@ public class DealerAppPriceInfoController {
      */
     @RequestMapping("admin/getList")
     public ApiResult getList(@RequestBody GetDealerAppListCnd getDealerAppListCnd) {
-        PageVo pageVo= dealerAppPriceInfoService.getList(getDealerAppListCnd);
+        PageVo pageVo = dealerAppPriceInfoService.getList(getDealerAppListCnd);
         return new ApiResult<>(pageVo);
     }
 
@@ -86,7 +87,7 @@ public class DealerAppPriceInfoController {
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-        @RequestMapping("admin/getDealerAppDetail")
+    @RequestMapping("admin/getDealerAppDetail")
     public ApiResult getDealerAppDetail(@RequestBody GetPriceInfoCnd getPriceInfoCnd) {
         DealerAppPriceInfoDetailVo dealerAppPriceInfoDetailVo = dealerAppPriceInfoService.getDealerAppDetail(getPriceInfoCnd);
         return new ApiResult<>(dealerAppPriceInfoDetailVo);
@@ -99,8 +100,8 @@ public class DealerAppPriceInfoController {
      */
 
     @RequestMapping("admin/save")
-    public ApiResult save(@RequestBody SavePriceInfoCnd savePriceInfoCnd) {
-       dealerAppPriceInfoService.save(savePriceInfoCnd);
+    public ApiResult save(@RequestBody SavePriceInfoCnd savePriceInfoCnd) throws ExcelException {
+        dealerAppPriceInfoService.save(savePriceInfoCnd);
         return new ApiResult<>();
     }
 

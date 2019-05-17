@@ -83,6 +83,8 @@ public class FrontOrderController extends GenericController {
         orderDetailVo.setNumber(order.getNumber());
         orderDetailVo.setPriceTypeUnit(order.getPriceTypeUnit());
         orderDetailVo.setCreateTime(order.getCreateTime());
+        orderDetailVo.setPayTime(order.getPayTime());
+        orderDetailVo.setFinishTime(order.getFinishTime());
         orderDetailVo.setAppId(order.getAppId() + "");
         orderDetailVo.setAppName(order.getAppName());
         orderDetailVo.setAppIcon(order.getAppIcon());

@@ -147,6 +147,8 @@
         o.account,
         o.recharge_mode,
         o.create_time,
+        o.pay_time,
+        o.finish_time,
         app.id appId,
         app. NAME appName,
         image.file_url appIcon
@@ -376,6 +378,7 @@
             AND (
             o.code LIKE concat(concat('%',#{key}),'%')
             OR o.out_trade_no LIKE concat(concat('%',#{key}),'%')
+            OR o.account LIKE concat(concat('%',#{key}),'%')
             OR d.name LIKE concat(concat('%',#{key}),'%')
             )
         </if>
@@ -421,6 +424,7 @@
             AND (
             o.code LIKE concat(concat('%',#{key}),'%')
             OR o.out_trade_no LIKE concat(concat('%',#{key}),'%')
+            OR o.account LIKE concat(concat('%',#{key}),'%')
             OR d.name LIKE concat(concat('%',#{key}),'%')
             )
         </if>

@@ -13,6 +13,7 @@ import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,10 +43,12 @@ public class PayController extends GenericController {
      * <li>20190419&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("/pay")
-    public ApiResult pay(HttpServletRequest request, @RequestBody PayCnd payCnd) {
+    public ApiResult pay(@RequestBody PayCnd payCnd, HttpServletRequest request) {
         log.debug("支付请求参数为：" + payCnd.toString());
         // 数据一致性校验
-        validate(payCnd);
+        if (StringUtils.isEmpty(payCnd.getOrderId())) {
+            validate(payCnd);
+        }
         ApiResult<String> apiResult = new ApiResult<>();
         Order order = getOrder(payCnd);
         String linkUrl = orderService.insertOrUpdateOrder(request, order, payCnd.getTradeMethod());

@@ -76,9 +76,9 @@ public class PayCnd extends GenericCnd {
     @NotNull
     private Integer number;
     /**
-     * 订单类型:1服务,2游戏,3商品
+     * 订单类型:0游戏,1服务,2商品
      */
-    @Range(min = 1, max = 3)
+    @Range(max = 3)
     @NotNull
     private Integer type;
     /**

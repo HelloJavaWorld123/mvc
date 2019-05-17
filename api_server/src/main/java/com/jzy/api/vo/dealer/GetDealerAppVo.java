@@ -92,6 +92,9 @@ public class GetDealerAppVo {
                 return "/";
             }
         }
+        if (discount.equals("0.00")){
+            return "/";
+        }
         Set<String> strings = getSet(discount);
         if (strings.size() > 1) {
             return "/";

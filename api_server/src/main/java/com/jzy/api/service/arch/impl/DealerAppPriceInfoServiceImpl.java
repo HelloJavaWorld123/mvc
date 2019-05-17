@@ -35,6 +35,8 @@ import com.jzy.api.vo.dealer.DealerAppPriceInfoDetailVo;
 import com.jzy.api.vo.dealer.GetDealerAppVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
+import com.jzy.framework.exception.BusException;
+import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -273,7 +275,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void save(SavePriceInfoCnd savePriceInfoCnd) {
+    public void save(SavePriceInfoCnd savePriceInfoCnd) throws ExcelException {
 
         String aiId = savePriceInfoCnd.getDealerAppInfoCnd().getAiId();
         String dealerId = savePriceInfoCnd.getDealerAppInfoCnd().getDealerId();
@@ -286,6 +288,16 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         //全量更新  物理删除
         dealerAppPriceInfoMapper.deleteByDealerIdAndaiId(aiId, dealerId);
         dealerAppPriceInfoMapper.deleteAppPriceType(dealerId, aiId);
+        //前台输入校验
+        for (DealerAppPriceTypeCnd dealerAppPriceTypeCnd : savePriceInfoCnd.getDealerAppPriceTypeCndList()) {
+            //面值不重复校验
+            checkPrice(dealerAppPriceTypeCnd);
+            //可输入面值比例校验
+            checkRatio(dealerAppPriceTypeCnd);
+
+
+        }
+
         //更新
         for (DealerAppPriceTypeCnd dealerAppPriceTypeCnd : savePriceInfoCnd.getDealerAppPriceTypeCndList()) {
             //保存是否自定义金额
@@ -312,6 +324,42 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
                 }
                 dealerAppPriceInfo.setAptId(dealerAppPriceTypeCnd.getAptId());
                 this.insert(dealerAppPriceInfo);
+            }
+        }
+
+
+    }
+
+    /**
+     * <b>功能描述：</b>当前商品充值类型存在面值重复，请核实！<br>
+     * <b>修订记录：</b><br>
+     * <li>20190517&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private void checkPrice(DealerAppPriceTypeCnd dealerAppPriceTypeCnd) throws ExcelException {
+        Set<BigDecimal> checkPrice = new HashSet<>();
+        List<DealerAppPriceInfoCnd> dealerAppPriceInfoCnds = dealerAppPriceTypeCnd.getDealerAppPriceInfoCnds();
+        for (DealerAppPriceInfoCnd dealerAppPriceInfoCnd : dealerAppPriceInfoCnds) {
+            checkPrice.add(dealerAppPriceInfoCnd.getPrice());
+        }
+        if (checkPrice.size() != dealerAppPriceInfoCnds.size()) {
+            throw new ExcelException("当前商品充值类型存在面值重复，请核实！");
+        }
+    }
+
+    /**
+     * <b>功能描述：</b>可输入面值比例校验<br>
+     * <b>修订记录：</b><br>
+     * <li>20190517&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private void checkRatio(DealerAppPriceTypeCnd dealerAppPriceTypeCnd) throws ExcelException {
+        Integer isCustom = dealerAppPriceTypeCnd.getIsCustom();
+        Set<BigDecimal> checkRatio = new HashSet<>();
+        if (isCustom == 1) {
+            for (DealerAppPriceInfoCnd dealerAppPriceInfoCnd : dealerAppPriceTypeCnd.getDealerAppPriceInfoCnds()) {
+                checkRatio.add(dealerAppPriceInfoCnd.getSupPrice().divide(dealerAppPriceInfoCnd.getPrice()));
+            }
+            if (checkRatio.size() > 1) {
+                throw new ExcelException("当前商品充值类型存在面值与sup价格不成比例，请核实！");
             }
         }
 
