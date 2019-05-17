@@ -120,10 +120,10 @@ public class DealerAppPriceInfo extends GenericModel {
      * <b>修订记录：</b><br>
      * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    public BigDecimal getCustomPayAmount() {
+    public BigDecimal getCustomPayAmount(BigDecimal totalFee) {
         if (this.discount.compareTo(BigDecimal.ZERO) == 0) {
-            return this.price.setScale(2, BigDecimal.ROUND_HALF_UP);
+            return totalFee.setScale(2, BigDecimal.ROUND_HALF_UP);
         }
-        return this.price.multiply(this.discount).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return totalFee.multiply(this.discount).setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 }

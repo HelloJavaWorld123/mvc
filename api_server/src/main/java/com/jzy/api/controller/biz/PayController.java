@@ -91,11 +91,7 @@ public class PayController extends GenericController {
                 throw new BusException(ResultEnum.APP_NOT_CONFIG_PRICE);
             }
             // 自定义支付金额
-            if (customAppPriceInfo.getDiscount().compareTo(BigDecimal.ZERO) == 0) {
-                actualPayAmount = payCnd.getTotalFee();
-            } else {
-                actualPayAmount = (payCnd.getTotalFee().multiply(customAppPriceInfo.getDiscount()));
-            }
+            actualPayAmount = customAppPriceInfo.getCustomPayAmount(payCnd.getTotalFee());
             payCnd.validateTradeFee(actualPayAmount);
             payCnd.validateSupPrice(customAppPriceInfo.getPrice().divide(customAppPriceInfo.getSupPrice(), 2, BigDecimal.ROUND_HALF_UP));
         } else {
