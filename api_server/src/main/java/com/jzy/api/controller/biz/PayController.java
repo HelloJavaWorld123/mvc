@@ -45,7 +45,7 @@ public class PayController extends GenericController {
     public ApiResult pay(HttpServletRequest request, @RequestBody PayCnd payCnd) {
         log.debug("支付请求参数为：" + payCnd.toString());
         // 数据一致性校验
-        // validate(payCnd);
+        validate(payCnd);
         ApiResult<String> apiResult = new ApiResult<>();
         Order order = getOrder(payCnd);
         String linkUrl = orderService.insertOrUpdateOrder(request, order, payCnd.getTradeMethod());
@@ -92,15 +92,17 @@ public class PayController extends GenericController {
             }
             // 自定义支付金额
             if (customAppPriceInfo.getDiscount().compareTo(BigDecimal.ZERO) == 0) {
-                actualPayAmount = payCnd.getTradeFee();
+                actualPayAmount = payCnd.getTotalFee();
             } else {
                 actualPayAmount = (payCnd.getTotalFee().multiply(customAppPriceInfo.getDiscount()));
             }
             payCnd.validateTradeFee(actualPayAmount);
+            payCnd.validateSupPrice(customAppPriceInfo.getPrice().divide(customAppPriceInfo.getSupPrice(), 2, BigDecimal.ROUND_HALF_UP));
         } else {
             // 和数据库中的面值匹配到了
             actualPayAmount = appPriceInfo.getActualPayAmount(payCnd.getDiscount());
             payCnd.validateTradeFee(actualPayAmount);
+            payCnd.validateSupPrice(appPriceInfo.getPrice().divide(appPriceInfo.getSupPrice(), 2, BigDecimal.ROUND_HALF_UP));
         }
     }
 

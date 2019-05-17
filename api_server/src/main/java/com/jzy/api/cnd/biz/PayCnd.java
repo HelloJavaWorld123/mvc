@@ -131,4 +131,19 @@ public class PayCnd extends GenericCnd {
             throw new BusException(ResultEnum.TRADE_FEE_CALC_ERROR);
         }
     }
+
+    /**
+     * <b>功能描述：</b>校验SUP价格<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param rate price(面值) / supPrice的折扣
+     */
+    public void validateSupPrice(BigDecimal rate) {
+        BigDecimal inputRate = this.totalFee.divide(this.supPrice, 2, BigDecimal.ROUND_HALF_UP);
+        int isEqual = inputRate.compareTo(rate);
+        if (isEqual != 0) {
+            throw new BusException(ResultEnum.SUP_PRICE_ERROR);
+        }
+    }
 }

@@ -358,7 +358,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
      */
     @Override
     public List<DealerAppPriceInfo> queryAppPriceInfoByAppId(Long appId) {
-        return dealerAppPriceInfoMapper.queryAppPriceInfoByAppId(appId, getDealerId());
+        return dealerAppPriceInfoMapper.queryAppPriceInfoByAppId(appId, getFrontDealerId());
     }
 
     /*-------------------------------------------------------------------后台接口-----------------------------------------------------*/

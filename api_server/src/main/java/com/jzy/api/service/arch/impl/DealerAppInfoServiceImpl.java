@@ -34,7 +34,7 @@ public class DealerAppInfoServiceImpl extends GenericServiceImpl<DealerAppInfo> 
      */
     @Override
     public Integer queryAppStatus(Long appId) {
-        return dealerAppInfoMapper.queryAppStatus(appId, getDealerId());
+        return dealerAppInfoMapper.queryAppStatus(appId, getFrontDealerId());
     }
 
     @Override
