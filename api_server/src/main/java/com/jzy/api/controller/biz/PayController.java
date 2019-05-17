@@ -43,7 +43,7 @@ public class PayController extends GenericController {
      * <li>20190419&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("/pay")
-    public ApiResult pay(HttpServletRequest request, @RequestBody PayCnd payCnd) {
+    public ApiResult pay(@RequestBody PayCnd payCnd, HttpServletRequest request) {
         log.debug("支付请求参数为：" + payCnd.toString());
         // 数据一致性校验
         if (StringUtils.isEmpty(payCnd.getOrderId())) {
