@@ -35,7 +35,7 @@ public class AppInfo extends GenericModel implements Serializable {
     /**
      * 游戏id
      */
-    private String gameId;
+    private Long  gameId;
     /**
      * 应用类型id
      */
