@@ -112,6 +112,9 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         ApiResult apiResult;
         try {
             apiResult = payService.pay(request, order);
+        } catch (BusException bus) {
+            log.debug("payException", bus);
+          throw new PayException(bus.getMessage());
         } catch (Exception e) {
             log.debug("payError", e);
             throw new PayException("支付异常");
