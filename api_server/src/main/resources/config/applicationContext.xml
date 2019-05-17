@@ -4,11 +4,12 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:redisson="http://redisson.org/schema/redisson"
+       xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
     <!-- 自动扫描 -->
@@ -77,6 +78,10 @@
         <property name="filters" value="${jdbc.filter}"/>
 
     </bean>
+
+    <!-- Excel导出支持异步方法执行 -->
+    <task:annotation-driven executor="excelExportAsyncExecutor"/>
+    <task:executor id="excelExportAsyncExecutor" pool-size="5"/>
 
     <!-- 配置和mybatis的整合 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

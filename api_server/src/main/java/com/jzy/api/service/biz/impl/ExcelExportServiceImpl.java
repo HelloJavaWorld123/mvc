@@ -14,6 +14,7 @@ import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -69,6 +70,7 @@ public class ExcelExportServiceImpl extends GenericServiceImpl<ExcelExport> impl
      * <b>修订记录：</b><br>
      * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
+    @Async("excelExportAsyncExecutor")
     @Override
     public void orderExport(List<BackOrderListVo> rowList, Long id) {
 
