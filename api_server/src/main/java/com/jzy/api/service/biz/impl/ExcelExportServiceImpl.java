@@ -133,7 +133,7 @@ public class ExcelExportServiceImpl extends GenericServiceImpl<ExcelExport> impl
             backOrderExportListVo.setPayWayName(backOrderListVo.getTradeMethod());
             backOrderExportListVo.setStatus(backOrderListVo.getStatus());
             if (!StringUtils.isEmpty(backOrderListVo.getSupStatus())) {
-                backOrderExportListVo.setSupStatus(Integer.parseInt(backOrderListVo.getSupStatus()));
+                backOrderExportListVo.setSupStatus(backOrderListVo.getSupStatus());
             }
             backOrderExportListVo.setPayTime(backOrderListVo.getPayTime());
             backOrderExportListVo.setMerchantProfit(backOrderListVo.getMerchantProfit());
