@@ -438,6 +438,7 @@
         LEFT JOIN dealer_app_price_type appType ON appInfo.apt_id = appType.apt_id
         WHERE
         appInfo.ai_id = #{appId}
+        AND appInfo.apt_id = #{aptId}
         AND appInfo.dealer_id = #{dealerId}
         AND appInfo.status = 1
     </select>

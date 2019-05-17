@@ -75,6 +75,8 @@ public interface DealerAppPriceInfoMapper extends GenericMapper<DealerAppPriceIn
      * @param appId 商品id
      * @param dealerId 渠道商id
      */
-    List<DealerAppPriceInfo> queryAppPriceInfoByAppId(@Param("appId") Long appId, @Param("dealerId") Integer dealerId);
+    List<DealerAppPriceInfo> queryAppPriceInfoByAppId(@Param("appId") Long appId,
+                                                      @Param("aptId") Long aptId,
+                                                      @Param("dealerId") Integer dealerId);
 
 }

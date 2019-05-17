@@ -407,8 +407,8 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
      * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public List<DealerAppPriceInfo> queryAppPriceInfoByAppId(Long appId) {
-        return dealerAppPriceInfoMapper.queryAppPriceInfoByAppId(appId, getFrontDealerId());
+    public List<DealerAppPriceInfo> queryAppPriceInfoByAppId(Long appId, Long aptId) {
+        return dealerAppPriceInfoMapper.queryAppPriceInfoByAppId(appId, aptId, getFrontDealerId());
     }
 
     /*-------------------------------------------------------------------后台接口-----------------------------------------------------*/

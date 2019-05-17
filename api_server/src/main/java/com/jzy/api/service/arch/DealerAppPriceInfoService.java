@@ -92,7 +92,7 @@ public interface DealerAppPriceInfoService extends GenericService<DealerAppPrice
      * <b>修订记录：</b><br>
      * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<DealerAppPriceInfo> queryAppPriceInfoByAppId(Long appId);
+    List<DealerAppPriceInfo> queryAppPriceInfoByAppId(Long appId, Long aptId);
 
 
 
