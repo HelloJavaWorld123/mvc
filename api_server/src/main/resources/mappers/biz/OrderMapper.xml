@@ -378,6 +378,7 @@
             AND (
             o.code LIKE concat(concat('%',#{key}),'%')
             OR o.out_trade_no LIKE concat(concat('%',#{key}),'%')
+            OR o.account LIKE concat(concat('%',#{key}),'%')
             OR d.name LIKE concat(concat('%',#{key}),'%')
             )
         </if>
@@ -423,6 +424,7 @@
             AND (
             o.code LIKE concat(concat('%',#{key}),'%')
             OR o.out_trade_no LIKE concat(concat('%',#{key}),'%')
+            OR o.account LIKE concat(concat('%',#{key}),'%')
             OR d.name LIKE concat(concat('%',#{key}),'%')
             )
         </if>
