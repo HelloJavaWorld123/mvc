@@ -27,7 +27,7 @@ public class AppInfo extends GenericModel implements Serializable {
     /**
      * 账号类型id
      */
-    private String acctId;
+    private Long acctId;
     /**
      * 厂商id
      */
