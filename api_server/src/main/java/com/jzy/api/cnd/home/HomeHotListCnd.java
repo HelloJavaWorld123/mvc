@@ -1,9 +1,7 @@
-package com.jzy.api.model.Home;
+package com.jzy.api.cnd.home;
 
-import com.jzy.framework.bean.model.GenericModel;
+import com.jzy.framework.bean.cnd.PageCnd;
 import lombok.Data;
-
-import java.util.Date;
 
 /**
  * <b>功能：</b>渠道商推荐里跳转<br>
@@ -11,12 +9,16 @@ import java.util.Date;
  * <ul>
  * <li>版本&nbsp;&nbsp;&nbsp;&nbsp;修改日期&nbsp;&nbsp;&nbsp;&nbsp;部　　门&nbsp;&nbsp;&nbsp;&nbsp;作　者&nbsp;&nbsp;&nbsp;&nbsp;变更内容</li>
  * <hr>
- * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190428&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;唐永刚&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
+ * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190516&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;鲁伟&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
 @Data
-public class HomeRecommendHot extends GenericModel {
+public class HomeHotListCnd extends PageCnd {
 
+    /**
+     * 主键
+     */
+    private Long id;
     /**
      * 商户基本信息id
      */
@@ -60,10 +62,6 @@ public class HomeRecommendHot extends GenericModel {
      * 分组id
      */
     private String groupId;
-    /**
-     * 分组id
-     */
-    private String groupName;
 
     /**
      * 分组顺序 从0开始，数字越小 排在越上面

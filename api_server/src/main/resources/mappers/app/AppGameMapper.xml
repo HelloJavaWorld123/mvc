@@ -166,7 +166,7 @@
         select id,p_id,name,type,status,sort,remark from app_game where id=#{id}
     </select>
 
-    <select id="getListByPid" resultType="com.jzy.api.model.app.AppGame">
+    <select id="getListByPid" resultType="java.lang.String">
          select id from app_game where p_id=#{pId}
     </select>
 
@@ -189,7 +189,7 @@
         app_game
         SET
         `name` = #{name},
-        <if test="sort!=null">
+        <if test="sort!=null and ''!=sort">
             `sort` = #{sort},
         </if>
         `modifier_id` =  #{modifierId},

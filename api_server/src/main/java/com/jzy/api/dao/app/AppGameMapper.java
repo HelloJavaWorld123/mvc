@@ -97,14 +97,14 @@ public interface AppGameMapper extends GenericMapper<AppGame> {
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    List<AppGame> getListByPid(@Param("pId") Long pId);
+    List<String> getListByPid(@Param("pId") String pId);
 
     /**
      * <b>功能描述：</b>根据id批量删除<br>
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    void deleteBatch(List<Long> pidList);
+    void deleteBatch(List<String> pidList);
 
     /**
      * <b>功能描述：</b>根据name和id查询游戏大区数量<br>

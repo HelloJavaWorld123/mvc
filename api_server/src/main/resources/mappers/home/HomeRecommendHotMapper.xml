@@ -12,8 +12,6 @@
  -->
 
 <mapper namespace="com.jzy.api.dao.home.HomeRecommendHotMapper">
-
-
     <!--   查询分组信息-->
     <select id="getGroupeDetailList"
             resultType="com.jzy.api.model.Home.GroupeDetail">
@@ -91,4 +89,112 @@
 
    </select>
 
+    <!--insert-->
+    <insert id="insert" parameterType="com.jzy.api.model.Home.HomeRecommendHot">
+    	INSERT INTO home_recommend_hot (
+            `id`,
+            `dealer_id`,
+            `group_id`,
+            `group_name`,
+            `group_sort`,
+            `state`,
+            `position`,
+            `go_type`,
+            `creator_id`,
+            `modifier_id`,
+            `create_time`,
+            `modify_time`
+        )
+        VALUES
+            (
+            #{id},
+            #{dealerId},
+            #{groupId},
+            #{groupName},
+            #{groupSort},
+            #{state},
+            #{position},
+            #{goType},
+            #{creatorId},
+            #{modifierId},
+            #{createTime},
+            #{modifyTime}
+            )
+    </insert>
+
+    <select id="getByPosition" resultType="java.lang.Integer">
+        select count(1) from home_recommend_hot where group_id=#{groupId} and position=#{position}
+        and id!=#{id}
+    </select>
+
+    <select id="getByName" resultType="java.lang.Integer">
+        select count(1) from home_recommend_hot where group_id=#{groupId} and go_name=#{goName}
+        and id!=#{id}
+    </select>
+
+    <!-- 修改-->
+    <update id="edit" parameterType="com.jzy.api.cnd.home.HomeRecommendHotCnd">
+        update
+        home_recommend_hot
+        set
+        <if test="rciName!=null">
+            rci_name=#{rciName},
+        </if>
+        <if test="imageId!=null">
+            image_id=#{imageId},
+        </if>
+        <if test="goType!=null">
+            go_type=#{goType},
+        </if>
+        <if test="goId!=null">
+            go_id=#{goId},
+        </if>
+        <if test="goPrice!=null">
+            go_price=#{goPrice},
+        </if>
+        <if test="goName!=null">
+            go_name=#{goName},
+        </if>
+        <if test="position!=null">
+            position=#{position},
+        </if>
+        <if test="groupName!=null">
+            group_name=#{groupName},
+        </if>
+        `modifier_id` =  #{modifierId},
+        `modify_time` =  #{modifyTime}
+        where
+        id = #{id}
+    </update>
+
+    <!--分页查询首页推荐商品-->
+    <select id="listPage" parameterType="com.jzy.api.cnd.home.HomeHotListCnd"
+            resultType="com.jzy.api.vo.home.HomeHotVo">
+        select a.id,a.dealer_id as dealerId,a.rci_name as rciName,b.file_url as imageUrl,
+        go_name as goName,a.position from home_recommend_hot a left join sys_images b on a.image_id=b.id
+        where dealer_id=#{dealerId} and group_id=#{groupId}
+        order by group_sort asc
+    </select>
+
+    <!--首页推荐商品详细信息-->
+    <select id="getHomeInfoHot" resultType="com.jzy.api.vo.home.HomeHotInfoVo">
+        select a.id,a.dealer_id as dealerId,a.rci_name as rciName,b.file_url as imageUrl,
+        go_type as goType,go_id as goId,go_name as goName,go_price as goPrice,
+         state,position,group_id as groupId,group_name as groupName,group_sort as groupSort
+         from home_recommend_hot a left join sys_images b on a.image_id=b.id
+        where a.id=#{id}
+    </select>
+
+    <!--查询分组下面所有商品id-->
+    <select id="getByGroupId" resultType="com.jzy.api.vo.home.HomeHotVo">
+        select id from home_recommend_hot where group_id=#{id}
+    </select>
+
+    <!--首页推荐商品后台批量删除-->
+    <delete id="deleteBatch">
+        delete from home_recommend_hot where id in (
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>)
+    </delete>
 </mapper>

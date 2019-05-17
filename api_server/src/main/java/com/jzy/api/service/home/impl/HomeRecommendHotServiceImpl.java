@@ -1,23 +1,36 @@
 package com.jzy.api.service.home.impl;
 
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.jzy.api.cnd.home.HomeHotListCnd;
+import com.jzy.api.cnd.home.HomeRecommendHotCnd;
+import com.jzy.api.constant.HomeEnums;
 import com.jzy.api.dao.home.HomeRecommendHotMapper;
-import com.jzy.api.model.Home.GroupeDetail;
-import com.jzy.api.model.Home.HomeRecommendHot;
-import com.jzy.api.model.Home.HomeRecommendHotDetail;
-import com.jzy.api.model.Home.HotAppInfoDetail;
+import com.jzy.api.model.Home.*;
+import com.jzy.api.model.app.FileInfo;
+import com.jzy.api.model.sys.SysImages;
 import com.jzy.api.service.home.HomeRecommendHotService;
+import com.jzy.api.service.key.TableKeyService;
+import com.jzy.api.service.sys.SysImagesService;
+import com.jzy.api.vo.home.HomeHotInfoVo;
+import com.jzy.api.vo.home.HomeHotVo;
 import com.jzy.api.vo.home.HomeRecommendHotVo;
+import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
+import com.jzy.framework.exception.BusException;
 import com.jzy.framework.service.GenericService;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +47,12 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
 
     @Resource
     private HomeRecommendHotMapper homeRecommendHotMapper;
+
+    @Resource
+    private SysImagesService sysImagesService;
+
+    @Resource
+    private TableKeyService tableKeyService;
 
     /**
      * <b>功能描述：</b>首页查询商品推荐列表<br>
@@ -81,6 +100,116 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
             }
         }
         return homeRecommendHotDetails;
+    }
+
+    /**
+     * <b>功能描述：</b>产品类型分页查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public PageVo listPage(HomeHotListCnd homeHotListCnd) {
+        Integer page = homeHotListCnd.getPage();
+        Integer limit = homeHotListCnd.getLimit();
+        Page<HomeHotVo> infoListVoPage = PageHelper.startPage(page, limit);
+        List<HomeHotVo> appInfoListVoList = homeRecommendHotMapper.listPage(homeHotListCnd);
+        PageVo<HomeHotVo> pageVo = new PageVo<>(appInfoListVoList);
+        pageVo.setTotalCount(infoListVoPage.getTotal());
+        pageVo.setPage(page);
+        pageVo.setLimit(limit);
+        return pageVo;
+    }
+
+    /**
+     * <b>功能描述：</b>根据id获取首页推荐商品信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public HomeHotInfoVo getHomeInfoHot(Long id) {
+        HomeHotInfoVo homeHotInfoVo = homeRecommendHotMapper.getHomeInfoHot(id);
+        return homeHotInfoVo;
+    }
+
+    /**
+     * <b>功能描述：</b>后台首页推荐分组商品添加<br>
+     * <b>修订记录：</b><br>
+     * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public void save(HomeRecommendHot homeRecommendHot) {
+        this.insert(homeRecommendHot);
+    }
+
+    /**
+     * <b>功能描述：</b>后台首页推荐分组商品编辑<br>
+     * <b>修订记录：</b><br>
+     * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
+    @Override
+    public void edit(HomeRecommendHotCnd homeRecommendHotCnd) {
+        FileInfo mfile = null;
+        if (null != homeRecommendHotCnd.getFileInfo()) {
+            mfile = homeRecommendHotCnd.getFileInfo();
+        }
+        //商品位置不能相同
+        int countPosition = homeRecommendHotMapper.getByPosition(homeRecommendHotCnd.getId(),
+                homeRecommendHotCnd.getGroupId(),homeRecommendHotCnd.getPosition());
+        if(countPosition>0){
+            throw new BusException(homeRecommendHotCnd.getGoName()+"首页推荐分组中位置不能相同");
+        }
+        //商品名称不能相同
+        int countGoId = homeRecommendHotMapper.getByName(homeRecommendHotCnd.getId(),
+                homeRecommendHotCnd.getGroupId(),homeRecommendHotCnd.getGoName());
+        if(countGoId>0){
+            throw new BusException(homeRecommendHotCnd.getGoName()+"首页推荐分组中商品名称不能相同");
+        }
+        //如果是分组
+        if(homeRecommendHotCnd.getGoType()==2) {
+            if (homeRecommendHotCnd.getImageUrl() == null){
+                throw new BusException("首页推荐分组如果商品跳转分组必须上传图片");
+            }
+            if (homeRecommendHotCnd.getPosition()!=0){
+                throw new BusException("分组只能在中上，不能再其他位置");
+            }
+        }
+        //修改人id
+        homeRecommendHotCnd.setModifierId(getDealerId().longValue());
+        //修改时间
+        homeRecommendHotCnd.setModifyTime(new Date());
+
+        //生成图片信息对象
+        SysImages images = getSystemImagesMapper(homeRecommendHotCnd, mfile);
+        homeRecommendHotCnd.setImageId(images.getId().toString());
+        //添加新的图片信息
+        sysImagesService.save(images);
+        //保存推荐商品信息
+        homeRecommendHotMapper.edit(homeRecommendHotCnd);
+    }
+
+    private SysImages getSystemImagesMapper(HomeRecommendHotCnd infoCnd, FileInfo mfile) {
+        return new SysImages(tableKeyService.newKey("home_recommend_cate", "id", 0), infoCnd.getId().toString(), mfile.getFileOrignName(), mfile.getContentType(), infoCnd.getImageUrl(), HomeEnums.ImageType.recommend.ordinal());
+    }
+
+    /**
+     * <b>功能描述：</b>查询分组下面所有商品<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public List<HomeHotVo> getByGroupId(Long id) {
+        return homeRecommendHotMapper.getByGroupId(id);
+    }
+
+    /**
+     * <b>功能描述：</b>删除分组下面所有商品<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public void delateBatch(List<String> result) {
+        homeRecommendHotMapper.deleteBatch(result);
     }
 
     @Override

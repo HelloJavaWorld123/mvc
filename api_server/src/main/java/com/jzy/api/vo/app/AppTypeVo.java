@@ -18,7 +18,7 @@ public class AppTypeVo {
     /**
      * 主键
      */
-    private Long id;
+    private String id;
     /**
      * 应用分类名称
      */

@@ -164,11 +164,11 @@ public class AppGameServiceImpl extends GenericServiceImpl<AppGame> implements A
         if ("1".equals(appGame.getType())) {
             int count = appInfoMapper.getByGameId(id);
             if (count > 0) {
-                throw new BusException(ResultEnum.APP_UNABLE_DELETE.getMsg());
+                throw new BusException("已关联商品，无法删除");
             }
         }
-        List<Long> pidList = listPid(id);
-        pidList.add(id);
+        List<String> pidList = listPid(id.toString());
+        pidList.add(id.toString());
         appGameMapper.deleteBatch(pidList);
     }
 
@@ -200,12 +200,15 @@ public class AppGameServiceImpl extends GenericServiceImpl<AppGame> implements A
         return appGameMapper.getByIdNameType(pId,name,type);
     }
 
-    public List<Long> listPid(Long pId) {
-        List<AppGame> query = appGameMapper.getListByPid(pId);
-        List<Long> result = new ArrayList<Long>();
-        for(AppGame appGame:query){
-            result.add(appGame.getId());
-        }
+    public List<String> listPid(String pId) {
+        List<String> query = appGameMapper.getListByPid(pId);
+        List<String> result = new ArrayList<String>(query);
+        query.forEach(str -> {
+            List<String> s = listPid(String.valueOf(str));
+            if (!s.isEmpty()) {
+                result.addAll(s);
+            }
+        });
         return result;
     }
 

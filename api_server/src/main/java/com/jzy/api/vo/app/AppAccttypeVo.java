@@ -18,7 +18,7 @@ public class AppAccttypeVo {
     /**
      * 主键
      */
-    private Long id;
+    private String id;
 
     /**
      * 主账号名称

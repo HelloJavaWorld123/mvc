@@ -1,21 +1,23 @@
-package com.jzy.api.model.Home;
+package com.jzy.api.vo.home;
 
-import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
- * <b>功能：</b>渠道商推荐里跳转<br>
+ * <b>功能：</b>首页推荐分组商品详细信息<br>
  * <b>Copyright JZY</b>
  * <ul>
  * <li>版本&nbsp;&nbsp;&nbsp;&nbsp;修改日期&nbsp;&nbsp;&nbsp;&nbsp;部　　门&nbsp;&nbsp;&nbsp;&nbsp;作　者&nbsp;&nbsp;&nbsp;&nbsp;变更内容</li>
  * <hr>
- * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190428&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;唐永刚&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
+ * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190516&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;鲁伟&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
 @Data
-public class HomeRecommendHot extends GenericModel {
+public class HomeHotInfoVo {
+
+    /**
+     * 主键
+     */
+    private String id;
 
     /**
      * 商户基本信息id
@@ -28,9 +30,9 @@ public class HomeRecommendHot extends GenericModel {
     private String rciName;
 
     /**
-     * 主图图片id
+     * 主图图片url
      */
-    private String imageId;
+    private String imageUrl;
 
     /**
      * 跳转类型 默认1-商品 2-分组
@@ -47,6 +49,11 @@ public class HomeRecommendHot extends GenericModel {
     private String goName;
 
     /**
+     * 跳转商品价格
+     */
+    private String goPrice;
+
+    /**
      * 轮播图状态 0-禁用 1-启用
      */
     private Integer state;
@@ -60,8 +67,9 @@ public class HomeRecommendHot extends GenericModel {
      * 分组id
      */
     private String groupId;
+
     /**
-     * 分组id
+     * 分组名称
      */
     private String groupName;
 
@@ -69,6 +77,4 @@ public class HomeRecommendHot extends GenericModel {
      * 分组顺序 从0开始，数字越小 排在越上面
      */
     private Integer groupSort;
-
-
 }

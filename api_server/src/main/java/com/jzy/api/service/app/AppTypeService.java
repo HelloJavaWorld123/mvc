@@ -45,13 +45,6 @@ public interface AppTypeService extends GenericService<AppType> {
     void delete(Long id);
 
     /**
-     * <b>功能描述：</b>产品类型编辑<br>
-     * <b>修订记录：</b><br>
-     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    void edit(AppType appType);
-
-    /**
      * <b>功能描述：</b>产品类型分页查询<br>
      * <b>修订记录：</b><br>
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>

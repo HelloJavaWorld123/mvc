@@ -87,4 +87,11 @@ public interface AppGameService extends GenericService<AppGame> {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     PageVo<AppGameVo> listPage(AppGameListCnd appGameListCnd);
+
+    /**
+     * <b>功能描述：</b>查询父id下面所有大区服务<br>
+     * <b>修订记录：</b><br>
+     * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<String> listPid(String pid);
 }

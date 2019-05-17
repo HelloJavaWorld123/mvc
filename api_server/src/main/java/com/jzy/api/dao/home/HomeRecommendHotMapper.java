@@ -1,9 +1,13 @@
 package com.jzy.api.dao.home;
 
+import com.jzy.api.cnd.home.HomeHotListCnd;
+import com.jzy.api.cnd.home.HomeRecommendHotCnd;
 import com.jzy.api.model.Home.GroupeDetail;
 import com.jzy.api.model.Home.HomeRecommendCate;
 import com.jzy.api.model.Home.HomeRecommendHot;
 import com.jzy.api.model.Home.HotAppInfoDetail;
+import com.jzy.api.vo.home.HomeHotInfoVo;
+import com.jzy.api.vo.home.HomeHotVo;
 import com.jzy.api.vo.home.HomeRecommendCateVo;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
@@ -45,5 +49,52 @@ public interface HomeRecommendHotMapper extends GenericMapper<HomeRecommendHot> 
      */
     HotAppInfoDetail getHotAppInfoDetail(@Param("dealerId") String dealerId, @Param("goId") String goId);
 
+    /**
+     * <b>功能描述：</b>根据位置获取分组下面的商品数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getByPosition(@Param("id") Long id, @Param("groupId") String groupId, @Param("position") Integer position);
 
+    /**
+     * <b>功能描述：</b>根据名称获取分组下商品数量<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int getByName(@Param("id") Long id, @Param("groupId") String groupId, @Param("goName") String goName);
+
+    /**
+     * <b>功能描述：</b>首页推荐分页查询<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<HomeHotVo> listPage(HomeHotListCnd homeHotListCnd);
+
+    /**
+     * <b>功能描述：</b>根据id获取首页推荐商品信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    HomeHotInfoVo getHomeInfoHot(@Param("id") Long id);
+
+    /**
+     * <b>功能描述：</b>查询分组下面所有商品<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<HomeHotVo> getByGroupId(@Param("id") Long id);
+
+    /**
+     * <b>功能描述：</b>删除分组下面所有商品<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void deleteBatch(List<String> result);
+
+    /**
+     * <b>功能描述：</b>首页推荐分组商品编辑<br>
+     * <b>修订记录：</b><br>
+     * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void edit(HomeRecommendHotCnd homeRecommendHotCnd);
 }
