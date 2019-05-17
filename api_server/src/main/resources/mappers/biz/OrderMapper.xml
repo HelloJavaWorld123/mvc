@@ -371,9 +371,6 @@
         <if test="status == 10">
             AND o.status IN (2,3,4)
         </if>
-        <if test="status == null">
-            AND o.status != 4
-        </if>
         <if test="key != null and key!= ''">
             AND (
             o.code LIKE concat(concat('%',#{key}),'%')
@@ -416,9 +413,6 @@
         </if>
         <if test="status == 10">
             AND o.status IN (2,3,4)
-        </if>
-        <if test="status == null">
-            AND o.status != 4
         </if>
         <if test="key != null and key!= ''">
             AND (
