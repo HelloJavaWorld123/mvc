@@ -253,6 +253,8 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
             DealerAppTypePriceInfoPo dealerAppTypePriceInfo = new DealerAppTypePriceInfoPo();
             dealerAppTypePriceInfo.setTypeName(appPriceType.getName());
             dealerAppTypePriceInfo.setAptId(appPriceType.getId());
+            dealerAppTypePriceInfo.setTypeUnit(appPriceType.getUnit());
+
 
             DealerAppPriceType dealerAppPriceType = dealerAppPriceInfoMapper.getDealerAppPriceType(aiId, dealerId, appPriceType.getId());
             if (dealerAppPriceType == null) {

@@ -24,6 +24,10 @@ public class DealerAppTypePriceInfoPo {
      */
     private String typeName;
 
+    /**
+     * 充值类型单位
+     */
+    private String typeUnit;
 
     /**
      * 充值类型Id
