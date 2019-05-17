@@ -10,6 +10,7 @@ import com.jzy.api.vo.app.AppSearchListVo;
 import com.jzy.api.vo.dealer.DealerAppPriceInfoDetailVo;
 import com.jzy.api.vo.dealer.GetDealerAppVo;
 import com.jzy.framework.bean.vo.PageVo;
+import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.GenericService;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -76,7 +77,7 @@ public interface DealerAppPriceInfoService extends GenericService<DealerAppPrice
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    void save(SavePriceInfoCnd savePriceInfoCnd);
+    void save(SavePriceInfoCnd savePriceInfoCnd) throws ExcelException;
 
 
     /**
