@@ -49,6 +49,6 @@ public class AppPriceType extends GenericModel {
     /**
      * 1元兑换比例
      */
-    private String subscriptionRatio = "1";
+    private Integer subscriptionRatio = 1;
 
 }
