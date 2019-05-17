@@ -1,4 +1,4 @@
-package com.jzy.api.aop;
+package com.jzy.api.aopmvc;
 
 import com.jzy.framework.exception.BusException;
 import lombok.extern.slf4j.Slf4j;

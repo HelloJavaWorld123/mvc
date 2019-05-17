@@ -2,11 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:redisson="http://redisson.org/schema/redisson"
-       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
        xsi:schemaLocation="
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-    http://redisson.org/schema/redisson http://redisson.org/schema/redisson/redisson.xsd
-    http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-2.0.xsd"
+    http://redisson.org/schema/redisson http://redisson.org/schema/redisson/redisson.xsd"
        default-lazy-init="true">
 
     <description>S1 数据库配置</description>
@@ -30,26 +28,5 @@
                 database="${redis.db.index}"
         />
     </redisson:client>
-
-    <mongo:mongo-client id="mongo" replica-set="${mongo.hosts}" >
-    <mongo:client-options
-    connections-per-host="${mongo.connectionsPerHost}"
-    threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
-    connect-timeout="${mongo.connectTimeout}"
-    max-wait-time="${mongo.maxWaitTime}"
-    socket-keep-alive="${mongo.socketKeepAlive}"
-    socket-timeout="${mongo.socketTimeout}"
-    />
-    </mongo:mongo-client>
-
-    <mongo:db-factory id="mongoDbGfsFactory" dbname="${mongo.gfsdatabasename}" mongo-ref="mongo"/>
-
-    <!-- 定义一个交换器-->
-    <mongo:mapping-converter id="mongoGfsConverter" db-factory-ref="mongoDbGfsFactory"/>
-
-    <bean id="gridFsTemplate" class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
-    <constructor-arg ref="mongoDbGfsFactory"/>
-    <constructor-arg ref="mongoGfsConverter"/>
-    </bean>
 
 </beans>
