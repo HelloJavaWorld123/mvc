@@ -113,9 +113,10 @@ public class PayController extends GenericController {
     @RequestMapping("/updateOrderStatusByActiveQuery")
     public ApiResult updateOrderStatusByActiveQuery(@RequestBody CodeCnd codeCnd) {
         ApiResult<StatusVo> apiResult = new ApiResult<>();
-        int status = orderService.updateOrderStatusByActiveQuery(codeCnd.getOrderId());
+        Order order = orderService.updateOrderStatusByActiveQuery(codeCnd.getOrderId());
         StatusVo statusVo = new StatusVo();
-        statusVo.setStatus(status);
+        statusVo.setStatus(order.getStatus());
+        statusVo.setAppId(order.getAppId() + "");
         return apiResult.success(statusVo);
     }
 
