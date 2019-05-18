@@ -45,6 +45,19 @@ public class WxPayController extends GenericController {
     private WxPayService wxPayService;
 
     /**
+     * 获取微信 JS-SDK 的配置
+     * jiazk 2019年5月18日
+     */
+    @ResponseBody
+    @RequestMapping(path="/weChatSdk", method = RequestMethod.POST)
+    public ApiResult weChatSdk() {
+
+        Map<String,String> sdkConfig = wxPayService.getSdkConfig();
+        log.debug("getSdkConfig  -- " + jsonConverter.toJson(sdkConfig));
+        return new ApiResult<>(sdkConfig);
+    }
+
+    /**
      * <b>功能描述：</b>微信授权<br>
      * <b>修订记录：</b><br>
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>

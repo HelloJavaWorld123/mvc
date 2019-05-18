@@ -485,6 +485,34 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         return respmap;
     }
 
+    /**
+     * 获取微信 JS-SDK 的配置
+     * jiazk 2019年5月18日
+     */
+    @Override
+    public Map<String, String> getSdkConfig() {
+
+        Map<String, String> configMap = new HashMap<>();
+        String paySign;
+        try {
+            String appId = WXPayConfig.getInstance().getAppID();
+            String timeStamp = String.valueOf(WXPayUtil.getCurrentTimestamp());
+            String nonceStr = WXPayUtil.generateNonceStr();
+
+            configMap.put("appId", appId);
+            configMap.put("timeStamp", timeStamp);
+            configMap.put("nonceStr", nonceStr);
+            configMap.put("signType", MD5);
+
+            paySign = WXPayUtil.generateSignature(configMap);
+        } catch (Exception e) {
+            log.error("微信签名异常！", e);
+            throw new PayException("微信签名异常！");
+        }
+        configMap.put("signature", paySign);
+        return configMap;
+    }
+
     @Override
     protected GenericMapper getGenericMapper() {
         return null;
