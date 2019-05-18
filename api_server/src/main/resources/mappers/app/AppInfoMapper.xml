@@ -156,7 +156,7 @@
             game_id as gameId,
             type_id typeId,
             `name`,
-            img.file_url as icon,
+            ai.icon as icon,
             label,
             first_letter as firstLetter,
             spll_letter as spllLetter,
@@ -166,10 +166,10 @@
             is_hot  as isHot,
             is_reco as isReco
         FROM app_info ai
-        LEFT JOIN sys_images as img ON img.type = 1 AND img.rel_id = ai.id
         WHERE
             1 = 1
     AND ai.id = #{aiId}
+    and del_flag =0
     </select>
 
     <!--    商品批量修改状态-->
@@ -244,6 +244,7 @@
         WHERE
             1 = 1
     AND ai.id = #{aiId}
+    and del_flag =0
     </select>
 
     <!--根据商品名称获取商品Id -->
@@ -260,7 +261,7 @@
             #{item}
         </foreach>
 
-
+        and del_flag =0
     </select>
 
     <!-- 根据type_id获取商品个数-->
@@ -269,6 +270,7 @@
         count(*)
         FROM
         app_info where type_id=#{typeId}
+        and del_flag =0
     </select>
 
     <!-- 根据acp_id获取商品个数-->
@@ -277,6 +279,7 @@
         count(1)
         FROM
         app_info where acp_id=#{acpId}
+        and del_flag =0
     </select>
 
     <!-- 根据game_id获取商品个数-->
@@ -285,6 +288,7 @@
         count(1)
         FROM
         app_info where game_id=#{gameId}
+        and del_flag =0
     </select>
 
     <!-- 根据cate_id获取商品个数-->
@@ -293,6 +297,7 @@
         count(1)
         FROM
         app_info where cate_id=#{cateId}
+        and del_flag =0
     </select>
 
     <!-- 根据acct_id获取商品个数-->
@@ -301,5 +306,6 @@
         count(1)
         FROM
         app_info where acct_id=#{acctId}
+        and del_flag =0
     </select>
 </mapper>
