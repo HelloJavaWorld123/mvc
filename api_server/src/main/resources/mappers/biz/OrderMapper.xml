@@ -464,6 +464,18 @@
         modify_time DESC
     </select>
 
+    <!-- 通过主动查询第三方支付结果，更新支付状态为充值中 -->
+    <update id="updateOrderStatusByActiveQuery">
+        UPDATE
+        `order`
+        SET
+        status = #{status},
+        pay_time = #{payTime}
+        WHERE
+        id = #{id}
+        AND status = 0
+    </update>
+
     <!-- 共同更新参数 -->
     <sql id="updateCommon">
         modifier_id = #{modifierId}, modify_time = #{modifyTime}

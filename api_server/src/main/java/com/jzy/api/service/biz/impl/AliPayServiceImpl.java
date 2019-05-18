@@ -111,14 +111,15 @@ public class AliPayServiceImpl implements AliPayService {
                 AlipayUtil.TradeState.WAIT_BUYER_PAY.toString().equals(aliTradeStatus)) {
             return 0;
         }
-        if (AlipayUtil.TradeState.TRADE_SUCCESS.toString().equals(aliTradeStatus)
-                || AlipayUtil.TradeState.TRADE_FINISHED.toString().equals(aliTradeStatus)) {
-            return  2;
-        }
-        if (AlipayUtil.TradeState.TRADE_CLOSED.toString().equals(aliTradeStatus)) {
-            return  4;
-        }
-        return 0;
+        return 1;
+//        if (AlipayUtil.TradeState.TRADE_SUCCESS.toString().equals(aliTradeStatus)
+//                || AlipayUtil.TradeState.TRADE_FINISHED.toString().equals(aliTradeStatus)) {
+//            return  2;
+//        }
+//        if (AlipayUtil.TradeState.TRADE_CLOSED.toString().equals(aliTradeStatus)) {
+//            return  4;
+//        }
+//        return 0;
     }
 
     /**

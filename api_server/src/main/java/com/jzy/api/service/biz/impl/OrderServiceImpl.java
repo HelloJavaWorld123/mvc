@@ -163,8 +163,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         PayService payService = paywayProvider.getPayService(order.getTradeMethod());
         // 查询支付状态
         int status = payService.queryOrderStatus(order);
-        // 更新支付状态
-        orderMapper.updateStatus(order.getOrderId(), status);
+        if (status == 1) {
+            // 更新支付状态
+            orderMapper.updateOrderStatusByActiveQuery(order.getOrderId(), status, new Date());
+        }
         order.setStatus(status);
         return order;
     }

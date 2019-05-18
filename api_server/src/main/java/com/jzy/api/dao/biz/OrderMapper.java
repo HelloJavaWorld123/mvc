@@ -186,4 +186,17 @@ public interface OrderMapper extends GenericMapper<Order> {
      */
     List<Order> queryMonthOrderList(@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate,
                                     @Param("key") String key, @Param("dealerId") Integer dealerId);
+
+    /**
+     * <b>功能描述：</b>更新订单状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190518&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param orderId 订单id
+     * @param status 0：待支付；1：充值中
+     * @param payTime 支付时间
+     */
+    int updateOrderStatusByActiveQuery(@Param("id") String id,
+                                       @Param("status") Integer status,
+                                       @Param("payTime") Date payTime);
 }
