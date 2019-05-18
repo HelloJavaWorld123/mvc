@@ -534,7 +534,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         ret.put("nonceStr", nonce_str);
         ret.put("timestamp", timestamp);
         ret.put("signature", signature);
-
+        ret.put("appId", WXPayConfig.getInstance().getAppID());
         return ret;
     }
 
