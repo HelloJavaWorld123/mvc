@@ -18,12 +18,14 @@ import com.jzy.api.service.wx.WXPayUtil;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.DateUtils;
 import com.jzy.api.util.MyHttp;
+import com.jzy.framework.cache.EmpCache;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.exception.PayException;
 import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,10 +36,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.jzy.api.constant.WXPayConstants.*;
 import static com.jzy.api.constant.WechatConstant.*;
@@ -68,7 +70,8 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
      */
     @Value("${wx_app_id}")
     private String appId;
-    /**e
+    /**
+     * e
      * 微信授权回调
      */
     @Value("${wx_auth_callback_url}")
@@ -119,7 +122,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
             data.put("trade_type", WXPayConstants.TradeType.JSAPI.toString());
         }
         // 返回支付标识并加签
-        Map<String, String> responseData ;
+        Map<String, String> responseData;
         try {
             responseData = unifiedOrderwx(data);
         } catch (ParseException e) {
@@ -214,7 +217,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
                 String outTradeNo = notifyMap.get("out_trade_no");
                 String transactionId = notifyMap.get("transaction_id");
                 String totalFee = notifyMap.get("total_fee");
-                BigDecimal tradeFee =  new BigDecimal(WXPayUtil.changeF2Y(totalFee));
+                BigDecimal tradeFee = new BigDecimal(WXPayUtil.changeF2Y(totalFee));
                 String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
                 tradeRecordService.updateWxCallbackStatus(transactionId, notifyMap.get("result_code").equalsIgnoreCase(SUCCESS) ? 4 : 3, notifyMap.toString(), notifyMap.get("attach"), 1);
                 // 业务处理
@@ -323,11 +326,10 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
     }
 
 
-
     private Map<String, String> unifiedOrderwx(Map<String, String> params) throws ParseException {
         Map<String, String> map;
         params.put("attach", CommUtils.lowerUUID());
-        WXPay wxpay ;
+        WXPay wxpay;
         try {
             wxpay = new WXPay(WXPayConfig.getInstance());
             map = wxpay.unifiedOrder(params);
@@ -460,6 +462,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
 
     /**
      * wechat:返回给微信服务端的Xml
+     *
      * @param returnCode [SUCCESS,FAIL]
      * @return
      */
@@ -490,31 +493,91 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
      * jiazk 2019年5月18日
      */
     @Override
-    public Map<String, String> getSdkConfig() {
+    public Map<String, String> getSdkConfig(String url) {
 
-        Map<String, String> configMap = new HashMap<>();
-        String paySign;
-        try {
-            String appId = WXPayConfig.getInstance().getAppID();
-            String timeStamp = String.valueOf(WXPayUtil.getCurrentTimestamp());
-            String nonceStr = WXPayUtil.generateNonceStr();
-
-            configMap.put("appId", appId);
-            configMap.put("timeStamp", timeStamp);
-            configMap.put("nonceStr", nonceStr);
-            configMap.put("signType", MD5);
-
-            paySign = WXPayUtil.generateSignature(configMap);
-        } catch (Exception e) {
-            log.error("微信签名异常！", e);
-            throw new PayException("微信签名异常！");
+        String ticket = get_ticket();
+        if (ticket == "") {
+            return null;
         }
-        configMap.put("signature", paySign);
+        Map<String, String> configMap = sign(ticket, url);
         return configMap;
+    }
+
+
+    private static Map<String, String> sign(String jsapi_ticket, String url) {
+        Map<String, String> ret = new HashMap<String, String>();
+        String nonce_str = create_nonce_str();
+        String timestamp = create_timestamp();
+        String string1;
+        String signature = "";
+
+        //注意这里参数名必须全部小写，且必须有序
+        string1 = "jsapi_ticket=" + jsapi_ticket +
+                "&noncestr=" + nonce_str +
+                "&timestamp=" + timestamp +
+                "&url=" + url;
+        System.out.println(string1);
+
+        try {
+            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+            crypt.reset();
+            crypt.update(string1.getBytes("UTF-8"));
+            signature = byteToHex(crypt.digest());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        ret.put("url", url);
+        ret.put("jsapi_ticket", jsapi_ticket);
+        ret.put("nonceStr", nonce_str);
+        ret.put("timestamp", timestamp);
+        ret.put("signature", signature);
+
+        return ret;
+    }
+
+    private static String byteToHex(final byte[] hash) {
+        Formatter formatter = new Formatter();
+        for (byte b : hash) {
+            formatter.format("%02x", b);
+        }
+        String result = formatter.toString();
+        formatter.close();
+        return result;
+    }
+
+    private static String create_nonce_str() {
+        return UUID.randomUUID().toString();
+    }
+
+    private static String create_timestamp() {
+        return Long.toString(System.currentTimeMillis() / 1000);
+    }
+
+    private String get_ticket() {
+        SecurityToken token = getAccessToken();
+        String ticketUrl = "http://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=" + token.getAccessToken();
+
+        try {
+            JSONObject result = JSONObject.parseObject(MyHttp.sendGet(ticketUrl, null));
+            if (result.getString("ticket") != null) {
+                return result.getString("ticket");
+            }
+        } catch (Exception e) {
+            log.error("：：：Wechat gets ticket exception", e);
+        }
+        return "";
     }
 
     @Override
     protected GenericMapper getGenericMapper() {
         return null;
+    }
+
+    @Override
+    protected EmpCache getDealer() {
+        return super.getDealer();
     }
 }

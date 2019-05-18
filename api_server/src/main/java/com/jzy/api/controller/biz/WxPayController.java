@@ -2,6 +2,7 @@ package com.jzy.api.controller.biz;
 
 import com.jzy.api.annos.WithoutLogin;
 import com.jzy.api.cnd.biz.WxOAuthCnd;
+import com.jzy.api.cnd.biz.WxSdkCnd;
 import com.jzy.api.model.biz.SecurityToken;
 import com.jzy.api.service.biz.WxPayService;
 import com.jzy.api.util.CommUtils;
@@ -50,9 +51,8 @@ public class WxPayController extends GenericController {
      */
     @ResponseBody
     @RequestMapping(path="/weChatSdk", method = RequestMethod.POST)
-    public ApiResult weChatSdk() {
-
-        Map<String,String> sdkConfig = wxPayService.getSdkConfig();
+    public ApiResult weChatSdk(@RequestBody WxSdkCnd wxSdkCnd) {
+        Map<String,String> sdkConfig = wxPayService.getSdkConfig(wxSdkCnd.getUrl());
         log.debug("getSdkConfig  -- " + jsonConverter.toJson(sdkConfig));
         return new ApiResult<>(sdkConfig);
     }
