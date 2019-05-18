@@ -151,11 +151,10 @@
         o.finish_time,
         app.id appId,
         app. NAME appName,
-        image.file_url appIcon
+        app.icon appIcon
         FROM
         `order` o
         INNER JOIN app_info app ON o.app_id = app.id
-        LEFT JOIN sys_images image ON o.app_id = image.rel_id AND image.type = 1
         WHERE
         o.id = #{id}
     </select>
@@ -173,11 +172,10 @@
         o.create_time createTime,
         app.id appId,
         app.name appName,
-        img.file_url appIcon
+        app.icon appIcon
         FROM
         `order` o
         INNER JOIN app_info app ON o.app_id = app.id
-        LEFT JOIN sys_images AS img ON img.type = 1 AND img.rel_id = app.id
         WHERE
         o.del_flag = 0
         AND o.user_id = #{userId}
