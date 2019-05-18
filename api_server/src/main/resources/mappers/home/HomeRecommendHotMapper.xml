@@ -18,6 +18,7 @@
         <result column="image_url" property="imageUrl"></result>
         <result column="go_type" property="goType"></result>
         <result column="go_id" property="goId"></result>
+        <result column="ai_id" property="aiId"></result>
         <result column="go_name" property="goName"></result>
         <result column="state" property="state"></result>
         <result column="position" property="position"></result>
@@ -116,10 +117,11 @@
 
    </select>
 
+    <!--首页分组推荐-->
     <select id="getHomeRecommendHotDetails" resultMap="personalHistoryAffairMapper">
         select  ai.name,img.file_url,appinfo.rci_name,appinfo.image_id,appinfo.image_url,
-        appinfo.go_type,dapi.ai_id as go_id,appinfo.go_name,appinfo.state,appinfo.position,apt.name as type_name,
-        apt.unit,dapi.number,dapi.price,dapi.pay_price,dapi.discount from
+        appinfo.go_type,appinfo.go_id,appinfo.go_name,appinfo.state,appinfo.position,apt.name as type_name,
+        apt.unit,dapi.ai_id,dapi.number,dapi.price,dapi.pay_price,dapi.discount from
         (select a.dealer_id,b.rci_name,b.image_id,b.image_url,b.go_type,b.go_id,b.go_name,a.state,b.position from
         (select id,dealer_id,state from  home_recommend_hot_group where id=#{groupId} and state=1) a inner join
         home_recommend_hot b on a.id=b.group_id) appinfo left join dealer_app_price_info dapi on appinfo.go_id=dapi.id

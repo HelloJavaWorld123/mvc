@@ -41,9 +41,14 @@ public class HomeRecommendHotDetail {
     private HotAppInfoDetail hotAppInfoDetail;
 
     /**
-     * 跳转到的id
+     * 跳转到的定价id
      */
     private String goId;
+
+    /**
+     * 跳转的商品id
+     */
+    private String aiId;
     /**
      * 跳转商品
      */
