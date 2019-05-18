@@ -58,7 +58,7 @@ public class ProjectHandlerExceptionResolver implements HandlerExceptionResolver
         ajaxJson(new ApiResult<>().fail(e.getMessage()), response);
         return null;
     }
-    
+
     /**
      * <b>功能描述：</b>ajax输出json<br>
      * <b>修订记录：</b><br>

@@ -197,4 +197,21 @@
             #{id}
         </foreach>)
     </delete>
+
+    <select id="queryExistById" parameterType="java.util.Map" resultType="java.lang.Integer">
+
+        SELECT count(*) from home_recommend_hot hrh,dealer_app_price_type dapt where 1=1
+        and hrh.go_id = dapt.id
+        and hrh.dealer_id = dapt.dealer_id
+        <if test="dealerId !=null">
+            and hrh.dealer_id = #{dealerId}
+        </if>
+        and go_type = 1
+        and hrh.state =1
+        and go_id in
+        <foreach collection="aiIdList" index="index" separator="," open="(" close=")"
+                 item="item">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

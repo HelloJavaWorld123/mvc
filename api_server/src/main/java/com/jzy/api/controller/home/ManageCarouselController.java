@@ -73,12 +73,7 @@ public class ManageCarouselController {
 
     @RequestMapping("updateStatusBatch")
     public ApiResult updateStatusBatch(@RequestBody CommonUpdateStatusCnd updateStatusBatchCnd) {
-        try {
-            dealerHomeCateService.updateStatusBatch(updateStatusBatchCnd);
-        } catch (Exception e) {
-            logger.error("admin-轮播图id{}修改状态{}错误,异常：{}", null, updateStatusBatchCnd.getStatus(), e);
-            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
-        }
+        dealerHomeCateService.updateStatusBatch(updateStatusBatchCnd);
         return new ApiResult<>();
     }
 

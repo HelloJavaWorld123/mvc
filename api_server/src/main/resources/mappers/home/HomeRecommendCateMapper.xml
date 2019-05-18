@@ -33,4 +33,18 @@
 
 </select>
 
+    <select id="queryExistById" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(*) from home_recommend_cate where 1=1
+        <if test="dealerId !=null">
+        and dealer_id = #{dealerId}
+        </if>
+        and go_type = 1
+        and state =1
+        and go_id in
+        <foreach collection="aiIdList" index="index" separator="," open="(" close=")"
+                 item="item">
+            #{item}
+        </foreach>
+    </select>
+
 </mapper>

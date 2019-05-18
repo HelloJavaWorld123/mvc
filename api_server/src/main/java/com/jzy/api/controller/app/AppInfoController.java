@@ -211,12 +211,13 @@ public class AppInfoController {
      */
     @RequestMapping("admin/updateStatusBatch")
     public ApiResult updateStatusBatch(@RequestBody UpdateStatusBatchCnd updateStatusBatchCnd) {
-        try {
-            appInfoService.updateStatusBatch(updateStatusBatchCnd);
-        } catch (Exception e) {
-            logger.error("admin-产品ai_id{}修改状态{}错误,异常：{}", null, updateStatusBatchCnd.getStatus(), e);
-            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
-        }
+        appInfoService.updateStatusBatch(updateStatusBatchCnd);
+//        try {
+//            appInfoService.updateStatusBatch(updateStatusBatchCnd);
+//        } catch (Exception e) {
+//            logger.error("admin-产品ai_id{}修改状态{}错误,异常：{}", null, updateStatusBatchCnd.getStatus(), e);
+//            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
+//        }
         return new ApiResult<>();
     }
 

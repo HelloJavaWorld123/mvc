@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <b>功能：</b>登录<br>
@@ -97,4 +98,6 @@ public interface HomeRecommendHotMapper extends GenericMapper<HomeRecommendHot> 
      * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     void edit(HomeRecommendHotCnd homeRecommendHotCnd);
+
+    Integer queryExistById(Map<String, Object> paramsMap);
 }
