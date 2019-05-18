@@ -277,6 +277,7 @@
         UPDATE
         `order`
         SET
+        status = #{status},
         sup_status = #{supStatus},
         finish_time = #{finishTime}
         WHERE

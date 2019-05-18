@@ -339,7 +339,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      */
     @Override
     public int updateSupStatus(String id, Integer supStatus) {
-        return orderMapper.updateSupStatus(id, supStatus, new Date());
+        return orderMapper.updateSupStatus(id, supStatus, supStatus, new Date());
     }
 
     /**
