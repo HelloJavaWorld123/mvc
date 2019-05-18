@@ -1,10 +1,6 @@
 package com.jzy.api.controller.biz;
 
-import com.github.pagehelper.Page;
-import com.jzy.api.cnd.biz.BackOrderCnd;
-import com.jzy.api.cnd.biz.CodeCnd;
-import com.jzy.api.cnd.biz.MonthOrderCnd;
-import com.jzy.api.cnd.biz.RunMonthOrderCnd;
+import com.jzy.api.cnd.biz.*;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.vo.biz.BackMonthListVo;
@@ -39,6 +35,11 @@ public class OrderController extends GenericController {
 
     @Resource
     private OrderService orderService;
+
+    @RequestMapping("/updateSupStatus")
+    public void updateSupStatus(@RequestBody SupStatusCnd supStatusCnd) {
+        orderService.updateSupStatus(supStatusCnd.getOrderId(), supStatusCnd.getSupStatus());
+    }
 
     /**
      * <b>功能描述：</b>订单详情查询<br>

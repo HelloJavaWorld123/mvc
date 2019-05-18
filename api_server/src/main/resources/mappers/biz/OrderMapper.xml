@@ -277,6 +277,7 @@
         UPDATE
         `order`
         SET
+        status = #{status},
         sup_status = #{supStatus},
         finish_time = #{finishTime}
         WHERE
@@ -286,7 +287,7 @@
     <!-- 查询订单状态 -->
     <select id="queryOrderStatus" resultMap="order">
         SELECT
-        app_id,
+        app_id appId,
         status
         FROM
         `order`

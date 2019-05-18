@@ -155,7 +155,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param orderId 订单id
      */
     @Override
-    public int updateOrderStatusByActiveQuery(String orderId) {
+    public Order updateOrderStatusByActiveQuery(String orderId) {
         Order order = orderMapper.queryOrderById(orderId);
         if (order == null) {
             throw new BusException("订单不存在");
@@ -165,7 +165,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         int status = payService.queryOrderStatus(order);
         // 更新支付状态
         orderMapper.updateStatus(order.getOrderId(), status);
-        return status;
+        order.setStatus(status);
+        return order;
     }
 
     /**
@@ -339,7 +340,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      */
     @Override
     public int updateSupStatus(String id, Integer supStatus) {
-        return orderMapper.updateSupStatus(id, supStatus, new Date());
+        return orderMapper.updateSupStatus(id, supStatus, supStatus, new Date());
     }
 
     /**
