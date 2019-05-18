@@ -189,21 +189,24 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
         if(homeRecommendHotCnd.getGoType() == 1){
             //获取跳转商品名称
             homeRecommendHotCnd.setGoName(appCateMapper.getAppNameById(homeRecommendHotCnd.getGoId()));
-            homeRecommendHotCnd.setGoPrice(appCateMapper.getPriceById(homeRecommendHotCnd.getGoId()));
-        }else if(homeRecommendHotCnd.getGoType() ==2){//如果是分组
+        }else if(homeRecommendHotCnd.getGoType() ==2||homeRecommendHotCnd.getGoType() ==3){//如果是分组
             if (homeRecommendHotCnd.getImageUrl() == null){
                 throw new BusException("首页推荐分组如果商品跳转分组必须上传图片");
             }
             if (homeRecommendHotCnd.getPosition()!=0){
                 throw new BusException("分组只能在中上，不能再其他位置");
             }
-            //获取跳转分组名称
-            homeRecommendHotCnd.setGoName(appCateMapper.getAppCateName(homeRecommendHotCnd.getGoId()));
-            //生成图片信息对象
-            SysImages images = getSystemImagesMapper(homeRecommendHotCnd, mfile);
-            homeRecommendHotCnd.setImageId(images.getId().toString());
-            //添加新的图片信息
-            sysImagesService.save(images);
+            if(homeRecommendHotCnd.getGoType() ==2) {
+                //获取跳转分组名称
+                homeRecommendHotCnd.setGoName(appCateMapper.getAppCateName(homeRecommendHotCnd.getGoId()));
+            }
+            if(homeRecommendHotCnd.getImageUrl()!=null&&homeRecommendHotCnd.getFileInfo()!=null) {
+                //生成图片信息对象
+                SysImages images = getSystemImagesMapper(homeRecommendHotCnd, mfile);
+                homeRecommendHotCnd.setImageId(images.getId().toString());
+                //添加新的图片信息
+                sysImagesService.save(images);
+            }
         }
         //修改人id
         homeRecommendHotCnd.setModifierId(getDealerId().longValue());

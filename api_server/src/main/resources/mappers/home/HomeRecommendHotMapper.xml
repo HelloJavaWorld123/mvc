@@ -23,7 +23,7 @@
         <result column="position" property="position"></result>
         <association property="hotAppInfoDetail" javaType="com.jzy.api.model.Home.HotAppInfoDetail">
             <result column="name" property="appName"></result>
-            <result column="file_rul" property="appIcon"></result>
+            <result column="file_url" property="appIcon"></result>
             <result column="number" property="typeNumber"></result>
             <result column="type_name" property="typeName"></result>
             <result column="unit" property="typeUnit"></result>
@@ -118,9 +118,9 @@
 
     <select id="getHomeRecommendHotDetails" resultMap="personalHistoryAffairMapper">
         select  ai.name,img.file_url,appinfo.rci_name,appinfo.image_id,appinfo.image_url,
-        appinfo.go_type,appinfo.go_id,ai.name as go_name,appinfo.state,appinfo.position,apt.name as type_name,
+        appinfo.go_type,appinfo.go_id,appinfo.go_name,appinfo.state,appinfo.position,apt.name as type_name,
         apt.unit,dapi.number,dapi.price,dapi.pay_price,dapi.discount from
-        (select a.dealer_id,b.rci_name,b.image_id,b.image_url,b.go_type,b.go_id,a.state,b.position from
+        (select a.dealer_id,b.rci_name,b.image_id,b.image_url,b.go_type,b.go_id,b.go_name,a.state,b.position from
         (select id,dealer_id,state from  home_recommend_hot_group where id=#{groupId} and state=1) a inner join
         home_recommend_hot b on a.id=b.group_id) appinfo left join dealer_app_price_info dapi on appinfo.go_id=dapi.id
         left join  app_price_type apt on apt.id = dapi.apt_id
@@ -185,6 +185,9 @@
         <if test="goId!=null">
             go_id=#{goId},
         </if>
+        <if test="goName!=null">
+            go_name=#{goName},
+        </if>
         <if test="position!=null">
             position=#{position},
         </if>
@@ -198,8 +201,8 @@
     <select id="listPage" parameterType="com.jzy.api.cnd.home.HomeHotListCnd"
             resultType="com.jzy.api.vo.home.HomeHotVo">
         select a.id,a.dealer_id as dealerId,a.rci_name as rciName,a.image_url as imageUrl,
-        ai.name as goName,a.position from home_recommend_hot a
-        left join dealer_app_price_info dapi on a.go_id=dapi.id left join app_info ai on dapi.ai_id=ai.id
+        a.go_name as goName,a.position from home_recommend_hot a
+        left join dealer_app_price_info dapi on a.go_id=dapi.id
         where a.dealer_id=#{dealerId} and a.group_id=#{groupId}
         order by a.position asc
     </select>
@@ -207,10 +210,10 @@
     <!--首页推荐商品详细信息-->
     <select id="getHomeInfoHot" resultType="com.jzy.api.vo.home.HomeHotInfoVo">
         select a.id,a.dealer_id as dealerId,a.rci_name as rciName,a.image_url as imageUrl,
-        a.go_type as goType,a.go_id as goId,ai.name as goName,dapi.price as goPrice,
+        a.go_type as goType,a.go_id as goId,a.go_name as goName,dapi.price as goPrice,
          b.state,a.position,a.group_id as groupId,b.group_name as groupName,b.group_sort as groupSort
          from home_recommend_hot a left join home_recommend_hot_group b on a.group_id=b.id
-         left join dealer_app_price_info dapi on a.go_id=dapi.id left join app_info ai on dapi.ai_id=ai.id
+         left join dealer_app_price_info dapi on a.go_id=dapi.id
         where a.id=#{id}
     </select>
 
