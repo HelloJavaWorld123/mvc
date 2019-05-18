@@ -2,10 +2,7 @@ package com.jzy.api.dao.home;
 
 import com.jzy.api.cnd.home.HomeHotListCnd;
 import com.jzy.api.cnd.home.HomeRecommendHotCnd;
-import com.jzy.api.model.Home.GroupeDetail;
-import com.jzy.api.model.Home.HomeRecommendCate;
-import com.jzy.api.model.Home.HomeRecommendHot;
-import com.jzy.api.model.Home.HotAppInfoDetail;
+import com.jzy.api.model.Home.*;
 import com.jzy.api.vo.home.HomeHotInfoVo;
 import com.jzy.api.vo.home.HomeHotVo;
 import com.jzy.api.vo.home.HomeRecommendCateVo;
@@ -35,6 +32,8 @@ public interface HomeRecommendHotMapper extends GenericMapper<HomeRecommendHot> 
 
     List<GroupeDetail> getGroupeDetailList(@Param("dealerId") String dealerId);
 
+    List<GroupeDetail> getGroupeList(@Param("dealerId") String dealerId);
+
     /**
      * <b>功能描述：</b>查询当前渠道商下的推荐商品列表<br>
      * <b>修订记录：</b><br>
@@ -50,6 +49,8 @@ public interface HomeRecommendHotMapper extends GenericMapper<HomeRecommendHot> 
      */
     HotAppInfoDetail getHotAppInfoDetail(@Param("dealerId") String dealerId, @Param("goId") String goId);
 
+    List<HomeRecommendHotDetail> getHomeRecommendHotDetails(@Param("groupId") String groupeId);
+
     /**
      * <b>功能描述：</b>根据位置获取分组下面的商品数量<br>
      * <b>修订记录：</b><br>
@@ -62,7 +63,7 @@ public interface HomeRecommendHotMapper extends GenericMapper<HomeRecommendHot> 
      * <b>修订记录：</b><br>
      * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    int getByName(@Param("id") Long id, @Param("groupId") String groupId, @Param("goName") String goName);
+    int getByName(@Param("id") Long id, @Param("groupId") String groupId, @Param("goId") String goId);
 
     /**
      * <b>功能描述：</b>首页推荐分页查询<br>

@@ -84,10 +84,7 @@ public class HomeRecommendHotGroupServiceImpl extends GenericServiceImpl<HomeRec
             HomeRecommendHot homeRecommendHot = new HomeRecommendHot();
             homeRecommendHot.setId(tableKeyService.newKey("home_recommend_hot", "id", 0));
             homeRecommendHot.setGroupId(homeRecommendHotGroup.getId().toString());
-            homeRecommendHot.setGroupName(homeRecommendHotGroup.getGroupName());
             homeRecommendHot.setDealerId(homeRecommendHotGroup.getDealerId());
-            homeRecommendHot.setState(1);
-            homeRecommendHot.setGroupSort(i);
             homeRecommendHot.setPosition(i);
             //默认跳转商品
             homeRecommendHot.setGoType(1);

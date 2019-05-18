@@ -78,12 +78,13 @@
     <!--分页列表查询-->
     <select id="listPage" parameterType="com.jzy.api.cnd.home.HomeHotGroupCnd"
             resultType="com.jzy.api.vo.home.HomeHotGroupVo">
-        select id,dealer_id as dealerId,group_name as groupName,group_sort as groupSort,state,modify_time as modifyTime from home_recommend_hot_group
-          where dealer_id = #{dealerId}
-            <if test="groupName!=null">
-                and group_name like CONCAT('%',#{groupName},'%')
-            </if>
-        order by group_sort asc,create_time desc
+        select id,dealer_id as dealerId,group_name as groupName,group_sort as groupSort,
+        state,modify_time as modifyTime from home_recommend_hot_group
+        where dealer_id = #{dealerId}
+        <if test="groupName!=null">
+            and group_name like CONCAT('%',#{groupName},'%')
+        </if>
+        order by group_sort asc
     </select>
 
     <!--启用停用-->

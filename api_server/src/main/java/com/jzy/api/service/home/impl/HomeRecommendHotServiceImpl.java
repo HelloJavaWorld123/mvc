@@ -62,22 +62,39 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
      * <b>修订记录：</b><br>
      * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @Override
+//    @Override
+//    public List<HomeRecommendHotVo> getList() {
+//        Integer dealerId=getFrontDealerId();
+//        List<HomeRecommendHotVo> homeRecommendHotVoList = new ArrayList<>();
+//        //查询分组信息
+//        List<GroupeDetail> groupeDetailList = homeRecommendHotMapper.getGroupeDetailList(dealerId + "");
+//        List<HomeRecommendHot> HomeRecommendHots = homeRecommendHotMapper.queryHotList(dealerId + "");
+//        //拼装数据
+//        for (GroupeDetail groupeDetail : groupeDetailList) {
+//            HomeRecommendHotVo homeRecommendHotVo = new HomeRecommendHotVo();
+//            homeRecommendHotVo.setGroupeDetail(groupeDetail);
+//            List<HomeRecommendHotDetail> homeRecommendHotDetails = getHomeRecommendHotDetailList(groupeDetail.getGroupeId(), HomeRecommendHots);
+//            homeRecommendHotVo.setHomeRecommendHotDetailList(homeRecommendHotDetails);
+//            homeRecommendHotVoList.add(homeRecommendHotVo);
+//        }
+//
+//        return homeRecommendHotVoList;
+//    }
+
     public List<HomeRecommendHotVo> getList() {
         Integer dealerId=getFrontDealerId();
         List<HomeRecommendHotVo> homeRecommendHotVoList = new ArrayList<>();
         //查询分组信息
-        List<GroupeDetail> groupeDetailList = homeRecommendHotMapper.getGroupeDetailList(dealerId + "");
-        List<HomeRecommendHot> HomeRecommendHots = homeRecommendHotMapper.queryHotList(dealerId + "");
-        //拼装数据
+        List<GroupeDetail> groupeDetailList = homeRecommendHotMapper.getGroupeList(dealerId + "");
+        //查询商品信息
         for (GroupeDetail groupeDetail : groupeDetailList) {
             HomeRecommendHotVo homeRecommendHotVo = new HomeRecommendHotVo();
             homeRecommendHotVo.setGroupeDetail(groupeDetail);
-            List<HomeRecommendHotDetail> homeRecommendHotDetails = getHomeRecommendHotDetailList(groupeDetail.getGroupeId(), HomeRecommendHots);
+            //获取分组下面所有所有商品信息
+            List<HomeRecommendHotDetail> homeRecommendHotDetails = homeRecommendHotMapper.getHomeRecommendHotDetails(groupeDetail.getGroupeId());
             homeRecommendHotVo.setHomeRecommendHotDetailList(homeRecommendHotDetails);
             homeRecommendHotVoList.add(homeRecommendHotVo);
         }
-
         return homeRecommendHotVoList;
     }
 
@@ -164,12 +181,13 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
         }
         //商品名称不能相同
         int countGoId = homeRecommendHotMapper.getByName(homeRecommendHotCnd.getId(),
-                homeRecommendHotCnd.getGroupId(),homeRecommendHotCnd.getGoName());
+                homeRecommendHotCnd.getGroupId(),homeRecommendHotCnd.getGoId());
         if(countGoId>0){
             throw new BusException(homeRecommendHotCnd.getGoName()+"首页推荐分组中商品名称不能相同");
         }
         //获取goname，如果是商品
         if(homeRecommendHotCnd.getGoType() == 1){
+            //获取跳转商品名称
             homeRecommendHotCnd.setGoName(appCateMapper.getAppNameById(homeRecommendHotCnd.getGoId()));
             homeRecommendHotCnd.setGoPrice(appCateMapper.getPriceById(homeRecommendHotCnd.getGoId()));
         }else if(homeRecommendHotCnd.getGoType() ==2){//如果是分组
@@ -179,6 +197,7 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
             if (homeRecommendHotCnd.getPosition()!=0){
                 throw new BusException("分组只能在中上，不能再其他位置");
             }
+            //获取跳转分组名称
             homeRecommendHotCnd.setGoName(appCateMapper.getAppCateName(homeRecommendHotCnd.getGoId()));
             //生成图片信息对象
             SysImages images = getSystemImagesMapper(homeRecommendHotCnd, mfile);
