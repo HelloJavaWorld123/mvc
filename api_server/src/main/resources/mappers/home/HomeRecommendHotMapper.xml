@@ -118,7 +118,7 @@
 
     <select id="getHomeRecommendHotDetails" resultMap="personalHistoryAffairMapper">
         select  ai.name,img.file_url,appinfo.rci_name,appinfo.image_id,appinfo.image_url,
-        appinfo.go_type,appinfo.go_id,appinfo.go_name,appinfo.state,appinfo.position,apt.name as type_name,
+        appinfo.go_type,dapi.ai_id as go_id,appinfo.go_name,appinfo.state,appinfo.position,apt.name as type_name,
         apt.unit,dapi.number,dapi.price,dapi.pay_price,dapi.discount from
         (select a.dealer_id,b.rci_name,b.image_id,b.image_url,b.go_type,b.go_id,b.go_name,a.state,b.position from
         (select id,dealer_id,state from  home_recommend_hot_group where id=#{groupId} and state=1) a inner join
