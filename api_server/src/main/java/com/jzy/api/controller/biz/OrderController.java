@@ -3,10 +3,7 @@ package com.jzy.api.controller.biz;
 import com.jzy.api.cnd.biz.*;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.OrderService;
-import com.jzy.api.vo.biz.BackMonthListVo;
-import com.jzy.api.vo.biz.BackOrderCountVo;
-import com.jzy.api.vo.biz.BackOrderDetailVo;
-import com.jzy.api.vo.biz.BackOrderListVo;
+import com.jzy.api.vo.biz.*;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
@@ -37,8 +34,12 @@ public class OrderController extends GenericController {
     private OrderService orderService;
 
     @RequestMapping("/updateSupStatus")
-    public void updateSupStatus(@RequestBody SupStatusCnd supStatusCnd) {
+    public ApiResult updateSupStatus(@RequestBody SupStatusCnd supStatusCnd) {
         orderService.updateSupStatus(supStatusCnd.getOrderId(), supStatusCnd.getSupStatus());
+        SupStatusVo supStatusVo = new SupStatusVo();
+        supStatusVo.setStatus(supStatusCnd.getSupStatus());
+        supStatusVo.setSupStatus(supStatusCnd.getSupStatus());
+        return new ApiResult<>().success(supStatusVo);
     }
 
     /**

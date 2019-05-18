@@ -157,6 +157,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         String md5Sign = MyEncrypt.getInstance().md5(md5Data);
         if (!md5Sign.equals(sign)) {
             log.debug("SUP订单异步通知验签失败,本地签名md5Sign=".concat(md5Sign).concat(",请求签名sign=").concat(sign));
+            orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 3, Order.TradeStatusConst.REFUND_SICCESS,3);
             response.getWriter().write("<receive>ok</receive>");
             return;
         }
