@@ -35,7 +35,7 @@ public class WXPayConstants {
      * PAYERROR--支付失败(其他原因，如银行返回失败)
      */
     public enum TradeState {
-        REFUND, NOTPAY, CLOSED, REVOKED,USERPAYING,PAYERROR
+        SUCCESS, REFUND, NOTPAY, CLOSED, REVOKED,USERPAYING,PAYERROR
     }
 
 

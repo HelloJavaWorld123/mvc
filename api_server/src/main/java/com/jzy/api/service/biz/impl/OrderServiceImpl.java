@@ -165,7 +165,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         int status = payService.queryOrderStatus(order);
         // 更新支付状态
         orderMapper.updateStatus(order.getOrderId(), status);
-        return 0;
+        return status;
     }
 
     /**

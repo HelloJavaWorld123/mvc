@@ -113,10 +113,10 @@ public class AliPayServiceImpl implements AliPayService {
         }
         if (AlipayUtil.TradeState.TRADE_SUCCESS.toString().equals(aliTradeStatus)
                 || AlipayUtil.TradeState.TRADE_FINISHED.toString().equals(aliTradeStatus)) {
-            return  1;
+            return  2;
         }
         if (AlipayUtil.TradeState.TRADE_CLOSED.toString().equals(aliTradeStatus)) {
-            return  3;
+            return  4;
         }
         return 0;
     }

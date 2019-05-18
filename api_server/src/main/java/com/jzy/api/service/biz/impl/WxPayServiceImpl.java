@@ -173,14 +173,16 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
                 // 注意特殊情况：订单已经退款，但收到了支付结果成功的通知，不应把商户侧订单状态从退款改成支付成功
                 String wxTradeState = queryMap.get("trade_state");
                 log.info("wechat webapp_result,orderId=".concat(order.getOrderId()).concat(",out_trade_no=").concat(order.getOutTradeNo()).concat(",wechat支付状态:") + wxTradeState);
-                if (SUCCESS.equals(wxTradeState)) {
-                    return 1;
-                } else if (TradeState.NOTPAY.toString().equals(wxTradeState)) {
+                if (TradeState.SUCCESS.toString().equals(wxTradeState)) {
+                    return 2;
+                }
+                if (TradeState.NOTPAY.toString().equals(wxTradeState)) {
                     return 0;
-                } else if (TradeState.REFUND.toString().equals(wxTradeState)) {
+                }
+                if (TradeState.REFUND.toString().equals(wxTradeState) || TradeState.PAYERROR.toString().equals(wxTradeState)) {
                     return 3;
-                } else if (TradeState.CLOSED.toString().equals(wxTradeState) ||
-                        TradeState.PAYERROR.toString().equals(wxTradeState)) {
+                }
+                if (TradeState.CLOSED.toString().equals(wxTradeState)){
                     return 4;
                 }
             } else { // 签名错误，如果数据里没有sign字段，也认为是签名错误
