@@ -6,8 +6,6 @@ import com.jzy.api.cnd.app.AppInfoListCnd;
 import com.jzy.api.cnd.app.UpdateStatusBatchCnd;
 import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.dao.app.AppPageMapper;
-import com.jzy.api.dao.home.HomeRecommendCateMapper;
-import com.jzy.api.dao.home.HomeRecommendHotMapper;
 import com.jzy.api.dao.sys.SysImagesMapper;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPage;
@@ -19,7 +17,6 @@ import com.jzy.api.service.app.AppInfoService;
 import com.jzy.api.service.app.AppPriceTypeService;
 import com.jzy.api.vo.app.AppInfoDetailVo;
 import com.jzy.api.vo.app.AppInfoListVo;
-import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
@@ -31,9 +28,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements AppInfoService {
@@ -49,12 +44,6 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
 
     @Resource
     private SysImagesMapper sysImagesMapper;
-
-    @Resource
-    private HomeRecommendCateMapper homeRecommendCateMapper;
-
-    @Resource
-    private HomeRecommendHotMapper homeRecommendHotMapper;
 
 
     /**
@@ -136,19 +125,6 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
     @Override
     public void updateStatusBatch(UpdateStatusBatchCnd updateStatusBatchCnd) {
         Integer status = updateStatusBatchCnd.getStatus();
-        if(status == 0){
-            Map<String,Object> paramsMap = new HashMap<>();
-            paramsMap.put("aiIdList",updateStatusBatchCnd.getAiIds());
-            Integer hrc = homeRecommendCateMapper.queryExistById(paramsMap);
-            if(hrc>0){
-                throw new BusException(ResultEnum.ADMIN_UNABE_DELETE);//"无法下架，首页轮播或分组正在使用"
-            }
-            //home_recommend_hot
-            Integer hrh = homeRecommendHotMapper.queryExistById(paramsMap);
-            if(hrh>0){
-                throw new BusException(ResultEnum.ADMIN_UNABLE_DELETE_R);//"无法下架，首页推荐正在使用"
-            }
-        }
         for (Long aiId : updateStatusBatchCnd.getAiIds()) {
             appInfoMapper.updateStatusBatch(aiId, status);
         }

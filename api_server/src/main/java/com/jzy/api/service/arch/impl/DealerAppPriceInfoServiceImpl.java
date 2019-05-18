@@ -11,8 +11,6 @@ import com.jzy.api.dao.app.AppPriceTypeMapper;
 import com.jzy.api.dao.arch.DealerAppInfoMapper;
 import com.jzy.api.dao.arch.DealerAppPriceInfoMapper;
 import com.jzy.api.dao.arch.DealerAppPriceTypeMapper;
-import com.jzy.api.dao.home.HomeRecommendCateMapper;
-import com.jzy.api.dao.home.HomeRecommendHotMapper;
 import com.jzy.api.dao.sys.SysImagesMapper;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPriceType;
@@ -35,7 +33,6 @@ import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.vo.app.AppDetailVo;
 import com.jzy.api.vo.dealer.DealerAppPriceInfoDetailVo;
 import com.jzy.api.vo.dealer.GetDealerAppVo;
-import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
@@ -88,12 +85,6 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
 
     @Resource
     private SysImagesMapper sysImagesMapper;
-
-    @Resource
-    private HomeRecommendCateMapper homeRecommendCateMapper;
-
-    @Resource
-    private HomeRecommendHotMapper homeRecommendHotMapper;
 
     @Override
     protected GenericMapper<DealerAppPriceInfo> getGenericMapper() {
@@ -387,22 +378,6 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         List<String> aiIdList = batchUpdateStatusCnd.getAiIdList();
         String dealerId = batchUpdateStatusCnd.getDealerId();
         Integer status = batchUpdateStatusCnd.getStatus();
-        //
-        if(status == 0){
-            Map<String,Object> paramsMap = new HashMap<>();
-            paramsMap.put("aiIdList",aiIdList);
-            paramsMap.put("dealerId",dealerId);
-            Integer hrc = homeRecommendCateMapper.queryExistById(paramsMap);
-            if(hrc>0){
-                throw new BusException(ResultEnum.ADMIN_UNABE_DELETE);
-            }
-            //home_recommend_hot
-            Integer hrh = homeRecommendHotMapper.queryExistById(paramsMap);
-            if(hrh>0){
-                throw new BusException(ResultEnum.ADMIN_UNABLE_DELETE_R);//"无法下架，首页推荐正在使用"
-            }
-        }
-
         for (String aiId : aiIdList) {
             dealerAppInfoMapper.updateStatus(status, aiId, dealerId);
         }
