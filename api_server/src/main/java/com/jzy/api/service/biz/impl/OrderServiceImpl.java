@@ -392,7 +392,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         Page page = PageHelper.startPage(backOrderCnd.getPage(), backOrderCnd.getLimit());
         // 订单列表查询
         List<Order> orderList = orderMapper.queryBackOrderList(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
-                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), getDealerId());
+                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), backOrderCnd.getDealerId(),
+                getDealerId());
         if (orderList == null || orderList.isEmpty()) {
             return new PageVo<>();
         }
@@ -408,7 +409,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     public List<Order> queryExcelExportBackOrderList(BackOrderCnd backOrderCnd) {
         PageHelper.startPage(backOrderCnd.getPage(), backOrderCnd.getLimit(), false);
         return orderMapper.queryBackOrderList(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
-                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), getDealerId());
+                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), backOrderCnd.getDealerId(),
+                getDealerId());
     }
 
     /**
@@ -419,7 +421,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     @Override
     public Order queryBackOrderCount(BackOrderCnd backOrderCnd) {
         return orderMapper.queryBackOrderCount(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
-                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), getDealerId());
+                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), backOrderCnd.getDealerId(),
+                getDealerId());
     }
 
     /**

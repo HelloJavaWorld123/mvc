@@ -361,6 +361,9 @@
         <if test="dealerId != 0">
             AND o.dealer_id = #{dealerId}
         </if>
+        <if test="inputDealerId != null">
+            AND d.id = #{inputDealerId}
+        </if>
         <if test="supStatus != null">
             AND o.sup_status = #{supStatus}
         </if>
@@ -403,6 +406,9 @@
         </if>
         <if test="dealerId != 0">
             AND o.dealer_id = #{dealerId}
+        </if>
+        <if test="inputDealerId != null">
+            AND d.id = #{inputDealerId}
         </if>
         <if test="supStatus != null">
             AND o.sup_status = #{supStatus}

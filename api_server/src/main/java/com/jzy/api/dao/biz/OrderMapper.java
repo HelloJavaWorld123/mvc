@@ -155,10 +155,12 @@ public interface OrderMapper extends GenericMapper<Order> {
      * @param supStatus sup状态 0未提交1已提交2成功3失败
      * @param status 订单状态；0待支付, 1充值中,   2充值成功,  3充值失败,  4充值关闭
      * @param key 模糊查询参数 商户编号，订单编号，流水编号，用户手机号
+     * @param inputDealerId 从页面传递进来的商户id
      */
     List<Order> queryBackOrderList(@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate,
                                    @Param("supStatus") Integer supStatus, @Param("status") Integer status,
-                                   @Param("key") String key, @Param("dealerId") Integer dealerId);
+                                   @Param("key") String key, @Param("inputDealerId") Integer inputDealerId,
+                                   @Param("dealerId") Integer dealerId);
 
     /**
      * <b>功能描述：</b>订单列表已完成订单统计<br>
@@ -170,10 +172,12 @@ public interface OrderMapper extends GenericMapper<Order> {
      * @param supStatus sup状态 0未提交1已提交2成功3失败
      * @param status 订单状态；0待支付, 1充值中,   2充值成功,  3充值失败,  4充值关闭
      * @param key 模糊查询参数 商户编号，订单编号，流水编号，用户手机号
+     * @param inputDealerId 从页面传递进来的商户id
      */
     Order queryBackOrderCount(@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate,
                              @Param("supStatus") Integer supStatus, @Param("status") Integer status,
-                             @Param("key") String key, @Param("dealerId") Integer dealerId);
+                             @Param("key") String key, @Param("inputDealerId") Integer inputDealerId,
+                              @Param("dealerId") Integer dealerId);
 
     /**
      * <b>功能描述：</b>月订单列表查询<br>

@@ -15,6 +15,10 @@ import lombok.Data;
 @Data
 public class BackOrderCnd extends ReportPageCnd {
     /**
+     * 渠道商id
+     */
+    private Integer dealerId;
+    /**
      * 搜索框条件
      * 商户编号、订单编号、流水编号
      */
