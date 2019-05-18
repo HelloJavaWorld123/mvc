@@ -72,6 +72,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         if (order.getSupStatus() != 0) {
             return;
         }
+        order.setStatus(1);
         order.setSupStatus(1);
         order.setTradeCode(order.getTradeCode());
         order.setTradeFee(order.getTradeFee());
@@ -123,8 +124,12 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
         Order order = orderService.queryOrderById(orderId);
         if (order == null) {
-            response.getWriter().write("<receive>ok</receive>");
             log.debug("SUP订单异步通知order查询为null,userOrderId=" + outTradeNo);
+            response.getWriter().write("<receive>ok</receive>");
+            return;
+        }
+        if (order.getSupStatus() == 2 || order.getSupStatus() == 3) {
+            log.debug("SUP订单异步通知sup订单状态已经为成功或失败,userOrderId=" + outTradeNo);
             response.getWriter().write("<receive>ok</receive>");
             return;
         }
