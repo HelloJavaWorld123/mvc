@@ -13,7 +13,8 @@
 
 <mapper namespace="com.jzy.api.dao.arch.DealerAppPriceInfoMapper">
 
-    <select id="getDealerAppPriceType" resultType="com.jzy.api.model.dealer.DealerAppPriceType">
+    <select id="getDealerAppPriceType"
+            resultType="com.jzy.api.model.dealer.DealerAppPriceType">
         select is_custom as isCustom
         from dealer_app_price_type
         where ai_id=#{aiId}
@@ -40,6 +41,41 @@
             #{isCustom}
         )
     </insert>
+    <update id="update"
+            parameterType="com.jzy.api.model.dealer.DealerAppPriceInfo">
+
+UPDATE dealer_app_price_info
+SET
+ `price` = #{price},
+ `pay_price` =  #{payPrice},
+ `sup_price` =  #{supPrice},
+ `sup_no` = #{supNo},
+ `number` =  #{number},
+ `discount` =  #{discount},
+ `dealer_price` = #{dealerPrice},
+ `status` =  #{status},
+ `modify_time` = #{modifyTime}
+WHERE
+`ai_id` = #{aiId}
+ and `apt_id` =#{aptId}
+ and `dealer_id` =#{dealerId}
+
+
+
+    </update>
+
+    <update id="updateAppPriceType"
+            parameterType="com.jzy.api.model.dealer.DealerAppPriceType">
+        UPDATE  dealer_app_price_type
+        SET
+        `is_custom` = #{isCustom}
+        WHERE
+        `ai_id` = #{aiId}
+        and `apt_id` = #{aptId}
+        and `dealer_id` = #{dealerId}
+    </update>
+
+
     <delete id="deleteAppPriceType">
         delete from
         dealer_app_price_type
@@ -424,7 +460,8 @@
         </insert>
 
     <!-- 根据商品id获取商品价格信息 -->
-    <select id="queryAppPriceInfoByAppId" resultType="com.jzy.api.model.dealer.DealerAppPriceInfo">
+    <select id="queryAppPriceInfoByAppId"
+            resultType="com.jzy.api.model.dealer.DealerAppPriceInfo">
         SELECT
         appInfo.sup_price supPrice,
         appInfo.price,
@@ -442,4 +479,27 @@
         AND appInfo.status = 1
     </select>
 
+
+    <!--   保存到数据库的id列表和查询出来的id列表求差集，做删除操作 -->
+    <select id="getIdList"
+            parameterType="com.jzy.api.model.dealer.DealerAppPriceType"
+            resultType="Long">
+            select
+            id
+            from
+            dealer_app_price_info
+            where
+            ai_id=#{aiId}
+            and dealer_id=#{dealerId}
+            and apt_id=#{aptId}
+    </select>
+<!--  渠道商商品面值表根据主键删除  -->
+    <delete id="deleteAppPriceInfoById">
+
+        delete
+        from
+        dealer_app_price_info
+        where
+        id=#{id}
+    </delete>
 </mapper>

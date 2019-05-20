@@ -79,4 +79,25 @@ public interface DealerAppPriceInfoMapper extends GenericMapper<DealerAppPriceIn
                                                       @Param("aptId") Long aptId,
                                                       @Param("dealerId") Integer dealerId);
 
+    /**
+     * <b>功能描述：</b>修改渠道商默认面值信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190520&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    int updateAppPriceType(DealerAppPriceType dealerAppPriceType);
+
+    /**
+     * <b>功能描述：</b>保存到数据库的id列表和查询出来的id列表求差集，做删除操作<br>
+     * <b>修订记录：</b><br>
+     * <li>20190520&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    List<Long>  getIdList(DealerAppPriceType dealerAppPriceType);
+    
+    /**
+     * <b>功能描述：</b>渠道商商品面值表根据主键删除<br>
+     * <b>修订记录：</b><br>
+     * <li>20190520&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+      int deleteAppPriceInfoById(@Param("id") Long id);
+
 }

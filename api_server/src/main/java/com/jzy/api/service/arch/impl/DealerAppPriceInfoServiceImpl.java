@@ -287,49 +287,71 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
             dealerAppInfo.setId(tableKeyService.newKey("dealer_app_info", "id", 0));
             dealerAppInfoService.insert(dealerAppInfo);
         }
-        //全量更新  物理删除
-        dealerAppPriceInfoMapper.deleteByDealerIdAndaiId(aiId, dealerId);
-        dealerAppPriceInfoMapper.deleteAppPriceType(dealerId, aiId);
         //前台输入校验
         for (DealerAppPriceTypeCnd dealerAppPriceTypeCnd : savePriceInfoCnd.getDealerAppPriceTypeCndList()) {
             //面值不重复校验
             checkPrice(dealerAppPriceTypeCnd);
             //可输入面值比例校验
             checkRatio(dealerAppPriceTypeCnd);
-
-
         }
 
         //更新
         for (DealerAppPriceTypeCnd dealerAppPriceTypeCnd : savePriceInfoCnd.getDealerAppPriceTypeCndList()) {
             //保存是否自定义金额
             DealerAppPriceType dealerAppPriceType = new DealerAppPriceType();
-            dealerAppPriceType.setId(tableKeyService.newKey("dealer_app_price_type", "id", 0));
             dealerAppPriceType.setAiId(aiId);
             dealerAppPriceType.setDealerId(dealerId);
             dealerAppPriceType.setAptId(dealerAppPriceTypeCnd.getAptId());
             dealerAppPriceType.setIsCustom(dealerAppPriceTypeCnd.getIsCustom());
-            dealerAppPriceInfoMapper.insertAppPriceType(dealerAppPriceType);
+            if (dealerAppPriceInfoMapper.updateAppPriceType(dealerAppPriceType) == 0) {
+                dealerAppPriceType.setId(tableKeyService.newKey("dealer_app_price_type", "id", 0));
+                dealerAppPriceInfoMapper.insertAppPriceType(dealerAppPriceType);
+            }
 
+            List<Long> saveList = new ArrayList<>();
             //保存面值信息
             for (DealerAppPriceInfoCnd dealerAppPriceInfoCnd : dealerAppPriceTypeCnd.getDealerAppPriceInfoCnds()) {
-                DealerAppPriceInfo dealerAppPriceInfo = new DealerAppPriceInfo();
-                BeanUtils.copyProperties(dealerAppPriceInfoCnd, dealerAppPriceInfo);
-                dealerAppPriceInfo.setId(tableKeyService.newKey("dealer_app_price_info", "id", 0));
+                DealerAppPriceInfo dealerAppPriceInfo = getDealerAppPriceInfo(dealerAppPriceInfoCnd);
                 dealerAppPriceInfo.setAiId(aiId);
                 dealerAppPriceInfo.setDealerId(dealerId);
-                if (dealerAppPriceInfoCnd.getPayPrice() == null) {
-                    dealerAppPriceInfo.setPayPrice(BigDecimal.ZERO);
-                }
-                if (dealerAppPriceInfoCnd.getDiscount() == null) {
-                    dealerAppPriceInfo.setDiscount(BigDecimal.ZERO);
-                }
                 dealerAppPriceInfo.setAptId(dealerAppPriceTypeCnd.getAptId());
-                this.insert(dealerAppPriceInfo);
+                if (this.update(dealerAppPriceInfo) == 0) {
+                    dealerAppPriceInfo.setId(tableKeyService.newKey("dealer_app_price_info", "id", 0));
+                    this.insert(dealerAppPriceInfo);
+                }
+                saveList.add(dealerAppPriceInfo.getId());
+
+            }
+            //保存到数据库的id列表和查询出来的id列表求差集，做删除操作
+            List<Long> queryList = dealerAppPriceInfoMapper.getIdList(dealerAppPriceType);
+            queryList.removeAll(saveList);
+            if (queryList.size() > 0) {
+                for (Long aptId : queryList) {
+                    dealerAppPriceInfoMapper.deleteAppPriceInfoById(aptId);
+                }
             }
         }
 
 
+    }
+
+    /**
+     * <b>功能描述：</b>获取渠道商面值信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190520&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+
+    private DealerAppPriceInfo getDealerAppPriceInfo(DealerAppPriceInfoCnd dealerAppPriceInfoCnd) {
+
+        DealerAppPriceInfo dealerAppPriceInfo = new DealerAppPriceInfo();
+        BeanUtils.copyProperties(dealerAppPriceInfoCnd, dealerAppPriceInfo);
+        if (dealerAppPriceInfoCnd.getPayPrice() == null) {
+            dealerAppPriceInfo.setPayPrice(BigDecimal.ZERO);
+        }
+        if (dealerAppPriceInfoCnd.getDiscount() == null) {
+            dealerAppPriceInfo.setDiscount(BigDecimal.ZERO);
+        }
+        return dealerAppPriceInfo;
     }
 
     /**
