@@ -149,6 +149,11 @@
         o.create_time,
         o.pay_time,
         o.finish_time,
+        o.trade_status,
+        o.account,
+        o.game_account,
+        o.game_area,
+        o.game_serv,
         app.id appId,
         app. NAME appName,
         app.icon appIcon
