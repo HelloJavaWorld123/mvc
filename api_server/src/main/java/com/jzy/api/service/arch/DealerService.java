@@ -15,7 +15,6 @@ import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.service.GenericService;
 
 
-
 /**
  * <b>功能：</b>渠道商<br>
  * <b>Copyright JZY</b>
@@ -59,12 +58,12 @@ public interface DealerService extends GenericService<Dealer> {
     void save(SaveDealerCnd saveDealerCnd) throws ExcelException;
 
 
-   /**
-    * <b>功能描述：</b>渠道商详情<br>
-    * <b>修订记录：</b><br>
-    * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-    */
-   DealerDetailVo detail(String id);
+    /**
+     * <b>功能描述：</b>渠道商详情<br>
+     * <b>修订记录：</b><br>
+     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    DealerDetailVo detail(String id);
 
 
     /**
@@ -72,7 +71,15 @@ public interface DealerService extends GenericService<Dealer> {
      * <b>修订记录：</b><br>
      * <li>20190511&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-      int updateStatus(UpdateDealerStatusCnd updateDealerStatusCnd);
+    int updateStatus(UpdateDealerStatusCnd updateDealerStatusCnd);
+
+
+    /**
+     * <b>功能描述：</b>充值渠道商公钥和私钥<br>
+     * <b>修订记录：</b><br>
+     * <li>20190520&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    void updateDealerPubAndPriKey(Long dealerId);
 
 
 }

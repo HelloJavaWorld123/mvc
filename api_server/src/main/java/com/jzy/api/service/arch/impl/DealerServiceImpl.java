@@ -42,10 +42,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * <b>功能：</b>渠道商业务处理类<br>
@@ -242,19 +239,39 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      */
     private Dealer insertDealer(Dealer dealer, DealerBaseInfo dbi) {
         //获取经销商标识最大值
+        getPubAndPriKey(dealer);
+        dealer.setId(tableKeyService.newKey("dealer", "id", 0));
+        dealer.setName(dbi.getDealerName());
+        dealer.setContact(dbi.getDealerContact());
+        dealer.setTelno(dbi.getDealerTelephone());
+        dealer.setVerified(1);
+        this.insert(dealer);
+        return dealer;
+    }
+
+    /**
+     * <b>功能描述：</b>获取公钥和私钥<br>
+     * <b>修订记录：</b><br>
+     * <li>20190520&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private Dealer getPubAndPriKey(Dealer dealer) {
         String maxNum = dealerMapper.getMaxIdNum();
         String idnum = "Num".concat(String.valueOf(Integer.parseInt(maxNum) + 1));
         String pubkey = MyEncrypt.getInstance().obscureMd5(idnum);
         String prikey = Base64.getEncoder().encodeToString(pubkey.getBytes(Charset.forName("UTF-8"))).replace("=", "");
-        dealer.setId(tableKeyService.newKey("dealer", "id", 0));
         dealer.setPrikey(prikey);
         dealer.setIdnum(idnum);
         dealer.setPubkey(pubkey);
-        dealer.setName(dbi.getDealerName());
-        dealer.setContact(dbi.getDealerContact());
-        dealer.setTelno(dbi.getDealerTelephone());
-        this.insert(dealer);
         return dealer;
+    }
+
+    public static void main(String[] args) {
+
+
+        String pubkey = MyEncrypt.getInstance().obscureMd5(new Date().toString());
+        String prikey = Base64.getEncoder().encodeToString(pubkey.getBytes(Charset.forName("UTF-8"))).replace("=", "");
+
+
     }
 
     /**
@@ -283,6 +300,22 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
         dealer.setId(Long.valueOf(updateDealerStatusCnd.getDealerId()));
         dealer.setState(updateDealerStatusCnd.getState());
         return update(dealer);
+    }
+
+    /**
+     * <b>功能描述：</b>充值渠道商公钥和私钥<br>
+     * <b>修订记录：</b><br>
+     * <li>20190520&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @Override
+    public void updateDealerPubAndPriKey(Long dealerId) {
+        Dealer dealer = new Dealer();
+        dealer.setId(dealerId);
+        String pubkey = MyEncrypt.getInstance().obscureMd5(new Date().toString());
+        String prikey = Base64.getEncoder().encodeToString(pubkey.getBytes(Charset.forName("UTF-8"))).replace("=", "");
+        dealer.setPubkey(pubkey);
+        dealer.setPrikey(prikey);
+        this.update(dealer);
     }
 
     @Override

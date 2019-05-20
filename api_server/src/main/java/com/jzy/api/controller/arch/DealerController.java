@@ -16,6 +16,7 @@ import com.jzy.framework.result.ApiResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,6 +76,19 @@ public class DealerController {
 
 
     }
+
+    /**
+     * <b>功能描述：</b>充值渠道商公钥和私钥<br>
+     * <b>修订记录：</b><br>
+     * <li>20190520&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("admin/updateDealerPubAndPriKey")
+    public ApiResult updateDealerPubAndPriKey(@RequestBody IdCnd idCnd)  {
+        dealerService.updateDealerPubAndPriKey(idCnd.getId());
+        return new ApiResult<>();
+
+    }
+
 
     /**
      * <b>功能描述：</b>渠道商详情<br>

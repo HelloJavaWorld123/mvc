@@ -36,12 +36,12 @@ public class Dealer extends GenericModel implements Serializable {
     /**
      * 审核状态(0:待审核,1:通过,2:驳回,3:禁用)
      */
-    private int verified=1;
+    private int verified;
 
     /**
      * 经销商状态 0是禁用 1是启用，默认为0
      */
-    private Integer state = 1;
+    private Integer state;
     /**
      * 公钥（API KEY）用于签名使用
      */

@@ -169,7 +169,7 @@
             `create_time` = #{createTime},
         </if>
         <if test="modifyTime!=null">
-            `create_time` = #{modifyTime}
+            `modify_time` = #{modifyTime}
         </if>
         WHERE
         `id` = #{id}
