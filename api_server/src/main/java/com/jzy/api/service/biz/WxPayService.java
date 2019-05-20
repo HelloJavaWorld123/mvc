@@ -49,4 +49,9 @@ public interface WxPayService extends PayService {
      */
     SecurityToken updateSecurityToken(String code, String state);
 
+    /**
+     * 获取微信 JS-SDK 的配置
+     * jiazk 2019年5月18日
+     */
+    Map<String, String> getSdkConfig(String url);
 }

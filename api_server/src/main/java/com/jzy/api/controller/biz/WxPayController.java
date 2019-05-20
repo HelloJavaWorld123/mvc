@@ -2,16 +2,16 @@ package com.jzy.api.controller.biz;
 
 import com.jzy.api.annos.WithoutLogin;
 import com.jzy.api.cnd.biz.WxOAuthCnd;
-import com.jzy.api.model.biz.SecurityToken;
+import com.jzy.api.cnd.biz.WxSdkCnd;
+import com.jzy.api.constant.PayConfig;
 import com.jzy.api.service.biz.WxPayService;
+import com.jzy.api.service.wx.WXPayUtil;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.MyHttp;
-import com.jzy.api.service.wx.WXPayUtil;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -38,11 +38,20 @@ import java.util.Map;
 @RequestMapping(path="/wx")
 public class WxPayController extends GenericController {
 
-    @Value("${h5_sit_dns}")
-    private String h5DomainUrl;
-
     @Resource
     private WxPayService wxPayService;
+
+    /**
+     * 获取微信 JS-SDK 的配置
+     * jiazk 2019年5月18日
+     */
+    @ResponseBody
+    @RequestMapping(path="/weChatSdk", method = RequestMethod.POST)
+    public ApiResult weChatSdk(@RequestBody WxSdkCnd wxSdkCnd) {
+        Map<String,String> sdkConfig = wxPayService.getSdkConfig(wxSdkCnd.getUrl());
+        log.debug("getSdkConfig  -- " + jsonConverter.toJson(sdkConfig));
+        return new ApiResult<>(sdkConfig);
+    }
 
     /**
      * <b>功能描述：</b>微信授权<br>
@@ -71,12 +80,12 @@ public class WxPayController extends GenericController {
                                        HttpServletRequest req, HttpServletResponse resp, ModelMap model) throws IOException {
         if (!"authdeny".equals(code)) {
             wxPayService.updateSecurityToken(code, state);
-            return new ModelAndView(new RedirectView(h5DomainUrl));
+            return new ModelAndView(new RedirectView(PayConfig.getH5DomainUrl()));
         }
         // 用户未授权返回提示用户取消授权
         log.error("微信网页授权获取用户信息失败-----------------------");
         model.put("errmsg", "用户取消授权");
-        return new ModelAndView(h5DomainUrl);
+        return new ModelAndView(PayConfig.getH5DomainUrl());
     }
 
     /**

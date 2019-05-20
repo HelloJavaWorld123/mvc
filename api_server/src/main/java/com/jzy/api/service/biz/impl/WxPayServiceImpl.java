@@ -18,12 +18,14 @@ import com.jzy.api.service.wx.WXPayUtil;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.DateUtils;
 import com.jzy.api.util.MyHttp;
+import com.jzy.framework.cache.EmpCache;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.exception.PayException;
 import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,10 +36,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.jzy.api.constant.WXPayConstants.*;
 import static com.jzy.api.constant.WechatConstant.*;
@@ -68,7 +70,8 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
      */
     @Value("${wx_app_id}")
     private String appId;
-    /**e
+    /**
+     * e
      * 微信授权回调
      */
     @Value("${wx_auth_callback_url}")
@@ -119,7 +122,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
             data.put("trade_type", WXPayConstants.TradeType.JSAPI.toString());
         }
         // 返回支付标识并加签
-        Map<String, String> responseData ;
+        Map<String, String> responseData;
         try {
             responseData = unifiedOrderwx(data);
         } catch (ParseException e) {
@@ -173,23 +176,24 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
                 // 注意特殊情况：订单已经退款，但收到了支付结果成功的通知，不应把商户侧订单状态从退款改成支付成功
                 String wxTradeState = queryMap.get("trade_state");
                 log.info("wechat webapp_result,orderId=".concat(order.getOrderId()).concat(",out_trade_no=").concat(order.getOutTradeNo()).concat(",wechat支付状态:") + wxTradeState);
-                if (SUCCESS.equals(wxTradeState)) {
-                    return 1;
-                } else if (TradeState.NOTPAY.toString().equals(wxTradeState)) {
+//                if (TradeState.SUCCESS.toString().equals(wxTradeState)) {
+//                    return 2;
+//                }
+                if (TradeState.NOTPAY.toString().equals(wxTradeState)) {
                     return 0;
-                } else if (TradeState.REFUND.toString().equals(wxTradeState)) {
-                    return 3;
-                } else if (TradeState.CLOSED.toString().equals(wxTradeState) ||
-                        TradeState.PAYERROR.toString().equals(wxTradeState)) {
-                    return 4;
                 }
+                return 1;
+//                if (TradeState.REFUND.toString().equals(wxTradeState) || TradeState.PAYERROR.toString().equals(wxTradeState)) {
+//                    return 3;
+//                }
+//                if (TradeState.CLOSED.toString().equals(wxTradeState)){
+//                    return 4;
+//                }
             } else { // 签名错误，如果数据里没有sign字段，也认为是签名错误
                 log.info("：：：Wechat Notify Sign Verify Failed. " + queryMap.toString());
-                return 0;
             }
         } catch (Exception e) {
             log.error("：：：Err - 微信支付回调异常.", e);
-            return 0;
         }
         return 0;
     }
@@ -213,7 +217,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
                 String outTradeNo = notifyMap.get("out_trade_no");
                 String transactionId = notifyMap.get("transaction_id");
                 String totalFee = notifyMap.get("total_fee");
-                BigDecimal tradeFee =  new BigDecimal(WXPayUtil.changeF2Y(totalFee));
+                BigDecimal tradeFee = new BigDecimal(WXPayUtil.changeF2Y(totalFee));
                 String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
                 tradeRecordService.updateWxCallbackStatus(transactionId, notifyMap.get("result_code").equalsIgnoreCase(SUCCESS) ? 4 : 3, notifyMap.toString(), notifyMap.get("attach"), 1);
                 // 业务处理
@@ -322,11 +326,10 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
     }
 
 
-
     private Map<String, String> unifiedOrderwx(Map<String, String> params) throws ParseException {
         Map<String, String> map;
         params.put("attach", CommUtils.lowerUUID());
-        WXPay wxpay ;
+        WXPay wxpay;
         try {
             wxpay = new WXPay(WXPayConfig.getInstance());
             map = wxpay.unifiedOrder(params);
@@ -459,6 +462,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
 
     /**
      * wechat:返回给微信服务端的Xml
+     *
      * @param returnCode [SUCCESS,FAIL]
      * @return
      */
@@ -484,8 +488,96 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         return respmap;
     }
 
+    /**
+     * 获取微信 JS-SDK 的配置
+     * jiazk 2019年5月18日
+     */
+    @Override
+    public Map<String, String> getSdkConfig(String url) {
+
+        String ticket = get_ticket();
+        if (ticket == "") {
+            return null;
+        }
+        Map<String, String> configMap = sign(ticket, url);
+        return configMap;
+    }
+
+
+    private static Map<String, String> sign(String jsapi_ticket, String url) {
+        Map<String, String> ret = new HashMap<String, String>();
+        String nonce_str = create_nonce_str();
+        String timestamp = create_timestamp();
+        String string1;
+        String signature = "";
+
+        //注意这里参数名必须全部小写，且必须有序
+        string1 = "jsapi_ticket=" + jsapi_ticket +
+                "&noncestr=" + nonce_str +
+                "&timestamp=" + timestamp +
+                "&url=" + url;
+        System.out.println(string1);
+
+        try {
+            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+            crypt.reset();
+            crypt.update(string1.getBytes("UTF-8"));
+            signature = byteToHex(crypt.digest());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        ret.put("url", url);
+        ret.put("jsapi_ticket", jsapi_ticket);
+        ret.put("nonceStr", nonce_str);
+        ret.put("timestamp", timestamp);
+        ret.put("signature", signature);
+        ret.put("appId", WXPayConfig.getInstance().getAppID());
+        return ret;
+    }
+
+    private static String byteToHex(final byte[] hash) {
+        Formatter formatter = new Formatter();
+        for (byte b : hash) {
+            formatter.format("%02x", b);
+        }
+        String result = formatter.toString();
+        formatter.close();
+        return result;
+    }
+
+    private static String create_nonce_str() {
+        return UUID.randomUUID().toString();
+    }
+
+    private static String create_timestamp() {
+        return Long.toString(System.currentTimeMillis() / 1000);
+    }
+
+    private String get_ticket() {
+        SecurityToken token = getAccessToken();
+        String ticketUrl = "http://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=" + token.getAccessToken();
+
+        try {
+            JSONObject result = JSONObject.parseObject(MyHttp.sendGet(ticketUrl, null));
+            if (result.getString("ticket") != null) {
+                return result.getString("ticket");
+            }
+        } catch (Exception e) {
+            log.error("：：：Wechat gets ticket exception", e);
+        }
+        return "";
+    }
+
     @Override
     protected GenericMapper getGenericMapper() {
         return null;
+    }
+
+    @Override
+    protected EmpCache getDealer() {
+        return super.getDealer();
     }
 }

@@ -12,8 +12,27 @@
  -->
 
 <mapper namespace="com.jzy.api.dao.home.HomeRecommendHotMapper">
-
-
+    <resultMap id="personalHistoryAffairMapper" type="com.jzy.api.model.Home.HomeRecommendHotDetail">
+        <result column="rci_name" property="rciName"></result>
+        <result column="image_id" property="imageId"></result>
+        <result column="image_url" property="imageUrl"></result>
+        <result column="go_type" property="goType"></result>
+        <result column="go_id" property="goId"></result>
+        <result column="ai_id" property="aiId"></result>
+        <result column="go_name" property="goName"></result>
+        <result column="state" property="state"></result>
+        <result column="position" property="position"></result>
+        <association property="hotAppInfoDetail" javaType="com.jzy.api.model.Home.HotAppInfoDetail">
+            <result column="name" property="appName"></result>
+            <result column="file_url" property="appIcon"></result>
+            <result column="number" property="typeNumber"></result>
+            <result column="type_name" property="typeName"></result>
+            <result column="unit" property="typeUnit"></result>
+            <result column="price" property="price"></result>
+            <result column="pay_price" property="payPrice"></result>
+            <result column="discount" property="discount"></result>
+        </association>
+    </resultMap>
     <!--   查询分组信息-->
     <select id="getGroupeDetailList"
             resultType="com.jzy.api.model.Home.GroupeDetail">
@@ -30,6 +49,13 @@
             group_id
 
 </select>
+
+    <!--   查询分组信息-->
+    <select id="getGroupeList"
+            resultType="com.jzy.api.model.Home.GroupeDetail">
+         select id as groupeId,group_name as groupeName,group_sort as groupSort
+         from home_recommend_hot_group where dealer_id =#{dealerId} and state=1
+    </select>
 
 
     <!--   查询分组信息-->
@@ -91,4 +117,136 @@
 
    </select>
 
+    <!--首页分组推荐-->
+    <select id="getHomeRecommendHotDetails" resultMap="personalHistoryAffairMapper">
+        select  ai.name,img.file_url,appinfo.rci_name,appinfo.image_id,appinfo.image_url,
+        appinfo.go_type,appinfo.go_id,appinfo.go_name,appinfo.state,appinfo.position,apt.name as type_name,
+        apt.unit,dapi.ai_id,dapi.number,dapi.price,dapi.pay_price,dapi.discount from
+        (select a.dealer_id,b.rci_name,b.image_id,b.image_url,b.go_type,b.go_id,b.go_name,a.state,b.position from
+        (select id,dealer_id,state from  home_recommend_hot_group where id=#{groupId} and state=1) a inner join
+        home_recommend_hot b on a.id=b.group_id) appinfo left join dealer_app_price_info dapi on appinfo.go_id=dapi.id
+        left join  app_price_type apt on apt.id = dapi.apt_id
+        and dapi.ai_id = apt.ai_id  left join app_info ai on apt.ai_id = ai.id
+        left join sys_images as img on img.type = 1 and img.rel_id = ai.id
+    </select>
+
+    <!--insert-->
+    <insert id="insert" parameterType="com.jzy.api.model.Home.HomeRecommendHot">
+    	INSERT INTO home_recommend_hot (
+            `id`,
+            `dealer_id`,
+            `group_id`,
+            `position`,
+            `go_type`,
+            `creator_id`,
+            `modifier_id`,
+            `create_time`,
+            `modify_time`
+        )
+        VALUES
+            (
+            #{id},
+            #{dealerId},
+            #{groupId},
+            #{position},
+            #{goType},
+            #{creatorId},
+            #{modifierId},
+            #{createTime},
+            #{modifyTime}
+            )
+    </insert>
+
+    <select id="getByPosition" resultType="java.lang.Integer">
+        select count(1) from home_recommend_hot where group_id=#{groupId} and position=#{position}
+        and id!=#{id}
+    </select>
+
+    <select id="getByName" resultType="java.lang.Integer">
+        select count(1) from home_recommend_hot where group_id=#{groupId} and go_id=#{goId}
+        and id!=#{id}
+    </select>
+
+    <!-- 修改-->
+    <update id="edit" parameterType="com.jzy.api.cnd.home.HomeRecommendHotCnd">
+        update
+        home_recommend_hot
+        set
+        <if test="rciName!=null">
+            rci_name=#{rciName},
+        </if>
+        <if test="imageId!=null">
+            image_id=#{imageId},
+        </if>
+        <if test="imageUrl!=null">
+            image_url=#{imageUrl},
+        </if>
+        <if test="goType!=null">
+            go_type=#{goType},
+        </if>
+        <if test="goId!=null">
+            go_id=#{goId},
+        </if>
+        <if test="goName!=null">
+            go_name=#{goName},
+        </if>
+        <if test="position!=null">
+            position=#{position},
+        </if>
+        `modifier_id` =  #{modifierId},
+        `modify_time` =  #{modifyTime}
+        where
+        id = #{id}
+    </update>
+
+    <!--分页查询首页推荐商品-->
+    <select id="listPage" parameterType="com.jzy.api.cnd.home.HomeHotListCnd"
+            resultType="com.jzy.api.vo.home.HomeHotVo">
+        select a.id,a.dealer_id as dealerId,a.rci_name as rciName,a.image_url as imageUrl,
+        a.go_name as goName,a.position from home_recommend_hot a
+        left join dealer_app_price_info dapi on a.go_id=dapi.id
+        where a.dealer_id=#{dealerId} and a.group_id=#{groupId}
+        order by a.position asc
+    </select>
+
+    <!--首页推荐商品详细信息-->
+    <select id="getHomeInfoHot" resultType="com.jzy.api.vo.home.HomeHotInfoVo">
+        select a.id,a.dealer_id as dealerId,a.rci_name as rciName,a.image_url as imageUrl,
+        a.go_type as goType,a.go_id as goId,a.go_name as goName,dapi.price as goPrice,
+         b.state,a.position,a.group_id as groupId,b.group_name as groupName,b.group_sort as groupSort
+         from home_recommend_hot a left join home_recommend_hot_group b on a.group_id=b.id
+         left join dealer_app_price_info dapi on a.go_id=dapi.id
+        where a.id=#{id}
+    </select>
+
+    <!--查询分组下面所有商品id-->
+    <select id="getByGroupId" resultType="com.jzy.api.vo.home.HomeHotVo">
+        select id from home_recommend_hot where group_id=#{id}
+    </select>
+
+    <!--首页推荐商品后台批量删除-->
+    <delete id="deleteBatch">
+        delete from home_recommend_hot where id in (
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>)
+    </delete>
+
+
+    <select id="queryExistById" parameterType="java.util.Map" resultType="java.lang.Integer">
+
+        SELECT count(*) from home_recommend_hot hrh,dealer_app_price_type dapt where 1=1
+        and hrh.go_id = dapt.id
+        and hrh.dealer_id = dapt.dealer_id
+        <if test="dealerId !=null">
+            and hrh.dealer_id = #{dealerId}
+        </if>
+        and go_type = 1
+        and hrh.state =1
+        and go_id in
+        <foreach collection="aiIdList" index="index" separator="," open="(" close=")"
+                 item="item">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

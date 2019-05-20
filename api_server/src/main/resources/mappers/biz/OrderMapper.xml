@@ -69,14 +69,14 @@
     <!-- 新增订单 -->
     <insert id="insert" parameterType="com.jzy.api.model.biz.Order">
         INSERT INTO `order`(
-        id, code, out_trade_no, user_id, app_id, sup_no, sup_price, sup_status, discount,
+        id, code, out_trade_no, user_id, app_id, apt_id, sup_no, sup_price, sup_status, discount,
         price, number, status, type, total_fee, price_type_name, price_type_unit,
         acct_type, account, game_account, game_area, game_serv, trade_method, trade_code,
         trade_fee, trade_status, invoice_status, remark, recharge_mode, dealer_id, dealer_price,
         del_flag, creator_id, modifier_id, create_time, modify_time
         )
         VALUES (
-        #{orderId}, #{code}, #{outTradeNo}, #{userId}, #{appId}, #{supNo}, #{supPrice}, #{supStatus}, #{discount},
+        #{orderId}, #{code}, #{outTradeNo}, #{userId}, #{appId}, #{aptId}, #{supNo}, #{supPrice}, #{supStatus}, #{discount},
         #{price}, #{number}, #{status}, #{type}, #{totalFee}, #{priceTypeName}, #{priceTypeUnit},
         #{acctType}, #{account}, #{gameAccount}, #{gameArea}, #{gameServ}, #{tradeMethod}, #{tradeCode},
         #{tradeFee}, #{tradeStatus}, #{invoiceStatus}, #{remark}, #{rechargeMode}, #{dealerId}, #{dealerPrice},
@@ -151,11 +151,10 @@
         o.finish_time,
         app.id appId,
         app. NAME appName,
-        image.file_url appIcon
+        app.icon appIcon
         FROM
         `order` o
         INNER JOIN app_info app ON o.app_id = app.id
-        LEFT JOIN sys_images image ON o.app_id = image.rel_id AND image.type = 1
         WHERE
         o.id = #{id}
     </select>
@@ -173,11 +172,10 @@
         o.create_time createTime,
         app.id appId,
         app.name appName,
-        img.file_url appIcon
+        app.icon appIcon
         FROM
         `order` o
         INNER JOIN app_info app ON o.app_id = app.id
-        LEFT JOIN sys_images AS img ON img.type = 1 AND img.rel_id = app.id
         WHERE
         o.del_flag = 0
         AND o.user_id = #{userId}
@@ -277,6 +275,7 @@
         UPDATE
         `order`
         SET
+        status = #{status},
         sup_status = #{supStatus},
         finish_time = #{finishTime}
         WHERE
@@ -286,7 +285,7 @@
     <!-- 查询订单状态 -->
     <select id="queryOrderStatus" resultMap="order">
         SELECT
-        app_id,
+        app_id appId,
         status
         FROM
         `order`
@@ -362,6 +361,9 @@
         <if test="dealerId != 0">
             AND o.dealer_id = #{dealerId}
         </if>
+        <if test="inputDealerId != null">
+            AND d.id = #{inputDealerId}
+        </if>
         <if test="supStatus != null">
             AND o.sup_status = #{supStatus}
         </if>
@@ -380,7 +382,7 @@
             )
         </if>
         ORDER BY
-        o.modify_time
+        o.create_time DESC
     </select>
 
     <!-- 已完成订单列表统计 -->
@@ -404,6 +406,9 @@
         </if>
         <if test="dealerId != 0">
             AND o.dealer_id = #{dealerId}
+        </if>
+        <if test="inputDealerId != null">
+            AND d.id = #{inputDealerId}
         </if>
         <if test="supStatus != null">
             AND o.sup_status = #{supStatus}
@@ -462,6 +467,18 @@
         dealer_id,
         modify_time DESC
     </select>
+
+    <!-- 通过主动查询第三方支付结果，更新支付状态为充值中 -->
+    <update id="updateOrderStatusByActiveQuery">
+        UPDATE
+        `order`
+        SET
+        status = #{status},
+        pay_time = #{payTime}
+        WHERE
+        id = #{id}
+        AND status = 0
+    </update>
 
     <!-- 共同更新参数 -->
     <sql id="updateCommon">

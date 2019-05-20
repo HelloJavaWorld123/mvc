@@ -8,8 +8,10 @@ import com.jzy.api.dao.app.AppCompanyMapper;
 import com.jzy.api.dao.app.AppGameMapper;
 import com.jzy.api.dao.app.AppInfoMapper;
 import com.jzy.api.model.app.AppCompany;
+import com.jzy.api.model.app.AppGame;
 import com.jzy.api.po.app.AppCompanyPo;
 import com.jzy.api.service.app.AppCompanyService;
+import com.jzy.api.service.app.AppGameService;
 import com.jzy.api.vo.app.AppCompanyVo;
 import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.vo.PageVo;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +43,9 @@ public class AppCompanyServiceImpl extends GenericServiceImpl<AppCompany> implem
 
     @Resource
     private AppInfoMapper appInfoMapper;
+
+    @Resource
+    private AppGameService appGameService;
 
     @Resource
     private AppGameMapper appGameMapper;
@@ -98,15 +104,14 @@ public class AppCompanyServiceImpl extends GenericServiceImpl<AppCompany> implem
     public void delete(Long id) {
         //商品表中app_info是否正在使用该厂商
         int acpCount = appInfoMapper.getCountByAcpId(id);
-        //游戏表app_game中是否正在使用该厂商
-        int pCount =  appGameMapper.getCountByPId(id);
         if(acpCount>0){
-            throw new BusException(ResultEnum.APP_UNABLE_DELETE.getMsg());
+            throw new BusException("已关联商品，无法删除");
         }
-        if(pCount>0){
-            throw new BusException(ResultEnum.APP_UNABLE_DELETE.getMsg());
-        }
-        //如果没有使用过，可以删除
+        //获取厂商下面的所有游戏
+        List<String> result = appGameService.listPid(id.toString());
+        //删除厂商下面对应的游戏大区服务
+        appGameMapper.deleteBatch(result);
+        //如果没有使用过，删除厂商
         appCompanyMapper.delete(id);
     }
 

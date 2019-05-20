@@ -35,6 +35,8 @@ public enum ResultEnum {
     APP_NAME_NOTEMPTY(4021, "名称不能为空"),
     APP_EMPTY(4022, "资源不存在"),
 
+    ADMIN_UNABE_DELETE(6010, "无法下架，首页轮播或分组正在使用"),
+    ADMIN_UNABLE_DELETE_R(6012, "无法下架，首页推荐正在使用"),
     //=======================支付参数校验==================================
 
     APP_NOT_EXIST(5001, "商品不存在，请核实！"),

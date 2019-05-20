@@ -6,6 +6,7 @@ import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <b>功能：</b>登录<br>
@@ -29,4 +30,5 @@ public interface HomeRecommendCateMapper extends GenericMapper<HomeRecommendCate
     List<HomeRecommendCateVo> getList(@Param("type") Integer type, @Param("dealerId") String  dealerId);
 
 
+    Integer queryExistById(Map<String, Object> paramsMap);
 }

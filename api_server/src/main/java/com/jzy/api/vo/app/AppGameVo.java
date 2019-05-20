@@ -19,7 +19,7 @@ public class AppGameVo {
      * 主键
      */
 
-    private Long id;
+    private String id;
     /**
      * 父id
      */

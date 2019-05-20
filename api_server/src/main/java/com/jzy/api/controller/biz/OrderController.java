@@ -1,16 +1,9 @@
 package com.jzy.api.controller.biz;
 
-import com.github.pagehelper.Page;
-import com.jzy.api.cnd.biz.BackOrderCnd;
-import com.jzy.api.cnd.biz.CodeCnd;
-import com.jzy.api.cnd.biz.MonthOrderCnd;
-import com.jzy.api.cnd.biz.RunMonthOrderCnd;
+import com.jzy.api.cnd.biz.*;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.service.biz.OrderService;
-import com.jzy.api.vo.biz.BackMonthListVo;
-import com.jzy.api.vo.biz.BackOrderCountVo;
-import com.jzy.api.vo.biz.BackOrderDetailVo;
-import com.jzy.api.vo.biz.BackOrderListVo;
+import com.jzy.api.vo.biz.*;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
@@ -39,6 +32,15 @@ public class OrderController extends GenericController {
 
     @Resource
     private OrderService orderService;
+
+    @RequestMapping("/updateSupStatus")
+    public ApiResult updateSupStatus(@RequestBody SupStatusCnd supStatusCnd) {
+        orderService.updateSupStatus(supStatusCnd.getOrderId(), supStatusCnd.getSupStatus());
+        SupStatusVo supStatusVo = new SupStatusVo();
+        supStatusVo.setStatus(supStatusCnd.getSupStatus());
+        supStatusVo.setSupStatus(supStatusCnd.getSupStatus());
+        return new ApiResult<>().success(supStatusVo);
+    }
 
     /**
      * <b>功能描述：</b>订单详情查询<br>

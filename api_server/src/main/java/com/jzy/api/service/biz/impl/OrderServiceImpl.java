@@ -155,7 +155,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @param orderId 订单id
      */
     @Override
-    public int updateOrderStatusByActiveQuery(String orderId) {
+    public Order updateOrderStatusByActiveQuery(String orderId) {
         Order order = orderMapper.queryOrderById(orderId);
         if (order == null) {
             throw new BusException("订单不存在");
@@ -163,9 +163,12 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         PayService payService = paywayProvider.getPayService(order.getTradeMethod());
         // 查询支付状态
         int status = payService.queryOrderStatus(order);
-        // 更新支付状态
-        orderMapper.updateStatus(order.getOrderId(), status);
-        return 0;
+        if (status == 1) {
+            // 更新支付状态
+            orderMapper.updateOrderStatusByActiveQuery(order.getOrderId(), status, new Date());
+        }
+        order.setStatus(status);
+        return order;
     }
 
     /**
@@ -339,7 +342,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      */
     @Override
     public int updateSupStatus(String id, Integer supStatus) {
-        return orderMapper.updateSupStatus(id, supStatus, new Date());
+        return orderMapper.updateSupStatus(id, supStatus, supStatus, new Date());
     }
 
     /**
@@ -389,7 +392,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         Page page = PageHelper.startPage(backOrderCnd.getPage(), backOrderCnd.getLimit());
         // 订单列表查询
         List<Order> orderList = orderMapper.queryBackOrderList(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
-                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), getDealerId());
+                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), backOrderCnd.getDealerId(),
+                getDealerId());
         if (orderList == null || orderList.isEmpty()) {
             return new PageVo<>();
         }
@@ -405,7 +409,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     public List<Order> queryExcelExportBackOrderList(BackOrderCnd backOrderCnd) {
         PageHelper.startPage(backOrderCnd.getPage(), backOrderCnd.getLimit(), false);
         return orderMapper.queryBackOrderList(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
-                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), getDealerId());
+                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), backOrderCnd.getDealerId(),
+                getDealerId());
     }
 
     /**
@@ -416,7 +421,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     @Override
     public Order queryBackOrderCount(BackOrderCnd backOrderCnd) {
         return orderMapper.queryBackOrderCount(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
-                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), getDealerId());
+                backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), backOrderCnd.getDealerId(),
+                getDealerId());
     }
 
     /**

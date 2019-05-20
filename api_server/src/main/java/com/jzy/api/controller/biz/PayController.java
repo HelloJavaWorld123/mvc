@@ -72,7 +72,7 @@ public class PayController extends GenericController {
             throw new BusException(ResultEnum.APP_OFF_SHELVES);
         }
         // 根据商品id获取商品价格信息
-        List<DealerAppPriceInfo> dealerAppPriceInfoList = dealerAppPriceInfoService.queryAppPriceInfoByAppId(payCnd.getAppId());
+        List<DealerAppPriceInfo> dealerAppPriceInfoList = dealerAppPriceInfoService.queryAppPriceInfoByAppId(payCnd.getAppId(), payCnd.getAptId());
         if (dealerAppPriceInfoList == null || dealerAppPriceInfoList.isEmpty()) {
             throw new BusException(ResultEnum.APP_NOT_CONFIG_PRICE);
         }
@@ -113,9 +113,10 @@ public class PayController extends GenericController {
     @RequestMapping("/updateOrderStatusByActiveQuery")
     public ApiResult updateOrderStatusByActiveQuery(@RequestBody CodeCnd codeCnd) {
         ApiResult<StatusVo> apiResult = new ApiResult<>();
-        int status = orderService.updateOrderStatusByActiveQuery(codeCnd.getOrderId());
+        Order order = orderService.updateOrderStatusByActiveQuery(codeCnd.getOrderId());
         StatusVo statusVo = new StatusVo();
-        statusVo.setStatus(status);
+        statusVo.setStatus(order.getStatus());
+        statusVo.setAppId(order.getAppId() + "");
         return apiResult.success(statusVo);
     }
 
@@ -146,6 +147,7 @@ public class PayController extends GenericController {
         order.setGameArea(payCnd.getGameArea());
         order.setGameServ(payCnd.getGameServ());
         order.setAppId(payCnd.getAppId());
+        order.setAptId(payCnd.getAptId());
         order.setAppName(payCnd.getAppName());
         order.setRechargeMode(payCnd.getRechargeMode());
         // 交易状态为待支付

@@ -115,6 +115,11 @@ public class PayCnd extends GenericCnd {
     @NotNull
     private Long appId;
     /**
+     * 商品id
+     */
+    @NotNull
+    private Long aptId;
+    /**
      * 商品名称
      */
     @NotBlank

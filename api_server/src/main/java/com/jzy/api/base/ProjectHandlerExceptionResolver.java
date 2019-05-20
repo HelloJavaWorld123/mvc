@@ -54,11 +54,13 @@ public class ProjectHandlerExceptionResolver implements HandlerExceptionResolver
             ajaxJson(new ApiResult().fail(e.getMessage()), response);
             return null;
         }
-        log.error("其他异常", e);
-        ajaxJson(new ApiResult<>().fail(e.getMessage()), response);
+
+        log.error("系统错误或繁忙，或者网络错误。请稍后再试", e);
+       // ajaxJson(new ApiResult<>().fail(e.getMessage()), response);
+        ajaxJson(new ApiResult<>().fail("系统错误或繁忙，或者网络错误。请稍后再试"), response);
         return null;
     }
-    
+
     /**
      * <b>功能描述：</b>ajax输出json<br>
      * <b>修订记录：</b><br>

@@ -126,25 +126,4 @@ public class AppTypeController {
         }
         return new ApiResult<>();
     }
-
-    /**
-     * <b>功能描述：</b>编辑产品类型<br>
-     * <b>修订记录：</b><br>
-     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    @RequestMapping("admin/update")
-    public ApiResult update(@RequestBody AppTypeCnd appTypeCnd) {
-        try {
-            AppType appType = new AppType();
-            BeanUtils.copyProperties(appTypeCnd,appType);
-            appType.setId(appTypeCnd.getId());
-            appTypeService.edit(appType);
-        }catch (BusException e){
-            return new ApiResult().fail(e.getMessage());
-        }catch (Exception e){
-            logger.error("admin产品类型编辑异常:{}", e);
-            return new ApiResult().fail(OPERATION_FAILED);
-        }
-        return new ApiResult<>();
-    }
 }

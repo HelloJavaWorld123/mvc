@@ -31,6 +31,7 @@
         hrc.type as type
         FROM home_recommend_cate hrc
         WHERE 1=1
+        and hrc.del_flag =0
         <if test="status!=null">
             and hrc.state = #{status}
         </if>
@@ -50,6 +51,7 @@
         COUNT(1)
         FROM home_recommend_cate hrc
         WHERE 1=1
+        and hrc.del_flag =0
         <if test="status!=null">
             and hrc.state = #{status}
         </if>
@@ -71,9 +73,7 @@
     </update>
     <!--    批量逻辑删除-->
     <delete id="deleteBatch">
-        delete
-        from
-        home_recommend_cate
+        update home_recommend_cate set del_flag =1
         WHERE
         id =#{id}
     </delete>

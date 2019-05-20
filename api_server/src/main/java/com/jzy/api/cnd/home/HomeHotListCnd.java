@@ -1,18 +1,28 @@
-package com.jzy.api.model.Home;
+package com.jzy.api.cnd.home;
 
+import com.jzy.framework.bean.cnd.PageCnd;
 import lombok.Data;
 
 /**
- * <b>功能：</b>首页分组推荐详情<br>
+ * <b>功能：</b>渠道商推荐里跳转<br>
  * <b>Copyright JZY</b>
  * <ul>
  * <li>版本&nbsp;&nbsp;&nbsp;&nbsp;修改日期&nbsp;&nbsp;&nbsp;&nbsp;部　　门&nbsp;&nbsp;&nbsp;&nbsp;作　者&nbsp;&nbsp;&nbsp;&nbsp;变更内容</li>
  * <hr>
- * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190428&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;唐永刚&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
+ * <li>v1.0&nbsp;&nbsp;&nbsp;&nbsp;20190516&nbsp;&nbsp;技术中心&nbsp;&nbsp;&nbsp;&nbsp;鲁伟&nbsp;&nbsp;&nbsp;&nbsp;创建类</li>
  * </ul>
  */
 @Data
-public class HomeRecommendHotDetail {
+public class HomeHotListCnd extends PageCnd {
+
+    /**
+     * 主键
+     */
+    private Long id;
+    /**
+     * 商户基本信息id
+     */
+    private String dealerId;
 
     /**
      * 轮播图名称
@@ -25,30 +35,14 @@ public class HomeRecommendHotDetail {
     private String imageId;
 
     /**
-     * 主图图片url
-     */
-    private String imageUrl;
-
-    /**
      * 跳转类型 默认1-商品 2-分组
      */
     private Integer goType;
 
-
     /**
-     * 如果跳转的是商品则返回商品的信息
-     */
-    private HotAppInfoDetail hotAppInfoDetail;
-
-    /**
-     * 跳转到的定价id
+     * 跳转到的id
      */
     private String goId;
-
-    /**
-     * 跳转的商品id
-     */
-    private String aiId;
     /**
      * 跳转商品
      */
@@ -59,13 +53,20 @@ public class HomeRecommendHotDetail {
      */
     private Integer state;
 
+
     /**
      * 0上中  1左上 2左下 3 右上 4 右下
      */
     private Integer position;
+    /**
+     * 分组id
+     */
+    private String groupId;
+
+    /**
+     * 分组顺序 从0开始，数字越小 排在越上面
+     */
+    private Integer groupSort;
+
+
 }
-
-
-
-
-

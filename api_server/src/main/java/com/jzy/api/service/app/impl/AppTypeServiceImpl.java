@@ -97,21 +97,6 @@ private AppInfoMapper appInfoMapper;
         }
         appTypeMapper.delete(id);
     }
-
-    /**
-     * <b>功能描述：</b>产品类型编辑<br>
-     * <b>修订记录：</b><br>
-     * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    @Override
-    public void edit(AppType appType) {
-        int count =  appTypeMapper.getCountByNameNoId(appType.getName(),appType.getId());
-        if(count>0){
-            throw new BusException(ResultEnum.APP_UNABLE_DELETE.getMsg());
-        }
-        this.update(appType);
-    }
-
     @Override
     protected GenericMapper<AppType> getGenericMapper() {
         return appTypeMapper;
