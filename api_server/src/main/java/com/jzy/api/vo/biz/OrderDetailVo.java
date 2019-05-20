@@ -102,6 +102,11 @@ public class OrderDetailVo extends GenericVo {
      * 1：卡密
      */
     private int rechargeMode = 0;
+
+    /**
+     * 支付交易状态
+     */
+    private String tradeStatus;
     /**
      * 卡号
      */

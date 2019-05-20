@@ -149,6 +149,7 @@
         o.create_time,
         o.pay_time,
         o.finish_time,
+        o.trade_status,
         app.id appId,
         app. NAME appName,
         app.icon appIcon
