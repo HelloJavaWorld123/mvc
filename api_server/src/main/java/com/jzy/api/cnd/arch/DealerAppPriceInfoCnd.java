@@ -15,6 +15,10 @@ import java.math.BigDecimal;
  */
 @Data
 public class DealerAppPriceInfoCnd {
+    /**
+     * 主键
+     */
+    private Long id;
 
     /**
      * 金额
@@ -24,7 +28,7 @@ public class DealerAppPriceInfoCnd {
     /**
      * 支付金额
      */
-    private BigDecimal payPrice=BigDecimal.ZERO;
+    private BigDecimal payPrice = BigDecimal.ZERO;
 
     /**
      * sup价格
@@ -48,7 +52,7 @@ public class DealerAppPriceInfoCnd {
     /**
      * 折扣
      */
-    private BigDecimal discount=BigDecimal.ZERO;
+    private BigDecimal discount = BigDecimal.ZERO;
 
 
     /**

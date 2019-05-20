@@ -59,6 +59,7 @@ WHERE
 `ai_id` = #{aiId}
  and `apt_id` =#{aptId}
  and `dealer_id` =#{dealerId}
+ and id=#{id}
 
 
 
