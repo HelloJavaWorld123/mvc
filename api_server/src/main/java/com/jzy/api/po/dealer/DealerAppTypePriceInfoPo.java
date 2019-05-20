@@ -1,7 +1,6 @@
 package com.jzy.api.po.dealer;
 
 
-import com.jzy.api.model.dealer.DealerAppPriceInfo;
 import com.jzy.api.po.arch.DealerAppPriceInfoPo;
 import lombok.Data;
 
@@ -39,6 +38,21 @@ public class DealerAppTypePriceInfoPo {
      * 是否允许用户自定义输入金额
      */
     private Integer isCustom;
+
+    /**
+     * 用户输入数量倍数
+     */
+    private Integer multiple = 1;
+
+    /**
+     * 最小充值数量
+     */
+    private Integer minmum = 1;
+
+    /**
+     * 最大充值数量
+     */
+    private Integer maxmum = 1;
 
     /**
      * 充值面值列表
