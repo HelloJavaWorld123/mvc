@@ -24,7 +24,7 @@
         <result column="position" property="position"></result>
         <association property="hotAppInfoDetail" javaType="com.jzy.api.model.Home.HotAppInfoDetail">
             <result column="name" property="appName"></result>
-            <result column="file_url" property="appIcon"></result>
+            <result column="icon" property="appIcon"></result>
             <result column="number" property="typeNumber"></result>
             <result column="type_name" property="typeName"></result>
             <result column="unit" property="typeUnit"></result>
@@ -119,7 +119,7 @@
 
     <!--首页分组推荐-->
     <select id="getHomeRecommendHotDetails" resultMap="personalHistoryAffairMapper">
-        select  ai.name,img.file_url,appinfo.rci_name,appinfo.image_id,appinfo.image_url,
+        select  ai.name,ai.icon,appinfo.rci_name,appinfo.image_id,appinfo.image_url,
         appinfo.go_type,appinfo.go_id,appinfo.go_name,appinfo.state,appinfo.position,apt.name as type_name,
         apt.unit,dapi.ai_id,dapi.number,dapi.price,dapi.pay_price,dapi.discount from
         (select a.dealer_id,b.rci_name,b.image_id,b.image_url,b.go_type,b.go_id,b.go_name,a.state,b.position from
@@ -127,7 +127,6 @@
         home_recommend_hot b on a.id=b.group_id) appinfo left join dealer_app_price_info dapi on appinfo.go_id=dapi.id
         left join  app_price_type apt on apt.id = dapi.apt_id
         and dapi.ai_id = apt.ai_id  left join app_info ai on apt.ai_id = ai.id
-        left join sys_images as img on img.type = 1 and img.rel_id = ai.id
     </select>
 
     <!--insert-->
