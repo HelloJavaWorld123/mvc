@@ -15,6 +15,12 @@ import java.math.BigDecimal;
  */
 @Data
 public class DealerAppPriceInfoPo {
+
+    /**
+     * 面值表主键
+     */
+    private String id;
+
     /**
      * 金额
      */

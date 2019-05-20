@@ -385,6 +385,7 @@ WHERE
     <select id="getDealerAppPriceInfo"
             resultType="com.jzy.api.po.arch.DealerAppPriceInfoPo">
             SELECT
+            id,
                 price,
                 pay_price as payPrice,
                 sup_price as supPrice,
@@ -493,7 +494,7 @@ WHERE
             and dealer_id=#{dealerId}
             and apt_id=#{aptId}
     </select>
-<!--  渠道商商品面值表根据主键删除  -->
+    <!--  渠道商商品面值表根据主键删除  -->
     <delete id="deleteAppPriceInfoById">
 
         delete
