@@ -38,10 +38,11 @@
         WHERE ag.type = 3
 
         <if test="areaId!=null and areaId!=0">
-            AND ag.p_id = #{areaId}
+            AND ag.p_id = #{areaId} and name is not null and name!=''
         </if>
         <if test="areaId==null or areaId==0">
-            AND ag.p_id = (SELECT id FROM app_game WHERE p_id = (SELECT game_id FROM app_info where id = #{aiId} LIMIT 1) LIMIT 1)
+            AND ag.p_id = (SELECT id FROM app_game WHERE p_id = (SELECT game_id FROM app_info where id = #{aiId} LIMIT 1)
+            and name is not null and name!='' LIMIT 1)
         </if>
     </select>
 

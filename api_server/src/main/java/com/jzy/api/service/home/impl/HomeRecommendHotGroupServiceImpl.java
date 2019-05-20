@@ -98,7 +98,7 @@ public class HomeRecommendHotGroupServiceImpl extends GenericServiceImpl<HomeRec
      * <b>修订记录：</b><br>
      * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
+
     @Override
     public void delete(Long id) {
         int count = homeRecommendHotGroupMapper.getByIdStatus(id);
