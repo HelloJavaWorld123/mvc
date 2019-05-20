@@ -107,6 +107,19 @@ public class OrderDetailVo extends GenericVo {
      * 支付交易状态
      */
     private String tradeStatus;
+
+    /**
+     * 游戏账号
+     */
+    private String gameAccount;
+    /**
+     * 游戏区
+     */
+    private String gameArea;
+    /**
+     * 游戏服
+     */
+    private String gameServ;
     /**
      * 卡号
      */
