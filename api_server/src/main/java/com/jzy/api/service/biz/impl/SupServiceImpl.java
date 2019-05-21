@@ -73,7 +73,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
             return;
         }
         order.setStatus(1);
-        order.setSupStatus(1);
+        order.setSupStatus(0);
         order.setTradeCode(order.getTradeCode());
         order.setTradeFee(order.getTradeFee());
         order.setTradeStatus(Order.TradeStatusConst.PAY_SUCCESS);
@@ -187,7 +187,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
                 }
             }
             // 更新支付状态
-            orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 2, Order.TradeStatusConst.FINISHED,2);
+            orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 2, Order.TradeStatusConst.PAY_SUCCESS,2);
         } else {
             // SUP充值失败，进行支付宝或微信退单
             orderService.tradeRefund(order);

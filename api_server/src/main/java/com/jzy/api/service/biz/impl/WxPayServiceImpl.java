@@ -155,7 +155,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         payMap.put("tradeMethod", "0");
         payMap.put("orderId", order.getOrderId());
         if (WXPayConstants.FAIL.equals(responseData.get("result_code"))) {
-            order.setStatus(3);
+            //order.setStatus(3);
             return new ApiResult<>(responseData.get("err_code_des"));
         }
         if (isUserAuth) {
