@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 
+<!--
 	SQL映射文件名称：前台用户信息保存
 	————————————————————————————————————
 	修改日期		作者		变更内容
@@ -45,7 +45,7 @@
         FROM
         user_auth
         WHERE
-        user_id =  #{userId}
+        (user_id =  #{userId} or open_id =#{userId} )
     </select>
 
 </mapper>
