@@ -1,6 +1,7 @@
 package com.jzy.api.service.arch;
 
 import com.jzy.api.model.dealer.DealerAppInfo;
+import com.jzy.api.po.app.AppStatus;
 import com.jzy.framework.service.GenericService;
 
 /**
@@ -21,5 +22,5 @@ public interface DealerAppInfoService extends GenericService<DealerAppInfo> {
      *
      * @param appId 商品id
      */
-    Integer queryAppStatus(Long appId);
+    AppStatus queryAppStatus(Long appId);
 }
