@@ -123,11 +123,13 @@
     </update>
 
     <!-- 查询商品的状态 -->
-    <select id="queryAppStatus" resultType="java.lang.Integer">
+    <select id="queryAppStatus" resultType="com.jzy.api.po.app.AppStatus">
         SELECT
-        status
+        dealerAppInfo.status dealerAppStatus,
+        appInfo.status appStatus
         FROM
-        dealer_app_info
+        dealer_app_info dealerAppInfo
+        INNER JOIN app_info appInfo ON dealerAppInfo.ai_id = appInfo.id
         WHERE
         ai_id = #{appId}
         AND dealer_id = #{dealerId}

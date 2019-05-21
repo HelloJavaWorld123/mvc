@@ -17,8 +17,10 @@ import com.jzy.api.service.wx.WXPayConfig;
 import com.jzy.api.service.wx.WXPayUtil;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.DateUtils;
+import com.jzy.api.util.MD5Util;
 import com.jzy.api.util.MyHttp;
 import com.jzy.framework.cache.EmpCache;
+import com.jzy.framework.cache.UserCache;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.exception.PayException;
@@ -27,6 +29,8 @@ import com.jzy.framework.service.impl.GenericServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.apache.commons.codec.binary.Base64;
+import org.redisson.api.RBucket;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -40,6 +44,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static com.jzy.api.constant.WXPayConstants.*;
 import static com.jzy.api.constant.WechatConstant.*;
@@ -290,12 +295,32 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
                 userAuth.setOpenId(result.getString(WechatConstant.OPENID));
                 userAuth.setUserId(userId);
                 userAuthService.update(userAuth);
+                cacheUserCache(userId, userAuth.getOpenId());
             } else {
                 log.error("：：：Wechat website failed to get oauth_token - errcode:" + result.getString(WechatConstant.ERRCODE) + ", errmsg:"
                         + result.getString(WechatConstant.ERRMSG));
             }
         }
         return oAuthToken;
+    }
+
+    @Resource
+    private RedissonClient redissonClient;
+
+    /**
+     * <b>功能描述：</b>重新缓存用户信息<br>
+     * <b>修订记录：</b><br>
+     * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private void cacheUserCache(String userId, String openId) {
+        String token = MD5Util.string2MD5(userId);
+        RBucket<UserCache> userCacheRBucket = redissonClient.getBucket(token);
+        UserCache userCache = userCacheRBucket.get();
+        if (userCache == null) {
+            throw new BusException("会员超时");
+        }
+        userCache.setUserId(openId);
+        userCacheRBucket.set(userCache, 1, TimeUnit.DAYS);
     }
 
     /**

@@ -79,7 +79,11 @@ public class WxPayController extends GenericController {
     public ModelAndView authCallback(@RequestParam(defaultValue = "") String code, @RequestParam(defaultValue = "") String state,
                                        HttpServletRequest req, HttpServletResponse resp, ModelMap model) throws IOException {
         if (!"authdeny".equals(code)) {
-            wxPayService.updateSecurityToken(code, state);
+            try {
+                wxPayService.updateSecurityToken(code, state);
+            } catch (BusException e) {
+                model.put("errmsg", e.getMessage());
+            }
             return new ModelAndView(new RedirectView(PayConfig.getH5DomainUrl()));
         }
         // 用户未授权返回提示用户取消授权

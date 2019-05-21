@@ -109,18 +109,6 @@ public class OrderDetailVo extends GenericVo {
     private String tradeStatus;
 
     /**
-     * 游戏账号
-     */
-    private String gameAccount;
-    /**
-     * 游戏区
-     */
-    private String gameArea;
-    /**
-     * 游戏服
-     */
-    private String gameServ;
-    /**
      * 卡号
      */
     private List<CardPwdVo> cardPwdList = new ArrayList<>();

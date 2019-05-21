@@ -4,6 +4,7 @@ import com.jzy.api.cnd.biz.CodeCnd;
 import com.jzy.api.cnd.biz.PayCnd;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.model.dealer.DealerAppPriceInfo;
+import com.jzy.api.po.app.AppStatus;
 import com.jzy.api.service.arch.DealerAppInfoService;
 import com.jzy.api.service.arch.DealerAppPriceInfoService;
 import com.jzy.api.service.biz.OrderService;
@@ -64,11 +65,14 @@ public class PayController extends GenericController {
      */
     private void validate(PayCnd payCnd) {
         // 根据商品id获取商品信息
-        Integer status = dealerAppInfoService.queryAppStatus(payCnd.getAppId());
-        if (status == null) {
+        AppStatus appStatus = dealerAppInfoService.queryAppStatus(payCnd.getAppId());
+        if (appStatus.getAppStatus() == null || appStatus.getAppStatus() == 0) {
+            throw new BusException(ResultEnum.APP_FORBIDDEN);
+        }
+        if (appStatus.getDealerAppStatus() == null) {
             throw new BusException(ResultEnum.APP_NOT_EXIST);
         }
-        if (status != 1) {
+        if (appStatus.getDealerAppStatus() != 1) {
             throw new BusException(ResultEnum.APP_OFF_SHELVES);
         }
         // 根据商品id获取商品价格信息

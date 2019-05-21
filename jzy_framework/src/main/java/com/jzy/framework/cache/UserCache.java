@@ -9,4 +9,11 @@ public class UserCache {
 
     private Integer dealerId;
 
+    public UserCache() {
+    }
+
+    public UserCache(String userId, Integer dealerId) {
+        this.userId = userId;
+        this.dealerId = dealerId;
+    }
 }

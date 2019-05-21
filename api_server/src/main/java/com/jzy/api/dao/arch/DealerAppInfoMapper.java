@@ -1,6 +1,7 @@
 package com.jzy.api.dao.arch;
 
 import com.jzy.api.model.dealer.DealerAppInfo;
+import com.jzy.api.po.app.AppStatus;
 import com.jzy.api.po.dealer.AppSearchPo;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
@@ -41,6 +42,6 @@ public interface DealerAppInfoMapper extends GenericMapper<DealerAppInfo> {
      * @param appId 商品i
      * @param dealerId 代理商id
      */
-    Integer queryAppStatus(@Param("appId") Long appId, @Param("dealerId") Integer dealerId);
+      AppStatus queryAppStatus(@Param("appId") Long appId, @Param("dealerId") Integer dealerId);
 
 }
