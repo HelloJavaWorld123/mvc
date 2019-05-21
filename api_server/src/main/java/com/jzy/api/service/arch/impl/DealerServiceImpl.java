@@ -172,7 +172,11 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
             if (empService.checkNameList(emp.getName(), emp.getDealerId() + "").size() > 0) {
                 throw new ExcelException("渠道商登录用户名重复，请重新输入！");
             }
-            empService.update(emp);
+            Integer rows = empService.update(emp);
+            if (rows.equals(0)){
+                emp.setId(tableKeyService.newKey("sys_emp", "id", 0));
+                empService.insert(emp);
+            }
         }
     }
 
