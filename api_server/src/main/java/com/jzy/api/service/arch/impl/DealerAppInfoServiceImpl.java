@@ -2,6 +2,7 @@ package com.jzy.api.service.arch.impl;
 
 import com.jzy.api.dao.arch.DealerAppInfoMapper;
 import com.jzy.api.model.dealer.DealerAppInfo;
+import com.jzy.api.po.app.AppStatus;
 import com.jzy.api.service.arch.DealerAppInfoService;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
@@ -33,7 +34,7 @@ public class DealerAppInfoServiceImpl extends GenericServiceImpl<DealerAppInfo> 
      * @param appId 商品id
      */
     @Override
-    public Integer queryAppStatus(Long appId) {
+    public AppStatus queryAppStatus(Long appId) {
         return dealerAppInfoMapper.queryAppStatus(appId, getFrontDealerId());
     }
 
