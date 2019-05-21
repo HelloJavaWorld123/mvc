@@ -352,7 +352,8 @@
         o.trade_method,
         o. status,
         o.sup_status,
-        o.pay_time
+        o.pay_time,
+        o.create_time
         FROM
         `order` o
         INNER JOIN app_info app ON o.app_id = app.id
