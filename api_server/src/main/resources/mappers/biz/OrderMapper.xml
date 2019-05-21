@@ -184,11 +184,8 @@
         WHERE
         o.del_flag = 0
         AND o.user_id = #{userId}
-        <if test="status != null and status != 10">
+        <if test="status != null">
             AND o.status = #{status}
-        </if>
-        <if test="status == 10">
-            AND o.status IN (2,3)
         </if>
         ORDER BY o.create_time DESC
     </select>
