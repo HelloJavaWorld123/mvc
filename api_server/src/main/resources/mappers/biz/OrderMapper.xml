@@ -434,6 +434,50 @@
         </if>
     </select>
 
+    <!-- 查询实付金额和代理商成本 -->
+    <select id="queryTradeFeeAndDealerPrice" resultMap="order">
+        SELECT
+        IFNULL(SUM(price), 0) priceTotal,
+        IFNULL(SUM(total_fee), 0) totalFeeTotal,
+        IFNULL(SUM(trade_fee), 0) tradeFeeTotal,
+        IFNULL(SUM(dealer_price), 0) dealerPriceTotal
+        FROM
+        `order` o
+        INNER JOIN dealer d ON o.dealer_id = d.id
+        <if test="key != null and key != ''">
+            AND d.name LIKE concat(concat('%',#{key}),'%')
+        </if>
+        WHERE
+        1 = 1
+        <if test="startDate != null and endDate != null">
+            AND o.create_time >= #{startDate}
+            AND o.create_time &lt; #{endDate}
+        </if>
+        <if test="dealerId != 0">
+            AND o.dealer_id = #{dealerId}
+        </if>
+        <if test="inputDealerId != null">
+            AND d.id = #{inputDealerId}
+        </if>
+        <if test="supStatus != null">
+            AND o.sup_status = #{supStatus}
+        </if>
+        <if test="status != null and status != 10">
+            AND o.status = #{status}
+        </if>
+        <if test="status == 10">
+            AND o.status IN (2,3,4)
+        </if>
+        <if test="key != null and key!= ''">
+            AND (
+            o.code LIKE concat(concat('%',#{key}),'%')
+            OR o.out_trade_no LIKE concat(concat('%',#{key}),'%')
+            OR o.account LIKE concat(concat('%',#{key}),'%')
+            OR d.name LIKE concat(concat('%',#{key}),'%')
+            )
+        </if>
+    </select>
+
     <!-- 月订单列表查询 -->
     <select id="queryMonthOrderList" resultMap="order">
         SELECT
