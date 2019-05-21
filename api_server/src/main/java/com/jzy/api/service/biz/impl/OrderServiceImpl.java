@@ -119,7 +119,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         if (StringUtils.isEmpty(orderId)) {
             isTempOrder = true;
             order.setOrderId(CommUtils.uniqueOrderStr());
-            order.setCode(DateUtils.date2TimeStr(new Date()).concat(CommUtils.authCode()));
+            //order.setCode(DateUtils.date2TimeStr(new Date()).concat(CommUtils.authCode()));
             order.setDealerId(getFrontDealerId() + "");
 
             Dealer dealer = dealerService.queryDealer(order.getDealerId());

@@ -78,6 +78,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         order.setTradeFee(order.getTradeFee());
         order.setTradeStatus(Order.TradeStatusConst.PAY_SUCCESS);
         order.setPayTime(new Date());
+        order.setCode(transactionId);
         orderService.update(order);
         // 构造请求SUP参数
         String requestData = buildRequestParam(order);

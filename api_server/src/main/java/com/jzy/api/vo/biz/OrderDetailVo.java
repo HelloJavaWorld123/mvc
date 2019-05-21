@@ -108,6 +108,9 @@ public class OrderDetailVo extends GenericVo {
      */
     private String tradeStatus;
 
+    /*交易单号*/
+    private String code;
+
     /**
      * 卡号
      */
