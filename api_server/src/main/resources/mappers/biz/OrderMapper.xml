@@ -538,6 +538,6 @@
     </sql>
 
     <select id="queryOrderIdByoutTradeNo" parameterType="java.lang.String" resultType="java.lang.String">
-        select id from order where out_trade_no = #{outTradeNo}
+        select id from `order` where out_trade_no = #{outTradeNo}
     </select>
 </mapper>
