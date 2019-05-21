@@ -24,6 +24,8 @@ import com.jzy.framework.exception.PayException;
 import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RAtomicLong;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -67,6 +69,21 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     @Resource
     private DealerService dealerService;
 
+    @Resource
+    private RedissonClient redissonClient;
+
+    private Long genCode(String dealerId){
+        Long curVal = 1000000L;
+        final String genKey = "dealer:".concat(dealerId);
+        RAtomicLong pkIndex = redissonClient.getAtomicLong(genKey);
+        if (pkIndex.isExists()) {
+            curVal = pkIndex.incrementAndGet();
+        } else {
+            pkIndex.getAndAdd(curVal);
+        }
+        return curVal;
+    }
+
     /**
      * 订单超时时间
      */
@@ -104,8 +121,16 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             order.setOrderId(CommUtils.uniqueOrderStr());
             order.setCode(DateUtils.date2TimeStr(new Date()).concat(CommUtils.authCode()));
             order.setDealerId(getFrontDealerId() + "");
+
+            Dealer dealer = dealerService.queryDealer(order.getDealerId());
+            String outTradeNo = DateUtils.getFormatDate(new Date(),"yyyyMMdd").concat(dealer.getIdnum().replace("Num","")).concat(genCode(order.getDealerId())+"");
+            //订单编号规则改变
+            order.setOutTradeNo(outTradeNo);
         }
-        order.setOutTradeNo(order.getOrderId().concat(CommUtils.getStringRandom(7)));
+
+
+
+        //order.setOutTradeNo(order.getOrderId().concat(CommUtils.getStringRandom(7)));
         // 获取具体的支付方式
         PayService payService = paywayProvider.getPayService(payWayId);
         // 支付
@@ -201,6 +226,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         for (Order order : orderList) {
             FrontOrderVo frontOrderVo = new FrontOrderVo();
             frontOrderVo.setOrderId(order.getOrderId());
+            frontOrderVo.setOutTradeNo(order.getOutTradeNo());
             frontOrderVo.setCode(order.getCode());
             frontOrderVo.setPrice(order.getPrice());
             frontOrderVo.setTotalFee(order.getTotalFee());
@@ -443,6 +469,11 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             return new PageVo<>();
         }
         return new PageVo<>(page.getPageNum(), page.getPageSize(), page.getTotal(), orderList);
+    }
+
+    @Override
+    public String queryOrderIdByoutTradeNo(String outTradeNo) {
+        return orderMapper.queryOrderIdByoutTradeNo(outTradeNo);
     }
 
     /**

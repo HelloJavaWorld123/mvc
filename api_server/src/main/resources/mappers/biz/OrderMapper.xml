@@ -164,6 +164,7 @@
     <select id="queryFrontOrderList" resultType="com.jzy.api.model.biz.Order">
         SELECT
         o.id orderId,
+        o.out_trade_no as outTradeNo,
         o.code,
         o.price,
         o.status,
@@ -532,4 +533,7 @@
         modifier_id = #{modifierId}, modify_time = #{modifyTime}
     </sql>
 
+    <select id="queryOrderIdByoutTradeNo" parameterType="java.lang.String" resultType="java.lang.String">
+        select id from order where out_trade_no = #{outTradeNo}
+    </select>
 </mapper>

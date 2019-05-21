@@ -120,8 +120,11 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
      */
     @Override
     public void updateSupCallback(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
         String outTradeNo = request.getParameter("userOrderId");
-        String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
+        //String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
+        String orderId = orderService.queryOrderIdByoutTradeNo(outTradeNo);
+
         Order order = orderService.queryOrderById(orderId);
         if (order == null) {
             log.debug("SUP订单异步通知order查询为null,userOrderId=" + outTradeNo);

@@ -16,6 +16,7 @@
     <select id="queryById" resultType="com.jzy.api.model.dealer.Dealer">
         SELECT
         id as dealerId,
+        idnum,
         pubkey,
         prikey,
         sup_businessid supBusinessid,

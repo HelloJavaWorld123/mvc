@@ -195,4 +195,5 @@ public interface OrderService extends GenericService<Order> {
      */
     void runMonthOrderList(RunMonthOrderCnd runMonthOrderCnd);
 
+    String queryOrderIdByoutTradeNo(String outTradeNo);
 }

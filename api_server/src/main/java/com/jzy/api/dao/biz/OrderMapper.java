@@ -203,4 +203,6 @@ public interface OrderMapper extends GenericMapper<Order> {
     int updateOrderStatusByActiveQuery(@Param("id") String id,
                                        @Param("status") Integer status,
                                        @Param("payTime") Date payTime);
+
+    String queryOrderIdByoutTradeNo(String outTradeNo);
 }

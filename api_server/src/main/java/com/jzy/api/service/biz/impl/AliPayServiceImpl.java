@@ -2,9 +2,11 @@ package com.jzy.api.service.biz.impl;
 
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
+import com.jzy.api.dao.biz.OrderMapper;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.model.biz.TradeRecord;
 import com.jzy.api.service.biz.AliPayService;
+import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.service.biz.SupService;
 import com.jzy.api.service.biz.TradeRecordService;
 import com.jzy.api.util.AlipayUtil;
@@ -50,6 +52,9 @@ public class AliPayServiceImpl implements AliPayService {
 
     @Resource
     private SupService supService;
+
+    @Resource
+    private OrderService orderService;
 
     /**
      * <b>功能描述：</b>支付<br>
@@ -141,7 +146,10 @@ public class AliPayServiceImpl implements AliPayService {
         String tradeNo = respMap.get("trade_no");
         String tradeStatus = respMap.get("trade_status");
         boolean isSuccess = "TRADE_SUCCESS".equals(tradeStatus);
-        String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
+
+        //String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
+        String orderId = orderService.queryOrderIdByoutTradeNo(outTradeNo);
+
         Integer status = isSuccess ? 4 : 3;
         tradeRecordService.updateAliPayCallbackStatus(tradeNo, status, respMap.toString(), outTradeNo, 1);
         if (isSuccess) {

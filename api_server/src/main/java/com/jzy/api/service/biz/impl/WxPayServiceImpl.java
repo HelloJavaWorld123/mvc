@@ -223,7 +223,9 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
                 String transactionId = notifyMap.get("transaction_id");
                 String totalFee = notifyMap.get("total_fee");
                 BigDecimal tradeFee = new BigDecimal(WXPayUtil.changeF2Y(totalFee));
-                String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
+                //String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
+                String orderId = orderService.queryOrderIdByoutTradeNo(outTradeNo);
+
                 tradeRecordService.updateWxCallbackStatus(transactionId, notifyMap.get("result_code").equalsIgnoreCase(SUCCESS) ? 4 : 3, notifyMap.toString(), notifyMap.get("attach"), 1);
                 // 业务处理
                 // 注意特殊情况：订单已经退款，但收到了支付结果成功的通知，不应把商户侧订单状态从退款改成支付成功
@@ -246,7 +248,10 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
             boolean refundStatus = reqInfoMap.get("refund_status").equalsIgnoreCase(SUCCESS);
             String outRefundNo = reqInfoMap.get("out_refund_no");
             String outTradeNo = reqInfoMap.get("out_trade_no");
-            String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
+
+            //String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
+            String orderId = orderService.queryOrderIdByoutTradeNo(outTradeNo);
+
             tradeRecordService.updateBgRespByOperatorStatus(reqInfoMap.get("refund_id"), refundStatus ? 4 : 3, reqInfoMap.toString(), outRefundNo, 1);
             if (refundStatus) {
                 orderService.updateTradeStatus(orderId, Order.TradeStatusConst.REFUND_SICCESS);
