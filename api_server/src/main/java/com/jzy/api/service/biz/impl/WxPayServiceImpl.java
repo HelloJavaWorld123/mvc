@@ -62,7 +62,7 @@ import static com.jzy.api.constant.WechatConstant.*;
 @Service
 public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService {
 
-    private static final String SYSTEM_OPERATION = "System Operation";
+    private static final String SYSTEM_OPERATION = "充值失败";
 
     @Value("${basic_site_dns}")
     private String domainUrl;
