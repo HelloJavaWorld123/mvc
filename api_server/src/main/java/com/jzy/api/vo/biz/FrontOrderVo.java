@@ -62,4 +62,21 @@ public class FrontOrderVo extends GenericVo {
      */
     private String appIcon;
 
+    /**
+     * 充值账号
+     */
+    private String account;
+    /**
+     * 游戏账号
+     */
+    private String gameAccount;
+    /**
+     * 游戏区
+     */
+    private String gameArea;
+    /**
+     * 游戏服
+     */
+    private String gameServ;
+
 }

@@ -90,9 +90,6 @@ public class FrontOrderController extends GenericController {
         orderDetailVo.setAppIcon(order.getAppIcon());
         orderDetailVo.setRechargeMode(order.getRechargeMode());
         orderDetailVo.setTradeStatus(order.getTradeStatus());
-        orderDetailVo.setGameAccount(order.getGameAccount());
-        orderDetailVo.setGameArea(order.getGameArea());
-        orderDetailVo.setGameServ(order.getGameServ());
         if (order.getCardPwdList() != null && !order.getCardPwdList().isEmpty()) {
             orderDetailVo.setCardPwdList(convert(order.getCardPwdList(), CardPwdVo.class));
         }

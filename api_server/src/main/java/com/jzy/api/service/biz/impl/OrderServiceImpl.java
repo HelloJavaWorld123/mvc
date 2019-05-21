@@ -211,6 +211,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             frontOrderVo.setAppId(order.getAppId() + "");
             frontOrderVo.setAppName(order.getAppName());
             frontOrderVo.setAppIcon(order.getAppIcon());
+            frontOrderVo.setAccount(order.getAccount());
+            frontOrderVo.setGameAccount(order.getGameAccount());
+            frontOrderVo.setGameArea(order.getGameArea());
+            frontOrderVo.setGameServ(order.getGameServ());
             frontOrderVoList.add(frontOrderVo);
         }
         return frontOrderVoList;
