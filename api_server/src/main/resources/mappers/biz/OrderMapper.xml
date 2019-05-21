@@ -100,6 +100,9 @@
         remark = #{remark},
         pay_time = #{payTime},
         <include refid="updateCommon"/>
+        <if test="code !=null and code !=''">
+            ,code = #{code}
+        </if>
         WHERE
         id = #{orderId}
     </update>
@@ -133,6 +136,7 @@
     <select id="queryOrderDetail" resultMap="order">
         SELECT
         o.id,
+        o.code,
         o.type,
         o.acct_type,
         o.number,
