@@ -53,6 +53,6 @@ public class AppPriceTypeForDetailPo {
     /**
      * 1元兑换比例
      */
-    private Integer subscriptionRatio =1;
+    private String subscriptionRatio;
 
 }

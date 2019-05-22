@@ -21,7 +21,7 @@ public class AppPriceTypePo {
     private BigDecimal maxMum;          // 商品充值类型 - 最大充值面值
     private BigDecimal minMum;         // 商品充值类型 - 最小充值面值
     private BigDecimal multiple;          // 商品充值类型 - 充值倍数
-    private BigDecimal subscriptionRatio;   // 商品充值类型 - 1元兑换比例
+    private String subscriptionRatio;   // 商品充值类型 - 1元兑换比例
     /**
      * 是否允许用户输入自定义金额
      */
