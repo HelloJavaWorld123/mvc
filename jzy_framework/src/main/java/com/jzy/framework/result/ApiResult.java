@@ -57,6 +57,12 @@ public class ApiResult<T> {
         return this;
     }
 
+    public ApiResult fail(String msg,Integer code) {
+        this.code = code;
+        this.msg = msg;
+        return this;
+    }
+
     public ApiResult fail(ResultEnum resultEnum) {
         this.code = resultEnum.getCode();
         this.msg = resultEnum.getMsg();
