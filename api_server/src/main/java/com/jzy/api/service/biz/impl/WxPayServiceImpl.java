@@ -232,7 +232,10 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
                 if (notifyMap.get("result_code").equalsIgnoreCase(SUCCESS)) {
                     supService.commitOrderToSup(orderId, transactionId, tradeFee);
                 } else {
-                    orderService.tradeRefund(orderService.queryOrderById(orderId));
+                    boolean flag = orderService.tradeRefund(orderService.queryOrderById(orderId));
+                    if(flag){
+                        orderService.updateStatusTradeStatusSupStatus(orderId, 5, Order.TradeStatusConst.REFUND_SICCESS, 3);
+                    }
                 }
                 returnCode = SUCCESS;
                 log.debug("：：：Wechat Notify Sign Verify Success.".concat(notifyMap.toString()));

@@ -98,9 +98,11 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
             orderService.updateSupStatus(order.getOrderId(), 1);
         } else {
             // sup同步返回失败，退单
-            tradeRefund(order);
+            boolean flag = tradeRefund(order);
             // 修改订单状态为已退款，支付失败
-            orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 3, Order.TradeStatusConst.REFUND_SICCESS,3);
+            if (flag) {
+                orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 5, Order.TradeStatusConst.REFUND_SICCESS, 3);
+            }
         }
         // SUP充值记录
         SupRecord supRecord = supRecordMapper.querySupRecordByOrderId(order.getOrderId());
@@ -194,9 +196,11 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
             orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 2, Order.TradeStatusConst.PAY_SUCCESS,2);
         } else {
             // SUP充值失败，进行支付宝或微信退单
-            orderService.tradeRefund(order);
+            boolean flag = orderService.tradeRefund(order);
             // SUP回调返回失败，更新订单状态
-            orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 3, Order.TradeStatusConst.REFUND_SICCESS,3);
+            if(flag) {
+                orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 5, Order.TradeStatusConst.REFUND_SICCESS, 3);
+            }
         }
         response.getWriter().write("<receive>ok</receive>");
     }
@@ -206,9 +210,9 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    private void tradeRefund(Order order) {
+    private boolean tradeRefund(Order order) {
         PayService payService = paywayProvider.getPayService(order.getTradeMethod());
-        payService.orderBack(order);
+        return payService.orderBack(order);
     }
 
     /**
@@ -255,7 +259,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         urlData.append("businessId=").append(supBusinessId)
                 .append("&userOrderId=").append(order.getOutTradeNo())
                 .append("&goodsId=").append(order.getSupNo())
-                .append("&userName=").append(StringUtils.isEmpty(order.getAccount())?"000000":order.getAccount())
+                .append("&userName=").append(StringUtils.isEmpty(order.getAccount()))
                 .append("&gameName=").append(order.getAppName())
                 .append("&gameAcct=").append(order.getGameAccount())
                 .append("&gameArea=").append(gameArea)

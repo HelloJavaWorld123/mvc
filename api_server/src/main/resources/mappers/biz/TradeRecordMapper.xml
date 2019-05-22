@@ -103,11 +103,11 @@
     <!-- 当订单为退款状态时，查询退款单号 -->
     <select id="queryRefundCodeByOutTradeNo" resultType="com.jzy.api.model.biz.TradeRecord">
          SELECT
-         id tradeRecordId,
-         mark_id markId
-         FROM trade_record
+         a.id tradeRecordId,
+         a.mark_id markId
+         FROM trade_record a inner join `order` b on a.operator=b.out_trade_no
          WHERE
-         operator = #{operator}
+         b.id = #{id}
     </select>
 
     <!-- 查询 -->

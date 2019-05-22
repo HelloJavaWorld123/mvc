@@ -41,7 +41,11 @@ public class ProjectHandlerExceptionResolver implements HandlerExceptionResolver
                 ajaxJson(new ApiResult().fail(ResultEnum.SESSION_VALID), response);
                 return null;
             }
-            ajaxJson(new ApiResult().fail(e.getMessage()), response);
+            if(((BusException) e).getCode()==null) {
+                ajaxJson(new ApiResult().fail(e.getMessage()), response);
+            }else {
+                ajaxJson(new ApiResult().fail(e.getMessage(), ((BusException) e).getCode()), response);
+            }
             return null;
         }
         if (e instanceof PayException) {

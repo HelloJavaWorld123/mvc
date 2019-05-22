@@ -94,6 +94,10 @@ public class BackOrderDetailVo extends GenericVo {
      */
     private Long appId;
     /**
+     * 商品code
+     */
+    private String appCode;
+    /**
      * 商品名称
      */
     private String appName;
