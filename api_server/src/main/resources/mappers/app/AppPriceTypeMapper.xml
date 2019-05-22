@@ -140,9 +140,11 @@
         <if test="multiple!=null">
             `multiple` = #{multiple},
         </if>
-        <if test="subscriptionRatio!=null">
+
+        <!--<if test="subscriptionRatio!=null">-->
+        <!-- update by jiazk，2019.05.22，1元兑换比例需要支持清空操作 -->
             `subscription_ratio` = #{subscriptionRatio},
-        </if>
+        <!--</if>-->
         <if test="modifierId!=null">
             `modifier_id` = #{modifierId},
         </if>
