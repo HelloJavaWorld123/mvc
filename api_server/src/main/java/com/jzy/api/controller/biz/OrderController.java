@@ -2,6 +2,7 @@ package com.jzy.api.controller.biz;
 
 import com.jzy.api.cnd.biz.*;
 import com.jzy.api.model.biz.Order;
+import com.jzy.api.po.biz.BackOrderCountPo;
 import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.vo.biz.*;
 import com.jzy.framework.bean.vo.PageVo;
@@ -81,8 +82,8 @@ public class OrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/queryBackOrderCount")
     public ApiResult queryBackOrderCount(@RequestBody BackOrderCnd backOrderCnd) {
-        Order order = orderService.queryBackOrderCount(backOrderCnd);
-        BackOrderCountVo backOrderCountVo = convert(order, BackOrderCountVo.class);
+        BackOrderCountPo orderCountPo = orderService.queryBackOrderCount(backOrderCnd);
+        BackOrderCountVo backOrderCountVo = convert(orderCountPo, BackOrderCountVo.class);
         return new ApiResult<>().success(backOrderCountVo);
     }
 

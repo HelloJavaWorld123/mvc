@@ -4,6 +4,7 @@ import com.jzy.api.cnd.biz.BackOrderCnd;
 import com.jzy.api.cnd.biz.MonthOrderCnd;
 import com.jzy.api.cnd.biz.RunMonthOrderCnd;
 import com.jzy.api.model.biz.Order;
+import com.jzy.api.po.biz.BackOrderCountPo;
 import com.jzy.api.vo.biz.FrontOrderVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.service.GenericService;
@@ -179,7 +180,7 @@ public interface OrderService extends GenericService<Order> {
      * <b>修订记录：</b><br>
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    Order queryBackOrderCount(BackOrderCnd backOrderCnd);
+    BackOrderCountPo queryBackOrderCount(BackOrderCnd backOrderCnd);
 
     /**
      * <b>功能描述：</b>月订单列表查询<br>

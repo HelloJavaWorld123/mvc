@@ -11,6 +11,7 @@ import com.jzy.api.model.biz.Order;
 import com.jzy.api.model.biz.SupRecord;
 import com.jzy.api.model.biz.TradeRecord;
 import com.jzy.api.model.dealer.Dealer;
+import com.jzy.api.po.biz.BackOrderCountPo;
 import com.jzy.api.service.arch.DealerService;
 import com.jzy.api.service.biz.*;
 import com.jzy.api.util.CommUtils;
@@ -26,11 +27,13 @@ import com.jzy.framework.service.impl.GenericServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RAtomicLong;
 import org.redisson.api.RedissonClient;
+import org.redisson.client.protocol.decoder.ClusterNodesDecoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -449,10 +452,68 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public Order queryBackOrderCount(BackOrderCnd backOrderCnd) {
-        return orderMapper.queryBackOrderCount(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
+    public BackOrderCountPo queryBackOrderCount(BackOrderCnd backOrderCnd) {
+        BackOrderCountPo backOrderCountPo = new BackOrderCountPo();
+        // 查询面值和应付金额统计
+        BackOrderCountPo orderPo = queryPriceAndTotalFee(backOrderCnd);
+        backOrderCountPo.setPriceTotal(orderPo.getPriceTotal());
+        backOrderCountPo.setTotalFeeTotal(orderPo.getTotalFeeTotal());
+        // 查询实收金额
+        BigDecimal actualAmount = queryActualAmount(backOrderCnd);
+        backOrderCountPo.setTradeFeeTotal(actualAmount);
+        // 查询渠道商的实际成本和实际利润统计
+        BackOrderCountPo countPo = queryTradeFeeAndDealerPrice(backOrderCnd);
+        backOrderCountPo.setDealerPriceTotal(countPo.getDealerPriceTotal());
+        backOrderCountPo.setMerchantProfitTotal(countPo.getTradeFeeTotal().subtract(countPo.getDealerPriceTotal()));
+        return backOrderCountPo;
+    }
+
+    /**
+     * <b>功能描述：</b>面值和应付金额统计<br>
+     * <b>修订记录：</b><br>
+     * <li>20190522&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private BackOrderCountPo queryPriceAndTotalFee(BackOrderCnd backOrderCnd) {
+        BackOrderCountPo orderPo = orderMapper.queryPriceAndTotalFee(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
                 backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), backOrderCnd.getDealerId(),
                 getDealerId());
+        return orderPo != null ? orderPo : new BackOrderCountPo();
+    }
+
+    /**
+     * <b>功能描述：</b>查询实收金额<br>
+     * <b>修订记录：</b><br>
+     * <li>20190522&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private BigDecimal queryActualAmount(BackOrderCnd backOrderCnd) {
+        // 不查询supStatus为待支付和支付失败的订单
+        if (backOrderCnd.getSupStatus() != null &&
+                (backOrderCnd.getSupStatus() == 0 || backOrderCnd.getSupStatus() == 1 || backOrderCnd.getSupStatus() == 3)) {
+            return BigDecimal.ZERO;
+        }
+        // 不查询status为待支付和支付失败的订单
+        if (backOrderCnd.getStatus() == null || backOrderCnd.getStatus() == 2) {
+            return orderMapper.queryActualAmount(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
+                    backOrderCnd.getStatus(), backOrderCnd.getKey(), backOrderCnd.getDealerId(),
+                    getDealerId());
+        }
+        return BigDecimal.ZERO;
+    }
+
+    /**
+     * <b>功能描述：</b>渠道商的实际成本和实际利润统计<br>
+     * <b>修订记录：</b><br>
+     * <li>20190522&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    private BackOrderCountPo queryTradeFeeAndDealerPrice(BackOrderCnd backOrderCnd) {
+        BackOrderCountPo countPo = new BackOrderCountPo();
+        if ((backOrderCnd.getStatus() == null && backOrderCnd.getSupStatus() == null) ||
+                (backOrderCnd.getSupStatus() == 2 && backOrderCnd.getStatus() == 2)) {
+            // 计算渠道商的实际成本和实际利润
+            countPo = orderMapper.queryTradeFeeAndDealerPrice(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
+                    backOrderCnd.getKey(), backOrderCnd.getDealerId(), getDealerId());
+        }
+        return countPo;
     }
 
     /**

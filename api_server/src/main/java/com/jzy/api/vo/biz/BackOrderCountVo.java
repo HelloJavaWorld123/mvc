@@ -29,16 +29,11 @@ public class BackOrderCountVo extends GenericVo {
      */
     private BigDecimal tradeFeeTotal;
     /**
-     * 渠道商价格总金额
+     * 渠道商成本总金额
      */
     private BigDecimal dealerPriceTotal;
-
     /**
-     * <b>功能描述：</b>商户利润计算<br>
-     * <b>修订记录：</b><br>
-     * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     * 商户利润总金额
      */
-    public BigDecimal getMerchantProfitTotal() {
-        return this.tradeFeeTotal.subtract(this.dealerPriceTotal);
-    }
+    private BigDecimal merchantProfitTotal;
 }
