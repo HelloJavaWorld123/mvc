@@ -20,7 +20,6 @@ import com.jzy.api.vo.app.AppInfoListVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
-import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.omg.CORBA.portable.ApplicationException;
@@ -89,7 +88,7 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void save(AppInfo appInfo) throws ExcelException {
+    public void save(AppInfo appInfo){
         checkName(appInfo.getName(), null);
         this.insert(appInfo);
     }
@@ -100,10 +99,10 @@ public class AppInfoServiceImpl extends GenericServiceImpl<AppInfo> implements A
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
 
-    public void checkName(String name, String ai_id) throws ExcelException {
+    public void checkName(String name, String ai_id) {
         List<AppInfo> list = listName(name, ai_id);
         if (list != null && list.size() > 0) {
-            throw new ExcelException("商品名称重复：".concat(name));
+            throw new BusException("商品名称重复：".concat(name));
         }
     }
 

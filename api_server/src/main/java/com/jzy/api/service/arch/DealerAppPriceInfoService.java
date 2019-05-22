@@ -77,7 +77,7 @@ public interface DealerAppPriceInfoService extends GenericService<DealerAppPrice
      * <b>修订记录：</b><br>
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    void save(SavePriceInfoCnd savePriceInfoCnd) throws ExcelException;
+    void save(SavePriceInfoCnd savePriceInfoCnd);
 
 
     /**

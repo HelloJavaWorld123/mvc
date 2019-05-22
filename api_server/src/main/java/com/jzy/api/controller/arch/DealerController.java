@@ -61,7 +61,7 @@ public class DealerController {
      * <li>20190422&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/save")
-    public ApiResult save(@RequestBody SaveDealerCnd saveDealerCnd) throws ExcelException {
+    public ApiResult save(@RequestBody SaveDealerCnd saveDealerCnd){
 
         String telephone = saveDealerCnd.getDealerBaseInfoMapper().getDealerTelephone();
         //手机号码校验

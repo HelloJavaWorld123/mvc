@@ -32,11 +32,14 @@ import com.jzy.api.util.MyEncrypt;
 import com.jzy.api.vo.dealer.DealerDetailVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
+import com.jzy.framework.exception.BusException;
 import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import freemarker.core.BugException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -124,7 +127,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      * <li>20190422&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void save(SaveDealerCnd saveDealerCnd) throws ExcelException {
+    public void save(SaveDealerCnd saveDealerCnd) {
         Dealer dealer = saveDealerCnd.getDealerMapper();
         dealer.setState(1);
         DealerBaseInfo dbi = saveDealerCnd.getDealerBaseInfoMapper();
@@ -146,7 +149,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
             Emp emp = getEmp(dbi);
             emp.setId(tableKeyService.newKey("sys_emp", "id", 0));
             if (empService.checkNameList(emp.getName(), null).size() > 0) {
-                throw new ExcelException("渠道商登录用户名重复，请重新输入！");
+                throw new BusException("渠道商登录用户名重复，请重新输入！");
             }
             empService.insert(emp);
             //保存渠道商登录用户角色信息
@@ -170,7 +173,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
             //修改渠道商登录用户信息
             Emp emp = getEmp(dbi);
             if (empService.checkNameList(emp.getName(), emp.getDealerId() + "").size() > 0) {
-                throw new ExcelException("渠道商登录用户名重复，请重新输入！");
+                throw new BusException("渠道商登录用户名重复，请重新输入！");
             }
             Integer rows = empService.update(emp);
             if (rows.equals(0)){
@@ -300,10 +303,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      */
     @Override
     public int updateStatus(UpdateDealerStatusCnd updateDealerStatusCnd) {
-        Dealer dealer = new Dealer();
-        dealer.setId(Long.valueOf(updateDealerStatusCnd.getDealerId()));
-        dealer.setState(updateDealerStatusCnd.getState());
-        return update(dealer);
+        return dealerMapper.updateStatus(Long.valueOf(updateDealerStatusCnd.getDealerId()),updateDealerStatusCnd.getState());
     }
 
     /**

@@ -100,7 +100,7 @@ public class DealerAppPriceInfoController {
      */
 
     @RequestMapping("admin/save")
-    public ApiResult save(@RequestBody SavePriceInfoCnd savePriceInfoCnd) throws ExcelException {
+    public ApiResult save(@RequestBody SavePriceInfoCnd savePriceInfoCnd) {
         dealerAppPriceInfoService.save(savePriceInfoCnd);
         return new ApiResult<>();
     }

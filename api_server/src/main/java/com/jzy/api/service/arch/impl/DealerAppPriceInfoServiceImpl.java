@@ -280,7 +280,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void save(SavePriceInfoCnd savePriceInfoCnd) throws ExcelException {
+    public void save(SavePriceInfoCnd savePriceInfoCnd){
 
         String aiId = savePriceInfoCnd.getDealerAppInfoCnd().getAiId();
         String dealerId = savePriceInfoCnd.getDealerAppInfoCnd().getDealerId();
@@ -364,14 +364,14 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
      * <b>修订记录：</b><br>
      * <li>20190517&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    private void checkPrice(DealerAppPriceTypeCnd dealerAppPriceTypeCnd) throws ExcelException {
+    private void checkPrice(DealerAppPriceTypeCnd dealerAppPriceTypeCnd) {
         Set<BigDecimal> checkPrice = new HashSet<>();
         List<DealerAppPriceInfoCnd> dealerAppPriceInfoCnds = dealerAppPriceTypeCnd.getDealerAppPriceInfoCnds();
         for (DealerAppPriceInfoCnd dealerAppPriceInfoCnd : dealerAppPriceInfoCnds) {
             checkPrice.add(dealerAppPriceInfoCnd.getPrice());
         }
         if (checkPrice.size() != dealerAppPriceInfoCnds.size()) {
-            throw new ExcelException("当前商品充值类型存在面值重复，请核实！");
+            throw new BusException("当前商品充值类型存在面值重复，请核实！");
         }
     }
 
@@ -380,7 +380,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
      * <b>修订记录：</b><br>
      * <li>20190517&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    private void checkRatio(DealerAppPriceTypeCnd dealerAppPriceTypeCnd) throws ExcelException {
+    private void checkRatio(DealerAppPriceTypeCnd dealerAppPriceTypeCnd) {
         Integer isCustom = dealerAppPriceTypeCnd.getIsCustom();
         Set<BigDecimal> checkRatio = new HashSet<>();
         if (isCustom == 1) {
@@ -388,7 +388,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
                 checkRatio.add(dealerAppPriceInfoCnd.getSupPrice().divide(dealerAppPriceInfoCnd.getPrice()));
             }
             if (checkRatio.size() > 1) {
-                throw new ExcelException("当前商品充值类型存在面值与sup价格不成比例，请核实！");
+                throw new BusException("当前商品充值类型存在面值与sup价格不成比例，请核实！");
             }
         }
 

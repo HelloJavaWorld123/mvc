@@ -36,7 +36,7 @@ public interface AppInfoService extends GenericService<AppInfo> {
      * @param appInfo {@link AppInfo}
      * @return true/false
      */
-    void save(AppInfo appInfo) throws ExcelException;
+    void save(AppInfo appInfo);
 
 
     /**
@@ -97,7 +97,7 @@ public interface AppInfoService extends GenericService<AppInfo> {
      * <b>修订记录：</b><br>
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    void checkName(String name, String ai_id) throws ExcelException;
+    void checkName(String name, String ai_id);
 
 
     /**

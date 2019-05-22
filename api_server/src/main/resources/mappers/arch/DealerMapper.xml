@@ -175,6 +175,9 @@
         WHERE
         `id` = #{id}
     </update>
+    <update id="updateStatus">
+        update `dealer` set `state` = #{state} where `id` = #{id}
+    </update>
 
     <!--    insert-->
     <insert id="insert" parameterType="com.jzy.api.model.dealer.Dealer">

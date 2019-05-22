@@ -20,7 +20,6 @@ import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
-import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.result.ApiResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,7 +109,7 @@ public class AppInfoController {
      * @param saveAppInfoCnd 商品对象信息
      */
     @RequestMapping("admin/save")
-    public ApiResult save(@RequestBody SaveAppInfoCnd saveAppInfoCnd) throws ExcelException {
+    public ApiResult save(@RequestBody SaveAppInfoCnd saveAppInfoCnd) {
         List<FileInfo> fileInfos=  saveAppInfoCnd.getFileInfoList();
         AppInfo ai = saveAppInfoCnd.getAppInfo();
         SaveAppPriceTypeListCnd saveAppPriceTypeListCnd = new SaveAppPriceTypeListCnd();
