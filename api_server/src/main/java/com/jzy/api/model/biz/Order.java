@@ -150,6 +150,10 @@ public class Order extends GenericModel {
      */
     private Long appId;
     /**
+     * 商品code
+     */
+    private String appCode;
+    /**
      * 充值类型id
      */
     private Long aptId;

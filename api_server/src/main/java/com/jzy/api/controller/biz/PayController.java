@@ -67,13 +67,13 @@ public class PayController extends GenericController {
         // 根据商品id获取商品信息
         AppStatus appStatus = dealerAppInfoService.queryAppStatus(payCnd.getAppId());
         if (appStatus.getAppStatus() == null || appStatus.getAppStatus() == 0) {
-            throw new BusException(ResultEnum.APP_FORBIDDEN);
+            throw new BusException(ResultEnum.APP_FORBIDDEN.getMsg(),ResultEnum.APP_FORBIDDEN.getCode());
         }
         if (appStatus.getDealerAppStatus() == null) {
-            throw new BusException(ResultEnum.APP_NOT_EXIST);
+            throw new BusException(ResultEnum.APP_NOT_EXIST.getMsg(),ResultEnum.APP_NOT_EXIST.getCode());
         }
         if (appStatus.getDealerAppStatus() != 1) {
-            throw new BusException(ResultEnum.APP_OFF_SHELVES);
+            throw new BusException(ResultEnum.APP_OFF_SHELVES.getMsg(),ResultEnum.APP_OFF_SHELVES.getCode());
         }
         // 根据商品id获取商品价格信息
         List<DealerAppPriceInfo> dealerAppPriceInfoList = dealerAppPriceInfoService.queryAppPriceInfoByAppId(payCnd.getAppId(), payCnd.getAptId());

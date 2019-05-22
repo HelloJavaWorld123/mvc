@@ -166,13 +166,14 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @return int 0：退单成功；1：退单失败
      */
     @Override
-    public int tradeRefund(Order order) {
+    public boolean tradeRefund(Order order) {
         PayService payService = paywayProvider.getPayService(order.getTradeMethod());
         boolean isSuccess = payService.orderBack(order);
         if (isSuccess) {
-            return update(order);
+            update(order);
+            return true;
         }
-        return 0;
+        return false;
     }
 
     /**
@@ -467,7 +468,6 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         backOrderCountPo.setMerchantProfitTotal(countPo.getTradeFeeTotal().subtract(countPo.getDealerPriceTotal()));
         return backOrderCountPo;
     }
-
     /**
      * <b>功能描述：</b>面值和应付金额统计<br>
      * <b>修订记录：</b><br>

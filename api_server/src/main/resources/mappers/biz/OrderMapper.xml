@@ -52,6 +52,7 @@
         <result column="finish_time" property="finishTime"/>
 
         <result column="appId" property="appId"/>
+        <result column="appCode" property="appCode"/>
         <result column="appName" property="appName"/>
         <result column="appIcon" property="appIcon"/>
 
@@ -325,6 +326,7 @@
         o.pay_time,
         o.finish_time,
         app.id appId,
+        app.code appCode,
         app. NAME appName,
         d.idnum dealerNum,
         d.name dealerName

@@ -35,7 +35,7 @@ public interface OrderService extends GenericService<Order> {
      * <b>修订记录：</b><br>
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    int tradeRefund(Order order);
+    boolean tradeRefund(Order order);
 
     /**
      * <b>功能描述：</b>查询订单状态<br>
