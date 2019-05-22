@@ -357,7 +357,7 @@ WHERE
         ai.type_id as typeId,
         ai.game_id as gameId,
         ai.recharge_mode AS rechargeMode,
-        ap.content AS content,
+        "" AS content,
         aa.main_name AS accMainName,
         aa.main_regular AS accMainRegular,
         aa.main_msg AS accMainMsg,
