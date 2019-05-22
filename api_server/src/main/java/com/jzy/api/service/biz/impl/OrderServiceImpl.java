@@ -131,8 +131,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             order.setOutTradeNo(outTradeNo);
         }
 
-
-
+        Dealer dealer = dealerService.queryDealer(order.getDealerId());
+        order.setOutTradeNo(DateUtils.getFormatDate(new Date(),"yyyyMMdd").concat(dealer.getIdnum().replace("Num","")).concat(genCode(order.getDealerId())+""));
         //order.setOutTradeNo(order.getOrderId().concat(CommUtils.getStringRandom(7)));
         // 获取具体的支付方式
         PayService payService = paywayProvider.getPayService(payWayId);

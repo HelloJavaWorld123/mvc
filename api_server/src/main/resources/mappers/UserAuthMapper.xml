@@ -46,6 +46,7 @@
         user_auth
         WHERE
         (user_id =  #{userId} or open_id =#{userId} )
+        limit 1
     </select>
 
 </mapper>
