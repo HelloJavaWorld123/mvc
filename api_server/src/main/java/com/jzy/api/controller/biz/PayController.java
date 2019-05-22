@@ -70,7 +70,7 @@ public class PayController extends GenericController {
             throw new BusException(ResultEnum.APP_FORBIDDEN.getMsg(),ResultEnum.APP_FORBIDDEN.getCode());
         }
         if (appStatus.getDealerAppStatus() == null) {
-            throw new BusException(ResultEnum.APP_NOT_EXIST.getMsg(),ResultEnum.APP_NOT_EXIST.getCode());
+            throw new BusException(ResultEnum.APP_NOT_EXIST.getMsg());
         }
         if (appStatus.getDealerAppStatus() != 1) {
             throw new BusException(ResultEnum.APP_OFF_SHELVES.getMsg(),ResultEnum.APP_OFF_SHELVES.getCode());
