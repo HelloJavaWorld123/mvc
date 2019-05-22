@@ -49,7 +49,7 @@
         <if test="cateId==0">
             AND ai.is_reco = 1
         </if>
-        ORDER BY ai.sort ASC
+        ORDER BY ai.sort asc,ai.id asc
     </select>
 
     <!--  产品分类列表查询（后台查询使用）  -->
