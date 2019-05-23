@@ -177,13 +177,7 @@
     </update>
     <update id="updateStatus">
         update `dealer` set
-        `state` = #{state},
-        <if test="state==0">
-            verified=3
-        </if>
-        <if test="state==1">
-            verified=1
-        </if>
+        `state` = #{state}
         where `id` = #{id}
     </update>
 
