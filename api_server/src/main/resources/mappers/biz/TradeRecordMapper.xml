@@ -104,10 +104,11 @@
     <select id="queryRefundCodeByOutTradeNo" resultType="com.jzy.api.model.biz.TradeRecord">
          SELECT
          a.id tradeRecordId,
-         a.mark_id markId
+         a.mark_id markId,
+         a.del_flag
          FROM trade_record a inner join `order` b on a.operator=b.out_trade_no
          WHERE
-         b.id = #{id}
+         a.type=1 and b.id = #{id}
     </select>
 
     <!-- 查询 -->

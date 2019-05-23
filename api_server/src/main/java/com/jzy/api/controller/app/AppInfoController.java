@@ -24,6 +24,7 @@ import com.jzy.framework.result.ApiResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -108,6 +109,7 @@ public class AppInfoController {
      *
      * @param saveAppInfoCnd 商品对象信息
      */
+    @Transactional
     @RequestMapping("admin/save")
     public ApiResult save(@RequestBody SaveAppInfoCnd saveAppInfoCnd) {
         List<FileInfo> fileInfos=  saveAppInfoCnd.getFileInfoList();
@@ -134,7 +136,6 @@ public class AppInfoController {
                     sysImagesService.save(getSystemImagesMapper(ai, mfile));
                 }
             }
-
             //保存充值类型信息
             saveAppPriceTypeListCnd.setAiId(ai.getId());
             saveAppPriceTypeListCnd.setAppPriceTypeList(saveAppInfoCnd.getAppPriceTypeList());
@@ -227,6 +228,7 @@ public class AppInfoController {
      *
      * @return {@l}ink ApiResult
      */
+    @Transactional
     @RequestMapping("admin/deleteBatch")
     public ApiResult deleteBatch(@RequestBody AppBatchDeleteCnd appBatchDeleteCnd) {
         try {

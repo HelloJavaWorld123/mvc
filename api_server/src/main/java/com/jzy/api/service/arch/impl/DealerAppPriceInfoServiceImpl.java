@@ -401,7 +401,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void batchUpdateStatus(BatchUpdateStatusCnd batchUpdateStatusCnd) {
+    public void updateStatus(BatchUpdateStatusCnd batchUpdateStatusCnd) {
         List<String> aiIdList = batchUpdateStatusCnd.getAiIdList();
         String dealerId = batchUpdateStatusCnd.getDealerId();
         Integer status = batchUpdateStatusCnd.getStatus();
