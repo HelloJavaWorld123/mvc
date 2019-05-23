@@ -16,7 +16,9 @@ import com.jzy.api.util.DesUtil;
 import com.jzy.api.util.MD5Util;
 import com.jzy.api.util.MyEncrypt;
 import com.jzy.api.vo.home.HomeAnalysisInfoVo;
+import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.cache.UserCache;
+import com.jzy.framework.exception.BusException;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
@@ -70,6 +72,9 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
         String mData = homeAnalysisCnd.getData();
         //根据渠道商标识获取解析加密信息
         DealerAnalysisInfoPo dealerAnalysisInfoPo = dealerService.getAnalysisInfo(businessId);
+        if (dealerAnalysisInfoPo == null){
+            throw new BusException(ResultEnum.DEALER_FORBIDDEN.getMsg(),ResultEnum.DEALER_FORBIDDEN.getCode());
+        }
         DataInfo dataInfo = verification(businessId, dealerAnalysisInfoPo.getPubKey(), dealerAnalysisInfoPo.getPriKey(), mData);
         if (!dataInfo.getFlag()) {
             return null;
@@ -175,6 +180,9 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
 
         //根据渠道商标识获取解析加密信息
         DealerAnalysisInfoPo dealerAnalysisInfoPo = dealerService.getAnalysisInfo(businessId);
+        if (dealerAnalysisInfoPo == null){
+            throw new BusException(ResultEnum.DEALER_FORBIDDEN.getMsg(),ResultEnum.DEALER_FORBIDDEN.getCode());
+        }
         String data = encryption(businessId, dealerAnalysisInfoPo.getPubKey(), dealerAnalysisInfoPo.getPriKey(), userId);
         return data;
     }
