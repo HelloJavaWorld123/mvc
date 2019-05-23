@@ -15,6 +15,7 @@ import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
 import com.jzy.api.constant.PayConfig;
 import com.jzy.api.model.biz.Order;
+import com.jzy.api.vo.biz.AliTradeVo;
 import com.jzy.framework.exception.PayException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -179,6 +180,53 @@ public class AlipayUtil {
             e.printStackTrace();
         }
         return response;
+    }
+
+    /**
+     * 退款申请
+     * 参照接口：https://docs.open.alipay.com/api_1/alipay.trade.refund/
+     *
+     * @param out_trade_no   支付时传入的商户订单号，与trade_no必填一个
+     * @param trade_no       支付时返回的支付宝交易号，与out_trade_no必填一个
+     * @param refund_amount  本次退款金额(需要退款的金额，该金额不能大于订单金额,单位为元，支持两位小数)
+     * @return 关键出参{refund_fee:该笔交易已退款的总金额}
+     */
+    public static AliTradeVo myTradeRefund(String out_trade_no, String trade_no, BigDecimal refund_amount) {
+        AliTradeVo aliTradeVo = new AliTradeVo();
+        AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
+        request.setBizContent("{" +
+                " \"out_trade_no\":\"" + out_trade_no + "\"," +
+                " \"trade_no\":\"" + trade_no + "\"," +
+                " \"out_request_no\":\"\"," +
+                " \"refund_amount\":\"" + refund_amount + "\"" +
+                " }");
+        AlipayTradeRefundResponse response = null;
+        try {
+            /**
+             * {
+             *   "buyerLogonId": "urx***@sandbox.com",
+             *   "buyerUserId": "2088102173133335",
+             *   "fundChange": "Y",
+             *   "gmtRefundPay": "Jan 23, 2019 4:26:03 PM",
+             *   "outTradeNo": "190123160621303237949345",
+             *   "refundFee": "10.00",
+             *   "sendBackFee": "0.00",
+             *   "tradeNo": "2019012322001433330500664748",
+             *   "code": "10000",
+             *   "msg": "Success",
+             *   "body": "{\"alipay_trade_refund_response\":{\"code\":\"10000\",\"msg\":\"Success\",\"buyer_logon_id\":\"urx***@sandbox.com\",\"buyer_user_id\":\"2088102173133335\",\"fund_change\":\"Y\",\"gmt_refund_pay\":\"2019-01-23 16:26:03\",\"out_trade_no\":\"190123160621303237949345\",\"refund_fee\":\"10.00\",\"send_back_fee\":\"0.00\",\"trade_no\":\"2019012322001433330500664748\"},\"sign\":\"BNfwwarRedx6GBkeuGb6wHgUlTI+akamxppKtegFN9DUW87evNwlHPjIrRUSNYNO8Fi9UgH0ghKKfsU29giVRR/O1CUq0XvPKyZ0EbWFZnMYT0PkTa7q0DDBpqATmRFLMuY0/QHtVZ27p3r4w87Nlwhs+43+cbfI6cVLq43oOSFGO0p3mUAtSHHP4cieY4Nauuepo4tL26QhNp1bwoNxeml3VxsgC5DA6BblBDyjo47Wkzkg8LkIq80fu9i6c38L8ZqaknH7gAm+Fh5VjZzVPzrBv37s9BKkT1wQG8rA5gvtmj44lVyuMgK/4oGbUKYQ6aok+HWuzgOILKa2xhzPxw\u003d\u003d\"}",
+             *   "params": {
+             *     "biz_content": "{ \"out_trade_no\":\"190123160621303237949345\", \"trade_no\":\"\", \"out_request_no\":\"\", \"refund_amount\":\"10.0\" }"
+             *   }
+             * }
+             */
+            response = client.execute(request);
+            aliTradeVo.setAlipayTradeRefundRequest(request);
+            aliTradeVo.setAlipayTradeRefundResponse(response);
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        return aliTradeVo;
     }
 
     /**

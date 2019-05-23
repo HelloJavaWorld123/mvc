@@ -72,4 +72,19 @@ public class TradeRecord extends GenericModel {
         this.trusteeship = trusteeship;
     }
 
+    public TradeRecord(String id, String markId,String operator, Date reqTime, String reqUrl, String reqData, Integer status, Integer type, Date respTime, String respData, Integer trusteeship) {
+        this.tradeRecordId = id;
+        this.markId=markId;
+        this.operator = operator;
+        this.reqTime = reqTime;
+        this.reqUrl = reqUrl;
+        this.reqData = reqData;
+        this.status = status;
+        this.type = type;
+        this.respTime = respTime;
+        this.respData = respData;
+        this.trusteeship = trusteeship;
+    }
+
+
 }

@@ -12,6 +12,8 @@ import com.jzy.api.service.biz.TradeRecordService;
 import com.jzy.api.util.AlipayUtil;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.MyHttp;
+import com.jzy.api.util.MyStringUtil;
+import com.jzy.api.vo.biz.AliTradeVo;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -92,12 +94,16 @@ public class AliPayServiceImpl implements AliPayService {
     public boolean orderBack(Order order) {
         order.setStatus(3);
         order.setSupStatus(3);
-        AlipayTradeRefundResponse aliRes = AlipayUtil.tradeRefund(order.getOutTradeNo(), order.getTradeCode(), order.getTradeFee());
-        if (aliRes.isSuccess()) {
+        AliTradeVo aliRes = AlipayUtil.myTradeRefund(order.getOutTradeNo(), order.getTradeCode(), order.getTradeFee());
+        if (aliRes.getAlipayTradeRefundResponse().isSuccess()) {
             order.setTradeStatus(Order.TradeStatusConst.REFUND_SICCESS);
+            //退款成功，记录退款记录
+            boolean b =  new BigDecimal(aliRes.getAlipayTradeRefundResponse().getRefundFee()).equals(order.getTradeFee());
+            tradeRecordService.insert(new TradeRecord(CommUtils.lowerUUID(),aliRes.getAlipayTradeRefundResponse().getTradeNo(),order.getOutTradeNo(), new Date(), AlipayUtil.URL.concat("alipay.trade.refund"),
+                   aliRes.getAlipayTradeRefundRequest().getTextParams().toString(), b ? 4:3,1, new Date(), aliRes.getAlipayTradeRefundResponse().getParams().toString(),1));
             return true;
         }
-        String errMsg = order.getId() + "订单支付宝申请退款失败:" + aliRes.getSubCode() + "/" + aliRes.getSubMsg();
+        String errMsg = order.getId() + "订单支付宝申请退款失败:" + aliRes.getAlipayTradeRefundResponse().getSubCode() + "/" + aliRes.getAlipayTradeRefundResponse().getSubMsg();
         log.error(errMsg);
         return false;
     }
