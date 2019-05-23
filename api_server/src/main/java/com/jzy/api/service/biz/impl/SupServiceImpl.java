@@ -176,6 +176,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
             supRecord.setBgRespData(!StringUtils.isEmpty(supRecord.getBgRespData()) ? supRecord.getBgRespData().concat(";" + responseData) : responseData);
             supRecord.setBgRespMes(!StringUtils.isEmpty(supRecord.getBgRespMes()) ? supRecord.getBgRespMes().concat(";" + mes) : mes);
             supRecord.setBgRespTime(new Date());
+            supRecord.setRemark(mes);
             supRecord.setBgRespAmount(supRecord.getBgRespAmount() + 1);
             supRecordMapper.update(supRecord);
         }
