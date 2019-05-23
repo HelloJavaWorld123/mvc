@@ -157,6 +157,7 @@ public class PayController extends GenericController {
         // 交易状态为待支付
         order.setTradeStatus(Order.TradeStatusConst.WAIT_PAY);
         order.setDealerPrice(payCnd.getDealerPrice());
+        order.setIsWxAuth(payCnd.getIsWxAuth());
         return order;
     }
     

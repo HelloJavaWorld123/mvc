@@ -221,6 +221,12 @@ public class Order extends GenericModel {
      * 时间间隔
      */
     private String timeInterval;
+
+    /**
+     * 是否微信授权
+     * 1：是
+     */
+    private Integer isWxAuth = 0;
     /**
      * 订单交易状态
      */

@@ -124,6 +124,11 @@ public class PayCnd extends GenericCnd {
      */
     @NotBlank
     private String appName;
+    /**
+     * 是否微信授权
+     * 1：是
+     */
+    private Integer isWxAuth = 0;
 
     /**
      * <b>功能描述：</b>校验支付金额<br>

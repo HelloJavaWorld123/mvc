@@ -119,8 +119,9 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         data.put("time_expire", DateUtils.date2TimeStr(new Date(date.getTime() + 15 * 60 * 1000)));
         UserAuth userAuth = userAuthService.queryUserAuthByUserId(getUserId());
         data.put("trade_type", WXPayConstants.TradeType.MWEB.toString());
-        // 从微信公众号中进入支付
-        boolean isUserAuth = (userAuth != null && userAuth.getIsWxAuth() == 1);
+        // 从微信公众号中进入支付，后面修改，使用前端环境传值来判断
+//        boolean isUserAuth = (userAuth != null && userAuth.getIsWxAuth() == 1);
+        boolean isUserAuth = (userAuth != null && order.getIsWxAuth() == 1);
         if (isUserAuth) {
             log.debug("from wx openId pay：" + userAuth.getOpenId());
             data.put("openid", userAuth.getOpenId());
