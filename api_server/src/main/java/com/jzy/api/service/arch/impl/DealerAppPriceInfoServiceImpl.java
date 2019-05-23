@@ -118,10 +118,24 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         List<String> aiIdList = checkMap(appInfo, aiId);
         //获取前台商品详情信息
         List<AppDetailPo> appDetailPos = dealerAppPriceInfoMapper.getFrontAppInfo(aiIdList, dealerId + "");
+        Map<String,Object> paramsMap = new HashMap<>();
+        paramsMap.put("aiId",aiId);
+        paramsMap.put("dealerId",dealerId+"");
         for (AppDetailPo appDetailPo : appDetailPos) {
             checkAreaAndServ(appDetailPo);
             List<AppPriceTypePo> appPriceTypelist = appPriceTypeMapper.getAppPriceTypePolist(Long.valueOf(appDetailPo.getAppId()), Long.valueOf(dealerId));
-            appDetailPo.setAppPriceTypePoList(appPriceTypelist);
+            List<AppPriceTypePo> tempList = new LinkedList<>();
+
+            for (AppPriceTypePo apt:appPriceTypelist){
+                //dealer_app_price_info
+                paramsMap.put("aptId",apt.getTypeId());
+                Integer dapiCount = dealerAppPriceInfoMapper.queryExitsByParams(paramsMap);
+                if(dapiCount>0){
+                    tempList.add(apt);
+                }
+            }
+            appDetailPo.setAppPriceTypePoList(tempList);
+            //appDetailPo.setAppPriceTypePoList(appPriceTypelist);
             //查询富文本图片信息
             List<FileInfo> fileInfos = sysImagesMapper.queryImagesList(appDetailPo.getAppId());
             appDetailPo.setFileInfoList(fileInfos);
