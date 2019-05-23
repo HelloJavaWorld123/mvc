@@ -148,7 +148,7 @@
         o.trade_method,
         o.price,
         o.price_type_name,
-        o. status,
+        o.status,
         o.account,
         o.recharge_mode,
         o.create_time,
@@ -190,6 +190,9 @@
         WHERE
         o.del_flag = 0
         AND o.user_id = #{userId}
+        <if test="dealerId != null">
+            AND o.dealer_id = #{dealerId}
+        </if>
         <if test="status != null">
             AND o.status = #{status}
         </if>
@@ -318,6 +321,7 @@
         o.game_area,
         o.game_serv,
         o.status,
+        o.sup_status,
         o.trade_method,
         o.trade_status,
         o.trade_fee,
