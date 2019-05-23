@@ -100,9 +100,12 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     @Override
     public String insertOrUpdateOrder(HttpServletRequest request, Order order, Integer payWayId) {
         String orderId = order.getOrderId();
+        //记录是否微信环境
+        Integer isWxAuth= order.getIsWxAuth();
         if (!StringUtils.isEmpty(orderId)) {
             log.debug("current order is not null, order id is " + orderId);
             order = orderMapper.queryOrderById(order.getOrderId());
+            order.setIsWxAuth(isWxAuth);
             if (order == null) {
                 throw new BusException("订单不存在！");
             }
