@@ -504,4 +504,18 @@ WHERE
         where
         id=#{id}
     </delete>
+
+    <select id="queryExitsByParams" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) from dealer_app_price_info where 1=1
+        and `status` = 1
+         <if test="aiId != null and aiId != ''">
+             and ai_id = #{aiId}
+         </if>
+        <if test="aptId != null and aptId != ''">
+            and apt_id = #{aptId}
+        </if>
+        <if test="dealerId != null and dealerId != ''">
+            and dealer_id = #{dealerId}
+        </if>
+    </select>
 </mapper>

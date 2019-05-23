@@ -45,10 +45,11 @@ public interface OrderMapper extends GenericMapper<Order> {
      * <b>修订记录：</b><br>
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
-     * @param status 0：等待支付,1：充值中,2：充值成功,3：充值失败,4：订单关闭
+     * @param status 0：等待支付,1：充值中,2：充值成功,3：充值失败,4：订单关闭,5:退款成功
      * @param userId 用户id
+     * @param dealerId 渠道商id
      */
-    List<Order> queryFrontOrderList(@Param("status") Integer status, @Param("userId") String userId);
+    List<Order> queryFrontOrderList(@Param("status") Integer status, @Param("userId") String userId,@Param("dealerId") String dealerId);
 
     /**
      * <b>功能描述：</b>根据订单id和卡号查询卡密<br>
