@@ -170,11 +170,15 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         }
         // 获取SUP充值记录
         SupRecord supRecord = querySupRecordByOrderId(order.getOrderId());
-        supRecord.setPurchaserPrice(!StringUtils.isEmpty(payoffPriceTotal) ? new BigDecimal(payoffPriceTotal) : BigDecimal.ZERO);
-        supRecord.setBgRespData(!StringUtils.isEmpty(supRecord.getBgRespData()) ? supRecord.getBgRespData().concat(";" + responseData) : responseData);
-        supRecord.setBgRespMes(!StringUtils.isEmpty(supRecord.getBgRespMes()) ? supRecord.getBgRespMes().concat(";" + mes) : mes);
-        supRecord.setBgRespTime(new Date());
-        supRecord.setBgRespAmount(supRecord.getBgRespAmount() + 1);
+        //更新sup回调记录
+        if (supRecord != null) {
+            supRecord.setPurchaserPrice(!StringUtils.isEmpty(payoffPriceTotal) ? new BigDecimal(payoffPriceTotal) : BigDecimal.ZERO);
+            supRecord.setBgRespData(!StringUtils.isEmpty(supRecord.getBgRespData()) ? supRecord.getBgRespData().concat(";" + responseData) : responseData);
+            supRecord.setBgRespMes(!StringUtils.isEmpty(supRecord.getBgRespMes()) ? supRecord.getBgRespMes().concat(";" + mes) : mes);
+            supRecord.setBgRespTime(new Date());
+            supRecord.setBgRespAmount(supRecord.getBgRespAmount() + 1);
+            supRecordMapper.update(supRecord);
+        }
         if (SupConfig.SUP_STATUS_01.equals(status)) {
             // 是否是卡密
             if (!StringUtils.isEmpty(kmInfo)) {
