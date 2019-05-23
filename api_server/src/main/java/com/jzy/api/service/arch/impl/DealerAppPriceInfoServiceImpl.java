@@ -385,7 +385,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         Set<BigDecimal> checkRatio = new HashSet<>();
         if (isCustom == 1) {
             for (DealerAppPriceInfoCnd dealerAppPriceInfoCnd : dealerAppPriceTypeCnd.getDealerAppPriceInfoCnds()) {
-                checkRatio.add(dealerAppPriceInfoCnd.getSupPrice().divide(dealerAppPriceInfoCnd.getPrice()));
+                checkRatio.add(dealerAppPriceInfoCnd.getSupPrice().divide(dealerAppPriceInfoCnd.getPrice(), 2, BigDecimal.ROUND_HALF_UP));
             }
             if (checkRatio.size() > 1) {
                 throw new BusException("当前商品充值类型存在面值与sup价格不成比例，请核实！");
