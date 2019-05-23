@@ -208,7 +208,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     @Override
     public PageVo<FrontOrderVo> queryFrontOrderList(Integer curPage, Integer limit, Integer status) {
         Page<Order> page = PageHelper.startPage(curPage, limit);
-        List<Order> orderList = orderMapper.queryFrontOrderList(status, getUserId());
+        List<Order> orderList = orderMapper.queryFrontOrderList(status, getUserId(),getFrontDealerId()+"");
         PageVo<FrontOrderVo> pageVo = new PageVo<>();
         pageVo.setPage(page.getPageNum());
         pageVo.setLimit(page.getPageSize());

@@ -45,16 +45,37 @@
     <update id="update" parameterType="com.jzy.api.model.biz.SupRecord">
         UPDATE
         order_sup_record
-        SET req_data = #{reqData},
-        req_time = #{reqTime},
-        req_amount = #{reqAmount},
-        resp_data = #{respData},
-        bg_resp_data = #{bgRespData},
-        bg_resp_mes = #{bgRespMes},
-        bg_resp_time = #{bgRespTime},
-        bg_resp_amount = #{bgRespAmount},
-        remark = #{remark},
-        purchaser_price = #{purchaserPrice},
+        SET
+        <if test="reqData != null">
+            req_data = #{reqData},
+        </if>
+        <if test="reqTime != null">
+            req_time = #{reqTime},
+        </if>
+        <if test="reqAmount != null">
+            req_amount = #{reqAmount},
+        </if>
+        <if test="respData != null">
+            resp_data = #{respData},
+        </if>
+        <if test="bgRespData != null">
+            bg_resp_data = #{bgRespData},
+        </if>
+        <if test="bgRespMes != null">
+            bg_resp_mes = #{bgRespMes},
+        </if>
+        <if test="bgRespTime != null">
+            bg_resp_time = #{bgRespTime},
+        </if>
+        <if test="bgRespAmount != null">
+            bg_resp_amount = #{bgRespAmount},
+        </if>
+        <if test="remark != null">
+            remark = #{remark},
+        </if>
+        <if test="purchaserPrice != null">
+            purchaser_price = #{purchaserPrice},
+        </if>
         <include refid="updateCommon" />
         WHERE
         order_id = #{orderId}

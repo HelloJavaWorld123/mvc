@@ -46,6 +46,10 @@ public class BackOrderDetailVo extends GenericVo {
      */
     private Integer status = 0;
     /**
+     * sup状态sup状态，0未提交1已提交2成功3失败
+     */
+    private Integer supStatus=0;
+    /**
      * 订单应付总金额
      */
     private BigDecimal totalFee;

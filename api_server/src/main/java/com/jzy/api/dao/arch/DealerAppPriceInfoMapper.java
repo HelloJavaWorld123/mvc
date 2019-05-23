@@ -12,6 +12,7 @@ import org.springframework.security.access.method.P;
 
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <b>功能：</b>渠道商商品定价<br>
@@ -92,12 +93,19 @@ public interface DealerAppPriceInfoMapper extends GenericMapper<DealerAppPriceIn
      * <li>20190520&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     List<Long>  getIdList(DealerAppPriceType dealerAppPriceType);
-    
+
     /**
      * <b>功能描述：</b>渠道商商品面值表根据主键删除<br>
      * <b>修订记录：</b><br>
      * <li>20190520&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
       int deleteAppPriceInfoById(@Param("id") Long id);
-
+    /**是否存在 渠道商商品定价详情
+     * @Description
+     * @Author lchl
+     * @Date 2019/5/23 5:02 PM
+     * @param paramsMap aiId 商品id aptId 商品充值类型id dealerId 渠道商id
+     * @return java.lang.Integer
+     */
+    Integer queryExitsByParams(Map<String, Object> paramsMap);
 }
