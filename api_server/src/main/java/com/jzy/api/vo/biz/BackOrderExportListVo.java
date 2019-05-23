@@ -77,6 +77,7 @@ public class BackOrderExportListVo extends GenericVo{
      * 充值时间
      */
     private Date payTime;
+    private Date createTime;
     /**
      * 渠道商利润
      */

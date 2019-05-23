@@ -44,7 +44,8 @@ public enum ResultEnum {
     APP_NOT_CONFIG_PRICE(5003, "商品没有配置价格信息，请核实！"),
     TRADE_FEE_CALC_ERROR(5004, "实付金额有误，请核实！"),
     SUP_PRICE_ERROR(5005, "SUP价格有误，请核实！"),
-    APP_FORBIDDEN(5006, "商品已禁用，请核实！");
+    APP_FORBIDDEN(5006, "商品已禁用，请核实！"),
+    DEALER_FORBIDDEN(5007, "商家已禁用，请核实！");
 
     private Integer code;
 
