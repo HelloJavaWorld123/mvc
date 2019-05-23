@@ -509,7 +509,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     private BackOrderCountPo queryTradeFeeAndDealerPrice(BackOrderCnd backOrderCnd) {
         BackOrderCountPo countPo = new BackOrderCountPo();
         if ((backOrderCnd.getStatus() == null && backOrderCnd.getSupStatus() == null) ||
-                (backOrderCnd.getSupStatus() == 2 && backOrderCnd.getStatus() == 2)) {
+                ((backOrderCnd.getSupStatus() !=null&&backOrderCnd.getSupStatus() == 2)
+                        && (backOrderCnd.getStatus() !=null&&backOrderCnd.getStatus() == 2))) {
             // 计算渠道商的实际成本和实际利润
             countPo = orderMapper.queryTradeFeeAndDealerPrice(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
                     backOrderCnd.getKey(), backOrderCnd.getDealerId(), getDealerId());

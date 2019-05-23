@@ -319,6 +319,7 @@
         o.game_serv,
         o.status,
         o.trade_method,
+        o.trade_status,
         o.trade_fee,
         o.del_flag,
         o.dealer_price,
