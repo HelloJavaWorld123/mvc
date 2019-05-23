@@ -23,7 +23,6 @@ public class CardPwdCnd extends GenericCnd {
     /**
      * 卡号
      */
-    @NotBlank
     private String cardNo;
 
 }

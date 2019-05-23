@@ -259,7 +259,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         urlData.append("businessId=").append(supBusinessId)
                 .append("&userOrderId=").append(order.getOutTradeNo())
                 .append("&goodsId=").append(order.getSupNo())
-                .append("&userName=").append(StringUtils.isEmpty(order.getAccount()))
+                .append("&userName=").append(StringUtils.isEmpty(order.getAccount())?"000000":order.getAccount())
                 .append("&gameName=").append(order.getAppName())
                 .append("&gameAcct=").append(order.getGameAccount())
                 .append("&gameArea=").append(gameArea)
