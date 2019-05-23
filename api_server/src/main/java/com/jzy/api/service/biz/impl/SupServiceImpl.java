@@ -143,8 +143,9 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         String sign = request.getParameter("sign");
         String status = request.getParameter("status");
         String supKey = dealerService.queryDealer(order.getDealerId()).getSupKey();
-        String mes = convertCharset("mes", request);
-        String kmInfo = convertCharset("kmInfo", request);
+        String mes = request.getParameter("mes");
+//        String kmInfo = convertCharset("kmInfo", request);
+        String kmInfo = request.getParameter("kmInfo");
         String businessId = convertCharset("businessId", request);
         String payoffPriceTotal = convertCharset("payoffPriceTotal", request);
         String responseData = request.getRequestURL().toString()
@@ -156,6 +157,9 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
                 .concat("&sign=").concat(sign);
         if (StringUtils.isEmpty(kmInfo)) {
             responseData = responseData.concat("&kmInfo=");
+        }else {
+
+            responseData = responseData.concat("&kmInfo="+kmInfo);
         }
         log.debug("SUP订单异步通知请求参数: " + responseData);
         // md5明文
@@ -185,16 +189,16 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
                 JSONArray kmArray = JSONArray.parseArray(kmInfo);
                 for (int i = 0; i < kmArray.size(); i++) {
                     JSONObject km = kmArray.getJSONObject(i);
-                    if (!cardPwdService.isExist(order.getOrderId(), km.get("cardNo").toString())) {
-                        CardPwd cardPwd = new CardPwd();
-                        cardPwd.setCardPwdId(CommUtils.uniqueOrderStr());
-                        cardPwd.setOrderId(order.getOrderId());
-                        cardPwd.setCardNo(km.get("cardNo").toString());
-                        cardPwd.setCardPwd(km.get("cardPwd").toString());
-                        cardPwd.setPayoffPriceTotal(supRecord.getPurchaserPrice());
-                        cardPwd.setGmtExpired(km.get("outDate").toString());
-                        cardPwdService.insert(cardPwd);
-                    }
+//                    if (!cardPwdService.isExist(order.getOrderId(), km.get("cardNo").toString())) {
+                    CardPwd cardPwd = new CardPwd();
+                    cardPwd.setCardPwdId(CommUtils.uniqueOrderStr());
+                    cardPwd.setOrderId(order.getOrderId());
+                    cardPwd.setCardNo(km.get("cardNo").toString());
+                    cardPwd.setCardPwd(km.get("cardPwd").toString());
+                    cardPwd.setPayoffPriceTotal(supRecord.getPurchaserPrice());
+                    cardPwd.setGmtExpired(km.get("outDate").toString());
+                    cardPwdService.insert(cardPwd);
+//                    }
                 }
             }
             // 更新支付状态

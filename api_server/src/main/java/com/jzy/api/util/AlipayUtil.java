@@ -122,7 +122,8 @@ public class AlipayUtil {
                 " \"out_trade_no\":\"" + order.getOutTradeNo() + "\"," +
                 " \"total_amount\":\"" + order.getTradeFee() + "\"," +
                 " \"subject\":\"" + subject + "\"," +
-                " \"product_code\":\"QUICK_WAP_PAY\"" +
+                " \"product_code\":\"QUICK_WAP_PAY\"" + "," +
+                " \"quit_url\":\""+ PayConfig.getH5DomainUrl().concat(return_url + order.getOrderId())+"\""+
                 " }");
         String linkStr;
         try {
