@@ -405,6 +405,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             if (tradeRecord != null) {
                 order.setRefundCode(tradeRecord.getTradeRecordId());
                 order.setRefundOutTradeNo(tradeRecord.getMarkId());
+                order.setDelFlag(tradeRecord.getDelFlag());
             }
         }
         // 查询sup的购买金额或sup返回备注

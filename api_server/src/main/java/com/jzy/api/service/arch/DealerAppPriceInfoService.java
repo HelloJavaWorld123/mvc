@@ -85,7 +85,7 @@ public interface DealerAppPriceInfoService extends GenericService<DealerAppPrice
      * <b>修订记录：</b><br>
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    void batchUpdateStatus(BatchUpdateStatusCnd batchUpdateStatusCnd);
+    void updateStatus(BatchUpdateStatusCnd batchUpdateStatusCnd);
 
     /**
      * <b>功能描述：</b>根据商品id获取商品价格信息<br>

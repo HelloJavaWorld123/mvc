@@ -112,7 +112,7 @@ public class DealerAppPriceInfoController {
      */
     @RequestMapping("admin/batchUpdateStatus")
     public ApiResult batchUpdateStatus(@RequestBody BatchUpdateStatusCnd batchUpdateStatusCnd) {
-        dealerAppPriceInfoService.batchUpdateStatus(batchUpdateStatusCnd);
+        dealerAppPriceInfoService.updateStatus(batchUpdateStatusCnd);
         return new ApiResult<>();
     }
 }
