@@ -38,6 +38,7 @@ import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.service.impl.GenericServiceImpl;
+import org.redisson.misc.Hash;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -349,6 +350,14 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
                     dealerAppPriceInfoMapper.deleteAppPriceInfoById(aptId);
                 }
             }
+        }
+        Map<String,Object> paramsMap = new HashMap<>();
+        paramsMap.put("aiId",aiId);
+        paramsMap.put("dealerId",dealerId+"");
+        Integer count = dealerAppPriceInfoMapper.queryExitsByParams(paramsMap);
+        if(count>0){
+        }else{
+            dealerAppInfoMapper.updateStatus(0, aiId, dealerId);
         }
 
 
