@@ -85,6 +85,11 @@ public class BackOrderListVo extends GenericVo {
      * 创建时间
      */
     private Date createTime;
+
+//    /**
+//     * 折扣为0的时候，反向计算折扣
+//     */
+//    private BigDecimal zeroDiscount;
 //    /**
 //     * 渠道商利润
 //     */
@@ -92,5 +97,12 @@ public class BackOrderListVo extends GenericVo {
 
     public BigDecimal getMerchantProfit() {
         return this.tradeFee.subtract(this.dealerPrice);
+    }
+
+    public BigDecimal getZeroDiscount() {
+        if (this.discount.compareTo(BigDecimal.ZERO) == 0) {
+            return this.discount = this.tradeFee.divide(this.totalFee, 4, BigDecimal.ROUND_HALF_UP);
+        }
+        return discount;
     }
 }
