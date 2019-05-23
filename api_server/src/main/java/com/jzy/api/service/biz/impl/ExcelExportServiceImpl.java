@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -74,19 +75,19 @@ public class ExcelExportServiceImpl extends GenericServiceImpl<ExcelExport> impl
     @Override
     public void orderExport(List<BackOrderListVo> rowList, Long id) {
 
-        String[] headers = {"订单编号", "第三方流水单号", "渠道商编号", "渠道商名称","充值帐号", "商品名称",
-                "面值", "折扣", "支付金额", "实付金额","渠道商价格", "支付方式", "订单状态","sup状态",
-                "充值时间", "渠道商利润"};
-        String[] columnName = {"code", "outTradeNo", "dealerNum", "dealerName", "account", "appName",
-                "price", "discount", "totalFee", "tradeFee", "dealerPrice", "payWayName", "status", "supStatus",
-                "payTime", "merchantProfit"};
+        String[] headers = {"订单编号", "渠道商编号", "渠道商名称", "充值帐号", "商品名称",
+                "面值", "折扣", "实付金额", "渠道商价格", "渠道商利润", "支付方式",
+                "充值时间", "订单状态", "sup状态"};
+        String[] columnName = {"outTradeNo", "dealerNum", "dealerName", "account", "appName",
+                "price", "discount", "tradeFee", "dealerPrice", "merchantProfit", "payWayName",
+                "createTime", "status", "supStatus"};
 
         ExcelExport excelExport = new ExcelExport();
         List<BackOrderExportListVo> data = getData(rowList);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayInputStream in = null;
         try {
-            new ExcelBuilder().exportExcel("order",  headers, columnName, data, out);
+            new ExcelBuilder().exportExcel("order", headers, columnName, data, out);
             byte[] fileByte = out.toByteArray();
             long length = fileByte.length;
             in = new ByteArrayInputStream(fileByte);
@@ -117,7 +118,8 @@ public class ExcelExportServiceImpl extends GenericServiceImpl<ExcelExport> impl
      */
     private List<BackOrderExportListVo> getData(List<BackOrderListVo> rowList) {
         List<BackOrderExportListVo> data = new ArrayList<>();
-        for (BackOrderListVo backOrderListVo: rowList) {
+        for (BackOrderListVo backOrderListVo : rowList) {
+
             BackOrderExportListVo backOrderExportListVo = new BackOrderExportListVo();
             backOrderExportListVo.setCode(backOrderListVo.getCode());
             backOrderExportListVo.setOutTradeNo(backOrderListVo.getOutTradeNo());
@@ -126,17 +128,34 @@ public class ExcelExportServiceImpl extends GenericServiceImpl<ExcelExport> impl
             backOrderExportListVo.setAccount(backOrderListVo.getAccount());
             backOrderExportListVo.setAppName(backOrderListVo.getAppName());
             backOrderExportListVo.setPrice(backOrderListVo.getPrice());
-            backOrderExportListVo.setDiscount(backOrderListVo.getDiscount());
+            if (backOrderListVo.getDiscount().compareTo(BigDecimal.ZERO) == 0) {
+                backOrderExportListVo.setDiscount(backOrderListVo.getZeroDiscount());
+            } else {
+                backOrderExportListVo.setDiscount(backOrderListVo.getDiscount());
+            }
             backOrderExportListVo.setTotalFee(backOrderListVo.getTotalFee());
-            backOrderExportListVo.setTradeFee(backOrderListVo.getTradeFee());
-            backOrderExportListVo.setDealerPrice(backOrderListVo.getDealerPrice());
+
+            if (backOrderListVo.getStatus() == 1 || backOrderListVo.getStatus() == 2 || backOrderListVo.getStatus() == 3) {
+                backOrderExportListVo.setTradeFee(backOrderListVo.getTradeFee());
+            } else {
+                backOrderExportListVo.setTradeFee(BigDecimal.ZERO);
+            }
+
+            if (backOrderListVo.getStatus() == 2 && backOrderListVo.getSupStatus() == 2) {
+                backOrderExportListVo.setDealerPrice(backOrderListVo.getDealerPrice());
+                backOrderExportListVo.setMerchantProfit(backOrderListVo.getMerchantProfit());
+            } else {
+                backOrderExportListVo.setDealerPrice(BigDecimal.ZERO);
+                backOrderExportListVo.setMerchantProfit(BigDecimal.ZERO);
+            }
+
             backOrderExportListVo.setPayWayName(backOrderListVo.getTradeMethod());
             backOrderExportListVo.setStatus(backOrderListVo.getStatus());
             if (!StringUtils.isEmpty(backOrderListVo.getSupStatus())) {
                 backOrderExportListVo.setSupStatus(backOrderListVo.getSupStatus());
             }
             backOrderExportListVo.setPayTime(backOrderListVo.getPayTime());
-            backOrderExportListVo.setMerchantProfit(backOrderListVo.getMerchantProfit());
+            backOrderExportListVo.setCreateTime(backOrderListVo.getCreateTime());
             data.add(backOrderExportListVo);
         }
         return data;
