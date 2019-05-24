@@ -110,8 +110,7 @@ public class AlipayUtil {
      * <b>修订记录：</b><br>
      * <li>20190501&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
-     * @param outTradeNo 商户订单号，需要保证不重复
-     * @param totalAmount 订单金额
+     * @param order 商户订单号，需要保证不重复
      * @param subject 订单标题
      */
     public static String tradeWapPay(Order order, String subject) {

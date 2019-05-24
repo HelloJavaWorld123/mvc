@@ -98,7 +98,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
             orderService.updateSupStatus(order.getOrderId(), 1);
         } else {
             // sup同步返回失败，退单
-            boolean flag = tradeRefund(order);
+            boolean flag = orderService.tradeRefund(order);
             // 修改订单状态为已退款，支付失败
             if (flag) {
                 orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 5, Order.TradeStatusConst.REFUND_SICCESS, 3);

@@ -1,5 +1,6 @@
 package com.jzy.api.service.biz.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.jzy.api.dao.biz.OrderMapper;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -81,7 +83,10 @@ public class AliPayServiceImpl implements AliPayService {
         tradeRecord.setTrusteeship(1);
         tradeRecordService.insert(tradeRecord);
         ApiResult<String> apiResult = new ApiResult<>();
-        apiResult.setData(url);
+        Map<String, String> otherMap = new HashMap<>();
+        otherMap.put("url",url);
+        otherMap.put("orderId",order.getOrderId());
+        apiResult.success(JSONObject.toJSONString(otherMap));
         return apiResult;
     }
 

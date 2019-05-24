@@ -162,7 +162,11 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         if (isUserAuth) {
             return new ApiResult<>().success(JSONObject.toJSONString(payMap));
         }
-        return new ApiResult<>().success(payMap.get("mweb_url"));
+        //未授权情况
+        Map<String, String> otherMap = new HashMap<>();
+        otherMap.put("url",payMap.get("mweb_url"));
+        otherMap.put("orderId",order.getOrderId());
+        return new ApiResult<>().success(JSONObject.toJSONString(otherMap));
     }
 
     /**
