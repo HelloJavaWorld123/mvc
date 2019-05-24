@@ -124,7 +124,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         boolean isUserAuth = (userAuth != null && order.getIsWxAuth() == 1);
         if (isUserAuth) {
             log.debug("from wx openId pay：" + userAuth.getOpenId());
-            data.put("openid", userAuth.getOpenId());
+            data.put("openid", StringUtils.isEmpty(userAuth.getOpenId()) ? "ogasLxN9l-FeCs0dIKzixTw9KYo0" : userAuth.getOpenId());
             data.put("trade_type", WXPayConstants.TradeType.JSAPI.toString());
         }
         // 返回支付标识并加签
@@ -157,15 +157,15 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         payMap.put("orderId", order.getOrderId());
         if (WXPayConstants.FAIL.equals(responseData.get("result_code"))) {
             //order.setStatus(3);
-            return new ApiResult<>(responseData.get("err_code_des"));
+            return new ApiResult<>().fail(responseData.get("err_code_des"));
         }
         if (isUserAuth) {
             return new ApiResult<>().success(JSONObject.toJSONString(payMap));
         }
         //未授权情况
         Map<String, String> otherMap = new HashMap<>();
-        otherMap.put("url",payMap.get("mweb_url"));
-        otherMap.put("orderId",order.getOrderId());
+        otherMap.put("url", payMap.get("mweb_url"));
+        otherMap.put("orderId", order.getOrderId());
         return new ApiResult<>().success(JSONObject.toJSONString(otherMap));
     }
 
@@ -238,7 +238,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
                     supService.commitOrderToSup(orderId, transactionId, tradeFee);
                 } else {
                     boolean flag = orderService.tradeRefund(orderService.queryOrderById(orderId));
-                    if(flag){
+                    if (flag) {
                         orderService.updateStatusTradeStatusSupStatus(orderId, 5, Order.TradeStatusConst.REFUND_SICCESS, 3);
                     }
                 }
