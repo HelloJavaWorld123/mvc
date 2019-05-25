@@ -120,9 +120,12 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         //获取前台商品详情信息
         List<AppDetailPo> appDetailPos = dealerAppPriceInfoMapper.getFrontAppInfo(aiIdList, dealerId + "");
         Map<String,Object> paramsMap = new HashMap<>();
-        paramsMap.put("aiId",aiId);
-        paramsMap.put("dealerId",dealerId+"");
         for (AppDetailPo appDetailPo : appDetailPos) {
+
+            // update: jiazk 2019.05.25，持磊改的这块儿逻辑，在遇到话费问题的时候，是6条，所以每次循环都需要获取当前 appId
+            paramsMap.put("aiId",appDetailPo.getAppId());
+            paramsMap.put("dealerId",dealerId+"");
+
             checkAreaAndServ(appDetailPo);
             List<AppPriceTypePo> appPriceTypelist = appPriceTypeMapper.getAppPriceTypePolist(Long.valueOf(appDetailPo.getAppId()), Long.valueOf(dealerId));
             List<AppPriceTypePo> tempList = new LinkedList<>();
