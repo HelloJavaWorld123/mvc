@@ -6,6 +6,7 @@ import com.jzy.api.cnd.biz.BackOrderCnd;
 import com.jzy.api.cnd.biz.MonthOrderCnd;
 import com.jzy.api.cnd.biz.RunMonthOrderCnd;
 import com.jzy.api.dao.biz.OrderMapper;
+import com.jzy.api.dao.biz.SupRecordMapper;
 import com.jzy.api.model.biz.CardPwd;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.model.biz.SupRecord;
@@ -74,6 +75,9 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
     @Resource
     private RedissonClient redissonClient;
+
+    @Resource
+    private SupRecordMapper supRecordMapper;
 
     private Long genCode(String dealerId){
         Long curVal = 1000000L;
@@ -173,9 +177,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         PayService payService = paywayProvider.getPayService(order.getTradeMethod());
         boolean isSuccess = payService.orderBack(order);
         if (isSuccess) {
-            update(order);
+            updateStatusTradeStatusSupStatus(order.getOrderId(), 5, Order.TradeStatusConst.REFUND_SICCESS, 3);
             return true;
         }
+        update(order);
         return false;
     }
 
@@ -379,7 +384,18 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      */
     @Override
     public int updateSupStatus(String id, Integer supStatus) {
-        return orderMapper.updateSupStatus(id, supStatus, supStatus, new Date());
+        // 获取SUP充值记录
+        SupRecord supRecord = supRecordMapper.querySupRecordByOrderId(id);
+        if(3==supStatus.intValue()){
+            Order order = this.queryOrderById(id);
+            tradeRefund(order);
+            supRecord.setRemark("失败");
+        }else {
+            //
+            orderMapper.updateSupStatus(id, supStatus, supStatus, new Date());
+            supRecord.setRemark("成功");
+        }
+        return supRecordMapper.update(supRecord);
     }
 
     /**

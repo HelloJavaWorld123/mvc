@@ -98,11 +98,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
             orderService.updateSupStatus(order.getOrderId(), 1);
         } else {
             // sup同步返回失败，退单
-            boolean flag = orderService.tradeRefund(order);
-            // 修改订单状态为已退款，支付失败
-            if (flag) {
-                orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 5, Order.TradeStatusConst.REFUND_SICCESS, 3);
-            }
+           orderService.tradeRefund(order);
         }
         // SUP充值记录
         SupRecord supRecord = supRecordMapper.querySupRecordByOrderId(order.getOrderId());
@@ -161,17 +157,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
 
             responseData = responseData.concat("&kmInfo="+kmInfo);
         }
-        log.debug("SUP订单异步通知请求参数: " + responseData);
-        // md5明文
-        String md5Data = businessId + outTradeNo + status + supKey;
-        // md5密文
-        String md5Sign = MyEncrypt.getInstance().md5(md5Data);
-        if (!md5Sign.equals(sign)) {
-            log.debug("SUP订单异步通知验签失败,本地签名md5Sign=".concat(md5Sign).concat(",请求签名sign=").concat(sign));
-            orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 3, Order.TradeStatusConst.REFUND_SICCESS,3);
-            response.getWriter().write("<receive>error</receive>");
-            return;
-        }
+
         // 获取SUP充值记录
         SupRecord supRecord = querySupRecordByOrderId(order.getOrderId());
         //更新sup回调记录
@@ -184,6 +170,22 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
             supRecord.setBgRespAmount(supRecord.getBgRespAmount() + 1);
             supRecordMapper.update(supRecord);
         }
+
+        log.debug("SUP订单异步通知请求参数: " + responseData);
+        // md5明文
+        String md5Data = businessId + outTradeNo + status + supKey;
+        // md5密文
+        String md5Sign = MyEncrypt.getInstance().md5(md5Data);
+
+        if (!md5Sign.equals(sign)) {
+            log.debug("SUP订单异步通知验签失败,本地签名md5Sign=".concat(md5Sign).concat(",请求签名sign=").concat(sign));
+            //微信或支付宝退单
+            orderService.tradeRefund(order);
+            //orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 3, Order.TradeStatusConst.REFUND_SICCESS,3);
+            response.getWriter().write("<receive>error</receive>");
+            return;
+        }
+
         if (SupConfig.SUP_STATUS_01.equals(status)) {
             // 是否是卡密
             if (!StringUtils.isEmpty(kmInfo)) {
@@ -206,11 +208,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
             orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 2, Order.TradeStatusConst.PAY_SUCCESS,2);
         } else {
             // SUP充值失败，进行支付宝或微信退单
-            boolean flag = orderService.tradeRefund(order);
-            // SUP回调返回失败，更新订单状态
-            if(flag) {
-                orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 5, Order.TradeStatusConst.REFUND_SICCESS, 3);
-            }
+            orderService.tradeRefund(order);
         }
         response.getWriter().write("<receive>ok</receive>");
     }
