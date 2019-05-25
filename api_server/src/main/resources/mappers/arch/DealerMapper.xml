@@ -136,9 +136,9 @@
         <if test="telno!=null">
             `telno` = #{telno},
         </if>
-        <if test="verified!=null">
-            `verified` = #{verified},
-        </if>
+        <!--<if test="verified!=null">-->
+            <!--`verified` = #{verified},-->
+        <!--</if>-->
         <if test="state!=null">
             `state` = #{state},
         </if>
