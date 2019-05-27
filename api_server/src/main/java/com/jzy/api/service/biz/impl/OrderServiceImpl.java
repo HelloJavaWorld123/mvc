@@ -384,6 +384,19 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      */
     @Override
     public int updateSupStatus(String id, Integer supStatus) {
+            return orderMapper.updateSupStatus(id, supStatus, supStatus, new Date());
+    }
+
+    /**
+     * <b>功能描述：</b>后台手动处理订单状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190527&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param id        订单id
+     * @param supStatus sup状态，0未提交1已提交2成功3失败
+     */
+    @Override
+    public int handUpdateSupStatus(String id, Integer supStatus) {
         // 获取SUP充值记录
         SupRecord supRecord = supRecordMapper.querySupRecordByOrderId(id);
         if(3==supStatus.intValue()){
@@ -391,7 +404,6 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             tradeRefund(order);
             supRecord.setRemark("失败");
         }else {
-            //
             orderMapper.updateSupStatus(id, supStatus, supStatus, new Date());
             supRecord.setRemark("成功");
         }

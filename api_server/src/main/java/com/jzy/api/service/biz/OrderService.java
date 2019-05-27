@@ -152,6 +152,16 @@ public interface OrderService extends GenericService<Order> {
      */
     int updateSupStatus(String id, Integer supStatus);
 
+    /**
+     * <b>功能描述：</b>手动处理订单状态<br>
+     * <b>修订记录：</b><br>
+     * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     *
+     * @param id 订单id
+     * @param supStatus sup状态，0未提交1已提交2成功3失败
+     */
+    int handUpdateSupStatus(String id, Integer supStatus);
+
     //===============================后端订单列表接口========================================
 
     /**
