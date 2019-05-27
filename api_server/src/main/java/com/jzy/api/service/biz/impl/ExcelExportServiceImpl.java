@@ -137,16 +137,11 @@ public class ExcelExportServiceImpl extends GenericServiceImpl<ExcelExport> impl
 
             if (backOrderListVo.getStatus() == 1 || backOrderListVo.getStatus() == 2 || backOrderListVo.getStatus() == 3) {
                 backOrderExportListVo.setTradeFee(backOrderListVo.getTradeFee());
-            } else {
-                backOrderExportListVo.setTradeFee(BigDecimal.ZERO);
             }
 
             if (backOrderListVo.getStatus() == 2 && backOrderListVo.getSupStatus() == 2) {
                 backOrderExportListVo.setDealerPrice(backOrderListVo.getDealerPrice());
                 backOrderExportListVo.setMerchantProfit(backOrderListVo.getMerchantProfit());
-            } else {
-                backOrderExportListVo.setDealerPrice(BigDecimal.ZERO);
-                backOrderExportListVo.setMerchantProfit(BigDecimal.ZERO);
             }
 
             backOrderExportListVo.setPayWayName(backOrderListVo.getTradeMethod());
