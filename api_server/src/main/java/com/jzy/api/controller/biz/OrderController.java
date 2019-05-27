@@ -36,7 +36,7 @@ public class OrderController extends GenericController {
 
     @RequestMapping("/updateSupStatus")
     public ApiResult updateSupStatus(@RequestBody SupStatusCnd supStatusCnd) {
-        orderService.updateSupStatus(supStatusCnd.getOrderId(), supStatusCnd.getSupStatus());
+        orderService.handUpdateSupStatus(supStatusCnd.getOrderId(), supStatusCnd.getSupStatus());
         SupStatusVo supStatusVo = new SupStatusVo();
         supStatusVo.setStatus(supStatusCnd.getSupStatus());
         supStatusVo.setSupStatus(supStatusCnd.getSupStatus());
