@@ -56,11 +56,11 @@ public class BackOrderExportListVo extends GenericVo{
     /**
      * 实付金额
      */
-    private BigDecimal tradeFee;
+    private BigDecimal tradeFee = BigDecimal.ZERO;
     /**
      * 渠道商价格
      */
-    private BigDecimal dealerPrice;
+    private BigDecimal dealerPrice = BigDecimal.ZERO;
     /**
      * 支付方式
      */
@@ -81,7 +81,7 @@ public class BackOrderExportListVo extends GenericVo{
     /**
      * 渠道商利润
      */
-    private BigDecimal merchantProfit;
+    private BigDecimal merchantProfit = BigDecimal.ZERO;
 
     public BigDecimal getMerchantProfit() {
         return this.tradeFee.subtract(this.dealerPrice);
@@ -95,6 +95,7 @@ public class BackOrderExportListVo extends GenericVo{
     public void setPayWayName(int payWayId) {
         if (payWayId == 0) {
             this.payWayName = "微信";
+            return;
         }
         if (payWayId == 1) {
             this.payWayName = "支付宝";
@@ -109,11 +110,25 @@ public class BackOrderExportListVo extends GenericVo{
     public void setStatus(int status) {
         if (status == 0) {
             this.status = "待支付";
+            return;
         }
         if (status == 1) {
             this.status = "充值中";
+            return;
         }
-        this.status = "已完成";
+        if (status == 2) {
+            this.status = "充值成功";
+            return;
+        }
+        if (status == 3) {
+            this.status = "退款中";
+            return;
+        }
+        if (status == 4) {
+            this.status = "充值关闭";
+            return;
+        }
+        this.status = "退款成功";
     }
 
     /**
@@ -124,12 +139,15 @@ public class BackOrderExportListVo extends GenericVo{
     public void setSupStatus(int supStatus) {
         if (supStatus == 0) {
             this.supStatus = "未提交";
+            return;
         }
         if (supStatus == 1) {
             this.supStatus = "处理中";
+            return;
         }
         if (supStatus == 2) {
             this.supStatus = "成功";
+            return;
         }
         this.supStatus = "失败";
     }
