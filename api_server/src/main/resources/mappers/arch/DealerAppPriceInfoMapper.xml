@@ -331,6 +331,7 @@ WHERE
 
     <select id="getPrice" resultType="com.jzy.api.po.arch.DealerAppPriceInfoPo">
             select
+                id as id,
                 apt_id as typeId,
                 price,
                 pay_price  as payPrice,

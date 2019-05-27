@@ -150,7 +150,7 @@ public class PayCnd extends GenericCnd {
      * @param rate price(面值) / supPrice的折扣
      */
     public void validateSupPrice(BigDecimal rate) {
-        BigDecimal inputRate = this.totalFee.divide(this.supPrice, 2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal inputRate = this.totalFee.divide(this.supPrice, 2, BigDecimal.ROUND_UP);
         int isEqual = inputRate.compareTo(rate);
         if (isEqual != 0) {
             throw new BusException(ResultEnum.SUP_PRICE_ERROR);

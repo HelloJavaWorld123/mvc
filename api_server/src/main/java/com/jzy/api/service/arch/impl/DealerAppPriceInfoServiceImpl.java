@@ -310,8 +310,8 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         }
         //前台输入校验
         for (DealerAppPriceTypeCnd dealerAppPriceTypeCnd : savePriceInfoCnd.getDealerAppPriceTypeCndList()) {
-            //面值不重复校验
-            checkPrice(dealerAppPriceTypeCnd);
+            //面值不重复校验 去掉此规则 st20190527 bug 935 商品定价--面值需要可以重复
+            //checkPrice(dealerAppPriceTypeCnd);
             //可输入面值比例校验
             checkRatio(dealerAppPriceTypeCnd);
         }
