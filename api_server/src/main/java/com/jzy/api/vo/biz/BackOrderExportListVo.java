@@ -109,11 +109,25 @@ public class BackOrderExportListVo extends GenericVo{
     public void setStatus(int status) {
         if (status == 0) {
             this.status = "待支付";
+            return;
         }
         if (status == 1) {
             this.status = "充值中";
+            return;
         }
-        this.status = "已完成";
+        if (status == 2) {
+            this.status = "充值成功";
+            return;
+        }
+        if (status == 3) {
+            this.status = "退款中";
+            return;
+        }
+        if (status == 4) {
+            this.status = "充值关闭";
+            return;
+        }
+        this.status = "退款成功";
     }
 
     /**
