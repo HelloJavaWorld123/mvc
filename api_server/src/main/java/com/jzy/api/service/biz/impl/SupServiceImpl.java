@@ -180,8 +180,8 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         if (!md5Sign.equals(sign)) {
             log.debug("SUP订单异步通知验签失败,本地签名md5Sign=".concat(md5Sign).concat(",请求签名sign=").concat(sign));
             //微信或支付宝退单
-            orderService.tradeRefund(order);
-            //orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 3, Order.TradeStatusConst.REFUND_SICCESS,3);
+            //orderService.tradeRefund(order);
+            orderService.updateStatusTradeStatusSupStatus(order.getOrderId(), 3, Order.TradeStatusConst.REFUND_SICCESS,3);
             response.getWriter().write("<receive>error</receive>");
             return;
         }
@@ -280,6 +280,11 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         log.debug("sup充值提交请求:{}", reqUrl);
         return reqUrl;
     }
+
+    /**
+     *
+     */
+
 
     /**
      * <b>功能描述：</b>转换字符集<br>
