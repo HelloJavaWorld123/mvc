@@ -105,7 +105,7 @@ public class PayController extends GenericController {
             // 和数据库中的面值匹配到了
             actualPayAmount = appPriceInfo.getActualPayAmount(payCnd.getDiscount());
             payCnd.validateTradeFee(actualPayAmount);
-            payCnd.validateSupPrice(appPriceInfo.getPrice().divide(appPriceInfo.getSupPrice(), 2, BigDecimal.ROUND_HALF_UP));
+            payCnd.validateSupPrice(appPriceInfo.getPrice().divide(appPriceInfo.getSupPrice(), 2, BigDecimal.ROUND_UP));
         }
     }
 

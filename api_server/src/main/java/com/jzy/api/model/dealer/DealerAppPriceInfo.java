@@ -110,9 +110,9 @@ public class DealerAppPriceInfo extends GenericModel {
      */
     public BigDecimal getActualPayAmount(BigDecimal discount) {
         if (discount.compareTo(BigDecimal.ZERO) == 0) {
-            return this.payPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+            return this.payPrice.setScale(2, BigDecimal.ROUND_UP);
         }
-        return this.price.multiply(this.discount).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return this.price.multiply(this.discount).setScale(2, BigDecimal.ROUND_UP);
     }
 
     /**
@@ -122,8 +122,8 @@ public class DealerAppPriceInfo extends GenericModel {
      */
     public BigDecimal getCustomPayAmount(BigDecimal totalFee) {
         if (this.discount.compareTo(BigDecimal.ZERO) == 0) {
-            return totalFee.setScale(2, BigDecimal.ROUND_HALF_UP);
+            return totalFee.setScale(2, BigDecimal.ROUND_UP);
         }
-        return totalFee.multiply(this.discount).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return totalFee.multiply(this.discount).setScale(2, BigDecimal.ROUND_UP);
     }
 }
