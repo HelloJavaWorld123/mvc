@@ -461,6 +461,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      */
     @Override
     public List<Order> queryExcelExportBackOrderList(BackOrderCnd backOrderCnd) {
+        //订单导出不分页 st20190527 解决902bug
+        //PageHelper.startPage(backOrderCnd.getPage(), backOrderCnd.getLimit(), false);
         return orderMapper.queryBackOrderList(backOrderCnd.getStartDate(), backOrderCnd.getEndDate(),
                 backOrderCnd.getSupStatus(), backOrderCnd.getStatus(), backOrderCnd.getKey(), backOrderCnd.getDealerId(),
                 getDealerId());
