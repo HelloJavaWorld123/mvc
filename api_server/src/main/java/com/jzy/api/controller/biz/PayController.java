@@ -100,7 +100,7 @@ public class PayController extends GenericController {
             // 自定义支付金额
             actualPayAmount = customAppPriceInfo.getCustomPayAmount(payCnd.getTotalFee());
             payCnd.validateTradeFee(actualPayAmount);
-            payCnd.validateSupPrice(customAppPriceInfo.getPrice().divide(customAppPriceInfo.getSupPrice(), 2, BigDecimal.ROUND_HALF_UP));
+            payCnd.validateSupPrice(customAppPriceInfo.getPrice().divide(customAppPriceInfo.getSupPrice(), 2, BigDecimal.ROUND_UP));
         } else {
             // 和数据库中的面值匹配到了
             actualPayAmount = appPriceInfo.getActualPayAmount(payCnd.getDiscount());
@@ -160,5 +160,5 @@ public class PayController extends GenericController {
         order.setIsWxAuth(payCnd.getIsWxAuth());
         return order;
     }
-    
+
 }
