@@ -40,7 +40,7 @@
             dapi.id as priceId
         FROM
             dealer_app_price_info dapi
-            LEFT JOIN dealer_app_info dai ON ( dapi.ai_id = dai.ai_id AND dai.`status` = 1 )
+            LEFT JOIN dealer_app_info dai ON ( dapi.ai_id = dai.ai_id AND dai.dealer_id=dapi.dealer_id AND dai.`status` = 1 )
             LEFT JOIN app_info ai ON ( ai.id = dapi.ai_id AND ai.`status` = 1 )
         WHERE
             1 = 1
@@ -48,6 +48,7 @@
             AND ai.STATUS = 1
             AND ai.del_flag = 0
             AND dai.dealer_id = #{dealerId}
+            AND dapi.dealer_id = #{dealerId}
             AND dapi.`status` = 1
             <if test="queryName != null">
                 AND ai.name like CONCAT('%',#{queryName},'%')
