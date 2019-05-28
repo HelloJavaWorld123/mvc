@@ -231,6 +231,13 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
                 //String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
                 String orderId = orderService.queryOrderIdByoutTradeNo(outTradeNo);
 
+                log.debug("-支付回调-updateWxCallBack--orderId---"+orderId+"-outTradeNo---"+outTradeNo+"----transactionId---"+transactionId+"---result_code---"+notifyMap.get("result_code"));
+
+                if(null==orderId || "".equals(orderId) ){
+                    log.error("--重大error---没有查到此订单---"+outTradeNo+"--参数--"+ notifyMap.toString());
+                    return returnXML(SUCCESS);
+                }
+
                 tradeRecordService.updateWxCallbackStatus(transactionId, notifyMap.get("result_code").equalsIgnoreCase(SUCCESS) ? 4 : 3, notifyMap.toString(), notifyMap.get("attach"), 1);
                 // 业务处理
                 // 注意特殊情况：订单已经退款，但收到了支付结果成功的通知，不应把商户侧订单状态从退款改成支付成功
@@ -257,7 +264,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
 
             //String orderId = outTradeNo.substring(0, outTradeNo.length() - 7);
             String orderId = orderService.queryOrderIdByoutTradeNo(outTradeNo);
-
+            log.debug("-退款回调-updateWxCallBack--orderId---"+orderId+"-outTradeNo---"+outTradeNo+"---outRefundNo---"+outRefundNo+"---refundStatus---"+refundStatus);
             tradeRecordService.updateBgRespByOperatorStatus(reqInfoMap.get("refund_id"), refundStatus ? 4 : 3, reqInfoMap.toString(), outRefundNo, 1);
             if (refundStatus) {
                 orderService.updateTradeStatus(orderId, Order.TradeStatusConst.REFUND_SICCESS);
