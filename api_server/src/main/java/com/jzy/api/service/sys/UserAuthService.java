@@ -19,7 +19,7 @@ public interface UserAuthService extends GenericService<UserAuth> {
      * <b>修订记录：</b><br>
      * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    UserAuth queryUserAuthByUserId(String userId);
+    UserAuth queryUserAuthByUserId(String userId,Integer dealerId);
 
 //    /**
 //     * <b>功能描述：</b>获取openId<br>

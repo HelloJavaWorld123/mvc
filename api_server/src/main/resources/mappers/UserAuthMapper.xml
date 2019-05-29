@@ -40,13 +40,10 @@
         SELECT
         id,
         user_id userId,
-        is_wx_auth isWxAuth,
-        open_id openId
+        is_wx_auth isWxAuth
         FROM
         user_auth
-        WHERE
-        (user_id =  #{userId} or open_id =#{userId} )
-        limit 1
+        WHERE user_id =  #{userId} and dealer_id =#{dealerId}
     </select>
 
 </mapper>

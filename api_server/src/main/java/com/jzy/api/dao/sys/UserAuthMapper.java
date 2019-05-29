@@ -2,6 +2,7 @@ package com.jzy.api.dao.sys;
 
 import com.jzy.api.model.sys.UserAuth;
 import com.jzy.framework.dao.GenericMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <b>功能：</b>前台用户信息保存<br>
@@ -19,6 +20,6 @@ public interface UserAuthMapper extends GenericMapper<UserAuth> {
      * <b>修订记录：</b><br>
      * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    UserAuth queryUserAuthByUserId(String userId);
+    UserAuth queryUserAuthByUserId(@Param("userId") String userId,@Param("dealerId") Integer dealerId);
 
 }
