@@ -8,6 +8,7 @@ import com.jzy.framework.service.impl.GenericServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * <b>功能：</b>交易记录<br>
@@ -89,6 +90,17 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
     @Override
     public String queryIdByOutTradeNo(String outTradeNo) {
         return tradeRecordMapper.queryIdByOutTradeNo(outTradeNo);
+    }
+    /** 根据订单支付号 支付类型 查询流水id
+     * @Description
+     * @Author lchl
+     * @Date 2019/5/29 2:00 PM
+     * @param paramsMap
+     * @return java.lang.String
+     */
+    @Override
+    public String queryIdByParams(Map<String, Object> paramsMap) {
+        return tradeRecordMapper.queryIdByParams(paramsMap);
     }
 
     /**

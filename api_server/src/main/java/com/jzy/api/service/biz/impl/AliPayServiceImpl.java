@@ -69,7 +69,11 @@ public class AliPayServiceImpl implements AliPayService {
     public ApiResult pay(HttpServletRequest request, Order order) {
         String subject = "玖佰充值商城" + "-" + order.getAppName();
 
-        String tradeRecordId = tradeRecordService.queryIdByOutTradeNo(order.getOutTradeNo());
+        Map<String,Object> paramsMap = new HashMap<>();
+        paramsMap.put("outTradeNo",order.getOutTradeNo());
+        paramsMap.put("trusteeship",1);
+
+        String tradeRecordId = tradeRecordService.queryIdByParams(paramsMap);
         // 支付
         String url = AlipayUtil.tradeWapPay(order, subject);
 

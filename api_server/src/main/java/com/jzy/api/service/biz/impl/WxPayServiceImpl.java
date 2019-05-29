@@ -127,8 +127,11 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
             data.put("openid", StringUtils.isEmpty(userAuth.getOpenId()) ? "ogasLxN9l-FeCs0dIKzixTw9KYo0" : userAuth.getOpenId());
             data.put("trade_type", WXPayConstants.TradeType.JSAPI.toString());
         }
+        Map<String,Object> paramsMap = new HashMap<>();
+        paramsMap.put("outTradeNo",order.getOutTradeNo());
+        paramsMap.put("trusteeship",0);
 
-        String tradeRecordId = tradeRecordService.queryIdByOutTradeNo(order.getOutTradeNo());
+        String tradeRecordId = tradeRecordService.queryIdByParams(paramsMap);
         // 返回支付标识并加签
         Map<String, String> responseData;
         try {

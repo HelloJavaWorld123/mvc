@@ -3,6 +3,8 @@ package com.jzy.api.service.biz;
 import com.jzy.api.model.biz.TradeRecord;
 import com.jzy.framework.service.GenericService;
 
+import java.util.Map;
+
 /**
  * <b>功能：</b>交易记录<br>
  * <b>Copyright JZY</b>
@@ -78,4 +80,6 @@ public interface TradeRecordService extends GenericService<TradeRecord> {
      * @return java.lang.String
      */
     String queryIdByOutTradeNo(String outTradeNo);
+
+    String queryIdByParams(Map<String, Object> paramsMap);
 }
