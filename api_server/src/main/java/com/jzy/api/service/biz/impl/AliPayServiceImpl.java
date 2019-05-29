@@ -68,20 +68,29 @@ public class AliPayServiceImpl implements AliPayService {
     @Override
     public ApiResult pay(HttpServletRequest request, Order order) {
         String subject = "玖佰充值商城" + "-" + order.getAppName();
+
+        String tradeRecordId = tradeRecordService.queryIdByOutTradeNo(order.getOutTradeNo());
         // 支付
         String url = AlipayUtil.tradeWapPay(order, subject);
-        // 新增交易记录
-        TradeRecord tradeRecord = new TradeRecord();
-        String tradeRecordId = CommUtils.lowerUUID();
-        tradeRecord.setTradeRecordId(tradeRecordId);
-        tradeRecord.setOperator(order.getOutTradeNo());
-        tradeRecord.setReqTime(new Date());
-        tradeRecord.setReqUrl(aliPayUrl.concat("?method=").concat("alipay.trade.wap.pay"));
-        tradeRecord.setReqData(url);
-        tradeRecord.setStatus(1);
-        tradeRecord.setType(0);
-        tradeRecord.setTrusteeship(1);
-        tradeRecordService.insert(tradeRecord);
+
+        if(null!=tradeRecordId && !"".equals(tradeRecordId)){
+        }else{
+            // 新增交易记录
+            TradeRecord tradeRecord = new TradeRecord();
+            tradeRecordId = CommUtils.lowerUUID();
+            tradeRecord.setTradeRecordId(tradeRecordId);
+            tradeRecord.setOperator(order.getOutTradeNo());
+            tradeRecord.setReqTime(new Date());
+            tradeRecord.setReqUrl(aliPayUrl.concat("?method=").concat("alipay.trade.wap.pay"));
+            tradeRecord.setReqData(url);
+            tradeRecord.setStatus(1);
+            tradeRecord.setType(0);
+            tradeRecord.setTrusteeship(1);
+            tradeRecordService.insert(tradeRecord);
+        }
+
+
+
         ApiResult<String> apiResult = new ApiResult<>();
         Map<String, String> otherMap = new HashMap<>();
         otherMap.put("url",url);

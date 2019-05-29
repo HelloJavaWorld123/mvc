@@ -70,4 +70,12 @@ public interface TradeRecordService extends GenericService<TradeRecord> {
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     TradeRecord queryRefundCodeByOutTradeNo(String outTradeNo);
+    /** 根据 outTradeNo查询支付流水记录的id
+     * @Description
+     * @Author lchl
+     * @Date 2019/5/28 6:27 PM
+     * @param outTradeNo
+     * @return java.lang.String
+     */
+    String queryIdByOutTradeNo(String outTradeNo);
 }

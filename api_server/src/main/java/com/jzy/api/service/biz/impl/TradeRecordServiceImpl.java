@@ -86,6 +86,11 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
         return tradeRecordMapper.queryOperator(operator, type, status);
     }
 
+    @Override
+    public String queryIdByOutTradeNo(String outTradeNo) {
+        return tradeRecordMapper.queryIdByOutTradeNo(outTradeNo);
+    }
+
     /**
      * <b>功能描述：</b>当订单为退款状态时，查询退款单号<br>
      * <b>修订记录：</b><br>

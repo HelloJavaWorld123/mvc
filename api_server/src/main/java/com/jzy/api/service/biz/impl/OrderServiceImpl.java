@@ -138,8 +138,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             order.setOutTradeNo(outTradeNo);
         }
 
-        Dealer dealer = dealerService.queryDealer(order.getDealerId());
-        order.setOutTradeNo(DateUtils.getFormatDate(new Date(),"yyyyMMdd").concat(dealer.getIdnum().replace("Num","")).concat(genCode(order.getDealerId())+""));
+//        Dealer dealer = dealerService.queryDealer(order.getDealerId());
+//        order.setOutTradeNo(DateUtils.getFormatDate(new Date(),"yyyyMMdd").concat(dealer.getIdnum().replace("Num","")).concat(genCode(order.getDealerId())+""));
         //order.setOutTradeNo(order.getOrderId().concat(CommUtils.getStringRandom(7)));
         // 获取具体的支付方式
         PayService payService = paywayProvider.getPayService(payWayId);
@@ -148,10 +148,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         try {
             apiResult = payService.pay(request, order);
         } catch (BusException bus) {
-            log.debug("payException", bus);
+            log.error("payException", bus);
           throw new PayException(bus.getMessage());
         } catch (Exception e) {
-            log.debug("payError", e);
+            log.error("payError", e);
             throw new PayException("支付异常");
         }
         // 是否临时订单

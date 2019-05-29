@@ -116,4 +116,12 @@
 
     </select>
 
+    <select id="queryIdByOutTradeNo" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT
+         id
+        FROM trade_record
+        WHERE
+         `type`=0 and operator = #{outTradeNo}
+    </select>
+
 </mapper>

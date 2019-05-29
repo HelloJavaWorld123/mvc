@@ -127,10 +127,12 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
             data.put("openid", StringUtils.isEmpty(userAuth.getOpenId()) ? "ogasLxN9l-FeCs0dIKzixTw9KYo0" : userAuth.getOpenId());
             data.put("trade_type", WXPayConstants.TradeType.JSAPI.toString());
         }
+
+        String tradeRecordId = tradeRecordService.queryIdByOutTradeNo(order.getOutTradeNo());
         // 返回支付标识并加签
         Map<String, String> responseData;
         try {
-            responseData = unifiedOrderwx(data);
+            responseData = unifiedOrderwx(data,tradeRecordId);
         } catch (ParseException e) {
             log.debug("微信返回参数解析异常", e);
             throw new PayException("微信返回参数解析异常");
@@ -167,6 +169,33 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         otherMap.put("url", payMap.get("mweb_url"));
         otherMap.put("orderId", order.getOrderId());
         return new ApiResult<>().success(JSONObject.toJSONString(otherMap));
+    }
+
+    private Map<String, String> unifiedOrderwx(Map<String, String> params, String tradeRecordId) throws ParseException {
+        Map<String, String> map;
+        if(null!=tradeRecordId && !"".equals(tradeRecordId)){
+            params.put("attach", tradeRecordId);
+        }else{
+            params.put("attach", CommUtils.lowerUUID());
+        }
+
+        WXPay wxpay;
+        try {
+            wxpay = new WXPay(WXPayConfig.getInstance());
+            map = wxpay.unifiedOrder(params);
+        } catch (Exception e) {
+            log.error("：：：Err - Wechat Pay 预付款.", e);
+            throw new PayException("微信服务不可用");
+        }
+        boolean resultStatus = SUCCESS.equalsIgnoreCase(map.get("result_code"));
+        log.debug("：：：wechat unified order result.".concat(map.toString())); // 平台记录交易
+        String reqUrl = wxpay.isUseSandbox() ? SANDBOX_UNIFIEDORDER_URL_SUFFIX : UNIFIEDORDER_URL_SUFFIX;
+
+        if(null!=tradeRecordId && !"".equals(tradeRecordId)){
+        }else{
+            tradeRecordService.insert(new TradeRecord(params.get("attach"), params.get("out_trade_no"), DateUtils.timeStr2Date(params.get("time_start")), reqUrl, params.toString(), resultStatus ? 1 : 2, 0, new Date(), map.toString(), 0));
+        }
+        return map;
     }
 
     /**
@@ -369,23 +398,6 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
     }
 
 
-    private Map<String, String> unifiedOrderwx(Map<String, String> params) throws ParseException {
-        Map<String, String> map;
-        params.put("attach", CommUtils.lowerUUID());
-        WXPay wxpay;
-        try {
-            wxpay = new WXPay(WXPayConfig.getInstance());
-            map = wxpay.unifiedOrder(params);
-        } catch (Exception e) {
-            log.error("：：：Err - Wechat Pay 预付款.", e);
-            throw new PayException("微信服务不可用");
-        }
-        boolean resultStatus = SUCCESS.equalsIgnoreCase(map.get("result_code"));
-        log.debug("：：：wechat unified order result.".concat(map.toString())); // 平台记录交易
-        String reqUrl = wxpay.isUseSandbox() ? SANDBOX_UNIFIEDORDER_URL_SUFFIX : UNIFIEDORDER_URL_SUFFIX;
-        tradeRecordService.insert(new TradeRecord(params.get("attach"), params.get("out_trade_no"), DateUtils.timeStr2Date(params.get("time_start")), reqUrl, params.toString(), resultStatus ? 1 : 2, 0, new Date(), map.toString(), 0));
-        return map;
-    }
 
     /**
      * <b>功能描述：</b>退单<br>
