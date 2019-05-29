@@ -96,6 +96,8 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
         // sup同步返回成功
         if (SupConfig.SUP_STATUS_01.equals(resultCode)) {
             orderService.updateSupStatus(order.getOrderId(), 1);
+            //修改一下sup返回的备注信息,避免和异步返回备注信息相同都是成功。
+            //resultMap.put("mes","充值中");
         } else {
             // sup同步返回失败，退单
            orderService.tradeRefund(order);
@@ -109,6 +111,7 @@ public class SupServiceImpl extends GenericServiceImpl<SupRecord> implements Sup
             supRecord.setReqAmount(supRecord.getReqAmount() + 1);
             supRecord.setReqTime(new Date());
             supRecord.setReqData(supRecord.getReqData() + ";" + requestData);
+            supRecord.setRemark(resultMap.get("mes"));
             supRecordMapper.update(supRecord);
         }
     }
