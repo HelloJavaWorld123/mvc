@@ -72,6 +72,7 @@
         WHERE
         operator = #{operator}
         AND status = #{oldStatus}
+        AND trusteeship = 1
     </update>
 
     <!-- 更新交易记录_微信支付完成回调 -->
@@ -98,6 +99,7 @@
         WHERE
         operator = #{operator}
         AND status = #{oldStatus}
+        AND trusteeship = 0
     </update>
 
     <!-- 当订单为退款状态时，查询退款单号 -->
@@ -122,6 +124,16 @@
         FROM trade_record
         WHERE
          `type`=0 and operator = #{outTradeNo}
+    </select>
+    <select id="queryIdByParams" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT
+         id
+        FROM trade_record
+        WHERE
+         `type`=0 and operator = #{outTradeNo}
+         <if test="trusteeship !=null">
+            and trusteeship = #{trusteeship}
+         </if>
     </select>
 
 </mapper>
