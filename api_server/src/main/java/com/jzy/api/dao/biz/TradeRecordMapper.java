@@ -4,6 +4,8 @@ import com.jzy.api.model.biz.TradeRecord;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Map;
+
 /**
  * <b>功能：</b>交易记录<br>
  * <b>Copyright JZY</b>
@@ -88,4 +90,12 @@ public interface TradeRecordMapper extends GenericMapper<TradeRecord> {
      * @return java.lang.String
      */
     String queryIdByOutTradeNo(@Param("outTradeNo") String outTradeNo);
+    /**
+     * @Description
+     * @Author lchl
+     * @Date 2019/5/29 2:01 PM
+     * @param paramsMap
+     * @return java.lang.String
+     */
+    String queryIdByParams(Map<String, Object> paramsMap);
 }
