@@ -1,8 +1,6 @@
 package com.jzy.api.controller.auth;
 
-import com.jzy.api.annos.CreateValidator;
-import com.jzy.api.annos.DeleteValidator;
-import com.jzy.api.annos.UpdateValidator;
+import com.jzy.api.annos.*;
 import com.jzy.api.cnd.auth.SysRoleCnd;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.service.auth.SysRoleService;
@@ -72,9 +70,18 @@ public class SysRoleController extends GenericController {
 	}
 
 
+	@RequestMapping("/id")
+	public ApiResult getById(@RequestBody @Validated(IDValidator.class) SysRoleCnd sysRoleCnd){
+		Role role = sysRoleService.queryById(sysRoleCnd);
+		return new ApiResult<>(role);
+	}
+
 	private ResultEnum getResultEnum(Integer result) {
 		return result == 1 ? ResultEnum.SUCCESS : ResultEnum.FAIL;
 	}
+
+
+
 
 
 }

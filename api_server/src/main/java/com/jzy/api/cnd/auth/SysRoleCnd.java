@@ -2,6 +2,7 @@ package com.jzy.api.cnd.auth;
 
 import com.jzy.api.annos.CreateValidator;
 import com.jzy.api.annos.DeleteValidator;
+import com.jzy.api.annos.IDValidator;
 import com.jzy.api.annos.UpdateValidator;
 import lombok.Data;
 import org.apache.ibatis.annotations.Delete;
@@ -19,7 +20,7 @@ import java.util.Date;
 @Data
 public class SysRoleCnd {
 
-	@NotNull(groups = {UpdateValidator.class, DeleteValidator.class},message = "主键不能为空")
+	@NotNull(groups = {UpdateValidator.class, DeleteValidator.class, IDValidator.class},message = "主键不能为空")
 	private Long id;
 
 	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class},message = "角色名称不能为空")
