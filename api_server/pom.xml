@@ -443,6 +443,14 @@
             <version>3.4.2</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-spring-boot-web-starter -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring-boot-web-starter</artifactId>
+            <version>1.4.1</version>
+        </dependency>
+
+
     </dependencies>
 
     <!-- 配置经编译插件 -->

@@ -56,7 +56,7 @@ public class LoginController extends GenericController {
         // TODO: 2019/4/28 目前只返回一个角色名即可
         List<Role> roleList = new ArrayList<>(emp.getRoles());
         if (!roleList.isEmpty()) {
-            empVo.setRoleName(roleList.get(0).getName());
+            empVo.setRoleName(roleList.get(0).getRoleName());
         }
         empVo.setApiEmpToken(emp.getApiEmpToken());
         return apiResult.success(empVo);

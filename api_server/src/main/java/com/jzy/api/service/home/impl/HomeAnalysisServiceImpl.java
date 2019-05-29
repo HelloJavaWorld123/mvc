@@ -190,7 +190,7 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
     private String encryption(String businessId, String pubkey, String prikey, String userId) {
         String mData = "";
         try {
-            String timestamp = "1557038625";
+            String timestamp = "1559034456";
             String signData = MyEncrypt.getInstance().md5(businessId + userId + "1" + timestamp + prikey);
             String oData = "UserID=".concat(userId).concat("&Timestamp=").concat(timestamp).concat("&ApiId=1&Sign=").concat(signData);
             String des3Decrypt = DesUtil.des3Eencrypt(oData, pubkey);

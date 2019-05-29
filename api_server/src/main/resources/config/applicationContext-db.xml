@@ -12,7 +12,6 @@
     <redisson:client>
         <redisson:single-server
                 address="redis://${redis.ip}:${redis.port}"
-                password="${redis.pwd}"
                 idle-connection-timeout="10000"
                 ping-timeout="1000"
                 connect-timeout="10000"

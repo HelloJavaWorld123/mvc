@@ -40,4 +40,29 @@ public class GenericModel {
      */
     protected Long modifierId;
 
+    public GenericModel() {
+    }
+
+    public GenericModel(Long id, Integer delFlag, Date createTime, Long creatorId, Date modifyTime, Long modifierId) {
+        this.id = id;
+        this.delFlag = delFlag;
+        this.createTime = createTime;
+        this.creatorId = creatorId;
+        this.modifyTime = modifyTime;
+        this.modifierId = modifierId;
+    }
+
+    public GenericModel(Integer delFlag, Date createTime, Long creatorId, Date modifyTime, Long modifierId) {
+        this.delFlag = delFlag;
+        this.createTime = createTime;
+        this.creatorId = creatorId;
+        this.modifyTime = modifyTime;
+        this.modifierId = modifierId;
+    }
+
+    public GenericModel(Long id, Date modifyTime, Long modifierId) {
+        this.id = id;
+        this.modifyTime = modifyTime;
+        this.modifierId = modifierId;
+    }
 }
