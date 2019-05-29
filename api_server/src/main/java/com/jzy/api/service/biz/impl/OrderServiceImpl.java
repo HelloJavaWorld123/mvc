@@ -116,10 +116,16 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             if (order.getStatus() != 0) {
                 throw new BusException("订单已支付！");
             }
+            String userId = getUserId();
+            log.debug("--当前用户id--"+userId+"---订单用户id---"+order.getUserId());
+            if(!order.getUserId().equals(userId)){
+                throw new BusException("订单数据异常，请勿支付");
+            }
             // 校验订单是否已超过15分钟失效时间
             if (new Date().getTime() - order.getCreateTime().getTime() > TIMEOUT) {
                 throw new BusException("订单已超时，请重新选择商品进行支付！");
             }
+
         }
         // 设置支付方式，防止重新支付，更换支付方式
         order.setTradeMethod(payWayId);
