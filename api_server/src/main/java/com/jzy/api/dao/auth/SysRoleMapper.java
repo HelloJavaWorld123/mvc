@@ -1,7 +1,11 @@
 package com.jzy.api.dao.auth;
 
+import com.jzy.api.cnd.auth.SysRoleCnd;
 import com.jzy.api.model.auth.Role;
+import com.jzy.api.vo.auth.SysRoleVo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * Author : RXK
@@ -30,4 +34,11 @@ public interface SysRoleMapper{
 	 * 逻辑删除
 	 */
 	Integer updateDelFLag(@Param("id") Long id);
+
+	/**
+	 * 角色列表查询
+	 */
+	List<SysRoleVo> list(@Param("sysRoleCnd") SysRoleCnd sysRoleCnd);
+
+	List<Role> findByIds(@Param("roleList") List<Long> roleList);
 }

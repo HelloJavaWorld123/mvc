@@ -1,8 +1,11 @@
 package com.jzy.api.model.auth;
 
+import com.jzy.api.cnd.auth.SysPermissionCnd;
 import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.Date;
 
 /**
  * Author : RXK
@@ -14,8 +17,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class SysPermission extends GenericModel {
 
-	private int terminal;
-
 	private String uniqueKey;
 
 	private String parentKey;
@@ -26,6 +27,38 @@ public class SysPermission extends GenericModel {
 
 	private int leafNode;
 
+	private int permissionStatus;
+
 	private String description;
 
+
+	private SysPermission(Integer delFlag, Date createTime, Long creatorId, Date modifyTime, Long modifierId, String uniqueKey, String parentKey, String permissionName, int permissionType, int leafNode,int permissionStatus, String description) {
+		super(delFlag, createTime, creatorId, modifyTime, modifierId);
+		this.uniqueKey = uniqueKey;
+		this.parentKey = parentKey;
+		this.permissionName = permissionName;
+		this.permissionType = permissionType;
+		this.leafNode = leafNode;
+		this.permissionStatus = permissionStatus;
+		this.description = description;
+	}
+
+	private SysPermission(Long id, Date modifyTime, Long modifierId, String uniqueKey, String parentKey, String permissionName, int permissionType, int leafNode, int permissionStatus,String description) {
+		super(id, modifyTime, modifierId);
+		this.uniqueKey = uniqueKey;
+		this.parentKey = parentKey;
+		this.permissionName = permissionName;
+		this.permissionType = permissionType;
+		this.leafNode = leafNode;
+		this.permissionStatus = permissionStatus;
+		this.description = description;
+	}
+
+	public static SysPermission build(SysPermissionCnd permissionCnd) {
+		return new SysPermission(0, new Date(), 1L, new Date(), 1L, permissionCnd.getUniqueKey(), permissionCnd.getParentKey(), permissionCnd.getPermissionName(), permissionCnd.getPermissionType(), permissionCnd.getLeafNode(), permissionCnd.getPermissionStatus(),permissionCnd.getDescription());
+	}
+
+	public static SysPermission update(SysPermissionCnd permissionCnd) {
+		return new SysPermission(permissionCnd.getId(), new Date(), 2L, permissionCnd.getUniqueKey(), permissionCnd.getParentKey(), permissionCnd.getPermissionName(), permissionCnd.getPermissionType(),permissionCnd.getLeafNode(), permissionCnd.getPermissionStatus(),permissionCnd.getDescription());
+	}
 }

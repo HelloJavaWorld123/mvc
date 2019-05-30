@@ -11,7 +11,7 @@
 	陕西佳之易网络科技有限公司 版本所有
  -->
 
-<mapper namespace="com.jzy.api.dao.sys.SysEmpRoleMapper">
+<mapper namespace="com.jzy.api.model.sys.SysEmpRoleMapper">
 
     <insert id="insert" parameterType="com.jzy.api.model.sys.SysEmpRole">
         INSERT INTO
@@ -26,6 +26,27 @@
             #{roleId}
             )
 </insert>
+
+    <insert id="batchInsert">
+        INSERT INTO `sys_emp_role`(`emp_id`, `role_id`)
+        VALUES
+        <foreach collection="roleList" separator="," item="roleId" open="(" close=")">
+            #{empId},#{roleId}
+        </foreach>
+    </insert>
+
+    <delete id="deleteByEmpId">
+        DELETE FROM sys_emp_role WHERE emp_id = #{id}
+    </delete>
+
+    <select id="findByEmpId" resultType="com.jzy.api.model.auth.SysEmpRole">
+        SELECT
+            emp_id AS empId,
+            role_id AS roleId
+        FROM sys_emp_role
+        WHERE
+            emp_id = #{empId}
+    </select>
 
 
 </mapper>

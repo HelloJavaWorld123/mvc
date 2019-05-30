@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzy.api.dao.auth.SysEmpMapper">
+    <insert id="add" parameterType="com.jzy.api.model.auth.SysEmp">
+        INSERT INTO `sys_emp`(`name`, `pwd`, `status`, `creator_id`, `modifier_id`, `create_time`, `modify_time`, `del_flag`, `dealer_id`)
+        VALUES (
+            #{sysEmp.name},
+            #{sysEmp.password},
+            #{sysEmp.status},
+            #{sysEmp.creatorId},
+            #{sysEmp.modifyId},
+            #{sysEmp.createTime},
+            #{sysEmp.modifyTime},
+            #{sysEmp.delFlag},
+            #{sysEmp.dealerId}
+        );
+    </insert>
+    <update id="update" parameterType="com.jzy.api.model.auth.SysEmp">
+        UPDATE sys_emp
+        SET
+            name = #{sysEmp.name},
+            pwd = #{sysEmp.password}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteById" parameterType="java.lang.Long">
+        UPDATE sys_emp
+        SET del_flag = 1
+        WHERE id = #{id}
+    </delete>
+
+    <select id="list" resultType="com.jzy.api.vo.auth.SysEmpVo">
+         SELECT
+            id,
+            name,
+            pwd AS password,
+            status,
+            dealer_id AS dealerId
+        FROM sys_emp
+        <where>
+            status = 0
+            <if test="sysEmpCnd.name != null and sysEmpCnd.name != ''">
+               AND name = #{sysEmpCnd.name}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+    <select id="findById" resultType="com.jzy.api.model.auth.SysEmp" parameterType="java.lang.Long">
+        SELECT
+            id,
+            name,
+            pwd AS password,
+            status,
+            dealer_id AS dealerId
+        FROM sys_emp
+        WHERE id = #{id} AND status = 0;
+    </select>
+</mapper>

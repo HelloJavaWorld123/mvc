@@ -10,7 +10,7 @@
     <update id="update" parameterType="com.jzy.api.model.auth.Role">
         UPDATE `sys_role`
         SET
-            `role_name` = #{role.roleName},
+            `name` = #{role.name},
             `role_value` = #{role.roleValue},
             `decription` = #{role.description},
             `status` = #{role.status},
@@ -27,7 +27,7 @@
 
     <select id="queryById" resultType="com.jzy.api.model.auth.Role">
         SELECT
-            role_name AS roleName,
+            name,
             role_value AS roleValue,
             decription,
             status,
@@ -36,5 +36,42 @@
         WHERE id = 1
         AND status = 0
         AND del_flag = 0
+    </select>
+    <select id="list" resultType="com.jzy.api.vo.auth.SysRoleVo">
+        SELECT
+        id,
+        name,
+        role_value AS roleValue,
+        description,
+        `status`
+        FROM `sys_role`
+        <where>
+            status = 0
+            AND
+            del_flag = 0
+            <if test="sysRoleCnd.roleName != null and sysRoleCnd.roleName != ''">
+               AND name LIKE CONCAT ('%',#{sysRoleCnd.name},'%')
+            </if>
+            <if test="sysRoleCnd.roleValue != null and sysRoleCnd != ''">
+               AND role_value LIKE CONCAT ('%',#{sysRoleCnd.roleValue},'%')
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="findByIds" resultType="com.jzy.api.model.auth.Role">
+        SELECT
+            name,
+            role_value AS roleValue,
+            decription,
+            status,
+            del_flag AS delFlag
+        FROM sys_role
+        WHERE id IN
+        (
+            <foreach collection="roleList" item="id" separator=",">
+                #{id}
+            </foreach>
+        )
     </select>
 </mapper>

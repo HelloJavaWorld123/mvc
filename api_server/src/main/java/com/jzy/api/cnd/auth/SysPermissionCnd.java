@@ -3,7 +3,9 @@ package com.jzy.api.cnd.auth;
 import com.jzy.api.annos.CreateValidator;
 import com.jzy.api.annos.DeleteValidator;
 import com.jzy.api.annos.UpdateValidator;
+import com.jzy.framework.bean.cnd.PageCnd;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
@@ -15,7 +17,8 @@ import javax.validation.constraints.NotNull;
  * Desc: 权限资源入参
  **/
 @Data
-public class SysPermissionCnd {
+@EqualsAndHashCode(callSuper = true)
+public class SysPermissionCnd extends PageCnd {
 
 	@NotNull(groups = {UpdateValidator.class, DeleteValidator.class},message = "主键不能为空")
 	private Long id;

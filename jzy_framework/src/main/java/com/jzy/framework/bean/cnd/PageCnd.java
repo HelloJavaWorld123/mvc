@@ -14,15 +14,20 @@ import lombok.Data;
  */
 @Data
 public class PageCnd extends GenericCnd {
+
+    public interface PageValidator{
+
+    }
+
     /**
      * 第几页
      */
-    @NotNull
+    @NotNull(groups = {PageValidator.class},message = "当前页不能为空")
     private Integer page;
     /**
      * 每页显示多少条
      */
-    @NotNull
+    @NotNull(groups = {PageValidator.class},message = "当前页的条数不能为空")
     private Integer limit;
 
 }

@@ -11,7 +11,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 public class Role extends GenericModel {
 
-    private String roleName;
+    private String name;
 
     private String roleValue;
 
@@ -21,7 +21,7 @@ public class Role extends GenericModel {
 
     private Role(Long id, Date modifyTime, Long modifierId, String roleName, String roleValue, String description, int status) {
         super(id, modifyTime, modifierId);
-        this.roleName = roleName;
+        this.name = roleName;
         this.roleValue = roleValue;
         this.description = description;
         this.status = status;
@@ -29,7 +29,7 @@ public class Role extends GenericModel {
 
     private Role(Integer delFlag, Date createTime, Long creatorId, Date modifyTime, Long modifierId, String roleName, String roleValue, String description, int status) {
         super(delFlag, createTime, creatorId, modifyTime, modifierId);
-        this.roleName = roleName;
+        this.name = roleName;
         this.roleValue = roleValue;
         this.description = description;
         this.status = status;
@@ -42,10 +42,10 @@ public class Role extends GenericModel {
 
 
     public static Role build(SysRoleCnd sysRoleCnd) {
-        return new Role(sysRoleCnd.getRoleName(), sysRoleCnd.getRoleValue(), sysRoleCnd.getDescription(), sysRoleCnd.getStatus());
+        return new Role(sysRoleCnd.getName(), sysRoleCnd.getRoleValue(), sysRoleCnd.getDescription(), sysRoleCnd.getStatus());
     }
 
     public static Role update(SysRoleCnd sysRoleCnd) {
-        return new Role(sysRoleCnd.getId(),new Date(),2L,sysRoleCnd.getRoleName(),sysRoleCnd.getRoleValue(),sysRoleCnd.getDescription(),sysRoleCnd.getStatus());
+        return new Role(sysRoleCnd.getId(),new Date(),2L,sysRoleCnd.getName(),sysRoleCnd.getRoleValue(),sysRoleCnd.getDescription(),sysRoleCnd.getStatus());
     }
 }

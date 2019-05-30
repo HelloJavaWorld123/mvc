@@ -1,6 +1,9 @@
 package com.jzy.api.dao.sys;
 
-import com.jzy.api.model.sys.SysEmpRole;
+import com.jzy.api.model.auth.SysEmpRole;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <b>功能：</b>职务角色表<br>
@@ -18,5 +21,20 @@ public interface SysEmpRoleMapper {
      * <b>修订记录：</b><br>
      * <li>20190511&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    int insert(SysEmpRole sysEmpRole);
+    int insert(@Param("sysEmpRole") SysEmpRole sysEmpRole);
+
+	/**
+	 * 删除指定用户下的所有的关联关系
+	 * @param id ：当前用户的id
+	 */
+	void deleteByEmpId(@Param("id") Long id);
+
+	/**
+	 * 指定用户新增关联关系
+	 * @param id ：指定的用户
+	 * @param roleList ：角色id
+	 */
+	Integer batchInsert(@Param("empId") Long id, @Param("roleList") List<Long> roleList);
+
+	List<SysEmpRole> findByEmpId(Long empId);
 }

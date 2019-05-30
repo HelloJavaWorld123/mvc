@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzy.api.dao.auth.SysPermissionMapper">
+    <insert id="add" parameterType="com.jzy.api.model.auth.SysPermission">
+        INSERT INTO `sys_permission`(`unique_key`, `parent_key`, `permission_name`, `permission_type`, `leaf_node`, `permission_status`, `description`, `del_flag`, `create_time`, `modify_time`, `create_id`, `modify_id`)
+        VALUES (
+            #{permission.uniqueKey},
+            #{permission.parentKey},
+            #{permission.permissionName},
+            #{permission.permissionType},
+            #{permission.leafNode},
+            #{permission.permissionStatus},
+            #{permission.description},
+            #{permission.delFlag},
+            #{permission.createTime},
+            #{permission.modifyTime},
+            #{permission.createId},
+            #{permission.modifyId}
+        );
+    </insert>
+    <update id="update" parameterType="com.jzy.api.model.auth.SysPermission">
+        UPDATE `sys_permission`
+        SET
+            `unique_key` = #{permission.uniqueKey},
+            `parent_key` = #{permission.parentKey},
+            `permission_name` = #{permission.permissionName},
+            `permission_type` = #{permission.permissionType},
+            `leaf_node` = #{permission.leafNode},
+            `permission_status` = #{permission.permissionStatus},
+            `description` = #{permission.description},
+            `modify_time` = #{permission.modifyTime},
+            `modify_id` = #{permission.modifyId}
+         WHERE `id` = 1;
+
+    </update>
+    <delete id="delete">
+        UPDATE sys_permission
+        SET del_flag = 1
+        WHERE id = #{id}
+    </delete>
+
+    <select id="list" resultType="com.jzy.api.vo.auth.SysPermissionVo">
+        SELECT
+            unique_key AS uniqueKey,
+            parent_key AS parentKey,
+            permission_name AS permissionName,
+            permission_type AS permissionType,
+            leaf_node AS leafNode,
+            permission_status AS permissionStatus,
+            description
+        FROM `sys_permission`
+        WHERE permission_status = 0 AND del_flag = 0
+        ORDER BY create_time DESC
+    </select>
+    <select id="findById" resultType="com.jzy.api.model.auth.SysPermission">
+        SELECT
+            id,
+            unique_key AS uniqueKey,
+            parent_key AS parentKey,
+            permission_name AS permissionName,
+            permission_type AS permissionType,
+            leaf_node AS leafNode,
+            permission_status AS permissionStatus,
+            description,
+        WHERE id = #{id}
+    </select>
+
+
+</mapper>
+

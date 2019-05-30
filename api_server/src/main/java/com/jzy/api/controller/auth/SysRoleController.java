@@ -7,6 +7,7 @@ import com.jzy.api.service.auth.SysRoleService;
 import com.jzy.api.vo.auth.SysRoleVo;
 import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.PageCnd;
+import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ public class SysRoleController extends GenericController {
 	private SysRoleService sysRoleService;
 
 	@RequestMapping("/list")
-	public ApiResult<List<SysRoleVo>> list(@RequestBody PageCnd pageCnd){
-		List<SysRoleVo> sysRoleVos = sysRoleService.list(pageCnd);
+	public ApiResult list(@RequestBody @Validated(value = {PageCnd.PageValidator.class}) SysRoleCnd sysRoleCnd){
+		PageVo<SysRoleVo> sysRoleVos = sysRoleService.list(sysRoleCnd);
 		return new ApiResult<>(sysRoleVos);
 	}
 

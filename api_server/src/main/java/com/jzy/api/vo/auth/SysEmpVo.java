@@ -4,21 +4,21 @@ import lombok.Data;
 
 /**
  * Author : RXK
- * Date : 2019/5/29 17:41
+ * Date : 2019/5/30 12:14
  * Version: V1.0.0
- * Desc: 系统角色出参
+ * Desc:
  **/
 @Data
-public class SysRoleVo {
+public class SysEmpVo {
 
 	private Long id;
 
 	private String name;
 
-	private String roleValue;
-
-	private String description;
+	private String password;
 
 	private int status;
+
+	private Long dealerId;
 
 }

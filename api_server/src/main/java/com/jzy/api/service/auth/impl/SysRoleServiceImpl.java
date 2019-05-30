@@ -1,11 +1,13 @@
 package com.jzy.api.service.auth.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.jzy.api.cnd.auth.SysRoleCnd;
 import com.jzy.api.dao.auth.SysRoleMapper;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.service.auth.SysRoleService;
 import com.jzy.api.vo.auth.SysRoleVo;
-import com.jzy.framework.bean.cnd.PageCnd;
+import com.jzy.framework.bean.vo.PageVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,8 +27,10 @@ public class SysRoleServiceImpl implements SysRoleService {
 
 
 	@Override
-	public List<SysRoleVo> list(PageCnd pageCnd) {
-		return null;
+	public PageVo<SysRoleVo> list(SysRoleCnd sysRoleCnd) {
+		Page<SysRoleVo> page = PageHelper.startPage(sysRoleCnd.getPage(),sysRoleCnd.getLimit());
+		List<SysRoleVo> result = sysRoleMapper.list(sysRoleCnd);
+		return new PageVo<>(sysRoleCnd.getPage(), sysRoleCnd.getLimit(), page.getTotal(), result);
 	}
 
 	@Override
@@ -48,5 +52,10 @@ public class SysRoleServiceImpl implements SysRoleService {
 	@Override
 	public Integer deleteById(Role role) {
 		return sysRoleMapper.updateDelFLag(role.getId());
+	}
+
+	@Override
+	public List<Role> findByIds(List<Long> roleList) {
+		return sysRoleMapper.findByIds(roleList);
 	}
 }
