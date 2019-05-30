@@ -8,6 +8,7 @@ import com.jzy.api.cnd.arch.UpdateDealerStatusCnd;
 import com.jzy.api.dao.arch.DealerBaseInfoMapper;
 import com.jzy.api.dao.arch.DealerMapper;
 import com.jzy.api.dao.arch.DealerParamMapper;
+import com.jzy.api.dao.biz.OrderMapper;
 import com.jzy.api.dao.sys.SysEmpRoleMapper;
 import com.jzy.api.model.app.FileInfo;
 import com.jzy.api.model.dealer.Dealer;
@@ -30,6 +31,7 @@ import com.jzy.api.service.sys.SysImagesService;
 import com.jzy.api.util.MD5Util;
 import com.jzy.api.util.MyEncrypt;
 import com.jzy.api.vo.dealer.DealerDetailVo;
+import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
@@ -87,6 +89,9 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
 
     @Resource
     private DealerParamService dealerParamService;
+
+    @Resource
+    private OrderMapper orderMapper;
 
     @Override
     public Dealer queryDealer(String dealerId) {
@@ -313,6 +318,14 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      */
     @Override
     public void updateDealerPubAndPriKey(Long dealerId) {
+        Map<String,Object> paramsMap = new HashMap<>();
+        paramsMap.put("dealerId",dealerId);
+        Integer count = orderMapper.queryCountByParams(paramsMap);
+
+        if(count>0){
+           throw new BusException(ResultEnum.DEALER_UNABE_KEY.getMsg(),ResultEnum.DEALER_UNABE_KEY.getCode());
+        }
+
         Dealer dealer = new Dealer();
         dealer.setId(dealerId);
         String pubkey = MyEncrypt.getInstance().obscureMd5(new Date().toString());
