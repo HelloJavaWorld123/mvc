@@ -38,6 +38,8 @@
     </bean>-->
 
 
+    <bean class="com.jzy.api.base.SwaggerConfig"/>
+
     <!-- JNDI DataSource for J2EE environments -->
     <bean id="mySqlDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <!--<property name="driverClassName" value="${jdbc.mysql.driver}"/>-->

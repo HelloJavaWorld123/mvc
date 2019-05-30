@@ -13,7 +13,7 @@
 
 <mapper namespace="com.jzy.api.dao.auth.SysEmpRoleMapper">
 
-    <insert id="insert" parameterType="com.jzy.api.model.sys.SysEmpRole">
+    <insert id="insert" parameterType="com.jzy.api.model.auth.SysEmpRole">
         INSERT INTO
             sys_emp_role
             (

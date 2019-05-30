@@ -26,8 +26,11 @@
     <!--  根据用户id获取角色信息 -->
     <select id="queryRoleList" resultType="com.jzy.api.model.auth.Role">
         SELECT
-        role.id,
-        role. NAME
+            role.id,
+            role.name,
+            role.role_value AS roleValue,
+            role.description,
+            role.status
         FROM
         sys_role role
         WHERE

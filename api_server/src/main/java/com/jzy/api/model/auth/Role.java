@@ -19,6 +19,9 @@ public class Role extends GenericModel {
 
     private int status;
 
+    public Role() {
+    }
+
     private Role(Long id, Date modifyTime, Long modifierId, String roleName, String roleValue, String description, int status) {
         super(id, modifyTime, modifierId);
         this.name = roleName;
