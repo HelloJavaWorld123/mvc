@@ -3,6 +3,7 @@ package com.jzy.api.controller.biz;
 import com.jzy.api.annos.WithoutLogin;
 import com.jzy.api.cnd.biz.WxOAuthCnd;
 import com.jzy.api.cnd.biz.WxSdkCnd;
+import com.jzy.api.constant.AccessToken;
 import com.jzy.api.constant.PayConfig;
 import com.jzy.api.service.biz.WxPayService;
 import com.jzy.api.service.wx.WXPayUtil;
@@ -60,11 +61,12 @@ public class WxPayController extends GenericController {
      */
     @ResponseBody
     @RequestMapping(path="/wxOAuth", method = RequestMethod.POST)
-    public ApiResult wxOAuth(@RequestBody WxOAuthCnd wxOAuthCnd) {
+    public ApiResult wxOAuth(@RequestBody WxOAuthCnd wxOAuthCnd,HttpServletRequest req) {
         if (!CommUtils.exist(new String[]{"oauth", "qroauth"}, wxOAuthCnd.getType())) {
             throw new BusException("授权类型不存在");
         }
-        String authorizeUrl = wxPayService.getUrlByAuthType(wxOAuthCnd.getType());
+        String tokenHeader = req.getHeader(AccessToken.USER.getValue());
+        String authorizeUrl = wxPayService.getUrlByTypeAndyToken(wxOAuthCnd.getType(),tokenHeader);
         log.debug("authorizeUrl  -- " + authorizeUrl);
         return new ApiResult<>(authorizeUrl);
     }

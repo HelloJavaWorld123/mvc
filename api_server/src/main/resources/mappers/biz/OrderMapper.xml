@@ -560,4 +560,10 @@
     <select id="queryOrderIdByoutTradeNo" parameterType="java.lang.String" resultType="java.lang.String">
         select id from `order` where out_trade_no = #{outTradeNo}
     </select>
+    <select id="queryCountByParams" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) from `order` where 1=1
+        <if test="dealerId != null">
+        and  dealer_id = #{dealerId}
+        </if>
+    </select>
 </mapper>

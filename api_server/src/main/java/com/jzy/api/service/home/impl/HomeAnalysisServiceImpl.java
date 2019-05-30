@@ -80,33 +80,37 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
             return null;
         }
         HomeAnalysisInfoVo homeAnalysisInfoVo = new HomeAnalysisInfoVo();
-        if (homeAnalysisCnd.getIsWxAuth() == 1) {
-            homeAnalysisInfoVo.setUserId(CommUtils.lowerUUID());
+        String token = CommUtils.lowerUUID();
+        if (homeAnalysisCnd.getIsWxAuth() == 1) {//微信
+            homeAnalysisInfoVo.setUserId(token);
         } else {
+            //非微信
             homeAnalysisInfoVo.setUserId(dataInfo.getUserId());
+
+            // 存储用户信息到本地数据库中
+            insertUserAuth(homeAnalysisInfoVo.getUserId(), homeAnalysisCnd.getIsWxAuth(), dealerAnalysisInfoPo.getDealerId());
         }
+
+        redisUserCache(token,homeAnalysisInfoVo.getUserId(), Integer.parseInt(dealerAnalysisInfoPo.getDealerId()));
+        homeAnalysisInfoVo.setToken(token);
 
         //根据渠道商id获取渠道商配置信息
         List<DealerParamInfoPo> dealerParamInfoPos = dealerParamService.getDealerParamInfo(dealerAnalysisInfoPo.getDealerId());
         homeAnalysisInfoVo.setDealerParamInfoPos(dealerParamInfoPos);
         homeAnalysisInfoVo.setBusinessId(businessId);
 
-        String token = cacheUserCache(homeAnalysisInfoVo.getUserId(), Integer.parseInt(dealerAnalysisInfoPo.getDealerId()));
-
-        homeAnalysisInfoVo.setToken(token);
-
-        // 存储用户信息到本地数据库中
-        insertUserAuth(homeAnalysisInfoVo.getUserId(), homeAnalysisCnd.getIsWxAuth(), dealerAnalysisInfoPo.getDealerId());
         return homeAnalysisInfoVo;
     }
-
-    /**
-     * <b>功能描述：</b>缓存用户信息<br>
-     * <b>修订记录：</b><br>
-     * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+    /** 保存到缓存
+     * @Description
+     * @Author lchl
+     * @Date 2019/5/29 6:46 PM
+     * @param token
+     * @param userId
+     * @param dealerId
+     * @return void
      */
-    private String cacheUserCache(String userId, Integer dealerId) {
-        String token = MD5Util.string2MD5(userId);
+    private void redisUserCache(String token,String userId, Integer dealerId) {
 
         UserCache userCache = new UserCache();
         userCache.setUserId(userId);
@@ -114,7 +118,6 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
 
         RBucket<UserCache> homeAnalysisInfoVoRBucket = redissonClient.getBucket(token);
         homeAnalysisInfoVoRBucket.set(userCache, 1, TimeUnit.DAYS);
-        return token;
     }
 
     /**

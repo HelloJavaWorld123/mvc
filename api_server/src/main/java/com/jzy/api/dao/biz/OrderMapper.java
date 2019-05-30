@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <b>功能：</b>订单处理mapper<br>
@@ -231,4 +232,12 @@ public interface OrderMapper extends GenericMapper<Order> {
                                        @Param("payTime") Date payTime);
 
     String queryOrderIdByoutTradeNo(String outTradeNo);
+    /** 根据条件 查询订单数量
+     * @Description
+     * @Author lchl
+     * @Date 2019/5/30 11:57 AM
+     * @param paramsMap
+     * @return java.lang.Integer
+     */
+    Integer queryCountByParams(Map<String, Object> paramsMap);
 }

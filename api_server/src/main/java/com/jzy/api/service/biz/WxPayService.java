@@ -54,4 +54,6 @@ public interface WxPayService extends PayService {
      * jiazk 2019年5月18日
      */
     Map<String, String> getSdkConfig(String url);
+
+    String getUrlByTypeAndyToken(String type, String tokenHeader);
 }

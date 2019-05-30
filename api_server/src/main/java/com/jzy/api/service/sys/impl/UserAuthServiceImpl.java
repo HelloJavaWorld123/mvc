@@ -30,8 +30,8 @@ public class UserAuthServiceImpl extends GenericServiceImpl<UserAuth> implements
      * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public UserAuth queryUserAuthByUserId(String userId) {
-        return userAuthMapper.queryUserAuthByUserId(userId);
+    public UserAuth queryUserAuthByUserId(String userId,Integer dealerId) {
+        return userAuthMapper.queryUserAuthByUserId(userId,dealerId);
     }
 
     @Override

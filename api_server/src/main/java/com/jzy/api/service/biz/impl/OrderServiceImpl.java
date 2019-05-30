@@ -410,7 +410,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             Order order = this.queryOrderById(id);
             tradeRefund(order);
             supRecord.setRemark("失败");
-        }else {
+        }else if(2==supStatus.intValue()){
             orderMapper.updateSupStatus(id, supStatus, supStatus, new Date());
             supRecord.setRemark("成功");
         }

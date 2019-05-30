@@ -11,6 +11,7 @@ import com.jzy.api.service.biz.OrderService;
 import com.jzy.api.service.biz.SupService;
 import com.jzy.api.service.biz.TradeRecordService;
 import com.jzy.api.service.biz.WxPayService;
+import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.service.sys.UserAuthService;
 import com.jzy.api.service.wx.WXPay;
 import com.jzy.api.service.wx.WXPayConfig;
@@ -27,7 +28,6 @@ import com.jzy.framework.exception.PayException;
 import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.impl.GenericServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.apache.commons.codec.binary.Base64;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
@@ -99,6 +99,35 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
     @Resource
     private UserAuthService userAuthService;
 
+    @Resource
+    private TableKeyService tableKeyService;
+
+    @Override
+    public String getUrlByTypeAndyToken(String oauthType, String tokenHeader) {
+        String authorizeUrl = null;
+        switch (oauthType) {
+            case "baseoauth":
+                authorizeUrl = authorize_url.replace("APPID", appId)
+                        .replace("REDIRECT_URI", URLEncoder.encode(tokenHeader))
+                        .replace("SCOPE", SCOPE_SNSAPI_BASE)
+                        .replace("STATE", Base64.encodeBase64String("900Mall".getBytes()));
+                break;
+            case "oauth":
+                authorizeUrl = authorize_url.replace("APPID", appId)
+                        .replace("REDIRECT_URI", URLEncoder.encode(domainUrl.concat(callbackUrl)))
+                        .replace("SCOPE", SCOPE_SNSAPI_BASE)
+                        .replace("STATE", tokenHeader);
+                break;
+            case "qroauth":
+                authorizeUrl = website_oauth_url.replace("APPID", appId)
+                        .replace("REDIRECT_URI", URLEncoder.encode(domainUrl.concat(callbackUrl)))
+                        .replace("SCOPE", SCOPE_SNSAPI_LOGIN)
+                        .replace("STATE", Base64.encodeBase64String("900Mall".getBytes()));
+                break;
+        }
+        return authorizeUrl;
+    }
+
     /**
      * <b>功能描述：</b>支付<br>
      * <b>修订记录：</b><br>
@@ -117,14 +146,14 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         data.put("time_start", DateUtils.date2TimeStr(date));
         // 订单失效时间为15分钟之后
         data.put("time_expire", DateUtils.date2TimeStr(new Date(date.getTime() + 15 * 60 * 1000)));
-        UserAuth userAuth = userAuthService.queryUserAuthByUserId(getUserId());
+        UserAuth userAuth = userAuthService.queryUserAuthByUserId(getUserId(),getFrontDealerId());
         data.put("trade_type", WXPayConstants.TradeType.MWEB.toString());
         // 从微信公众号中进入支付，后面修改，使用前端环境传值来判断
 //        boolean isUserAuth = (userAuth != null && userAuth.getIsWxAuth() == 1);
         boolean isUserAuth = (userAuth != null && order.getIsWxAuth() == 1);
         if (isUserAuth) {
-            log.debug("from wx openId pay：" + userAuth.getOpenId());
-            data.put("openid", StringUtils.isEmpty(userAuth.getOpenId()) ? "ogasLxN9l-FeCs0dIKzixTw9KYo0" : userAuth.getOpenId());
+            log.debug("from wx openId pay：" + userAuth.getUserId());
+            data.put("openid", StringUtils.isEmpty(userAuth.getUserId()) ? "ogasLxN9l-FeCs0dIKzixTw9KYo0" : userAuth.getUserId());
             data.put("trade_type", WXPayConstants.TradeType.JSAPI.toString());
         }
         Map<String,Object> paramsMap = new HashMap<>();
@@ -328,7 +357,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
      * <b>修订记录：</b><br>
      * <li>20190423&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    private SecurityToken getOAuthToken(String code, String userId) {
+    private SecurityToken getOAuthToken(String code, String token) {
         SecurityToken oAuthToken = null;
         String requestUrl = WechatConstant.oauth_url.replace("APPID", appId).replace("SECRET", appSecret)
                 .replace("CODE", code);
@@ -340,12 +369,8 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
                         result.getInteger(WechatConstant.EXPIRES_IN), result.getString(WechatConstant.REFRESH_TOKEN),
                         result.getString(WechatConstant.OPENID), result.getString(WechatConstant.SCOPE), 1, new Date());
                 // iRedisService.setValue(OAUTH_WX_WEBSITE.concat(code), oAuthToken, result.getInteger(WechatConstant.EXPIRES_IN));
-                // 根据用户id更新用户的openId
-                UserAuth userAuth = new UserAuth();
-                userAuth.setOpenId(result.getString(WechatConstant.OPENID));
-                userAuth.setUserId(userId);
-                userAuthService.update(userAuth);
-                cacheUserCache(userId, userAuth.getOpenId());
+
+                insertUserCacheAndDB(token, result.getString(WechatConstant.OPENID));
             } else {
                 log.error("：：：Wechat website failed to get oauth_token - errcode:" + result.getString(WechatConstant.ERRCODE) + ", errmsg:"
                         + result.getString(WechatConstant.ERRMSG));
@@ -371,6 +396,31 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         }
         userCache.setUserId(openId);
         userCacheRBucket.set(userCache, 1, TimeUnit.DAYS);
+    }
+    private void insertUserCacheAndDB(String token,String openId) {
+        RBucket<UserCache> userCacheRBucket = redissonClient.getBucket(token);
+        UserCache userCache = userCacheRBucket.get();
+        if (userCache == null) {
+            throw new BusException("会员超时");
+        }
+        userCache.setUserId(openId);
+        userCacheRBucket.set(userCache, 1, TimeUnit.DAYS);
+
+        UserAuth userAuthTemp = userAuthService.queryUserAuthByUserId(openId,userCache.getDealerId());
+        if (null!=userAuthTemp){
+
+        }else{
+            // 存储用户信息到本地数据库中
+            UserAuth userAuth = new UserAuth();
+            userAuth.setId(tableKeyService.newKey("user_auth", "id", 1000));
+            userAuth.setUserId(userCache.getUserId());
+            userAuth.setIsWxAuth(1);
+            userAuth.setDealerId(userCache.getDealerId());
+
+            userAuthService.insert(userAuth);
+        }
+
+
     }
 
     /**
@@ -421,7 +471,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         return false;
     }
 
-    /**
+    /** 废弃
      * <b>功能描述：</b>根据授权类型获取跳转url地址<br>
      * <b>修订记录：</b><br>
      * <li>20190501&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
@@ -433,7 +483,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         return getUrlByAuthType(oauthType, null);
     }
 
-    /**
+    /** 废弃
      * <b>功能描述：</b>根据授权类型获取跳转url地址<br>
      * <b>修订记录：</b><br>
      * <li>20190501&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
