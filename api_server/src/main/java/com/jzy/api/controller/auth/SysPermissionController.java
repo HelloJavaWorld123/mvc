@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -32,12 +33,10 @@ public class SysPermissionController {
 	@Autowired
 	private SysPermissionService sysPermissionService;
 
-	//TODO 树形结构输出
 	@RequestMapping("/list")
-	public ApiResult list(@RequestBody @Validated(value = {PageCnd.PageValidator.class}) SysPermissionCnd permissionCnd){
-		PageVo<SysPermissionVo> pageList = sysPermissionService.list(permissionCnd);
-		ApiResult<PageVo<SysPermissionVo>> result = new ApiResult<>(pageList);
-		return result.success();
+	public ApiResult list(@RequestBody SysPermissionCnd permissionCnd){
+		List<SysPermissionVo> pageList = sysPermissionService.list(permissionCnd);
+		return new ApiResult<>().success(pageList);
 	}
 
 	@RequestMapping("/add")

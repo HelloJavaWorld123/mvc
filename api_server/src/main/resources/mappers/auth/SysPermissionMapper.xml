@@ -17,7 +17,7 @@
             #{permission.modifyTime},
             #{permission.createId},
             #{permission.modifyId}
-        );
+        ) ON DUPLICATE KEY UPDATE modify_time = now();
     </insert>
     <update id="update" parameterType="com.jzy.api.model.auth.SysPermission">
         UPDATE `sys_permission`
@@ -31,8 +31,7 @@
             `description` = #{permission.description},
             `modify_time` = #{permission.modifyTime},
             `modify_id` = #{permission.modifyId}
-         WHERE `id` = 1;
-
+         WHERE `id` = #{permission.id} ON DUPLICATE KEY UPDATE modify_time = now();
     </update>
     <delete id="delete">
         UPDATE sys_permission
@@ -63,7 +62,25 @@
             leaf_node AS leafNode,
             permission_status AS permissionStatus,
             description,
-        WHERE id = #{id}
+        WHERE id = #{id} AND permission_status = 0 AND del_flag = 0
+    </select>
+
+    <select id="findByUniqueKeys" resultType="com.jzy.api.model.auth.SysPermission">
+        SELECT
+            id,
+            unique_key AS uniqueKey,
+            parent_key AS parentKey,
+            permission_name AS permissionName,
+            permission_type AS permissionType,
+            leaf_node AS leafNode,
+        FROM sys_permission
+        WHERE unique_key IN
+        (
+            <foreach collection="permValues" separator="," item="key">
+                #{key}
+            </foreach>
+        )
+        AND permission_status = 0 AND del_flag = 0
     </select>
 
 

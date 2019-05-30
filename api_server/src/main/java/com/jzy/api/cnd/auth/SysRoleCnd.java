@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Author : RXK
@@ -23,7 +24,10 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 public class SysRoleCnd extends PageCnd {
 
-	@NotNull(groups = {UpdateValidator.class, DeleteValidator.class, IDValidator.class},message = "主键不能为空")
+
+	public interface Allot{}
+
+	@NotNull(groups = {UpdateValidator.class, DeleteValidator.class, IDValidator.class,Allot.class},message = "主键不能为空")
 	private Long id;
 
 	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class},message = "角色名称不能为空")
@@ -38,7 +42,13 @@ public class SysRoleCnd extends PageCnd {
 
 	private Integer delFlag;
 
+	@NotEmpty(groups = {Allot.class},message = "权限值不能为空")
+	private List<String> permValues;
+
+	@NotNull(groups = {Allot.class},message = "权限类型不能为空")
+	private Integer permType;
 
 	private Date createTime;
+
 	private Long createId;
 }

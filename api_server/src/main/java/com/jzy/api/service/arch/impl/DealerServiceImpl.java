@@ -9,7 +9,7 @@ import com.jzy.api.dao.arch.DealerBaseInfoMapper;
 import com.jzy.api.dao.arch.DealerMapper;
 import com.jzy.api.dao.arch.DealerParamMapper;
 import com.jzy.api.dao.biz.OrderMapper;
-import com.jzy.api.dao.sys.SysEmpRoleMapper;
+import com.jzy.api.dao.auth.SysEmpRoleMapper;
 import com.jzy.api.model.app.FileInfo;
 import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.model.dealer.Dealer;

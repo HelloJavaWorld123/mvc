@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzy.api.dao.auth.SysRolePermissionMapper">
+    <insert id="add">
+        INSERT INTO sys_role_permission (`role_id`,`permission_key`,`permission_type`)
+        VALUES
+            <foreach collection="permValues" item="permValue" separator=",">
+                (#{roleId},#{permValue},#{permType})
+            </foreach>
+    </insert>
+
+    <delete id="deleteByRoleId">
+        DELETE FROM sys_role_permission
+        WHERE role_id = #{roleId}
+    </delete>
+    <select id="findByRoleId" resultType="com.jzy.api.model.auth.SysRolePermission">
+        SELECT
+            role_id AS roleId,
+            permission_key AS permissionKey,
+            permission_type AS permissionType
+        WHERE role_id = #{roleId}
+    </select>
+</mapper>

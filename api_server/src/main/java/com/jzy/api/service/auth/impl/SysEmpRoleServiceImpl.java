@@ -1,7 +1,7 @@
 package com.jzy.api.service.auth.impl;
 
 import com.jzy.api.cnd.auth.SysEmpCnd;
-import com.jzy.api.dao.sys.SysEmpRoleMapper;
+import com.jzy.api.dao.auth.SysEmpRoleMapper;
 import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.service.auth.SysEmpRoleService;
 import org.springframework.stereotype.Service;

@@ -40,8 +40,8 @@ public class SysRoleServiceImpl implements SysRoleService {
 	}
 
 	@Override
-	public Role queryById(SysRoleCnd sysRoleCnd) {
-		return sysRoleMapper.queryById(sysRoleCnd.getId());
+	public Role queryById(Long roleId) {
+		return sysRoleMapper.queryById(roleId);
 	}
 
 	@Override

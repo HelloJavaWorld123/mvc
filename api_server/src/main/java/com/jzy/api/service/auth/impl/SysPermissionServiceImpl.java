@@ -1,13 +1,10 @@
 package com.jzy.api.service.auth.impl;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.jzy.api.cnd.auth.SysPermissionCnd;
 import com.jzy.api.dao.auth.SysPermissionMapper;
 import com.jzy.api.model.auth.SysPermission;
 import com.jzy.api.service.auth.SysPermissionService;
 import com.jzy.api.vo.auth.SysPermissionVo;
-import com.jzy.framework.bean.vo.PageVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,10 +24,8 @@ public class SysPermissionServiceImpl implements SysPermissionService {
 	private SysPermissionMapper sysPermissionMapper;
 
 	@Override
-	public PageVo<SysPermissionVo> list(SysPermissionCnd permissionCnd) {
-		Page<SysPermissionVo> page = PageHelper.startPage(permissionCnd.getPage(), permissionCnd.getLimit());
-		List<SysPermissionVo> list = sysPermissionMapper.list(permissionCnd);
-		return new PageVo<>(permissionCnd.getPage(), permissionCnd.getLimit(), page.getTotal(), list);
+	public List<SysPermissionVo> list(SysPermissionCnd permissionCnd) {
+		return sysPermissionMapper.list(permissionCnd);
 	}
 
 	@Override
@@ -51,5 +46,10 @@ public class SysPermissionServiceImpl implements SysPermissionService {
 	@Override
 	public SysPermission findById(Long id) {
 		return sysPermissionMapper.findById(id);
+	}
+
+	@Override
+	public List<SysPermission> findByKeys(List<String> permValues) {
+		return sysPermissionMapper.findByUniqueKeys(permValues);
 	}
 }

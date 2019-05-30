@@ -2,6 +2,8 @@ package com.jzy.api.vo.auth;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * Author : RXK
  * Date : 2019/5/30 10:19
@@ -10,6 +12,7 @@ import lombok.Data;
  **/
 @Data
 public class SysPermissionVo {
+
 	private Long id;
 
 	private String uniqueKey;
@@ -24,6 +27,6 @@ public class SysPermissionVo {
 
 	private String description;
 
-
+	private List<SysPermissionVo> child;
 
 }

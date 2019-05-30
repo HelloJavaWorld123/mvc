@@ -39,4 +39,10 @@ public interface SysPermissionMapper {
 	 * 查询指定的信息
 	 */
 	SysPermission findById(@Param("id") Long id);
+
+	/**
+	 * 根据资源的唯一键
+	 * @param permValues ：资源唯一的key
+	 */
+	List<SysPermission> findByUniqueKeys(@Param("permValues") List<String> permValues);
 }

@@ -11,7 +11,7 @@
 	陕西佳之易网络科技有限公司 版本所有
  -->
 
-<mapper namespace="com.jzy.api.model.sys.SysEmpRoleMapper">
+<mapper namespace="com.jzy.api.dao.auth.SysEmpRoleMapper">
 
     <insert id="insert" parameterType="com.jzy.api.model.sys.SysEmpRole">
         INSERT INTO
@@ -30,8 +30,8 @@
     <insert id="batchInsert">
         INSERT INTO `sys_emp_role`(`emp_id`, `role_id`)
         VALUES
-        <foreach collection="roleList" separator="," item="roleId" open="(" close=")">
-            #{empId},#{roleId}
+        <foreach collection="roleList" separator="," item="roleId">
+            (#{empId},#{roleId})
         </foreach>
     </insert>
 

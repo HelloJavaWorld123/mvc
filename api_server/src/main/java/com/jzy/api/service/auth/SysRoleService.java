@@ -28,8 +28,9 @@ public interface SysRoleService{
 
 	/**
 	 * 根据id 查询角色
+	 * @param roleId
 	 */
-	Role queryById(SysRoleCnd sysRoleCnd);
+	Role queryById(Long roleId);
 
 
 	/**
