@@ -406,14 +406,20 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         userCache.setUserId(openId);
         userCacheRBucket.set(userCache, 1, TimeUnit.DAYS);
 
-        // 存储用户信息到本地数据库中
-        UserAuth userAuth = new UserAuth();
-        userAuth.setId(tableKeyService.newKey("user_auth", "id", 1000));
-        userAuth.setUserId(userCache.getUserId());
-        userAuth.setIsWxAuth(1);
-        userAuth.setDealerId(userCache.getDealerId());
+        UserAuth userAuthTemp = userAuthService.queryUserAuthByUserId(openId,userCache.getDealerId());
+        if (null!=userAuthTemp){
 
-        userAuthService.insert(userAuth);
+        }else{
+            // 存储用户信息到本地数据库中
+            UserAuth userAuth = new UserAuth();
+            userAuth.setId(tableKeyService.newKey("user_auth", "id", 1000));
+            userAuth.setUserId(userCache.getUserId());
+            userAuth.setIsWxAuth(1);
+            userAuth.setDealerId(userCache.getDealerId());
+
+            userAuthService.insert(userAuth);
+        }
+
 
     }
 
