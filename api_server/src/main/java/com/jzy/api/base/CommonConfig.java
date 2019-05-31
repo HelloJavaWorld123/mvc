@@ -3,6 +3,7 @@ package com.jzy.api.base;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.validation.Validator;
@@ -14,7 +15,9 @@ import javax.validation.Validator;
  * Desc:
  **/
 @Configuration
+@EnableWebMvc
 public class CommonConfig extends WebMvcConfigurerAdapter {
+
 
 	@Bean
 	public Validator validator(){
