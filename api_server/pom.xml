@@ -60,20 +60,24 @@
                     <groupId>io.netty</groupId>
                     <artifactId>netty-all</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.google.code.gson</groupId>
+                    <artifactId>gson</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.codehaus.plexus</groupId>-->
-<!--            <artifactId>plexus-container-default</artifactId>-->
-<!--            <version>2.0.0</version>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>com.google.collections</groupId>-->
-<!--                    <artifactId>google-collections</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.codehaus.plexus</groupId>-->
+        <!--            <artifactId>plexus-container-default</artifactId>-->
+        <!--            <version>2.0.0</version>-->
+        <!--            <exclusions>-->
+        <!--                <exclusion>-->
+        <!--                    <groupId>com.google.collections</groupId>-->
+        <!--                    <artifactId>google-collections</artifactId>-->
+        <!--                </exclusion>-->
+        <!--            </exclusions>-->
+        <!--        </dependency>-->
 
         <!-- spring配置-->
         <dependency>
@@ -97,13 +101,13 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-context</artifactId>-->
-<!--            <version>${spring.version}</version>-->
-<!--            <type>jar</type>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework</groupId>-->
+        <!--            <artifactId>spring-context</artifactId>-->
+        <!--            <version>${spring.version}</version>-->
+        <!--            <type>jar</type>-->
+        <!--            <scope>compile</scope>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
@@ -235,12 +239,12 @@
             <version>1.1.1</version>
         </dependency>
 
-    <!--    <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>3.2.1</version>
-        </dependency>
--->
+        <!--    <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>3.2.1</version>
+            </dependency>
+    -->
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
@@ -337,11 +341,11 @@
         </dependency>
 
         <!-- 解析json-->
-       <!-- <dependency>
+        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.2.2</version>
-        </dependency>-->
+        </dependency>
 
         <!-- urlrewrite伪静态-->
         <dependency>
@@ -616,7 +620,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
@@ -648,30 +651,30 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-spring-boot-web-starter -->
-       <!-- <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring-boot-web-starter</artifactId>
-            <version>1.4.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-web</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-test</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-autoconfigure</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
--->
+        <!-- <dependency>
+             <groupId>org.apache.shiro</groupId>
+             <artifactId>shiro-spring-boot-web-starter</artifactId>
+             <version>1.4.1</version>
+             <exclusions>
+                 <exclusion>
+                     <groupId>org.springframework.boot</groupId>
+                     <artifactId>spring-boot-starter-web</artifactId>
+                 </exclusion>
+                 <exclusion>
+                     <groupId>org.springframework.boot</groupId>
+                     <artifactId>spring-boot-test</artifactId>
+                 </exclusion>
+                 <exclusion>
+                     <groupId>org.springframework.boot</groupId>
+                     <artifactId>spring-boot-starter</artifactId>
+                 </exclusion>
+                 <exclusion>
+                     <groupId>org.springframework.boot</groupId>
+                     <artifactId>spring-boot-autoconfigure</artifactId>
+                 </exclusion>
+             </exclusions>
+         </dependency>
+ -->
 
 
         <dependency>
@@ -706,6 +709,10 @@
                 <exclusion>
                     <groupId>com.fasterxml.jackson.core</groupId>
                     <artifactId>jackson-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
