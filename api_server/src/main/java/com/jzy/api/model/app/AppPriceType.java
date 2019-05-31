@@ -34,17 +34,17 @@ public class AppPriceType extends GenericModel {
     /**
      * 用户输入数量倍数
      */
-    private Integer multiple = 1;
+    private Integer multiple;
 
     /**
      * 最小充值数量
      */
-    private Integer minmum = 1;
+    private Integer minmum;
 
     /**
      * 最大充值数量
      */
-    private Integer maxmum = 1;
+    private Integer maxmum;
 
     /**
      * 1元兑换比例
