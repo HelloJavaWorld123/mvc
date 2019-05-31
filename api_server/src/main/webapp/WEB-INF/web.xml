@@ -31,15 +31,15 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-<!--    <filter>-->
-<!--        <filter-name>cors</filter-name>-->
-<!--        <filter-class>com.jzy.api.filter.CrossFilter</filter-class>-->
-<!--    </filter>-->
+    <filter>
+        <filter-name>cors</filter-name>
+        <filter-class>com.jzy.api.filter.CrossFilter</filter-class>
+    </filter>
 
-<!--    <filter-mapping>-->
-<!--        <filter-name>cors</filter-name>-->
-<!--        <url-pattern>/*</url-pattern>-->
-<!--    </filter-mapping>-->
+    <filter-mapping>
+        <filter-name>cors</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <!-- 添加Web应用等监控-->
     <filter>
@@ -68,27 +68,27 @@
     </filter-mapping>
 
     <!-- urlrewrite-->
-<!--    <filter>-->
-<!--        <filter-name>UrlRewriteFilter</filter-name>-->
-<!--        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>-->
-<!--    </filter>-->
-<!--    <filter-mapping>-->
-<!--        <filter-name>UrlRewriteFilter</filter-name>-->
-<!--        <url-pattern>/*</url-pattern>-->
-<!--        <dispatcher>REQUEST</dispatcher>-->
-<!--        <dispatcher>FORWARD</dispatcher>-->
-<!--    </filter-mapping>-->
+    <filter>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
 
-<!--    <filter>-->
-<!--        <filter-name>cat-filter</filter-name>-->
-<!--        <filter-class>com.dianping.cat.servlet.CatFilter</filter-class>-->
-<!--    </filter>-->
-<!--    <filter-mapping>-->
-<!--        <filter-name>cat-filter</filter-name>-->
-<!--        <url-pattern>/*</url-pattern>-->
-<!--        <dispatcher>REQUEST</dispatcher>-->
-<!--        <dispatcher>FORWARD</dispatcher>-->
-<!--    </filter-mapping>-->
+    <filter>
+        <filter-name>cat-filter</filter-name>
+        <filter-class>com.dianping.cat.servlet.CatFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>cat-filter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
     <!-- 日志记录 -->
     <context-param>
         <!-- 日志配置文件路径 -->
