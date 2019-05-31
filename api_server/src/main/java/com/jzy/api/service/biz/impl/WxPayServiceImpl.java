@@ -367,8 +367,8 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
             if (StringUtils.isEmpty(result.get(WechatConstant.ERRCODE))) {
                 accessToken = new SecurityToken(CommUtils.upperUUID(), result.getString(WechatConstant.ACCESS_TOKEN),
                         result.getInteger(WechatConstant.EXPIRES_IN), 0, new Date());
-                log.debug("----getAccessTokenAndState---openId---"+result.getString(WechatConstant.OPENID));
-                String unionId = getUnionId(accessToken);
+                String unionId = "";//getUnionId(accessToken);
+                log.debug("----getAccessTokenAndState---openId---"+result.getString(WechatConstant.OPENID)+"---unionId---"+unionId);
                 insertUserCacheAndDB(state, result.getString(WechatConstant.OPENID),unionId);
             } else {
                 log.error("：：：Wechat failed to get access_token - errcode:" + result.getString(WechatConstant.ERRCODE) + ", errmsg:"
@@ -400,8 +400,9 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
                         result.getInteger(WechatConstant.EXPIRES_IN), result.getString(WechatConstant.REFRESH_TOKEN),
                         result.getString(WechatConstant.OPENID), result.getString(WechatConstant.SCOPE), 1, new Date());
                 // iRedisService.setValue(OAUTH_WX_WEBSITE.concat(code), oAuthToken, result.getInteger(WechatConstant.EXPIRES_IN));
-                log.debug("----getOAuthToken---openId---"+result.getString(WechatConstant.OPENID));
-                String unionId = getUnionId(oAuthToken);
+
+                String unionId = "";//getUnionId(oAuthToken);
+                log.debug("----getOAuthToken---openId---"+result.getString(WechatConstant.OPENID)+"---unionId---"+unionId);
                 insertUserCacheAndDB(token, result.getString(WechatConstant.OPENID),unionId);
             } else {
                 log.error("：：：Wechat website failed to get oauth_token - errcode:" + result.getString(WechatConstant.ERRCODE) + ", errmsg:"
@@ -423,7 +424,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
             JSONObject result = JSONObject.parseObject(MyHttp.sendGet(getUinionIdUrl, null));
 
             if (!StringUtils.isEmpty(result)) {
-                log.debug("---getUnionId---"+result.toString());
+                log.debug("---getUnionId--result-"+result.toString());
                 unionId = result.getString("unionid");
             }
         } catch (Exception e) {
