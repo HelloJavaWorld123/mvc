@@ -1,5 +1,6 @@
 package com.jzy.api.service.biz.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jzy.api.constant.WXPayConstants;
 import com.jzy.api.constant.WechatConstant;
@@ -347,9 +348,39 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
     @Override
     public SecurityToken updateSecurityToken(String code, String state) {
         if (StringUtils.isEmpty(code)) {
-            return getAccessToken();
+            return getAccessTokenAndState(state);
         }
         return getOAuthToken(code, state);
+    }
+
+    private SecurityToken getAccessTokenAndState(String state) {
+        log.debug("----getAccessTokenAndState---token[state]---"+state);
+        SecurityToken accessToken = null;
+        String requestUrl = WechatConstant.token_url.replace("APPID", appId).replace("APPSECRET", appSecret);
+        JSONObject result = null;
+        try {
+            result = JSONObject.parseObject(MyHttp.sendGet(requestUrl, null));
+        } catch (Exception e) {
+            log.error("：：：Wechat gets access_token exception", e);
+        }
+        if (!StringUtils.isEmpty(result)) {
+            if (StringUtils.isEmpty(result.get(WechatConstant.ERRCODE))) {
+                accessToken = new SecurityToken(CommUtils.upperUUID(), result.getString(WechatConstant.ACCESS_TOKEN),
+                        result.getInteger(WechatConstant.EXPIRES_IN), 0, new Date());
+                log.debug("----getAccessTokenAndState---openId---"+result.getString(WechatConstant.OPENID));
+                String unionId = getUnionId(accessToken);
+                insertUserCacheAndDB(state, result.getString(WechatConstant.OPENID),unionId);
+            } else {
+                log.error("：：：Wechat failed to get access_token - errcode:" + result.getString(WechatConstant.ERRCODE) + ", errmsg:"
+                        + result.getString(WechatConstant.ERRMSG));
+                log.debug("--getOAuthToken-result-ERRCODE-清除clearCacheAndDB---"+state);
+                clearCacheAndDB(state);
+            }
+        }else{
+            log.debug("--getOAuthToken-result-empty-清除clearCacheAndDB---"+state);
+            clearCacheAndDB(state);
+        }
+        return accessToken;
     }
 
     /**
@@ -361,7 +392,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
         SecurityToken oAuthToken = null;
         String requestUrl = WechatConstant.oauth_url.replace("APPID", appId).replace("SECRET", appSecret)
                 .replace("CODE", code);
-        log.debug("oauthurl:" + requestUrl);
+        log.debug("---getOAuthToken--token---"+token+"oauthurl:" + requestUrl);
         JSONObject result = JSONObject.parseObject(MyHttp.sendGet(requestUrl, null));
         if (!StringUtils.isEmpty(result)) {
             if (null == result.getString(WechatConstant.ERRCODE)) {
@@ -369,35 +400,58 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
                         result.getInteger(WechatConstant.EXPIRES_IN), result.getString(WechatConstant.REFRESH_TOKEN),
                         result.getString(WechatConstant.OPENID), result.getString(WechatConstant.SCOPE), 1, new Date());
                 // iRedisService.setValue(OAUTH_WX_WEBSITE.concat(code), oAuthToken, result.getInteger(WechatConstant.EXPIRES_IN));
-
-                insertUserCacheAndDB(token, result.getString(WechatConstant.OPENID));
+                log.debug("----getOAuthToken---openId---"+result.getString(WechatConstant.OPENID));
+                String unionId = getUnionId(oAuthToken);
+                insertUserCacheAndDB(token, result.getString(WechatConstant.OPENID),unionId);
             } else {
                 log.error("：：：Wechat website failed to get oauth_token - errcode:" + result.getString(WechatConstant.ERRCODE) + ", errmsg:"
                         + result.getString(WechatConstant.ERRMSG));
+                log.debug("--getOAuthToken-result-ERRCODE-清除clearCacheAndDB---"+token);
+                clearCacheAndDB(token);
             }
+        }else{
+            log.debug("--getOAuthToken-result-empty-清除clearCacheAndDB---"+token);
+            clearCacheAndDB(token);
         }
         return oAuthToken;
+    }
+    private String getUnionId(SecurityToken oAuthToken){
+        log.debug("---getUnionId---"+JSON.toJSONString(oAuthToken));
+        String unionId = "";
+        String getUinionIdUrl = "https://api.weixin.qq.com/cgi-bin/user/info?access_token="+oAuthToken.getAccessToken()+"&openid="+oAuthToken.getOpenId()+"&lang=zh_CN";
+        try {
+            JSONObject result = JSONObject.parseObject(MyHttp.sendGet(getUinionIdUrl, null));
+
+            if (!StringUtils.isEmpty(result)) {
+                log.debug("---getUnionId---"+result.toString());
+                unionId = result.getString("unionid");
+            }
+        } catch (Exception e) {
+            log.error("：：：Wechat gets getUnionId exception", e);
+        }
+        return unionId;
     }
 
     @Resource
     private RedissonClient redissonClient;
+
+    private void clearCacheAndDB(String token){
+        RBucket<UserCache> userCacheRBucket = redissonClient.getBucket(token);
+        UserCache userCache = userCacheRBucket.get();
+        if (userCache == null) {
+            throw new BusException("会员超时");
+        }
+        log.debug("--clearCacheAndDB-有数据-清除---"+token);
+        redissonClient.getKeys().delete(token);
+        throw new BusException("会员超时！！！");
+    }
 
     /**
      * <b>功能描述：</b>重新缓存用户信息<br>
      * <b>修订记录：</b><br>
      * <li>20190509&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    private void cacheUserCache(String userId, String openId) {
-        String token = MD5Util.string2MD5(userId);
-        RBucket<UserCache> userCacheRBucket = redissonClient.getBucket(token);
-        UserCache userCache = userCacheRBucket.get();
-        if (userCache == null) {
-            throw new BusException("会员超时");
-        }
-        userCache.setUserId(openId);
-        userCacheRBucket.set(userCache, 1, TimeUnit.DAYS);
-    }
-    private void insertUserCacheAndDB(String token,String openId) {
+    private void insertUserCacheAndDB(String token,String openId,String unionId) {
         RBucket<UserCache> userCacheRBucket = redissonClient.getBucket(token);
         UserCache userCache = userCacheRBucket.get();
         if (userCache == null) {
@@ -408,16 +462,19 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
 
         UserAuth userAuthTemp = userAuthService.queryUserAuthByUserId(openId,userCache.getDealerId());
         if (null!=userAuthTemp){
-
+            log.debug("-insertUserCacheAndDB-有数据---"+openId+"---dealerId---"+userCache.getDealerId());
         }else{
+
             // 存储用户信息到本地数据库中
             UserAuth userAuth = new UserAuth();
             userAuth.setId(tableKeyService.newKey("user_auth", "id", 1000));
             userAuth.setUserId(userCache.getUserId());
             userAuth.setIsWxAuth(1);
             userAuth.setDealerId(userCache.getDealerId());
+            userAuth.setOpenId(unionId);
 
             userAuthService.insert(userAuth);
+            log.debug("--insertUserCacheAndDB-没有数据-插入---"+token+"---"+userCache.getUserId()+"---dealerId----"+userCache.getDealerId());
         }
 
 
@@ -442,6 +499,7 @@ public class WxPayServiceImpl extends GenericServiceImpl implements WxPayService
                 accessToken = new SecurityToken(CommUtils.upperUUID(), result.getString(WechatConstant.ACCESS_TOKEN),
                         result.getInteger(WechatConstant.EXPIRES_IN), 0, new Date());
                 // iRedisService.setValue(OAUTH_WX_UNIFIED, accessToken, accessToken.getExpiresIn());
+                //insertUserCacheAndDB(token, result.getString(WechatConstant.OPENID));
             } else {
                 log.error("：：：Wechat failed to get access_token - errcode:" + result.getString(WechatConstant.ERRCODE) + ", errmsg:"
                         + result.getString(WechatConstant.ERRMSG));
