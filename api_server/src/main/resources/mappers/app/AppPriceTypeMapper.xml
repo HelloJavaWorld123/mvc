@@ -131,15 +131,18 @@
         <if test="unit!=null">
             `unit` = #{unit},
         </if>
-        <if test="maxmum!=null">
-            `maxmum` = #{maxmum},
-        </if>
-        <if test="minmum!=null">
-            `minmum` = #{minmum},
-        </if>
-        <if test="multiple!=null">
-            `multiple` = #{multiple},
-        </if>
+        <!--<if test="maxmum!=null">-->
+            <!--`maxmum` = #{maxmum},-->
+        <!--</if>-->
+        <!--<if test="minmum!=null">-->
+            <!--`minmum` = #{minmum},-->
+        <!--</if>-->
+        <!--<if test="multiple!=null">-->
+            <!--`multiple` = #{multiple},-->
+        <!--</if>-->
+        `maxmum` = #{maxmum},
+        `minmum` = #{minmum},
+        `multiple` = #{multiple},
 
         <!--<if test="subscriptionRatio!=null">-->
         <!-- update by jiazk，2019.05.22，1元兑换比例需要支持清空操作 -->
