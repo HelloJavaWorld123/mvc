@@ -1,6 +1,7 @@
 package com.jzy.framework.bean.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 

@@ -2,19 +2,25 @@ package com.jzy.api.controller.sys;
 
 import com.jzy.api.annos.WithoutLogin;
 import com.jzy.api.cnd.admin.LoginCnd;
-import com.jzy.api.dao.auth.AuthMapper;
+import com.jzy.api.cnd.auth.SysEmpCnd;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.sys.Emp;
-import com.jzy.api.service.auth.AuthService;
-import com.jzy.api.service.sys.EmpService;
+import com.jzy.api.service.auth.EmpService;
 import com.jzy.api.vo.sys.EmpVo;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.CredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.subject.Subject;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -30,15 +36,12 @@ import java.util.List;
  * </ul>
  */
 @Slf4j
-@Controller
-@RequestMapping(path="/login")
+@RestController
+@RequestMapping(value = {"/login","/auth"})
 public class LoginController extends GenericController {
 
     @Resource
     private EmpService userService;
-
-    @Resource
-    private AuthService authService;
 
     /**
      * <b>功能描述：</b>获取用户资源列表<br>
@@ -46,7 +49,6 @@ public class LoginController extends GenericController {
      * <li>20190424&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @WithoutLogin
-    @ResponseBody
     @RequestMapping(path="/managerLogin")
     public ApiResult managerLogin(@RequestBody LoginCnd loginCnd){
         ApiResult<EmpVo> apiResult = new ApiResult<>();
@@ -60,6 +62,24 @@ public class LoginController extends GenericController {
         }
         empVo.setApiEmpToken(emp.getApiEmpToken());
         return apiResult.success(empVo);
+    }
+
+
+    /**
+     * TODO 密码前端加密传输 目前是明文
+     */
+    @RequestMapping("/login")
+    public ApiResult login(@RequestBody @Validated(SysEmpCnd.LoginValidator.class) SysEmpCnd sysEmpCnd){
+        UsernamePasswordToken token = new UsernamePasswordToken(sysEmpCnd.getName(),sysEmpCnd.getPassword(),sysEmpCnd.getRememberMe());
+        Subject subject = SecurityUtils.getSubject();
+
+        try {
+            subject.login(token);
+        } catch (UnknownAccountException  | CredentialsException | LockedAccountException | UnauthorizedException e) {
+            log.error("用户登录异常：",e);
+            return new ApiResult().fail(e.getMessage());
+        }
+        return new ApiResult().success();
     }
 
 }

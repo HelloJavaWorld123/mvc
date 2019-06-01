@@ -24,7 +24,7 @@ import com.jzy.api.service.arch.DealerBaseInfoService;
 import com.jzy.api.service.arch.DealerParamService;
 import com.jzy.api.service.arch.DealerService;
 import com.jzy.api.service.key.TableKeyService;
-import com.jzy.api.service.sys.EmpService;
+import com.jzy.api.service.auth.EmpService;
 import com.jzy.api.service.sys.SysImagesService;
 import com.jzy.api.util.MD5Util;
 import com.jzy.api.util.MyEncrypt;
@@ -152,8 +152,8 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
             empService.insert(emp);
             //保存渠道商登录用户角色信息
             SysEmpRole sysEmpRole = new SysEmpRole();
-            sysEmpRole.setEmpId(emp.getId().toString());
-            sysEmpRole.setRoleId("3");
+            sysEmpRole.setEmpId(emp.getId());
+            sysEmpRole.setRoleId(3L);
             sysEmpRoleMapper.insert(sysEmpRole);
 
         } else {//渠道商信息的修改

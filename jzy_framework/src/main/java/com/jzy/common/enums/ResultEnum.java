@@ -47,7 +47,13 @@ public enum ResultEnum {
     TRADE_FEE_CALC_ERROR(5004, "实付金额有误，请核实！"),
     SUP_PRICE_ERROR(5005, "SUP价格有误，请核实！"),
     APP_FORBIDDEN(5006, "商品已禁用，请核实！"),
-    DEALER_FORBIDDEN(5007, "商家已禁用，请核实！");
+    DEALER_FORBIDDEN(5007, "商家已禁用，请核实！"),
+
+    /*=======================登录错误返回信息===============================*/
+    USER_ACCOUNT_ERROR(5008, "账号或者密码错误"),
+    USER_ACCOUNT_STATUS_ERROR(5009, "账号已停止使用"),
+    USER_ACCOUNT_UNAUTHORIZED_ERROR(5010,"账号没有授权"),
+    ;
 
     private Integer code;
 

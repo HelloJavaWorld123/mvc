@@ -1,4 +1,4 @@
-package com.jzy.api.service.sys;
+package com.jzy.api.service.auth;
 
 import com.jzy.api.model.sys.Emp;
 import com.jzy.framework.service.GenericService;

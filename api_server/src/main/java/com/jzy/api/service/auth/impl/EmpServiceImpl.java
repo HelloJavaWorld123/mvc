@@ -1,11 +1,11 @@
-package com.jzy.api.service.sys.impl;
+package com.jzy.api.service.auth.impl;
 
 import com.jzy.api.constant.ApiRedisCacheConstant;
-import com.jzy.api.dao.sys.EmpMapper;
+import com.jzy.api.dao.auth.EmpMapper;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.sys.Emp;
 import com.jzy.api.service.auth.AuthService;
-import com.jzy.api.service.sys.EmpService;
+import com.jzy.api.service.auth.EmpService;
 import com.jzy.api.util.MD5Util;
 import com.jzy.framework.cache.EmpCache;
 import com.jzy.framework.dao.GenericMapper;

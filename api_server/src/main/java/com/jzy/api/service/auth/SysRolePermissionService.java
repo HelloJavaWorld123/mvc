@@ -1,8 +1,10 @@
 package com.jzy.api.service.auth;
 
+import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.model.auth.SysRolePermission;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Author : RXK
@@ -22,4 +24,8 @@ public interface SysRolePermissionService {
 
 	List<SysRolePermission> findByRoleId(Long roleId);
 
+	/**
+	 * 更具角色id  查询所有的资源key
+	 */
+	List<SysRolePermission> findByRoleIds(List<Long> roleIds);
 }

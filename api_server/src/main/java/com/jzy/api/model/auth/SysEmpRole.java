@@ -8,10 +8,10 @@ public class SysEmpRole {
     /**
      * 用户id
      */
-    private String empId;
+    private Long empId;
 
     /**
      * 角色表主键
      */
-    private String roleId;
+    private Long roleId;
 }

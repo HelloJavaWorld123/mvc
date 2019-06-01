@@ -1,11 +1,12 @@
 package com.jzy.api.controller.auth;
 
-import com.jzy.api.annos.*;
+import com.jzy.api.annos.CreateValidator;
+import com.jzy.api.annos.DeleteValidator;
+import com.jzy.api.annos.IDValidator;
+import com.jzy.api.annos.UpdateValidator;
 import com.jzy.api.cnd.auth.SysRoleCnd;
 import com.jzy.api.model.auth.Role;
-import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.model.auth.SysPermission;
-import com.jzy.api.model.auth.SysRolePermission;
 import com.jzy.api.service.auth.SysPermissionService;
 import com.jzy.api.service.auth.SysRolePermissionService;
 import com.jzy.api.service.auth.SysRoleService;

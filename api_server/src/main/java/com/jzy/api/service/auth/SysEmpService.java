@@ -1,6 +1,7 @@
 package com.jzy.api.service.auth;
 
 import com.jzy.api.cnd.auth.SysEmpCnd;
+import com.jzy.api.model.auth.SysEmp;
 import com.jzy.api.vo.auth.SysEmpVo;
 import com.jzy.framework.bean.vo.PageVo;
 
@@ -36,4 +37,11 @@ public interface SysEmpService {
 	 * 逻辑删除用户
 	 */
 	Integer deleteById(Long id);
+
+	/**
+	 * 根据用户名 查询
+	 * 包括用户状态 为 1 的账户
+	 * 当不包括 已经删除的用户
+	 */
+	SysEmp findByName(String name);
 }

@@ -41,6 +41,7 @@
 
     <select id="list" resultType="com.jzy.api.vo.auth.SysPermissionVo">
         SELECT
+            id,
             unique_key AS uniqueKey,
             parent_key AS parentKey,
             permission_name AS permissionName,

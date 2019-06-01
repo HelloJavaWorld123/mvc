@@ -55,4 +55,14 @@
         FROM sys_emp
         WHERE id = #{id} AND status = 0;
     </select>
+    <select id="findByName" resultType="com.jzy.api.model.auth.SysEmp">
+         SELECT
+            id,
+            name,
+            pwd AS password,
+            status,
+            dealer_id AS dealerId
+        FROM sys_emp
+        WHERE name = #{name} AND del_flag = 0;
+    </select>
 </mapper>

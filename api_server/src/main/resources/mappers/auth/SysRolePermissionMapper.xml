@@ -21,4 +21,17 @@
             permission_type AS permissionType
         WHERE role_id = #{roleId}
     </select>
+    <select id="findByRoleIds" resultType="com.jzy.api.model.auth.SysRolePermission">
+        SELECT
+            role_id AS roleId,
+            permission_key AS permissionKey,
+            permission_type AS permissionType
+        FROM `sys_role_permission`
+        WHERE role_id IN
+        (
+            <foreach collection="roleIds" separator="," item="roleId">
+                #{roleId}
+            </foreach>
+        )
+    </select>
 </mapper>

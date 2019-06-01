@@ -22,8 +22,8 @@
             )
             VALUES
             (
-            #{empId},
-            #{roleId}
+            #{sysEmpRole.empId},
+            #{sysEmpRole.roleId}
             )
 </insert>
 

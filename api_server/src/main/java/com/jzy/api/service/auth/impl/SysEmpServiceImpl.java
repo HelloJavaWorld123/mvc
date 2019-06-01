@@ -62,4 +62,9 @@ public class SysEmpServiceImpl implements SysEmpService {
 	public Integer deleteById(Long id) {
 		return sysEmpMapper.deleteById(id);
 	}
+
+	@Override
+	public SysEmp findByName(String name) {
+		return sysEmpMapper.findByName(name);
+	}
 }

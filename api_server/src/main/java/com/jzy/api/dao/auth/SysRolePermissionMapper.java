@@ -18,4 +18,6 @@ public interface SysRolePermissionMapper {
 	Integer add(@Param("roleId") Long roleId, @Param("permValues") List<String> permValues, @Param("permType") Integer permType);
 
 	List<SysRolePermission> findByRoleId(@Param("roleId") Long roleId);
+
+	List<SysRolePermission> findByRoleIds(@Param("roleIds") List<Long> roleIds);
 }

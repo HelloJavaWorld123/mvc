@@ -4,6 +4,7 @@ import com.jzy.api.cnd.auth.SysEmpCnd;
 import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -14,6 +15,7 @@ import java.util.Date;
  * Desc:
  **/
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class SysEmp extends GenericModel {
 
@@ -34,7 +36,7 @@ public class SysEmp extends GenericModel {
 	}
 
 
-	public SysEmp(Long id, Date modifyTime, Long modifierId, String name, String password, int status, Long dealerId) {
+	private SysEmp(Long id, Date modifyTime, Long modifierId, String name, String password, int status, Long dealerId) {
 		super(id, modifyTime, modifierId);
 		this.name = name;
 		this.password = password;

@@ -23,4 +23,6 @@ public interface SysEmpMapper {
 	Integer update(@Param("sysEmp") SysEmp sysEmp);
 
 	Integer deleteById(@Param("id") Long id);
+
+	SysEmp findByName(@Param("name") String name);
 }

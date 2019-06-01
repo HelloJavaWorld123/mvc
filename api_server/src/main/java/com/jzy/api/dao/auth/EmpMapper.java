@@ -1,4 +1,4 @@
-package com.jzy.api.dao.sys;
+package com.jzy.api.dao.auth;
 
 import com.jzy.api.model.sys.Emp;
 import com.jzy.framework.dao.GenericMapper;

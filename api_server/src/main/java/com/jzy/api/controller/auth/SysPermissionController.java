@@ -1,15 +1,15 @@
 package com.jzy.api.controller.auth;
 
-import com.jzy.api.annos.*;
+import com.jzy.api.annos.AddValidator;
+import com.jzy.api.annos.DeleteValidator;
+import com.jzy.api.annos.IDValidator;
+import com.jzy.api.annos.UpdateValidator;
 import com.jzy.api.cnd.auth.SysPermissionCnd;
 import com.jzy.api.model.auth.SysPermission;
 import com.jzy.api.service.auth.SysPermissionService;
 import com.jzy.api.vo.auth.SysPermissionVo;
 import com.jzy.common.enums.ResultEnum;
-import com.jzy.framework.bean.cnd.PageCnd;
-import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
-import org.omg.PortableInterceptor.Interceptor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

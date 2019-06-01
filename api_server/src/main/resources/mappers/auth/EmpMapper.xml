@@ -11,7 +11,7 @@
 	陕西佳之易网络科技有限公司 版本所有
  -->
 
-<mapper namespace="com.jzy.api.dao.sys.EmpMapper">
+<mapper namespace="com.jzy.api.dao.auth.EmpMapper">
 
     <!-- 根据用户名查询用户 -->
     <select id="queryEmpByUsername" resultType="com.jzy.api.model.sys.Emp">

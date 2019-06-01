@@ -6,6 +6,7 @@ import com.jzy.api.annos.IDValidator;
 import com.jzy.api.annos.UpdateValidator;
 import com.jzy.api.cnd.auth.SysEmpCnd;
 import com.jzy.api.model.auth.Role;
+import com.jzy.api.model.auth.SysEmp;
 import com.jzy.api.service.auth.SysEmpRoleService;
 import com.jzy.api.service.auth.SysEmpService;
 import com.jzy.api.service.auth.SysRoleService;
@@ -87,10 +88,25 @@ public class SysEmpController {
 	}
 
 	/**
+	 * 检查用户名是否已经存在
+	 * @param sysEmpCnd ：用户名称
+	 */
+	@RequestMapping("/check")
+	public ApiResult userNameExist(@RequestBody @Validated(SysEmpCnd.NameExistValidator.class) SysEmpCnd sysEmpCnd){
+		SysEmp sysEmp = sysEmpService.findByName(sysEmpCnd.getName());
+
+		if(Objects.isNull(sysEmp)){
+			return new ApiResult().success();
+		}else{
+			return new ApiResult().fail(ResultEnum.FAIL);
+		}
+	}
+
+	/**
 	 * 为用户分配角色
 	 */
 	@RequestMapping("/allot/role")
-	public ApiResult userAddRole(@RequestBody @Validated(value = SysEmpCnd.Allot.class) SysEmpCnd sysEmpCnd){
+	public ApiResult userAddRole(@RequestBody @Validated(value = SysEmpCnd.AllotValidator.class) SysEmpCnd sysEmpCnd){
 		List<Role> roleList = sysRoleService.findByIds(sysEmpCnd.getRoleList());
 		if(CollectionUtils.isEmpty(roleList) && roleList.size() != sysEmpCnd.getRoleList().size()){
 			return new ApiResult().fail("角色信息有误",ResultEnum.FAIL.getCode());
