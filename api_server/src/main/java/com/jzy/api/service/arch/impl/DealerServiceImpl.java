@@ -310,22 +310,21 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      * <li>20190520&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void updateDealerPubAndPriKey(Long dealerId) {
+    public int updateDealerPubAndPriKey(Long dealerId) {
         Map<String,Object> paramsMap = new HashMap<>();
         paramsMap.put("dealerId",dealerId);
         Integer count = orderMapper.queryCountByParams(paramsMap);
-
-        if(count>0){
-           throw new BusException(ResultEnum.DEALER_UNABE_KEY.getMsg(),ResultEnum.DEALER_UNABE_KEY.getCode());
+        if(count==0){
+            Dealer dealer = new Dealer();
+            dealer.setId(dealerId);
+            String pubkey = MyEncrypt.getInstance().obscureMd5(new Date().toString());
+            String prikey = Base64.getEncoder().encodeToString(pubkey.getBytes(Charset.forName("UTF-8"))).replace("=", "");
+            dealer.setPubkey(pubkey);
+            dealer.setPrikey(prikey);
+            return this.update(dealer);
+        }else {
+            return 0;
         }
-
-        Dealer dealer = new Dealer();
-        dealer.setId(dealerId);
-        String pubkey = MyEncrypt.getInstance().obscureMd5(new Date().toString());
-        String prikey = Base64.getEncoder().encodeToString(pubkey.getBytes(Charset.forName("UTF-8"))).replace("=", "");
-        dealer.setPubkey(pubkey);
-        dealer.setPrikey(prikey);
-        this.update(dealer);
     }
 
     @Override
