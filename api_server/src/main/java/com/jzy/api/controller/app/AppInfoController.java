@@ -52,12 +52,6 @@ public class AppInfoController {
     private final static Logger logger = LoggerFactory.getLogger(AppInfoController.class);
 
     @Resource
-    private AppPriceTypeService appPriceTypeService;
-
-    @Resource
-    private SysImagesService sysImagesService;
-
-    @Resource
     private AppInfoService appInfoService;
 
     @Resource
@@ -112,96 +106,8 @@ public class AppInfoController {
     @Transactional
     @RequestMapping("admin/save")
     public ApiResult save(@RequestBody SaveAppInfoCnd saveAppInfoCnd) {
-        List<FileInfo> fileInfos=  saveAppInfoCnd.getFileInfoList();
-        AppInfo ai = saveAppInfoCnd.getAppInfo();
-        SaveAppPriceTypeListCnd saveAppPriceTypeListCnd = new SaveAppPriceTypeListCnd();
-        //AppPage appPageMapper = saveAppInfoCnd.getAppPage();
-        ai = verification(ai);
-        //保存图片信息
-            /*if (!StringUtils.isEmpty(ai.getId())) {//更新操作时，先进行图片的删除操作
-                SysImages imagesMapper = sysImagesService.getImageByaiId(ai.getId());
-                if (null != imagesMapper) {
-                    //iMongoService.deleteFile(imagesMapper.getFileUrl());
-                    aliyunOssService.delete(imagesMapper.getFileUrl());
-                }
-            }*/
-        if (StringUtils.isEmpty(ai.getId())) {//新增操作
-            ai.setId(tableKeyService.newKey("app_info", "id", 0));
-            ai.setPagePath("");
-            ai.setCode(String.valueOf(appInfoService.getMaxCode() + 1));
-            appInfoService.save(ai);
-            //图片新增
-            if(fileInfos.size()>0){
-                for (FileInfo mfile:fileInfos){
-                    sysImagesService.save(getSystemImagesMapper(ai, mfile));
-                }
-            }
-            //保存充值类型信息
-            saveAppPriceTypeListCnd.setAiId(ai.getId());
-            saveAppPriceTypeListCnd.setAppPriceTypeList(saveAppInfoCnd.getAppPriceTypeList());
-            appPriceTypeService.saveAppPriceTypeList(saveAppPriceTypeListCnd);
-            //保存富文本信息
-//            appPageMapper.setAiId(ai.getId());
-//            appInfoService.saveAppPage(appPageMapper);
-        } else {//更新操作
-            appInfoService.checkName(ai.getName(), ai.getId() + "");
-            appInfoService.update(ai);
-            //商品详情图片列表物理删除
-            sysImagesService.deleteByRelId(ai.getId());
-            //图片修改
-            if(fileInfos.size()>0){
-                for (FileInfo fileInfo:fileInfos){
-                    SysImages sysImages = getSystemImagesMapper(ai, fileInfo);
-                   // Integer flag = sysImagesService.update(sysImages);
-                    //if (flag == 0) {
-                        sysImagesService.save(sysImages);
-                   // }
-                }
-            }
-
-            //保存充值类型信息
-            saveAppPriceTypeListCnd.setAiId(ai.getId());
-            saveAppPriceTypeListCnd.setAppPriceTypeList(saveAppInfoCnd.getAppPriceTypeList());
-            appPriceTypeService.saveAppPriceTypeList(saveAppPriceTypeListCnd);
-            //修改富文本信息
-//            appPageMapper.setAiId(ai.getId());
-//            appInfoService.updateAppPage(appPageMapper);
-        }
+        appInfoService.saveAppInfo(saveAppInfoCnd);
         return new ApiResult<>();
-    }
-
-
-    /**
-     * <b>功能描述：</b>获取图片实体<br>
-     * <b>修订记录：</b><br>
-     * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    private SysImages getSystemImagesMapper(AppInfo ai, FileInfo mfile) {
-        return new SysImages(tableKeyService.newKey("sys_images", "id", 0), ai.getId().toString(), mfile.getFileOrignName(), mfile.getContentType(), mfile.getFileUrl(), mfile.getType());
-    }
-
-    /**
-     * 新增、更新验证处理AppInfo
-     *
-     * @param ai {@link AppInfoMapper}
-     * @return {@link AppInfoMapper}
-     */
-    private AppInfo verification(AppInfo ai) {
-        if (!StringUtils.isEmpty(ai.getLabel())) {
-            if (!RegexUtils.isMatch("^[A-Za-z0-9\\u4e00-\\u9fa5,，]{0,200}$", ai.getLabel())) {
-                throw new BusException("标签关键词错误，只允许200内大小写字母、数字、中文、中英文\"，\"");
-            }
-            String label = ai.getLabel().replaceAll("\\s*", "").replaceAll("，", ",");
-            List<String> labelList = Arrays.asList(label.split(","));
-            labelList = labelList.parallelStream().filter(string -> !string.isEmpty()).collect(Collectors.toList());
-            label = String.join(",", labelList);
-//            label = HanyuPinyinUtil.toHanyuPinyin(ai.getName()).concat(",").concat(label);
-            ai.setLabel(label);
-        }
-        ai.setFirstLetter(HanyuPinyinUtil.getFirstLettersLo(ai.getName()));
-        ai.setSpllLetter(HanyuPinyinUtil.getSpllLetterLo(ai.getName()));
-
-        return ai;
     }
 
     /**
@@ -231,19 +137,7 @@ public class AppInfoController {
     @Transactional
     @RequestMapping("admin/deleteBatch")
     public ApiResult deleteBatch(@RequestBody AppBatchDeleteCnd appBatchDeleteCnd) {
-        try {
-            List<Long> newAiIds = appBatchDeleteCnd.getAiIds();
-            for (Long aiId : newAiIds) {
-                AppInfo appinfo = appInfoService.queryAppById(aiId);
-                if (appinfo.getStatus() != 0) {
-                    throw new BusException("存在商品未禁用，不能进行批量删除！");
-                }
-            }
-            appInfoService.deleteBatch(newAiIds);
-        } catch (Exception e) {
-            logger.error("admin-产品ai_id{}逻辑删除{}错误,异常：{}", null, 1, e);
-            return new ApiResult().fail(ResultEnum.OPERATION_FAILED.getMsg());
-        }
+        appInfoService.delete(appBatchDeleteCnd);
         return new ApiResult<>();
     }
 

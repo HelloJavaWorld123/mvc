@@ -31,6 +31,11 @@ public class DealerAppPriceInfoDetailVo {
      */
     private String appName;
 
+    /**
+     * 充值模式:0直充 1 卡密
+     */
+    private Integer rechargeMode;
+
 
     /**
      * 渠道商充值类型面值信息

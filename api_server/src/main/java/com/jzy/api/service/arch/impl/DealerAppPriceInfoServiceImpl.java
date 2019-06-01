@@ -265,6 +265,8 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         AppInfo appinfo = appInfoService.queryAppById(Long.valueOf(getPriceInfoCnd.getAiId()));
         dealerAppPriceInfoDetailVo.setAppName(appinfo.getName());
         dealerAppPriceInfoDetailVo.setAppCode(appinfo.getCode());
+        //充值模式:0直充 1 卡密
+        dealerAppPriceInfoDetailVo.setRechargeMode(appinfo.getRechargeMode());
         //查询充值类型列表
         List<AppPriceTypeForDetailPo> appPriceTypeMapperList = appPriceTypeService.getAppPriceTypelist(Long.valueOf(getPriceInfoCnd.getAiId()));
         for (AppPriceTypeForDetailPo appPriceType : appPriceTypeMapperList) {

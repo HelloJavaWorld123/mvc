@@ -9,6 +9,7 @@ import com.jzy.api.model.dealer.DealerBaseInfo;
 import com.jzy.api.service.arch.DealerService;
 import com.jzy.api.util.PhoneCheckUtil;
 import com.jzy.api.vo.dealer.DealerDetailVo;
+import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.ExcelException;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import javax.annotation.Resource;
+import javax.xml.transform.Result;
 
 
 /**
@@ -83,9 +85,14 @@ public class DealerController {
      */
     @RequestMapping("admin/updateDealerPubAndPriKey")
     public ApiResult updateDealerPubAndPriKey(@RequestBody IdCnd idCnd)  {
-        dealerService.updateDealerPubAndPriKey(idCnd.getId());
-        return new ApiResult<>();
-
+        int count = dealerService.updateDealerPubAndPriKey(idCnd.getId());
+        if(1==count){
+            //重置成功
+            return new ApiResult<>();
+        }else {
+            //不可重置
+            return new ApiResult().fail(ResultEnum.DEALER_UNABE_KEY);
+        }
     }
 
 
