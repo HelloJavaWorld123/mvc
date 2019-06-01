@@ -1,6 +1,8 @@
 package com.jzy.api.service.app;
 
+import com.jzy.api.cnd.app.AppBatchDeleteCnd;
 import com.jzy.api.cnd.app.AppInfoListCnd;
+import com.jzy.api.cnd.app.SaveAppInfoCnd;
 import com.jzy.api.cnd.app.UpdateStatusBatchCnd;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPage;
@@ -108,4 +110,15 @@ public interface AppInfoService extends GenericService<AppInfo> {
 
     List<String> getIdByName(List<String> nameList);
 
+    /**
+     * 添加商品及商品价格信息
+     * @param saveAppInfoCnd
+     */
+    void saveAppInfo(SaveAppInfoCnd saveAppInfoCnd);
+
+    /**
+     * 批量删除
+     * @param appBatchDeleteCnd
+     */
+    void delete(AppBatchDeleteCnd appBatchDeleteCnd);
 }
