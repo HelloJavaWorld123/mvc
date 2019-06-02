@@ -15,8 +15,8 @@
             #{permission.delFlag},
             #{permission.createTime},
             #{permission.modifyTime},
-            #{permission.createId},
-            #{permission.modifyId}
+            #{permission.creatorId},
+            #{permission.modifierId}
         ) ON DUPLICATE KEY UPDATE modify_time = now();
     </insert>
     <update id="update" parameterType="com.jzy.api.model.auth.SysPermission">
@@ -30,8 +30,8 @@
             `permission_status` = #{permission.permissionStatus},
             `description` = #{permission.description},
             `modify_time` = #{permission.modifyTime},
-            `modify_id` = #{permission.modifyId}
-         WHERE `id` = #{permission.id} ON DUPLICATE KEY UPDATE modify_time = now();
+            `modify_id` = #{permission.modifierId}
+         WHERE `id` = #{permission.id};
     </update>
     <delete id="delete">
         UPDATE sys_permission
@@ -51,7 +51,7 @@
             description
         FROM `sys_permission`
         WHERE permission_status = 0 AND del_flag = 0
-        ORDER BY create_time DESC
+        ORDER BY id DESC
     </select>
     <select id="findById" resultType="com.jzy.api.model.auth.SysPermission">
         SELECT
@@ -62,8 +62,14 @@
             permission_type AS permissionType,
             leaf_node AS leafNode,
             permission_status AS permissionStatus,
-            description,
-        WHERE id = #{id} AND permission_status = 0 AND del_flag = 0
+            description
+        FROM sys_permission
+        WHERE
+            id = #{id}
+        AND
+            permission_status = 0
+        AND
+            del_flag = 0
     </select>
 
     <select id="findByUniqueKeys" resultType="com.jzy.api.model.auth.SysPermission">
@@ -73,15 +79,27 @@
             parent_key AS parentKey,
             permission_name AS permissionName,
             permission_type AS permissionType,
-            leaf_node AS leafNode,
+            leaf_node AS leafNode
         FROM sys_permission
         WHERE unique_key IN
         (
-            <foreach collection="permValues" separator="," item="key">
-                #{key}
+            <foreach collection="permValues" separator="," item="uniqueKey">
+                #{uniqueKey}
             </foreach>
         )
         AND permission_status = 0 AND del_flag = 0
+    </select>
+    <select id="findByUniqueKey" resultType="com.jzy.api.model.auth.SysPermission">
+        SELECT
+            id,
+            unique_key AS uniqueKey,
+            parent_key AS parentKey,
+            permission_name AS permissionName,
+            permission_type AS permissionType,
+            leaf_node AS leafNode
+        FROM sys_permission
+        WHERE unique_key = #{uniqueKey}
+        AND del_flag = 0
     </select>
 
 

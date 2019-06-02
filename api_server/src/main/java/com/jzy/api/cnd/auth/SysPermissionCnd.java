@@ -26,20 +26,21 @@ public class SysPermissionCnd extends PageCnd {
 	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class},message = "资源唯一key不能为空")
 	private String uniqueKey;
 
+	//没有的话 传0
 	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class},message = "父级唯一key不能为空")
 	private String parentKey;
 
 	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class},message = "资源名称不能为空")
-	private String permissionName;
+	private String permName;
 
 	@NotNull(groups = {CreateValidator.class,UpdateValidator.class},message = "权限类型不能为空")
-	private Integer permissionType;
+	private Integer permType;
 
 	private Integer leafNode;
 
 	private String description;
 
 	@NotNull(groups = {CreateValidator.class,UpdateValidator.class},message = "资源的状态不能为空")
-	private Integer permissionStatus;
+	private Integer permStatus;
 
 }

@@ -122,9 +122,11 @@ public class SysRoleController {
 	}
 
 
+	//TODO
 	private void verifyRoleValue(SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.findByRoleValue(sysRoleCnd.getRoleValue());
-		Assert.isTrue(Objects.isNull(role), "角色值已经存在");
+		Assert.isTrue(Objects.isNull(role) || role.getId()
+												  .compareTo(sysRoleCnd.getId()) == 0, "角色值已经存在");
 
 	}
 

@@ -45,4 +45,6 @@ public interface SysPermissionMapper {
 	 * @param permValues ：资源唯一的key
 	 */
 	List<SysPermission> findByUniqueKeys(@Param("permValues") List<String> permValues);
+
+	SysPermission findByUniqueKey(String uniqueKey);
 }

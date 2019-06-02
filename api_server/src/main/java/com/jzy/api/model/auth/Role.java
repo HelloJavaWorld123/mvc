@@ -4,10 +4,12 @@ import com.jzy.api.cnd.auth.SysRoleCnd;
 import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Role extends GenericModel {
 
@@ -19,8 +21,6 @@ public class Role extends GenericModel {
 
     private int status;
 
-    public Role() {
-    }
 
     private Role(Long id, Date modifyTime, Long modifierId, String roleName, String roleValue, String description, int status) {
         super(id, modifyTime, modifierId);

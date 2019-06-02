@@ -47,4 +47,10 @@ public interface SysPermissionService {
 	 * @param permValues ：资源唯一Key 值
 	 */
 	List<SysPermission> findByKeys(List<String> permValues);
+
+	/**
+	 * 根据key 查询
+	 * @param uniqueKey ：唯一的key
+	 */
+	SysPermission findByUniqueKey(String uniqueKey);
 }

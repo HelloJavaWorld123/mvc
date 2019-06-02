@@ -4,6 +4,7 @@ import com.jzy.api.cnd.auth.SysPermissionCnd;
 import com.jzy.framework.bean.model.GenericModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -14,6 +15,7 @@ import java.util.Date;
  * Desc: 权限资源表
  **/
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class SysPermission extends GenericModel {
 
@@ -55,10 +57,10 @@ public class SysPermission extends GenericModel {
 	}
 
 	public static SysPermission build(SysPermissionCnd permissionCnd) {
-		return new SysPermission(0, new Date(), 1L, new Date(), 1L, permissionCnd.getUniqueKey(), permissionCnd.getParentKey(), permissionCnd.getPermissionName(), permissionCnd.getPermissionType(), permissionCnd.getLeafNode(), permissionCnd.getPermissionStatus(),permissionCnd.getDescription());
+		return new SysPermission(0, new Date(), 1L, new Date(), 1L, permissionCnd.getUniqueKey(), permissionCnd.getParentKey(), permissionCnd.getPermName(), permissionCnd.getPermType(), permissionCnd.getLeafNode(), permissionCnd.getPermStatus(),permissionCnd.getDescription());
 	}
 
 	public static SysPermission update(SysPermissionCnd permissionCnd) {
-		return new SysPermission(permissionCnd.getId(), new Date(), 2L, permissionCnd.getUniqueKey(), permissionCnd.getParentKey(), permissionCnd.getPermissionName(), permissionCnd.getPermissionType(),permissionCnd.getLeafNode(), permissionCnd.getPermissionStatus(),permissionCnd.getDescription());
+		return new SysPermission(permissionCnd.getId(), new Date(), 2L, permissionCnd.getUniqueKey(), permissionCnd.getParentKey(), permissionCnd.getPermName(), permissionCnd.getPermType(),permissionCnd.getLeafNode(), permissionCnd.getPermStatus(),permissionCnd.getDescription());
 	}
 }
