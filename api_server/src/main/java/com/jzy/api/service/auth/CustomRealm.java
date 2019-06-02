@@ -104,19 +104,20 @@ public class CustomRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) {
 		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token.getPrincipal();
 		String username = usernamePasswordToken.getUsername();
-		SysEmp sysEmp = sysEmpService.findByName(username);
+		List<SysEmp> sysEmp = sysEmpService.findByName(username);
 
-		if (Objects.isNull(sysEmp)) {
+		if (CollectionUtils.isNotEmpty(sysEmp)) {
 			log.info("暂无相关用户信息:{}", username);
 			throw new UnknownAccountException(ResultEnum.USER_ACCOUNT_ERROR.getMsg());
 		}
+		SysEmp emp = sysEmp.get(0);
 
-		if (sysEmp.getStatus() == UserAccountStatusEnum.NORMAL_STATUS.getStatus()) {
-			log.info("当前用户状态已关闭：{}", sysEmp.getId());
+		if (emp.getStatus() == UserAccountStatusEnum.NORMAL_STATUS.getStatus()) {
+			log.info("当前用户状态已关闭：{}", emp.getId());
 			throw new LockedAccountException(ResultEnum.USER_ACCOUNT_STATUS_ERROR.getMsg());
 		}
 
-		return new SimpleAuthenticationInfo(sysEmp, sysEmp.getPassword(), getName());
+		return new SimpleAuthenticationInfo(sysEmp, emp.getPassword(), getName());
 	}
 
 	@Override

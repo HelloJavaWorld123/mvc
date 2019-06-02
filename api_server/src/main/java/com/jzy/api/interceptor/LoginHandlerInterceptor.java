@@ -41,13 +41,13 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
         logRequestParam(request);
         if (handler instanceof HandlerMethod) {
             // 请求方法存在免登录注解的不拦截
-            WithoutLogin loginAnnotation = ((HandlerMethod) handler).getMethodAnnotation(WithoutLogin.class);
+//            WithoutLogin loginAnnotation = ((HandlerMethod) handler).getMethodAnnotation(WithoutLogin.class);
             // 如果存在WithoutLogin注解，则不需要登录
-            if (loginAnnotation != null) {
-                return true;
-            }
+//            if (loginAnnotation != null) {
+//                return true;
+//            }
             // 设置全局变量
-            setTheadLocalCache(request);
+//            setTheadLocalCache(request);
             return true;
         }
         return false;

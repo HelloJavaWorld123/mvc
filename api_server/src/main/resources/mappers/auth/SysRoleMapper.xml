@@ -63,7 +63,7 @@
         SELECT
             name,
             role_value AS roleValue,
-            decription,
+            description,
             status,
             del_flag AS delFlag
         FROM sys_role

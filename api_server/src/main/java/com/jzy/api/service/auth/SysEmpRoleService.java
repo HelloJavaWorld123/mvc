@@ -21,4 +21,9 @@ public interface SysEmpRoleService {
 
 	List<SysEmpRole> findByEmpId(Long empId);
 
+	/**
+	 * 根据用户id 删除角色关联关系
+	 * @param id ：用户id
+	 */
+	void deleteByEmpId(Long id);
 }

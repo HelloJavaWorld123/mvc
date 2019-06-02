@@ -4,6 +4,9 @@ import com.jzy.api.cnd.auth.SysEmpCnd;
 import com.jzy.api.model.auth.SysEmp;
 import com.jzy.api.vo.auth.SysEmpVo;
 import com.jzy.framework.bean.vo.PageVo;
+import org.springframework.dao.DuplicateKeyException;
+
+import java.util.List;
 
 /**
  * Author : RXK
@@ -15,13 +18,16 @@ public interface SysEmpService {
 
 	/**
 	 * 分页查询所有的用户信息
+	 *
+	 * 不包括密码字段
 	 */
 	PageVo<SysEmpVo> list(SysEmpCnd sysEmpCnd);
 
 	/**
 	 * 新增用户
+	 * @param sysEmp
 	 */
-	Integer add(SysEmpCnd sysEmpCnd);
+	Integer add(SysEmp sysEmp) throws DuplicateKeyException;
 
 	/**
 	 * 根据id查找指定的用户
@@ -42,6 +48,7 @@ public interface SysEmpService {
 	 * 根据用户名 查询
 	 * 包括用户状态 为 1 的账户
 	 * 当不包括 已经删除的用户
+	 * @return
 	 */
-	SysEmp findByName(String name);
+	List<SysEmp> findByName(String name);
 }

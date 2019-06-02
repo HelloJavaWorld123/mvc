@@ -7,6 +7,7 @@ import com.jzy.framework.exception.PayException;
 import com.jzy.framework.result.ApiResult;
 import com.jzy.framework.service.JsonConverter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 

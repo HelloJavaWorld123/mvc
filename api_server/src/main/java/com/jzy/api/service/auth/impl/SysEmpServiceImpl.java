@@ -9,6 +9,7 @@ import com.jzy.api.service.auth.SysEmpService;
 import com.jzy.api.vo.auth.SysEmpVo;
 import com.jzy.framework.bean.vo.PageVo;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,11 +35,12 @@ public class SysEmpServiceImpl implements SysEmpService {
 		return new PageVo<>(sysEmpCnd.getPage(), sysEmpCnd.getLimit(), page.getTotal(), result);
 	}
 
+	//TODO 增加状态 以及 渠道商 id create and update
 	@Override
-	public Integer add(SysEmpCnd sysEmpCnd) {
-		SysEmp sysEmp = SysEmp.build(sysEmpCnd);
+	public Integer add(SysEmp sysEmp) throws DuplicateKeyException {
 		return sysEmpMapper.add(sysEmp);
 	}
+
 
 	@Override
 	public SysEmpVo findById(Long id) {
@@ -64,7 +66,8 @@ public class SysEmpServiceImpl implements SysEmpService {
 	}
 
 	@Override
-	public SysEmp findByName(String name) {
+	public List<SysEmp> findByName(String name) {
 		return sysEmpMapper.findByName(name);
 	}
+
 }

@@ -27,8 +27,8 @@ public class SysEmp extends GenericModel {
 
 	private Long dealerId;
 
-	private SysEmp(Integer delFlag, Date createTime, Long creatorId, Date modifyTime, Long modifierId, String name, String password, int status, Long dealerId) {
-		super(delFlag, createTime, creatorId, modifyTime, modifierId);
+	private SysEmp(Long id,Integer delFlag, Date createTime, Long creatorId, Date modifyTime, Long modifierId, String name, String password, int status, Long dealerId) {
+		super(id,delFlag, createTime, creatorId, modifyTime, modifierId);
 		this.name = name;
 		this.password = password;
 		this.status = status;
@@ -45,7 +45,7 @@ public class SysEmp extends GenericModel {
 	}
 
 	public static SysEmp build(SysEmpCnd sysEmpCnd) {
-		return new SysEmp(0,new Date(),1L,new Date(),1L,sysEmpCnd.getName(),sysEmpCnd.getPassword(),sysEmpCnd.getStatus(),sysEmpCnd.getDealerId());
+		return new SysEmp(sysEmpCnd.getId(),0,new Date(),1L,new Date(),1L,sysEmpCnd.getName(),sysEmpCnd.getPassword(),sysEmpCnd.getStatus(),sysEmpCnd.getDealerId());
 	}
 
 	public static SysEmp update(SysEmpCnd sysEmpCnd) {

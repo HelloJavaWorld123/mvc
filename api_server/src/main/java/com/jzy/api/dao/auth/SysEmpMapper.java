@@ -4,6 +4,7 @@ import com.jzy.api.cnd.auth.SysEmpCnd;
 import com.jzy.api.model.auth.SysEmp;
 import com.jzy.api.vo.auth.SysEmpVo;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.dao.DuplicateKeyException;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public interface SysEmpMapper {
 	List<SysEmpVo> list(@Param("sysEmpCnd") SysEmpCnd sysEmpCnd);
 
-	Integer add(@Param("sysEmp") SysEmp sysEmp);
+	Integer add(@Param("sysEmp") SysEmp sysEmp) throws DuplicateKeyException;
 
 	SysEmp findById(@Param("id") Long id);
 
@@ -24,5 +25,5 @@ public interface SysEmpMapper {
 
 	Integer deleteById(@Param("id") Long id);
 
-	SysEmp findByName(@Param("name") String name);
+	List<SysEmp> findByName(@Param("name") String name);
 }

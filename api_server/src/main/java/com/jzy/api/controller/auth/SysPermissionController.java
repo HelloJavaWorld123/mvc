@@ -1,9 +1,6 @@
 package com.jzy.api.controller.auth;
 
-import com.jzy.api.annos.AddValidator;
-import com.jzy.api.annos.DeleteValidator;
-import com.jzy.api.annos.IDValidator;
-import com.jzy.api.annos.UpdateValidator;
+import com.jzy.api.annos.*;
 import com.jzy.api.cnd.auth.SysPermissionCnd;
 import com.jzy.api.model.auth.SysPermission;
 import com.jzy.api.service.auth.SysPermissionService;
@@ -40,7 +37,7 @@ public class SysPermissionController {
 	}
 
 	@RequestMapping("/add")
-	public ApiResult add(@RequestBody @Validated(value = {AddValidator.class}) SysPermissionCnd permissionCnd){
+	public ApiResult add(@RequestBody @Validated(value = {CreateValidator.class}) SysPermissionCnd permissionCnd){
 		SysPermission permission = SysPermission.build(permissionCnd);
 		Integer result = sysPermissionService.add(permission);
 		return result == 1 ? new ApiResult().success() : new ApiResult().fail(ResultEnum.FAIL);

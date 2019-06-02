@@ -3,13 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jzy.api.dao.auth.SysEmpMapper">
     <insert id="add" parameterType="com.jzy.api.model.auth.SysEmp">
-        INSERT INTO `sys_emp`(`name`, `pwd`, `status`, `creator_id`, `modifier_id`, `create_time`, `modify_time`, `del_flag`, `dealer_id`)
+        INSERT INTO `sys_emp`(`id`,`name`, `pwd`, `status`, `creator_id`, `modifier_id`, `create_time`, `modify_time`, `del_flag`, `dealer_id`)
         VALUES (
+            #{sysEmp.id},
             #{sysEmp.name},
             #{sysEmp.password},
             #{sysEmp.status},
             #{sysEmp.creatorId},
-            #{sysEmp.modifyId},
+            #{sysEmp.modifierId},
             #{sysEmp.createTime},
             #{sysEmp.modifyTime},
             #{sysEmp.delFlag},
@@ -20,8 +21,10 @@
         UPDATE sys_emp
         SET
             name = #{sysEmp.name},
-            pwd = #{sysEmp.password}
-        WHERE id = #{id}
+            pwd = #{sysEmp.password},
+            modifier_id = #{sysEmp.modifierId},
+            modify_time = #{sysEmp.modifyTime}
+        WHERE id = #{sysEmp.id}
     </update>
     <delete id="deleteById" parameterType="java.lang.Long">
         UPDATE sys_emp
@@ -33,14 +36,14 @@
          SELECT
             id,
             name,
-            pwd AS password,
             status,
             dealer_id AS dealerId
         FROM sys_emp
         <where>
             status = 0
+            AND del_flag = 0
             <if test="sysEmpCnd.name != null and sysEmpCnd.name != ''">
-               AND name = #{sysEmpCnd.name}
+               AND name LIKE CONCAT('%',#{sysEmpCnd.name},'%')
             </if>
         </where>
         ORDER BY id DESC
@@ -53,7 +56,7 @@
             status,
             dealer_id AS dealerId
         FROM sys_emp
-        WHERE id = #{id} AND status = 0;
+        WHERE id = #{id} AND status = 0 AND del_flag = 0;
     </select>
     <select id="findByName" resultType="com.jzy.api.model.auth.SysEmp">
          SELECT

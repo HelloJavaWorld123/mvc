@@ -53,6 +53,7 @@ public enum ResultEnum {
     USER_ACCOUNT_ERROR(5008, "账号或者密码错误"),
     USER_ACCOUNT_STATUS_ERROR(5009, "账号已停止使用"),
     USER_ACCOUNT_UNAUTHORIZED_ERROR(5010,"账号没有授权"),
+    USER_NAME_ALREADY_EXIST(5011, "名称已经存在"),
     ;
 
     private Integer code;

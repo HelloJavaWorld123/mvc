@@ -43,7 +43,7 @@ public class SysEmpCnd extends PageCnd {
 	@NotEmpty(groups = {AllotValidator.class},message = "分配的角色不能为空")
 	private List<Long> roleList;
 
-	private Integer status;
+	private Integer status = 0;
 
-	private Long dealerId;
+	private Long dealerId = 1L;
 }
