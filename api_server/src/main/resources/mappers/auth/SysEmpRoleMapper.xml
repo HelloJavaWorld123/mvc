@@ -47,6 +47,14 @@
         WHERE
             emp_id = #{empId}
     </select>
+    <select id="findByRoleId" resultType="com.jzy.api.model.auth.SysEmpRole">
+        SELECT
+            emp_id AS empId,
+            role_id AS roleId
+        FROM sys_emp_role
+        WHERE
+            role_id = #{id}
+    </select>
 
 
 </mapper>

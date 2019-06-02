@@ -60,6 +60,11 @@ public class ProjectHandlerExceptionResolver implements HandlerExceptionResolver
             return null;
         }
 
+        if(e instanceof IllegalArgumentException){
+            ajaxJson(new ApiResult().fail(e.getMessage()), response);
+            return null;
+        }
+
         log.error("系统错误或繁忙，或者网络错误。请稍后再试", e);
        // ajaxJson(new ApiResult<>().fail(e.getMessage()), response);
         ajaxJson(new ApiResult<>().fail("系统错误或繁忙，或者网络错误。请稍后再试"), response);

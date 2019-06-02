@@ -26,4 +26,10 @@ public interface SysEmpRoleService {
 	 * @param id ：用户id
 	 */
 	void deleteByEmpId(Long id);
+
+	/**
+	 * 根据角色id 查询
+	 * @param id ：角色id
+	 */
+	List<SysEmpRole> findByRoleId(Long id);
 }

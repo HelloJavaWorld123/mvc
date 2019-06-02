@@ -41,4 +41,8 @@ public interface SysRoleMapper{
 	List<SysRoleVo> list(@Param("sysRoleCnd") SysRoleCnd sysRoleCnd);
 
 	List<Role> findByIds(@Param("roleList") List<Long> roleList);
+
+	Role findByRoleValue(String roleValue);
+
+	Role findByRoleName(String name);
 }

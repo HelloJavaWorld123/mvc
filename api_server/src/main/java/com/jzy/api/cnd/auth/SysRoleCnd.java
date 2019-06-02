@@ -38,7 +38,7 @@ public class SysRoleCnd extends PageCnd {
 
 	private String description;
 
-	private Integer status;
+	private Integer status = 0;
 
 	private Integer delFlag;
 

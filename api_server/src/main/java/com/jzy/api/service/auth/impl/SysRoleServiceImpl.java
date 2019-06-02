@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Author : RXK
@@ -51,12 +50,22 @@ public class SysRoleServiceImpl implements SysRoleService {
 	}
 
 	@Override
-	public Integer deleteById(Role role) {
-		return sysRoleMapper.updateDelFLag(role.getId());
+	public Integer deleteById(Long roleId) {
+		return sysRoleMapper.updateDelFLag(roleId);
 	}
 
 	@Override
 	public List<Role> findByIds(List<Long> roleList) {
 		return sysRoleMapper.findByIds(roleList);
+	}
+
+	@Override
+	public Role findByRoleValue(String roleValue) {
+		return sysRoleMapper.findByRoleValue(roleValue);
+	}
+
+	@Override
+	public Role findByName(String name) {
+		return sysRoleMapper.findByRoleName(name);
 	}
 }

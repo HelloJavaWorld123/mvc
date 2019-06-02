@@ -37,4 +37,6 @@ public interface SysEmpRoleMapper {
 	Integer batchInsert(@Param("empId") Long id, @Param("roleList") List<Long> roleList);
 
 	List<SysEmpRole> findByEmpId(Long empId);
+
+	List<SysEmpRole> findByRoleId(Long id);
 }

@@ -6,7 +6,6 @@ import com.jzy.api.vo.auth.SysRoleVo;
 import com.jzy.framework.bean.vo.PageVo;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Author : RXK
@@ -41,11 +40,24 @@ public interface SysRoleService{
 
 	/**
 	 * 逻辑删除角色
+	 * @param roleId
 	 */
-	Integer deleteById(Role role);
+	Integer deleteById(Long roleId);
 
 	/**
 	 * 根据角色id 批量查询
 	 */
 	List<Role> findByIds(List<Long> roleList);
+
+	/**
+	 * 根据角色值 查询
+	 * @param roleValue ：角色值
+	 */
+	Role findByRoleValue(String roleValue);
+
+	/**
+	 * 根据角色名称 查询
+	 * @param name ： 角色名称
+	 */
+	Role findByName(String name);
 }
