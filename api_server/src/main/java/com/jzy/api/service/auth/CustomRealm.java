@@ -54,24 +54,9 @@ public class CustomRealm extends AuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		SysEmp sysEmp = (SysEmp) getAvailablePrincipal(principals);
 
-		List<Long> roleIds = getSysEmpRoles(sysEmp);
-//		if (CollectionUtils.isEmpty(roleIds)) {
-//			log.info("用户：{}没有授予角色", sysEmp.getId());
-//			throw new UnauthorizedException(ResultEnum.USER_ACCOUNT_UNAUTHORIZED_ERROR.getMsg());
-//		}
-
-		Set<String> sysRolePermissions = getSysRolePermissions(roleIds);
-//		if (CollectionUtils.isEmpty(sysRolePermissions)) {
-//			log.info("用户：{} 暂时没有授予权限", sysEmp.getId());
-//			throw new UnauthorizedException(ResultEnum.USER_ACCOUNT_UNAUTHORIZED_ERROR.getMsg());
-//		}
-
-		Set<String> roleValues = getRoleName(roleIds);
 		SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-		simpleAuthorizationInfo.setRoles(roleValues);
-		simpleAuthorizationInfo.setStringPermissions(sysRolePermissions);
-		sysEmp.setRoleValues(roleValues);
-		sysEmp.setPermValues(sysRolePermissions);
+		simpleAuthorizationInfo.setStringPermissions(sysEmp.getPermValues());
+		simpleAuthorizationInfo.setRoles(sysEmp.getRoleValues());
 
 		return simpleAuthorizationInfo;
 	}
@@ -96,6 +81,23 @@ public class CustomRealm extends AuthorizingRealm {
 			log.info("当前用户状态已关闭：{}", emp.getId());
 			throw new LockedAccountException(ResultEnum.USER_ACCOUNT_STATUS_ERROR.getMsg());
 		}
+
+		List<Long> roleIds = getSysEmpRoles(emp);
+		if (CollectionUtils.isEmpty(roleIds)) {
+			log.info("用户：{}没有授予角色", emp.getId());
+			throw new UnauthorizedException(ResultEnum.USER_ACCOUNT_UNAUTHORIZED_ERROR.getMsg());
+		}
+
+		Set<String> sysRolePermissions = getSysRolePermissions(roleIds);
+		if (CollectionUtils.isEmpty(sysRolePermissions)) {
+			log.info("用户：{} 暂时没有授予权限", emp.getId());
+			throw new UnauthorizedException(ResultEnum.USER_ACCOUNT_UNAUTHORIZED_ERROR.getMsg());
+		}
+
+		Set<String> roleValues = getRoleName(roleIds);
+		emp.setRoleValues(roleValues);
+		emp.setPermValues(sysRolePermissions);
+
 
 		return new SimpleAuthenticationInfo(sysEmp, emp.getPassword(), getName());
 	}
