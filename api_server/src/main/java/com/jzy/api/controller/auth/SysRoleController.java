@@ -18,6 +18,7 @@ import com.jzy.framework.bean.cnd.PageCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
@@ -36,6 +37,7 @@ import java.util.Objects;
  **/
 @RestController
 @RequestMapping("/sys/role")
+@RequiresPermissions("m:sys:role")
 public class SysRoleController {
 
 	@Autowired
@@ -51,6 +53,7 @@ public class SysRoleController {
 	private SysRolePermissionService sysRolePermissionService;
 
 	@RequestMapping("/list")
+	@RequiresPermissions("m:sys:role:list")
 	public ApiResult list(@RequestBody @Validated(value = {PageCnd.PageValidator.class}) SysRoleCnd sysRoleCnd) {
 		PageVo<SysRoleVo> sysRoleVos = sysRoleService.list(sysRoleCnd);
 		return new ApiResult<>(sysRoleVos);
@@ -58,6 +61,7 @@ public class SysRoleController {
 
 
 	@RequestMapping("/add")
+	@RequiresPermissions("m:sys:role:add")
 	public ApiResult add(@RequestBody @Validated(value = {CreateValidator.class}) SysRoleCnd sysRoleCnd) {
 		Integer result = sysRoleService.add(sysRoleCnd);
 		return getResultEnum(result);
@@ -65,6 +69,7 @@ public class SysRoleController {
 
 
 	@RequestMapping("/update")
+	@RequiresPermissions("m:sys:role:update")
 	public ApiResult update(@RequestBody @Validated(value = {UpdateValidator.class}) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
 		if (Objects.isNull(role)) {
@@ -80,6 +85,7 @@ public class SysRoleController {
 
 
 	@RequestMapping("/delete")
+	@RequiresPermissions("m:sys:role:delete")
 	public ApiResult delete(@RequestBody @Validated(value = {DeleteValidator.class}) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
 		if (null == role) {
@@ -97,6 +103,7 @@ public class SysRoleController {
 
 
 	@RequestMapping("/id")
+	@RequiresPermissions("m:sys:role:id")
 	public ApiResult getById(@RequestBody @Validated(IDValidator.class) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
 		return new ApiResult<>().success(role);
@@ -104,6 +111,7 @@ public class SysRoleController {
 
 
 	@RequestMapping("/allot/perm")
+	@RequiresPermissions("m:sys:role:allotPerm")
 	public ApiResult allotPermission(@RequestBody @Validated(SysRoleCnd.Allot.class) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
 		if (Objects.isNull(role)) {

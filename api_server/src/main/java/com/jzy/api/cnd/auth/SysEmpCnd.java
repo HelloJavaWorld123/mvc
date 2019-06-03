@@ -7,6 +7,7 @@ import com.jzy.api.annos.UpdateValidator;
 import com.jzy.framework.bean.cnd.PageCnd;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
@@ -24,21 +25,17 @@ public class SysEmpCnd extends PageCnd {
 
 	public interface AllotValidator {}
 
-	public interface LoginValidator {}
-
 	public interface NameExistValidator{}
 
 	@NotNull(groups = {DeleteValidator.class, UpdateValidator.class, IDValidator.class, AllotValidator.class},message = "主键不能为空")
 	private Long id;
 
-	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class, LoginValidator.class,NameExistValidator.class},message = "用户名称不能为空")
+	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class,NameExistValidator.class},message = "用户名称不能为空")
 	private String name;
 
-	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class, LoginValidator.class},message = "用户密码不能为空")
+	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class},message = "用户密码不能为空")
+	@Length(groups = {CreateValidator.class,UpdateValidator.class},min = 4,max = 16,message = "请输入正确位数的密码")
 	private String password;
-
-	@NotNull(groups = {LoginValidator.class},message = "是否记住不能为空")
-	private Boolean rememberMe;
 
 	@NotEmpty(groups = {AllotValidator.class},message = "分配的角色不能为空")
 	private List<Long> roleList;

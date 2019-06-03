@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Author : RXK
@@ -26,6 +28,10 @@ public class SysEmp extends GenericModel {
 	private int status;
 
 	private Long dealerId;
+
+	private Set<String> roleValues;
+
+	private Set<String> permValues;
 
 	private SysEmp(Long id,Integer delFlag, Date createTime, Long creatorId, Date modifyTime, Long modifierId, String name, String password, int status, Long dealerId) {
 		super(id,delFlag, createTime, creatorId, modifyTime, modifierId);

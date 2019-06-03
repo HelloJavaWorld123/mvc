@@ -3,10 +3,14 @@ package com.jzy.api.controller.sys;
 import com.jzy.api.annos.WithoutLogin;
 import com.jzy.api.cnd.admin.LoginCnd;
 import com.jzy.api.cnd.auth.SysEmpCnd;
+import com.jzy.api.constant.ApiRedisCacheConstant;
 import com.jzy.api.model.auth.Role;
+import com.jzy.api.model.auth.SysEmp;
 import com.jzy.api.model.sys.Emp;
 import com.jzy.api.service.auth.EmpService;
+import com.jzy.api.util.MD5Util;
 import com.jzy.api.vo.sys.EmpVo;
+import com.jzy.framework.cache.EmpCache;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +21,10 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
+import org.checkerframework.checker.units.qual.A;
+import org.redisson.api.RBucket;
+import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,11 +45,14 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = {"/login","/auth"})
+@RequestMapping(value = {"/login","/sys"})
 public class LoginController extends GenericController {
 
     @Resource
     private EmpService userService;
+
+    @Resource
+    private RedissonClient redissonClient;
 
     /**
      * <b>功能描述：</b>获取用户资源列表<br>
@@ -68,9 +79,10 @@ public class LoginController extends GenericController {
     /**
      * TODO 密码前端加密传输 目前是明文
      */
+    @WithoutLogin
     @RequestMapping("/login")
-    public ApiResult login(@RequestBody @Validated(SysEmpCnd.LoginValidator.class) SysEmpCnd sysEmpCnd){
-        UsernamePasswordToken token = new UsernamePasswordToken(sysEmpCnd.getName(),sysEmpCnd.getPassword(),sysEmpCnd.getRememberMe());
+    public ApiResult login(@RequestBody @Validated(LoginCnd.LoginValidator.class) LoginCnd loginCnd){
+        UsernamePasswordToken token = new UsernamePasswordToken(loginCnd.getUsername(),loginCnd.getPwd(),loginCnd.getRememberMe());
         Subject subject = SecurityUtils.getSubject();
 
         try {
@@ -79,7 +91,39 @@ public class LoginController extends GenericController {
             log.error("用户登录异常：",e);
             return new ApiResult().fail(e.getMessage());
         }
+
+        SysEmp sysEmp = (SysEmp) subject.getPrincipal();
+        String apiEmpToken = cacheSysEmpInfo(sysEmp);
+        EmpVo empVo = EmpVo.build(sysEmp,apiEmpToken);
+        return new ApiResult<>().success(empVo);
+    }
+
+
+    @WithoutLogin
+    @RequestMapping("/logout")
+    public ApiResult logout(){
+        SecurityUtils.getSubject()
+                     .logout();
         return new ApiResult().success();
+    }
+
+
+
+    private String cacheSysEmpInfo(SysEmp sysEmp) {
+        String key = ApiRedisCacheConstant.CACHE_DEALER_EMP + sysEmp.getId();
+        String token = MD5Util.string2MD5(key);
+        EmpCache value = getEmpCache(sysEmp);
+        RBucket<Object> bucket = redissonClient.getBucket(token);
+        bucket.set(value);
+        return token;
+    }
+
+    //TODO 后期统一数据类型 目前兼容
+    private EmpCache getEmpCache(SysEmp sysEmp) {
+        EmpCache cache = new EmpCache();
+        cache.setEmpId(sysEmp.getId().toString());
+        cache.setDealerId(Math.toIntExact(sysEmp.getDealerId()));
+        return cache;
     }
 
 }

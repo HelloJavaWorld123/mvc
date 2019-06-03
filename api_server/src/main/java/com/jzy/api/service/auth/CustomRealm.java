@@ -65,35 +65,14 @@ public class CustomRealm extends AuthorizingRealm {
 			throw new UnauthorizedException(ResultEnum.USER_ACCOUNT_UNAUTHORIZED_ERROR.getMsg());
 		}
 
+		Set<String> roleValues = getRoleName(roleIds);
 		SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-		simpleAuthorizationInfo.setRoles(getRoleName(roleIds));
+		simpleAuthorizationInfo.setRoles(roleValues);
 		simpleAuthorizationInfo.setStringPermissions(sysRolePermissions);
+		sysEmp.setRoleValues(roleValues);
+		sysEmp.setPermValues(sysRolePermissions);
 
 		return simpleAuthorizationInfo;
-	}
-
-
-	private Set<String> getRoleName(List<Long> roleIds) {
-		List<Role> roles = sysRoleService.findByIds(roleIds);
-		return roles.stream()
-					.map(Role::getName)
-					.collect(Collectors.toSet());
-	}
-
-
-	private Set<String> getSysRolePermissions(List<Long> roleIds) {
-		List<SysRolePermission> rolePermissions = sysRolePermissionService.findByRoleIds(roleIds);
-		return rolePermissions.stream().filter(Objects::nonNull)
-							  .map(SysRolePermission::getPermissionKey)
-							  .collect(Collectors.toSet());
-	}
-
-	private List<Long> getSysEmpRoles(SysEmp sysEmp) {
-		List<SysEmpRole> roles = sysEmpRoleService.findByEmpId(sysEmp.getId());
-		return roles.stream()
-					.filter(Objects::nonNull)
-					.map(SysEmpRole::getRoleId)
-					.collect(Collectors.toList());
 	}
 
 
@@ -118,6 +97,30 @@ public class CustomRealm extends AuthorizingRealm {
 		}
 
 		return new SimpleAuthenticationInfo(sysEmp, emp.getPassword(), getName());
+	}
+
+
+	private Set<String> getRoleName(List<Long> roleIds) {
+		List<Role> roles = sysRoleService.findByIds(roleIds);
+		return roles.stream()
+					.map(Role::getName)
+					.collect(Collectors.toSet());
+	}
+
+
+	private Set<String> getSysRolePermissions(List<Long> roleIds) {
+		List<SysRolePermission> rolePermissions = sysRolePermissionService.findByRoleIds(roleIds);
+		return rolePermissions.stream().filter(Objects::nonNull)
+							  .map(SysRolePermission::getPermissionKey)
+							  .collect(Collectors.toSet());
+	}
+
+	private List<Long> getSysEmpRoles(SysEmp sysEmp) {
+		List<SysEmpRole> roles = sysEmpRoleService.findByEmpId(sysEmp.getId());
+		return roles.stream()
+					.filter(Objects::nonNull)
+					.map(SysEmpRole::getRoleId)
+					.collect(Collectors.toList());
 	}
 
 	@Override

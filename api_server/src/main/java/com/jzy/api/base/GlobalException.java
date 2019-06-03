@@ -34,5 +34,10 @@ public class GlobalException {
 		return new ApiResult().fail(message,ResultEnum.FAIL.getCode());
 	}
 
+	@ExceptionHandler(Exception.class)
+	public ApiResult handleException(Exception e){
+		return new ApiResult().fail(e.getMessage());
+	}
+
 
 }

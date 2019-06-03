@@ -16,12 +16,14 @@ import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -35,6 +37,7 @@ import java.util.Objects;
  **/
 @RestController
 @RequestMapping("/sys/user")
+@RequiresPermissions("m:sys:user")
 public class SysEmpController {
 
 	@Autowired
@@ -51,12 +54,14 @@ public class SysEmpController {
 
 
 	@RequestMapping("/list")
+	@RequiresPermissions("m:sys:user:list")
 	public ApiResult list(@RequestBody @Validated(value = {PageCnd.PageValidator.class}) SysEmpCnd sysEmpCnd) {
 		PageVo<SysEmpVo> result = sysEmpService.list(sysEmpCnd);
 		return new ApiResult<>(result);
 	}
 
 	@RequestMapping("/add")
+	@RequiresPermissions("m:sys:user:add")
 	public ApiResult add(@RequestBody @Validated(value = {CreateValidator.class}) SysEmpCnd sysEmpCnd) {
 		Integer result = 0;
 		try {
@@ -82,6 +87,7 @@ public class SysEmpController {
 
 
 	@RequestMapping("/update")
+	@RequiresPermissions("m:sys:user:update")
 	public ApiResult update(@RequestBody @Validated(value = {UpdateValidator.class}) SysEmpCnd sysEmpCnd) {
 		SysEmpVo sysEmp = sysEmpService.findById(sysEmpCnd.getId());
 		if (Objects.isNull(sysEmp)) {
@@ -93,6 +99,7 @@ public class SysEmpController {
 	}
 
 	@RequestMapping("/delete")
+	@RequiresPermissions("m:sys:user:delete")
 	public ApiResult delete(@RequestBody @Validated(value = {DeleteValidator.class}) SysEmpCnd sysEmpCnd) {
 		SysEmpVo emp = sysEmpService.findById(sysEmpCnd.getId());
 		if (Objects.isNull(emp)) {
@@ -107,6 +114,7 @@ public class SysEmpController {
 	}
 
 	@RequestMapping("/id")
+	@RequiresPermissions("m:sys:user:id")
 	public ApiResult getById(@RequestBody @Validated(value = {IDValidator.class}) SysEmpCnd sysEmpCnd) {
 		SysEmpVo vo = sysEmpService.findById(sysEmpCnd.getId());
 		return new ApiResult<SysEmpVo>().success(vo);
@@ -118,6 +126,7 @@ public class SysEmpController {
 	 * @param sysEmpCnd ：用户名称
 	 */
 	@RequestMapping("/check")
+	@RequiresPermissions("m:sys:user:check")
 	public ApiResult userNameExist(@RequestBody @Validated(SysEmpCnd.NameExistValidator.class) SysEmpCnd sysEmpCnd) {
 		List<SysEmp> sysEmps = sysEmpService.findByName(sysEmpCnd.getName());
 
@@ -132,6 +141,7 @@ public class SysEmpController {
 	 * 为用户分配角色
 	 */
 	@RequestMapping("/allot/role")
+	@RequiresPermissions("m:sys:user:allotRole")
 	public ApiResult userAddRole(@RequestBody @Validated(value = SysEmpCnd.AllotValidator.class) SysEmpCnd sysEmpCnd) {
 		List<Role> roleList = sysRoleService.findByIds(sysEmpCnd.getRoleList());
 		if (CollectionUtils.isEmpty(roleList) && roleList.size() != sysEmpCnd.getRoleList()

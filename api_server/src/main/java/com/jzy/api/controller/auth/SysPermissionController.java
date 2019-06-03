@@ -10,6 +10,7 @@ import com.jzy.framework.result.ApiResult;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -29,18 +30,21 @@ import java.util.Objects;
  **/
 @RestController
 @RequestMapping("/sys/permission")
+@RequiresPermissions("m:sys:perm")
 public class SysPermissionController {
 
 	@Autowired
 	private SysPermissionService sysPermissionService;
 
 	@RequestMapping("/list")
+	@RequiresPermissions("m:sys:perm:list")
 	public ApiResult list(@RequestBody SysPermissionCnd permissionCnd) {
 		List<SysPermissionVo> pageList = sysPermissionService.list(permissionCnd);
 		return new ApiResult<>().success(pageList);
 	}
 
 	@RequestMapping("/add")
+	@RequiresPermissions("m:sys:perm:add")
 	public ApiResult add(@RequestBody @Validated(value = {CreateValidator.class}) SysPermissionCnd permissionCnd) {
 		isLeafNode(permissionCnd);
 
@@ -59,6 +63,7 @@ public class SysPermissionController {
 
 
 	@RequestMapping("/update")
+	@RequiresPermissions("m:sys:perm:update")
 	public ApiResult update(@RequestBody @Validated(value = {UpdateValidator.class}) SysPermissionCnd permissionCnd) {
 		SysPermission serviceById = sysPermissionService.findById(permissionCnd.getId());
 		if (Objects.isNull(serviceById)) {
@@ -84,7 +89,9 @@ public class SysPermissionController {
 		}
 	}
 
+
 	@RequestMapping("/delete")
+	@RequiresPermissions("m:sys:perm:delete")
 	public ApiResult delete(@RequestBody @Validated(value = {DeleteValidator.class}) SysPermissionCnd permissionCnd) {
 		SysPermission sysPermission = sysPermissionService.findById(permissionCnd.getId());
 		if (Objects.isNull(sysPermission)) {
@@ -95,6 +102,7 @@ public class SysPermissionController {
 	}
 
 	@RequestMapping("/id")
+	@RequiresPermissions("m:sys:perm:id")
 	public ApiResult getById(@RequestBody @Validated(IDValidator.class) SysPermissionCnd permissionCnd) {
 		SysPermission permission = sysPermissionService.findById(permissionCnd.getId());
 		SysPermissionVo vo = new SysPermissionVo();
