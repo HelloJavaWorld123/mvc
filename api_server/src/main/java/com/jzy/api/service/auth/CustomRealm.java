@@ -17,6 +17,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
  * Desc: 用户授权 以及 权限资源获取
  **/
 @Slf4j
-@Component
+@Service
 public class CustomRealm extends AuthorizingRealm {
 
 	@Autowired
@@ -54,16 +55,16 @@ public class CustomRealm extends AuthorizingRealm {
 		SysEmp sysEmp = (SysEmp) getAvailablePrincipal(principals);
 
 		List<Long> roleIds = getSysEmpRoles(sysEmp);
-		if (CollectionUtils.isEmpty(roleIds)) {
-			log.info("用户：{}没有授予角色", sysEmp.getId());
-			throw new UnauthorizedException(ResultEnum.USER_ACCOUNT_UNAUTHORIZED_ERROR.getMsg());
-		}
+//		if (CollectionUtils.isEmpty(roleIds)) {
+//			log.info("用户：{}没有授予角色", sysEmp.getId());
+//			throw new UnauthorizedException(ResultEnum.USER_ACCOUNT_UNAUTHORIZED_ERROR.getMsg());
+//		}
 
 		Set<String> sysRolePermissions = getSysRolePermissions(roleIds);
-		if (CollectionUtils.isEmpty(sysRolePermissions)) {
-			log.info("用户：{} 暂时没有授予权限", sysEmp.getId());
-			throw new UnauthorizedException(ResultEnum.USER_ACCOUNT_UNAUTHORIZED_ERROR.getMsg());
-		}
+//		if (CollectionUtils.isEmpty(sysRolePermissions)) {
+//			log.info("用户：{} 暂时没有授予权限", sysEmp.getId());
+//			throw new UnauthorizedException(ResultEnum.USER_ACCOUNT_UNAUTHORIZED_ERROR.getMsg());
+//		}
 
 		Set<String> roleValues = getRoleName(roleIds);
 		SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
@@ -81,17 +82,17 @@ public class CustomRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) {
-		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token.getPrincipal();
+		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
 		String username = usernamePasswordToken.getUsername();
 		List<SysEmp> sysEmp = sysEmpService.findByName(username);
 
-		if (CollectionUtils.isNotEmpty(sysEmp)) {
+		if (CollectionUtils.isEmpty(sysEmp)) {
 			log.info("暂无相关用户信息:{}", username);
 			throw new UnknownAccountException(ResultEnum.USER_ACCOUNT_ERROR.getMsg());
 		}
 		SysEmp emp = sysEmp.get(0);
 
-		if (emp.getStatus() == UserAccountStatusEnum.NORMAL_STATUS.getStatus()) {
+		if (emp.getStatus() == UserAccountStatusEnum.STOP_STATUS.getStatus()) {
 			log.info("当前用户状态已关闭：{}", emp.getId());
 			throw new LockedAccountException(ResultEnum.USER_ACCOUNT_STATUS_ERROR.getMsg());
 		}
@@ -103,7 +104,7 @@ public class CustomRealm extends AuthorizingRealm {
 	private Set<String> getRoleName(List<Long> roleIds) {
 		List<Role> roles = sysRoleService.findByIds(roleIds);
 		return roles.stream()
-					.map(Role::getName)
+					.map(Role::getRoleValue)
 					.collect(Collectors.toSet());
 	}
 

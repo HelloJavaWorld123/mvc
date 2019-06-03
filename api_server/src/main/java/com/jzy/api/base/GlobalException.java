@@ -2,6 +2,8 @@ package com.jzy.api.base;
 
 import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.result.ApiResult;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,8 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Version: V1.0.0
  * Desc:
  **/
-@ControllerAdvice
+@Slf4j
 @ResponseBody
+@ControllerAdvice
 public class GlobalException {
 
 
@@ -34,8 +37,16 @@ public class GlobalException {
 		return new ApiResult().fail(message,ResultEnum.FAIL.getCode());
 	}
 
+	@ExceptionHandler(UnauthorizedException.class)
+	public ApiResult handleUnAuthorizedException(UnauthorizedException e){
+		log.info("无权限异常：",e);
+		return new ApiResult().fail("无权限");
+	}
+
+
 	@ExceptionHandler(Exception.class)
 	public ApiResult handleException(Exception e){
+		log.info("捕捉到的异常：",e);
 		return new ApiResult().fail(e.getMessage());
 	}
 

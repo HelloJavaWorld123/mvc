@@ -665,6 +665,12 @@
              </exclusions>
          </dependency>
 
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>1.4.1</version>
+        </dependency>
+
         <!--swagger 依赖-->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.plugin</groupId>-->

@@ -201,4 +201,41 @@
         </property>
     </bean>
 
+
+    <bean id="authorizationAttributeSourceAdvisor"
+          class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="defaultWebSecurityManager"/>
+    </bean>
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="defaultWebSecurityManager"/>
+        <property name="filterChainDefinitions" ref="customFilterChain"/>
+    </bean>
+
+    <bean id="defaultWebSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="customRealm"/>
+    </bean>
+
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+
+    <bean class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
+        <property name="loginUrl" value="/"/>
+        <property name="successUrl" value="/"/>
+    </bean>
+
+    <bean id="customFilterChain" class="java.lang.String">
+        <constructor-arg>
+            <value>
+                /sys/login=anon
+                /sys/logout=anon
+                /** =authc
+            </value>
+        </constructor-arg>
+    </bean>
+
 </beans>
