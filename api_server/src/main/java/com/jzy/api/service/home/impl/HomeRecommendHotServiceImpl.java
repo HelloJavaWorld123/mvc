@@ -203,7 +203,7 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
             if(homeRecommendHotCnd.getImageUrl()!=null&&homeRecommendHotCnd.getFileInfo()!=null) {
                 //生成图片信息对象
                 SysImages images = getSystemImagesMapper(homeRecommendHotCnd, mfile);
-                homeRecommendHotCnd.setImageId(images.getId().toString());
+                //homeRecommendHotCnd.setImageId(images.getId().toString());
                 //添加新的图片信息
                 sysImagesService.save(images);
             }
