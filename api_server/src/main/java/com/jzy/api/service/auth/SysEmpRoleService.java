@@ -15,6 +15,7 @@ public interface SysEmpRoleService {
 
 	/**
 	 * 为指定的用户 新增角色
+	 * @return
 	 */
 	Integer add(SysEmpCnd sysEmpCnd);
 

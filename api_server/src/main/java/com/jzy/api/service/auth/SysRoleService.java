@@ -23,6 +23,7 @@ public interface SysRoleService{
 
 	/**
 	 * 角色新增
+	 * @return
 	 */
 	Integer add(SysRoleCnd sysRoleCnd);
 

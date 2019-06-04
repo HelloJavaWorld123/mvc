@@ -17,6 +17,7 @@ public interface SysRoleMapper{
 
 	/**
 	 * 角色新增
+	 * @return
 	 */
 	Integer add(@Param("role") Role role);
 

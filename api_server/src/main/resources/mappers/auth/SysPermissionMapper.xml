@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jzy.api.dao.auth.SysPermissionMapper">
     <insert id="add" parameterType="com.jzy.api.model.auth.SysPermission">
-        INSERT INTO `sys_permission`(`unique_key`, `parent_key`, `permission_name`, `permission_type`, `leaf_node`, `permission_status`, `description`, `del_flag`, `create_time`, `modify_time`, `create_id`, `modify_id`)
+        INSERT INTO `sys_permission`(`unique_key`, `parent_key`, `permission_name`, `permission_type`, `leaf_node`, `permission_status`, `description`, `del_flag`, `create_time`, `modify_time`, `create_id`, `modifier_id`)
         VALUES (
             #{permission.uniqueKey},
             #{permission.parentKey},
@@ -30,7 +30,7 @@
             `permission_status` = #{permission.permissionStatus},
             `description` = #{permission.description},
             `modify_time` = #{permission.modifyTime},
-            `modify_id` = #{permission.modifierId}
+            `modifier_id` = #{permission.modifierId}
          WHERE `id` = #{permission.id};
     </update>
     <delete id="delete">
@@ -100,6 +100,27 @@
         FROM sys_permission
         WHERE unique_key = #{uniqueKey}
         AND del_flag = 0
+    </select>
+    <select id="findByIds" resultType="com.jzy.api.model.auth.SysPermission">
+        SELECT
+            id,
+            unique_key AS uniqueKey,
+            parent_key AS parentKey,
+            permission_name AS permissionName,
+            permission_type AS permissionType,
+            leaf_node AS leafNode,
+            permission_status AS permissionStatus,
+            description
+        FROM sys_permission
+        WHERE
+            id IN
+        <foreach collection="permIds" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+        AND
+            permission_status = 0
+        AND
+            del_flag = 0
     </select>
 
 

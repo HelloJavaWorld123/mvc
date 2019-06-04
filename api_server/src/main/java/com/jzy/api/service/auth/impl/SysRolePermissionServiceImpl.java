@@ -23,9 +23,9 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
 	private SysRolePermissionMapper sysRolePermissionMapper;
 
 	@Override
-	public Integer add(Long id, List<String> permValues, Integer permType) {
+	public Integer add(Long id, List<String> permValues) {
 		sysRolePermissionMapper.deleteByRoleId(id);
-		return sysRolePermissionMapper.add(id, permValues,permType);
+		return sysRolePermissionMapper.add(id, permValues);
 	}
 
 	@Override

@@ -15,7 +15,7 @@ public interface SysRolePermissionMapper {
 
 	void deleteByRoleId(Long roleId);
 
-	Integer add(@Param("roleId") Long roleId, @Param("permValues") List<String> permValues, @Param("permType") Integer permType);
+	Integer add(@Param("roleId") Long roleId, @Param("permValues") List<String> permValues);
 
 	List<SysRolePermission> findByRoleId(@Param("roleId") Long roleId);
 

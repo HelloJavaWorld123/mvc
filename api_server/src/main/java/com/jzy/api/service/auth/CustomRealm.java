@@ -1,9 +1,11 @@
 package com.jzy.api.service.auth;
 
+import com.jzy.api.constant.ApiRedisCacheConstant;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.auth.SysEmp;
 import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.model.auth.SysRolePermission;
+import com.jzy.api.util.DateUtils;
 import com.jzy.common.enums.ResultEnum;
 import com.jzy.common.enums.UserAccountStatusEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -15,13 +17,16 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.redisson.api.RBucket;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -39,6 +44,9 @@ public class CustomRealm extends AuthorizingRealm {
 
 	@Autowired
 	private SysRoleService sysRoleService;
+
+	@Resource
+	private RedissonClient redissonClient;
 
 	@Autowired
 	private SysEmpRoleService sysEmpRoleService;
@@ -88,42 +96,80 @@ public class CustomRealm extends AuthorizingRealm {
 			throw new UnauthorizedException(ResultEnum.USER_ACCOUNT_UNAUTHORIZED_ERROR.getMsg());
 		}
 
-		Set<String> sysRolePermissions = getSysRolePermissions(roleIds);
+		Set<String> sysRolePermissions = getSysRolePermissions(roleIds, emp);
 		if (CollectionUtils.isEmpty(sysRolePermissions)) {
 			log.info("用户：{} 暂时没有授予权限", emp.getId());
 			throw new UnauthorizedException(ResultEnum.USER_ACCOUNT_UNAUTHORIZED_ERROR.getMsg());
 		}
 
-		Set<String> roleValues = getRoleName(roleIds);
+		Set<String> roleValues = getRoleValue(roleIds, emp);
 		emp.setRoleValues(roleValues);
 		emp.setPermValues(sysRolePermissions);
-
 
 		return new SimpleAuthenticationInfo(sysEmp, emp.getPassword(), getName());
 	}
 
 
-	private Set<String> getRoleName(List<Long> roleIds) {
-		List<Role> roles = sysRoleService.findByIds(roleIds);
-		return roles.stream()
-					.map(Role::getRoleValue)
-					.collect(Collectors.toSet());
+	private Set<String> getRoleValue(List<Long> roleIds, SysEmp emp) {
+		Set<String> userRoleValue = null;
+		String key = ApiRedisCacheConstant.USER_ROLE_CACHE + emp.getId();
+
+		RBucket<Set<String>> value = redissonClient.getBucket(key);
+
+		if (value.isExists()) {
+			userRoleValue = value.get();
+		} else {
+			List<Role> roles = sysRoleService.findByIds(roleIds);
+			if (CollectionUtils.isNotEmpty(roles)) {
+				userRoleValue = roles.stream()
+									 .map(Role::getRoleValue)
+									 .collect(Collectors.toSet());
+				value.set(userRoleValue, DateUtils.SECONDS_PER_DAY, TimeUnit.SECONDS);
+			}
+		}
+		return userRoleValue;
+
 	}
 
 
-	private Set<String> getSysRolePermissions(List<Long> roleIds) {
-		List<SysRolePermission> rolePermissions = sysRolePermissionService.findByRoleIds(roleIds);
-		return rolePermissions.stream().filter(Objects::nonNull)
-							  .map(SysRolePermission::getPermissionKey)
-							  .collect(Collectors.toSet());
+	private Set<String> getSysRolePermissions(List<Long> roleIds, SysEmp emp) {
+		Set<String> permissionValue = null;
+		String key = ApiRedisCacheConstant.USER_PERMISSION_CACHE + emp.getId();
+		RBucket<Set<String>> value = redissonClient.getBucket(key);
+		if (value.isExists()) {
+			permissionValue = value.get();
+		} else {
+			List<SysRolePermission> rolePermissions = sysRolePermissionService.findByRoleIds(roleIds);
+			if (CollectionUtils.isNotEmpty(rolePermissions)) {
+				permissionValue = rolePermissions.stream()
+												 .filter(Objects::nonNull)
+												 .map(SysRolePermission::getPermissionKey)
+												 .collect(Collectors.toSet());
+
+				value.set(permissionValue, DateUtils.SECONDS_PER_DAY, TimeUnit.SECONDS);
+			}
+		}
+		return permissionValue;
 	}
 
 	private List<Long> getSysEmpRoles(SysEmp sysEmp) {
-		List<SysEmpRole> roles = sysEmpRoleService.findByEmpId(sysEmp.getId());
-		return roles.stream()
-					.filter(Objects::nonNull)
-					.map(SysEmpRole::getRoleId)
-					.collect(Collectors.toList());
+		List<Long> roleIds = null;
+		String key = ApiRedisCacheConstant.USER_ROLE_IDS_CACHE + sysEmp.getId();
+		RBucket<List<Long>> bucket = redissonClient.getBucket(key);
+		if (bucket.isExists()) {
+			roleIds = bucket.get();
+		} else {
+			List<SysEmpRole> roles = sysEmpRoleService.findByEmpId(sysEmp.getId());
+			if (CollectionUtils.isNotEmpty(roles)) {
+				roleIds = roles.stream()
+							   .filter(Objects::nonNull)
+							   .map(SysEmpRole::getRoleId)
+							   .collect(Collectors.toList());
+				bucket.set(roleIds,DateUtils.SECONDS_PER_DAY,TimeUnit.SECONDS);
+			}
+		}
+
+		return roleIds;
 	}
 
 	@Override

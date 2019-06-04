@@ -26,7 +26,7 @@
             `description` = #{role.description},
             `status` = #{role.status},
             `modify_time` = #{role.modifyTime},
-            `modify_id` = #{role.modifierId}
+            `modifier_id` = #{role.modifierId}
         WHERE `id`= #{role.id};
     </update>
     <update id="updateDelFLag">

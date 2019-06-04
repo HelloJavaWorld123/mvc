@@ -3,16 +3,19 @@ package com.jzy.api.service.auth.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jzy.api.cnd.auth.SysEmpCnd;
+import com.jzy.api.constant.ApiRedisCacheConstant;
 import com.jzy.api.dao.auth.SysEmpMapper;
 import com.jzy.api.model.auth.SysEmp;
 import com.jzy.api.service.auth.SysEmpService;
 import com.jzy.api.vo.auth.SysEmpVo;
 import com.jzy.framework.bean.vo.PageVo;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.security.Key;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +31,9 @@ public class SysEmpServiceImpl implements SysEmpService {
 	@Resource
 	private SysEmpMapper sysEmpMapper;
 
+	@Resource
+	private RedissonClient redissonClient;
+
 	@Override
 	public PageVo<SysEmpVo> list(SysEmpCnd sysEmpCnd) {
 		Page<SysEmp> page = PageHelper.startPage(sysEmpCnd.getPage(), sysEmpCnd.getLimit());
@@ -35,7 +41,6 @@ public class SysEmpServiceImpl implements SysEmpService {
 		return new PageVo<>(sysEmpCnd.getPage(), sysEmpCnd.getLimit(), page.getTotal(), result);
 	}
 
-	//TODO 增加状态 以及 渠道商 id create and update
 	@Override
 	public Integer add(SysEmp sysEmp) throws DuplicateKeyException {
 		return sysEmpMapper.add(sysEmp);
@@ -57,17 +62,32 @@ public class SysEmpServiceImpl implements SysEmpService {
 	@Override
 	public Integer update(SysEmpCnd sysEmpCnd) {
 		SysEmp sysEmp = SysEmp.update(sysEmpCnd);
+		deleteCache(sysEmpCnd.getId());
 		return sysEmpMapper.update(sysEmp);
 	}
 
+
 	@Override
 	public Integer deleteById(Long id) {
+		deleteCache(id);
 		return sysEmpMapper.deleteById(id);
 	}
+
 
 	@Override
 	public List<SysEmp> findByName(String name) {
 		return sysEmpMapper.findByName(name);
+	}
+
+	private void deleteCache(Long id) {
+		String userRoleIdsKey = ApiRedisCacheConstant.USER_ROLE_IDS_CACHE+id;
+		String userPermKey = ApiRedisCacheConstant.USER_PERMISSION_CACHE + id;
+		String userRoleKey = ApiRedisCacheConstant.USER_ROLE_CACHE + id;
+		redissonClient.getBucket(userRoleIdsKey).deleteAsync();
+		redissonClient.getBucket(userPermKey)
+					  .deleteAsync();
+		redissonClient.getBucket(userRoleKey)
+					  .deleteAsync();
 	}
 
 }

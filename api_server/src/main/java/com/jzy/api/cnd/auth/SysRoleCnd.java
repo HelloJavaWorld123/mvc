@@ -43,10 +43,7 @@ public class SysRoleCnd extends PageCnd {
 	private Integer delFlag;
 
 	@NotEmpty(groups = {Allot.class},message = "权限值不能为空")
-	private List<String> permValues;
-
-	@NotNull(groups = {Allot.class},message = "权限类型不能为空")
-	private Integer permType;
+	private List<Long> permIds;
 
 	private Date createTime;
 

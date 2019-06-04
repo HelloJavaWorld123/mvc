@@ -32,7 +32,6 @@ public class SysEmpRoleServiceImpl implements SysEmpRoleService {
 		return sysEmpRoleMapper.findByEmpId(empId);
 	}
 
-	//TODO
 	@Override
 	public void deleteByEmpId(Long id) {
 		sysEmpRoleMapper.deleteByEmpId(id);

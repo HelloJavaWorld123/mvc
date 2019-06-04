@@ -8,6 +8,7 @@ import com.jzy.api.cnd.auth.SysRoleCnd;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.model.auth.SysPermission;
+import com.jzy.api.model.auth.SysRolePermission;
 import com.jzy.api.service.auth.SysEmpRoleService;
 import com.jzy.api.service.auth.SysPermissionService;
 import com.jzy.api.service.auth.SysRolePermissionService;
@@ -19,7 +20,9 @@ import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Author : RXK
@@ -37,7 +41,7 @@ import java.util.Objects;
  **/
 @RestController
 @RequestMapping("/sys/role")
-@RequiresPermissions("m:sys:role")
+@RequiresRoles(value = {"admin"})
 public class SysRoleController {
 
 	@Autowired
@@ -53,7 +57,6 @@ public class SysRoleController {
 	private SysRolePermissionService sysRolePermissionService;
 
 	@RequestMapping("/list")
-	@RequiresPermissions("m:sys:role:list")
 	public ApiResult list(@RequestBody @Validated(value = {PageCnd.PageValidator.class}) SysRoleCnd sysRoleCnd) {
 		PageVo<SysRoleVo> sysRoleVos = sysRoleService.list(sysRoleCnd);
 		return new ApiResult<>(sysRoleVos);
@@ -61,15 +64,14 @@ public class SysRoleController {
 
 
 	@RequestMapping("/add")
-	@RequiresPermissions("m:sys:role:add")
 	public ApiResult add(@RequestBody @Validated(value = {CreateValidator.class}) SysRoleCnd sysRoleCnd) {
 		Integer result = sysRoleService.add(sysRoleCnd);
 		return getResultEnum(result);
 	}
 
 
+
 	@RequestMapping("/update")
-	@RequiresPermissions("m:sys:role:update")
 	public ApiResult update(@RequestBody @Validated(value = {UpdateValidator.class}) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
 		if (Objects.isNull(role)) {
@@ -85,7 +87,6 @@ public class SysRoleController {
 
 
 	@RequestMapping("/delete")
-	@RequiresPermissions("m:sys:role:delete")
 	public ApiResult delete(@RequestBody @Validated(value = {DeleteValidator.class}) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
 		if (null == role) {
@@ -103,7 +104,6 @@ public class SysRoleController {
 
 
 	@RequestMapping("/id")
-	@RequiresPermissions("m:sys:role:id")
 	public ApiResult getById(@RequestBody @Validated(IDValidator.class) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
 		return new ApiResult<>().success(role);
@@ -114,19 +114,20 @@ public class SysRoleController {
 	@RequiresPermissions("m:sys:role:allotPerm")
 	public ApiResult allotPermission(@RequestBody @Validated(SysRoleCnd.Allot.class) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
-		if (Objects.isNull(role)) {
-			return getResultEnum(0);
-		}
+		Assert.isTrue(Objects.nonNull(role),"角色参数错误");
 
-		List<SysPermission> permissions = sysPermissionService.findByKeys(sysRoleCnd.getPermValues());
-		if (CollectionUtils.isEmpty(permissions) && permissions.size() != sysRoleCnd.getPermValues()
-																					.size()) {
-			return getResultEnum(0);
-		}
-
-		Integer result = sysRolePermissionService.add(sysRoleCnd.getId(), sysRoleCnd.getPermValues(), sysRoleCnd.getPermType());
+		List<String> permValues = getPermValues(sysRoleCnd.getPermIds());
+		Integer result = sysRolePermissionService.add(sysRoleCnd.getId(), permValues);
 		return result >= 1 ? new ApiResult<>().success(ResultEnum.SUCCESS) : new ApiResult().fail(ResultEnum.FAIL);
 
+	}
+
+	private List<String> getPermValues(List<Long> permIds) {
+		List<SysPermission> sysPermissionList =  sysPermissionService.findByIds(permIds);
+		Assert.isTrue(CollectionUtils.isNotEmpty(sysPermissionList) && sysPermissionList.size() == permIds.size(),"角色参数有误");
+		return sysPermissionList.stream()
+								.map(SysPermission::getUniqueKey)
+								.collect(Collectors.toList());
 	}
 
 

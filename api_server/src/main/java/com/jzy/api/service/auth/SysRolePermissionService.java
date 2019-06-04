@@ -17,9 +17,8 @@ public interface SysRolePermissionService {
 	 * 为指定的角色分配 资源
 	 * @param id ：角色id
 	 * @param permValues ：资源key
-	 * @param permType
 	 */
-	Integer add(Long id, List<String> permValues, Integer permType);
+	Integer add(Long id, List<String> permValues);
 
 
 	List<SysRolePermission> findByRoleId(Long roleId);

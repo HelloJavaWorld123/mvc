@@ -1,6 +1,9 @@
 package com.jzy.api.controller.auth;
 
-import com.jzy.api.annos.*;
+import com.jzy.api.annos.CreateValidator;
+import com.jzy.api.annos.DeleteValidator;
+import com.jzy.api.annos.IDValidator;
+import com.jzy.api.annos.UpdateValidator;
 import com.jzy.api.cnd.auth.SysEmpCnd;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.auth.SysEmp;
@@ -14,16 +17,14 @@ import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.PageCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -75,7 +76,7 @@ public class SysEmpController {
 				}
 			}
 
-			//todo
+
 			SysEmp sysEmp = SysEmp.build(sysEmpCnd);
 			result = sysEmpService.add(sysEmp);
 		} catch (DuplicateKeyException e) {
@@ -144,14 +145,12 @@ public class SysEmpController {
 	@RequiresPermissions("m:sys:user:allotRole")
 	public ApiResult userAddRole(@RequestBody @Validated(value = SysEmpCnd.AllotValidator.class) SysEmpCnd sysEmpCnd) {
 		List<Role> roleList = sysRoleService.findByIds(sysEmpCnd.getRoleList());
-		if (CollectionUtils.isEmpty(roleList) && roleList.size() != sysEmpCnd.getRoleList()
-																			 .size()) {
-			return new ApiResult().fail("角色信息有误", ResultEnum.FAIL.getCode());
-		}
+
+		Assert.isTrue(CollectionUtils.isNotEmpty(roleList) && roleList.size()== sysEmpCnd.getRoleList().size(),"角色信息有误");
+
 		SysEmpVo sysEmpVo = sysEmpService.findById(sysEmpCnd.getId());
-		if (Objects.isNull(sysEmpVo)) {
-			return new ApiResult().fail("用户信息有误", ResultEnum.FAIL.getCode());
-		}
+		Assert.isTrue(Objects.nonNull(sysEmpVo),"用户信息有误");
+
 		Integer result = sysEmpRoleService.add(sysEmpCnd);
 		return result >= 1 ? new ApiResult<>().success(ResultEnum.SUCCESS) : new ApiResult().fail(ResultEnum.FAIL);
 	}

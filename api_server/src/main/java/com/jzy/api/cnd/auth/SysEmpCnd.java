@@ -42,5 +42,5 @@ public class SysEmpCnd extends PageCnd {
 
 	private Integer status = 0;
 
-	private Long dealerId = 1L;
+	private Long dealerId;
 }
