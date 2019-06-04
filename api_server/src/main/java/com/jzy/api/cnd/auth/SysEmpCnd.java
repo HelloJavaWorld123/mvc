@@ -42,5 +42,8 @@ public class SysEmpCnd extends PageCnd {
 
 	private Integer status = 0;
 
+	//当前操作的用户
+	private Long operatorId;
+
 	private Long dealerId;
 }

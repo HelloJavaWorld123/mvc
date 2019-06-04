@@ -42,7 +42,7 @@ public interface SysEmpService {
 	/**
 	 * 逻辑删除用户
 	 */
-	Integer deleteById(Long id);
+	Integer deleteById(Long id, Long operatorId);
 
 	/**
 	 * 根据用户名 查询

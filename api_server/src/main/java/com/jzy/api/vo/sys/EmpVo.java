@@ -30,7 +30,7 @@ public class EmpVo extends GenericVo {
     /**
      * 职务id
      */
-    private String roleName;
+    private Set<String> roleName;
     /**
      * token
      */
@@ -41,13 +41,14 @@ public class EmpVo extends GenericVo {
      */
     private Set<String> permValues;
 
-	public EmpVo(String name, String apiEmpToken, Set<String> permValues) {
+	public EmpVo(String name,Set<String> roleName, String apiEmpToken, Set<String> permValues) {
 		this.name = name;
+		this.roleName = roleName;
 		this.apiEmpToken = apiEmpToken;
 		this.permValues = permValues;
 	}
 
 	public static EmpVo build(SysEmp sysEmp, String apiEmpToken) {
-		return new EmpVo(sysEmp.getName(), apiEmpToken, sysEmp.getPermValues());
+		return new EmpVo(sysEmp.getName(), sysEmp.getRoleValues(),apiEmpToken, sysEmp.getPermValues());
 	}
 }

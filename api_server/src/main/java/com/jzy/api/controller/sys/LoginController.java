@@ -69,7 +69,7 @@ public class LoginController extends GenericController {
         // TODO: 2019/4/28 目前只返回一个角色名即可
         List<Role> roleList = new ArrayList<>(emp.getRoles());
         if (!roleList.isEmpty()) {
-            empVo.setRoleName(roleList.get(0).getName());
+//            empVo.setRoleName(roleList.get(0).getName());
         }
         empVo.setApiEmpToken(emp.getApiEmpToken());
         return apiResult.success(empVo);
@@ -82,7 +82,7 @@ public class LoginController extends GenericController {
     @WithoutLogin
     @RequestMapping("/login")
     public ApiResult login(@RequestBody @Validated(LoginCnd.LoginValidator.class) LoginCnd loginCnd){
-        UsernamePasswordToken token = new UsernamePasswordToken(loginCnd.getUsername(),loginCnd.getPwd(),loginCnd.getRememberMe());
+        UsernamePasswordToken token = new UsernamePasswordToken(loginCnd.getUsername().trim(),loginCnd.getPwd().trim(),loginCnd.getRememberMe());
         Subject subject = SecurityUtils.getSubject();
 
         try {

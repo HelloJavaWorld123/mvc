@@ -5,6 +5,7 @@ import com.jzy.api.annos.DeleteValidator;
 import com.jzy.api.annos.IDValidator;
 import com.jzy.api.annos.UpdateValidator;
 import com.jzy.api.cnd.auth.SysRoleCnd;
+import com.jzy.api.constant.ApiRedisCacheConstant;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.model.auth.SysPermission;
@@ -107,6 +108,12 @@ public class SysRoleController {
 	public ApiResult getById(@RequestBody @Validated(IDValidator.class) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
 		return new ApiResult<>().success(role);
+	}
+
+	@RequestMapping("/perm")
+	public ApiResult getPermByRoleId(@RequestBody @Validated(IDValidator.class) SysRoleCnd sysRoleCnd){
+		List<SysRolePermission> rolePermissions = sysRolePermissionService.findByRoleId(sysRoleCnd.getId());
+		return new ApiResult<>().success(rolePermissions);
 	}
 
 

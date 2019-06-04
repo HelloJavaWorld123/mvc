@@ -2,6 +2,8 @@ package com.jzy.api.model.auth;
 
 import com.jzy.api.cnd.auth.SysEmpCnd;
 import com.jzy.framework.bean.model.GenericModel;
+import com.jzy.framework.cache.ContextHolder;
+import com.jzy.framework.cache.EmpCache;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -51,10 +53,10 @@ public class SysEmp extends GenericModel {
 	}
 
 	public static SysEmp build(SysEmpCnd sysEmpCnd) {
-		return new SysEmp(sysEmpCnd.getId(),0,new Date(),1L,new Date(),1L,sysEmpCnd.getName(),sysEmpCnd.getPassword(),sysEmpCnd.getStatus(),sysEmpCnd.getDealerId());
+		return new SysEmp(sysEmpCnd.getId(),0,new Date(),sysEmpCnd.getOperatorId(),new Date(),sysEmpCnd.getOperatorId(),sysEmpCnd.getName(),sysEmpCnd.getPassword(),sysEmpCnd.getStatus(),sysEmpCnd.getDealerId());
 	}
 
 	public static SysEmp update(SysEmpCnd sysEmpCnd) {
-		return new SysEmp(sysEmpCnd.getId(),new Date(),2L,sysEmpCnd.getName(),sysEmpCnd.getPassword(),sysEmpCnd.getStatus(),sysEmpCnd.getDealerId());
+		return new SysEmp(sysEmpCnd.getId(),new Date(),sysEmpCnd.getOperatorId(),sysEmpCnd.getName(),sysEmpCnd.getPassword(),sysEmpCnd.getStatus(),sysEmpCnd.getDealerId());
 	}
 }

@@ -15,7 +15,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.security.Key;
 import java.util.List;
 import java.util.Objects;
 
@@ -68,9 +67,9 @@ public class SysEmpServiceImpl implements SysEmpService {
 
 
 	@Override
-	public Integer deleteById(Long id) {
+	public Integer deleteById(Long id, Long operatorId) {
 		deleteCache(id);
-		return sysEmpMapper.deleteById(id);
+		return sysEmpMapper.deleteById(id,operatorId);
 	}
 
 

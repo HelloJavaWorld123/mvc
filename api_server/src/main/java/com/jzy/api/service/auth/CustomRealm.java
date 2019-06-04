@@ -106,7 +106,7 @@ public class CustomRealm extends AuthorizingRealm {
 		emp.setRoleValues(roleValues);
 		emp.setPermValues(sysRolePermissions);
 
-		return new SimpleAuthenticationInfo(sysEmp, emp.getPassword(), getName());
+		return new SimpleAuthenticationInfo(emp, emp.getPassword(), getName());
 	}
 
 

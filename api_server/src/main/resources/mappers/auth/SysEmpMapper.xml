@@ -28,7 +28,11 @@
     </update>
     <delete id="deleteById" parameterType="java.lang.Long">
         UPDATE sys_emp
-        SET del_flag = 1
+        SET
+        del_flag = 1,
+        <if test="operatorId != null">
+            modifier_id = #{operatorId}
+        </if>
         WHERE id = #{id}
     </delete>
 

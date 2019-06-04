@@ -18,6 +18,7 @@ import com.jzy.framework.bean.cnd.PageCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -74,6 +75,7 @@ public class SysEmpController {
 				if (CollectionUtils.isNotEmpty(byName)) {
 					return new ApiResult().fail(ResultEnum.USER_NAME_ALREADY_EXIST.getMsg(), ResultEnum.FAIL.getCode());
 				}
+				sysEmpCnd.setOperatorId(getOperatorId());
 			}
 
 
@@ -86,6 +88,14 @@ public class SysEmpController {
 		return returnResult(result);
 	}
 
+	private Long getOperatorId() {
+		Long operatorId;
+		SysEmp sysEmp = (SysEmp) SecurityUtils.getSubject()
+											  .getPrincipal();
+		operatorId = sysEmp.getId();
+		return operatorId;
+	}
+
 
 	@RequestMapping("/update")
 	@RequiresPermissions("m:sys:user:update")
@@ -95,6 +105,7 @@ public class SysEmpController {
 			return new ApiResult().fail(ResultEnum.FAIL);
 		}
 		encryptPassword(sysEmpCnd);
+		sysEmpCnd.setOperatorId(getOperatorId());
 		Integer result = sysEmpService.update(sysEmpCnd);
 		return returnResult(result);
 	}
@@ -107,7 +118,7 @@ public class SysEmpController {
 			return new ApiResult().fail(ResultEnum.FAIL);
 		}
 
-		Integer result = sysEmpService.deleteById(sysEmpCnd.getId());
+		Integer result = sysEmpService.deleteById(sysEmpCnd.getId(),getOperatorId());
 		if (result == 1) {
 			sysEmpRoleService.deleteByEmpId(sysEmpCnd.getId());
 		}
