@@ -98,6 +98,11 @@ public class LoginController extends GenericController {
         return new ApiResult<>().success(empVo);
     }
 
+    @RequestMapping("/unauthorized")
+    public ApiResult unauthorized(){
+        return new ApiResult().fail("暂无权限,请先登录");
+    }
+
 
     @WithoutLogin
     @RequestMapping("/logout")

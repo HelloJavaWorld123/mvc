@@ -208,7 +208,9 @@
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="defaultWebSecurityManager"/>
-        <property name="loginUrl" value="/sys/login"/>
+        <property name="loginUrl" value="/sys/unauthorized"/>
+        <property name="successUrl" value="/"/>
+        <property name="unauthorizedUrl" value="/sys/unauthorized"/>
         <property name="filterChainDefinitions" ref="customFilterChain"/>
     </bean>
 
@@ -227,6 +229,7 @@
     <bean id="customFilterChain" class="java.lang.String">
         <constructor-arg>
             <value>
+                /sys/unauthorized=anon
                 /sys/login=anon,ssl
                 /sys/logout=logout
                 /** =authc
