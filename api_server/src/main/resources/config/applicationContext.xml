@@ -213,14 +213,22 @@
     </bean>
 
     <bean id="defaultWebSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" value="com.jzy.api.shiro.CustomRealm"/>
+        <property name="realm" ref="customRealm"/>
+<!--        <property name="cacheManager" ref="redisCacheManager"/>-->
     </bean>
+
+    <bean id="redisCacheManager" class="com.jzy.api.shiro.RedisCacheManager"/>
+    <bean id="customRealm" class="com.jzy.api.shiro.CustomRealm"/>
 
 
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
           depends-on="lifecycleBeanPostProcessor">
         <property name="proxyTargetClass" value="true"/>
+    </bean>
+
+    <bean id="manager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="cacheManager" ref="redisCacheManager"/>
     </bean>
 
 

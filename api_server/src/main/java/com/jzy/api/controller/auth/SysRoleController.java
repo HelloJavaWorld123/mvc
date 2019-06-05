@@ -5,11 +5,11 @@ import com.jzy.api.annos.DeleteValidator;
 import com.jzy.api.annos.IDValidator;
 import com.jzy.api.annos.UpdateValidator;
 import com.jzy.api.cnd.auth.SysRoleCnd;
-import com.jzy.api.constant.ApiRedisCacheConstant;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.model.auth.SysPermission;
 import com.jzy.api.model.auth.SysRolePermission;
+import com.jzy.api.po.auth.RolePermPo;
 import com.jzy.api.service.auth.SysEmpRoleService;
 import com.jzy.api.service.auth.SysPermissionService;
 import com.jzy.api.service.auth.SysRolePermissionService;
@@ -20,10 +20,8 @@ import com.jzy.framework.bean.cnd.PageCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Author : RXK
@@ -134,18 +131,17 @@ public class SysRoleController {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
 		Assert.isTrue(Objects.nonNull(role),"角色参数错误");
 
-		List<String> permValues = getPermValues(sysRoleCnd.getPermIds());
-		Integer result = sysRolePermissionService.add(sysRoleCnd.getId(), permValues);
+		List<SysPermission> permValues = getPermValues(sysRoleCnd.getPermIds());
+		List<RolePermPo> rolePermPos = RolePermPo.build(sysRoleCnd.getId(), permValues);
+		Integer result = sysRolePermissionService.add(rolePermPos);
 		return result >= 1 ? new ApiResult<>().success(ResultEnum.SUCCESS) : new ApiResult().fail(ResultEnum.FAIL);
 
 	}
 
-	private List<String> getPermValues(List<Long> permIds) {
+	private List<SysPermission> getPermValues(List<Long> permIds) {
 		List<SysPermission> sysPermissionList =  sysPermissionService.findByIds(permIds);
 		Assert.isTrue(CollectionUtils.isNotEmpty(sysPermissionList) && sysPermissionList.size() == permIds.size(),"角色参数有误");
-		return sysPermissionList.stream()
-								.map(SysPermission::getUniqueKey)
-								.collect(Collectors.toList());
+		return sysPermissionList;
 	}
 
 

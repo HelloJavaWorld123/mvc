@@ -1,10 +1,9 @@
 package com.jzy.api.service.auth;
 
-import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.model.auth.SysRolePermission;
+import com.jzy.api.po.auth.RolePermPo;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Author : RXK
@@ -14,11 +13,9 @@ import java.util.Set;
  **/
 public interface SysRolePermissionService {
 	/**
-	 * 为指定的角色分配 资源
-	 * @param id ：角色id
-	 * @param permValues ：资源key
+	 * 批量添加
 	 */
-	Integer add(Long id, List<String> permValues);
+	Integer add(List<RolePermPo> rolePermPos);
 
 
 	List<SysRolePermission> findByRoleId(Long roleId);

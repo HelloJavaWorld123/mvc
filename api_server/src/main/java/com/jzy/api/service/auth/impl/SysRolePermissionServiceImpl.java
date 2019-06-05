@@ -3,6 +3,7 @@ package com.jzy.api.service.auth.impl;
 import com.jzy.api.dao.auth.SysRolePermissionMapper;
 import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.model.auth.SysRolePermission;
+import com.jzy.api.po.auth.RolePermPo;
 import com.jzy.api.service.auth.SysRolePermissionService;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +24,6 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
 	private SysRolePermissionMapper sysRolePermissionMapper;
 
 	@Override
-	public Integer add(Long id, List<String> permValues) {
-		sysRolePermissionMapper.deleteByRoleId(id);
-		return sysRolePermissionMapper.add(id, permValues);
-	}
-
-	@Override
 	public List<SysRolePermission> findByRoleId(Long roleId) {
 		return sysRolePermissionMapper.findByRoleId(roleId);
 	}
@@ -36,5 +31,10 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
 	@Override
 	public List<SysRolePermission> findByRoleIds(List<Long> roleIds) {
 		return sysRolePermissionMapper.findByRoleIds(roleIds);
+	}
+
+	@Override
+	public Integer add(List<RolePermPo> rolePermPos) {
+		return sysRolePermissionMapper.batchAdd(rolePermPos);
 	}
 }

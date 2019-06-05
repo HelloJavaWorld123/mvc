@@ -1,6 +1,7 @@
 package com.jzy.api.dao.auth;
 
 import com.jzy.api.model.auth.SysRolePermission;
+import com.jzy.api.po.auth.RolePermPo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,9 +16,9 @@ public interface SysRolePermissionMapper {
 
 	void deleteByRoleId(Long roleId);
 
-	Integer add(@Param("roleId") Long roleId, @Param("permValues") List<String> permValues);
-
 	List<SysRolePermission> findByRoleId(@Param("roleId") Long roleId);
 
 	List<SysRolePermission> findByRoleIds(@Param("roleIds") List<Long> roleIds);
+
+	Integer batchAdd(@Param("rolePermPos") List<RolePermPo> rolePermPos);
 }

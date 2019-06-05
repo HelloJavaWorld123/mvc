@@ -113,7 +113,7 @@ public class CustomRealm extends AuthorizingRealm {
 
 
 	private Set<String> getRoleValue(List<Long> roleIds, SysEmp emp) {
-		Set<String> userRoleValue = null;
+		Set<String> userRoleValue;
 		String key = ApiRedisCacheConstant.USER_ROLE_CACHE + emp.getId();
 
 		RBucket<Set<String>> value = redissonClient.getBucket(key);
@@ -122,10 +122,11 @@ public class CustomRealm extends AuthorizingRealm {
 			userRoleValue = value.get();
 		} else {
 			List<Role> roles = sysRoleService.findByIds(roleIds);
-			if (CollectionUtils.isNotEmpty(roles)) {
-				userRoleValue = roles.stream()
-									 .map(Role::getRoleValue)
-									 .collect(Collectors.toSet());
+			userRoleValue = roles.stream()
+								 .filter(Objects::nonNull)
+								 .map(Role::getRoleValue)
+								 .collect(Collectors.toSet());
+			if (CollectionUtils.isNotEmpty(userRoleValue)) {
 				value.set(userRoleValue, DateUtils.SECONDS_PER_DAY, TimeUnit.SECONDS);
 			}
 		}
@@ -167,7 +168,7 @@ public class CustomRealm extends AuthorizingRealm {
 							   .filter(Objects::nonNull)
 							   .map(SysEmpRole::getRoleId)
 							   .collect(Collectors.toList());
-				bucket.set(roleIds,DateUtils.SECONDS_PER_DAY,TimeUnit.SECONDS);
+				bucket.set(roleIds, DateUtils.SECONDS_PER_DAY, TimeUnit.SECONDS);
 			}
 		}
 
@@ -193,7 +194,7 @@ public class CustomRealm extends AuthorizingRealm {
 	@Override
 	protected void clearCachedAuthorizationInfo(PrincipalCollection principals) {
 		Cache<Object, AuthorizationInfo> cache = getAuthorizationCache();
-		if(null != cache){
+		if (null != cache) {
 			cache.clear();
 		}
 	}
@@ -201,7 +202,7 @@ public class CustomRealm extends AuthorizingRealm {
 	@Override
 	protected void clearCachedAuthenticationInfo(PrincipalCollection principals) {
 		Cache<Object, AuthenticationInfo> cache = getAuthenticationCache();
-		if(null != cache){
+		if (null != cache) {
 			cache.clear();
 		}
 	}
