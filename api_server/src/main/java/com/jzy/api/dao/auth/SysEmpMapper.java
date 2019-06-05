@@ -25,5 +25,5 @@ public interface SysEmpMapper {
 
 	Integer deleteById(@Param("id") Long id, @Param("operatorId") Long operatorId);
 
-	List<SysEmp> findByName(@Param("name") String name);
+	List<SysEmp> findByName(@Param("name") String name, @Param("userId") Long userId);
 }

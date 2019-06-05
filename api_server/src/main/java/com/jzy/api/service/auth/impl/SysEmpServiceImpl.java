@@ -74,8 +74,8 @@ public class SysEmpServiceImpl implements SysEmpService {
 
 
 	@Override
-	public List<SysEmp> findByName(String name) {
-		return sysEmpMapper.findByName(name);
+	public List<SysEmp> findByName(String name, Long userId) {
+		return sysEmpMapper.findByName(name,userId);
 	}
 
 	private void deleteCache(Long id) {

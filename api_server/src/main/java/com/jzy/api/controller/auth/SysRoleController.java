@@ -79,8 +79,6 @@ public class SysRoleController {
 			return getResultEnum(0);
 		}
 
-		verifyRoleValue(sysRoleCnd);
-
 		Role update = Role.update(sysRoleCnd);
 		Integer result = sysRoleService.updateById(update);
 		return getResultEnum(result);
@@ -101,6 +99,15 @@ public class SysRoleController {
 
 		Integer result = sysRoleService.deleteById(role.getId());
 		return getResultEnum(result);
+	}
+
+
+
+	@RequestMapping("/check")
+	public ApiResult roleValueCheck(@RequestBody @Validated(SysRoleCnd.RoleValueExist.class) SysRoleCnd sysRoleCnd){
+		Role roleValue = sysRoleService.findByRoleValue(sysRoleCnd.getRoleValue(),sysRoleCnd.getId());
+		Assert.isTrue(Objects.isNull(roleValue),"角色值已经存在");
+		return new ApiResult().success();
 	}
 
 
@@ -137,14 +144,6 @@ public class SysRoleController {
 								.collect(Collectors.toList());
 	}
 
-
-	//TODO
-	private void verifyRoleValue(SysRoleCnd sysRoleCnd) {
-		Role role = sysRoleService.findByRoleValue(sysRoleCnd.getRoleValue());
-		Assert.isTrue(Objects.isNull(role) || role.getId()
-												  .compareTo(sysRoleCnd.getId()) == 0, "角色值已经存在");
-
-	}
 
 	private ApiResult getResultEnum(Integer result) {
 		return result == 1 ? new ApiResult<>().success(ResultEnum.SUCCESS) : new ApiResult().fail(ResultEnum.FAIL);

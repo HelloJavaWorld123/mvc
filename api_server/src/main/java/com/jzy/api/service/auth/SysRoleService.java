@@ -53,8 +53,9 @@ public interface SysRoleService{
 	/**
 	 * 根据角色值 查询
 	 * @param roleValue ：角色值
+	 * @param roleId
 	 */
-	Role findByRoleValue(String roleValue);
+	Role findByRoleValue(String roleValue, Long roleId);
 
 	/**
 	 * 根据角色名称 查询

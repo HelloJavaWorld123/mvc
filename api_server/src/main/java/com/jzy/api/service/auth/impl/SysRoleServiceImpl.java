@@ -60,8 +60,8 @@ public class SysRoleServiceImpl implements SysRoleService {
 	}
 
 	@Override
-	public Role findByRoleValue(String roleValue) {
-		return sysRoleMapper.findByRoleValue(roleValue);
+	public Role findByRoleValue(String roleValue, Long roleId) {
+		return sysRoleMapper.findByRoleValue(roleValue,roleId);
 	}
 
 	@Override

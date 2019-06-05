@@ -50,5 +50,5 @@ public interface SysEmpService {
 	 * 当不包括 已经删除的用户
 	 * @return
 	 */
-	List<SysEmp> findByName(String name);
+	List<SysEmp> findByName(String name, Long userId);
 }

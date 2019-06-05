@@ -77,7 +77,7 @@ public class CustomRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) {
 		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
 		String username = usernamePasswordToken.getUsername();
-		List<SysEmp> sysEmp = sysEmpService.findByName(username);
+		List<SysEmp> sysEmp = sysEmpService.findByName(username, null);
 
 		if (CollectionUtils.isEmpty(sysEmp)) {
 			log.info("暂无相关用户信息:{}", username);

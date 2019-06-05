@@ -27,13 +27,15 @@ public class SysRoleCnd extends PageCnd {
 
 	public interface Allot{}
 
+	public interface RoleValueExist{}
+
 	@NotNull(groups = {UpdateValidator.class, DeleteValidator.class, IDValidator.class,Allot.class},message = "主键不能为空")
 	private Long id;
 
 	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class},message = "角色名称不能为空")
 	private String name;
 
-	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class},message = "角色值不能为空")
+	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class,RoleValueExist.class},message = "角色值不能为空")
 	private String roleValue;
 
 	private String description;
