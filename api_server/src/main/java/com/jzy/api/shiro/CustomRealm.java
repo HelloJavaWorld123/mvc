@@ -1,10 +1,11 @@
-package com.jzy.api.service.auth;
+package com.jzy.api.shiro;
 
 import com.jzy.api.constant.ApiRedisCacheConstant;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.auth.SysEmp;
 import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.model.auth.SysRolePermission;
+import com.jzy.api.service.auth.*;
 import com.jzy.api.util.DateUtils;
 import com.jzy.common.enums.ResultEnum;
 import com.jzy.common.enums.UserAccountStatusEnum;
@@ -15,6 +16,7 @@ import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.cache.Cache;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.redisson.api.RBucket;
@@ -177,14 +179,30 @@ public class CustomRealm extends AuthorizingRealm {
 		super.setCredentialsMatcher(new CustomCredentialsMatcher());
 	}
 
+	@Override
+	protected boolean isAuthenticationCachingEnabled(AuthenticationToken token, AuthenticationInfo info) {
+		return Boolean.TRUE;
+	}
 
 	@Override
-	protected void doClearCache(PrincipalCollection principals) {
-		super.doClearCache(principals);
+	public boolean isCachingEnabled() {
+		return Boolean.TRUE;
+	}
+
+
+	@Override
+	protected void clearCachedAuthorizationInfo(PrincipalCollection principals) {
+		Cache<Object, AuthorizationInfo> cache = getAuthorizationCache();
+		if(null != cache){
+			cache.clear();
+		}
 	}
 
 	@Override
 	protected void clearCachedAuthenticationInfo(PrincipalCollection principals) {
-		super.clearCachedAuthenticationInfo(principals);
+		Cache<Object, AuthenticationInfo> cache = getAuthenticationCache();
+		if(null != cache){
+			cache.clear();
+		}
 	}
 }

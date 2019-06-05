@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jzy.api.dao.auth.SysRoleMapper">
     <insert id="add" parameterType="com.jzy.api.model.auth.Role">
-        INSERT INTO `sys_role`(`name`, `role_value`, `description`, `status`, `create_time`, `modify_time`, `create_id`, `modify_id`, `del_flag`)
+        INSERT INTO `sys_role`(`name`, `role_value`, `description`, `status`, `create_time`, `modify_time`, `create_id`, `modifier_id`, `del_flag`)
         VALUES
         (
             #{role.name},

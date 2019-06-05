@@ -19,6 +19,7 @@ import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.util.Assert;
@@ -38,6 +39,7 @@ import java.util.Objects;
  **/
 @RestController
 @RequestMapping("/sys/user")
+@RequiresRoles(value = {"admin"})
 public class SysEmpController {
 
 	@Autowired
@@ -72,6 +74,8 @@ public class SysEmpController {
 					return new ApiResult().fail(ResultEnum.USER_NAME_ALREADY_EXIST.getMsg(), ResultEnum.FAIL.getCode());
 				}
 				sysEmpCnd.setOperatorId(getOperatorId());
+
+				verifyUserName(sysEmpCnd.getName(),null);
 			}
 
 
@@ -99,6 +103,9 @@ public class SysEmpController {
 		if (Objects.isNull(sysEmp)) {
 			return new ApiResult().fail(ResultEnum.FAIL);
 		}
+
+		verifyUserName(sysEmp.getName(),sysEmp.getId());
+
 		encryptPassword(sysEmpCnd);
 		sysEmpCnd.setOperatorId(getOperatorId());
 		Integer result = sysEmpService.update(sysEmpCnd);
@@ -132,9 +139,13 @@ public class SysEmpController {
 	 */
 	@RequestMapping("/check")
 	public ApiResult userNameExist(@RequestBody @Validated(SysEmpCnd.NameExistValidator.class) SysEmpCnd sysEmpCnd) {
-		List<SysEmp> sysEmps = sysEmpService.findByName(sysEmpCnd.getName(), sysEmpCnd.getId());
-		Assert.isTrue(Objects.isNull(sysEmps), "用户名已经存在");
+		verifyUserName(sysEmpCnd.getName(),sysEmpCnd.getId());
 		return new ApiResult().success();
+	}
+
+	private void verifyUserName(String name,Long id) {
+		List<SysEmp> sysEmps = sysEmpService.findByName(name,id);
+		Assert.isTrue(Objects.isNull(sysEmps), "用户名已经存在");
 	}
 
 	/**

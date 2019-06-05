@@ -66,6 +66,9 @@ public class SysRoleController {
 
 	@RequestMapping("/add")
 	public ApiResult add(@RequestBody @Validated(value = {CreateValidator.class}) SysRoleCnd sysRoleCnd) {
+
+		verifyRoleValue(sysRoleCnd, null);
+
 		Integer result = sysRoleService.add(sysRoleCnd);
 		return getResultEnum(result);
 	}
@@ -79,10 +82,13 @@ public class SysRoleController {
 			return getResultEnum(0);
 		}
 
+		verifyRoleValue(sysRoleCnd, sysRoleCnd.getId());
+
 		Role update = Role.update(sysRoleCnd);
 		Integer result = sysRoleService.updateById(update);
 		return getResultEnum(result);
 	}
+
 
 
 	@RequestMapping("/delete")
@@ -105,8 +111,7 @@ public class SysRoleController {
 
 	@RequestMapping("/check")
 	public ApiResult roleValueCheck(@RequestBody @Validated(SysRoleCnd.RoleValueExist.class) SysRoleCnd sysRoleCnd){
-		Role roleValue = sysRoleService.findByRoleValue(sysRoleCnd.getRoleValue(),sysRoleCnd.getId());
-		Assert.isTrue(Objects.isNull(roleValue),"角色值已经存在");
+		verifyRoleValue(sysRoleCnd, sysRoleCnd.getId());
 		return new ApiResult().success();
 	}
 
@@ -146,6 +151,11 @@ public class SysRoleController {
 
 	private ApiResult getResultEnum(Integer result) {
 		return result == 1 ? new ApiResult<>().success(ResultEnum.SUCCESS) : new ApiResult().fail(ResultEnum.FAIL);
+	}
+
+	private void verifyRoleValue(@Validated({UpdateValidator.class}) @RequestBody SysRoleCnd sysRoleCnd, Long id) {
+		Role value = sysRoleService.findByRoleValue(sysRoleCnd.getRoleValue(), id);
+		Assert.isTrue(Objects.isNull(value), "角色值已经存在");
 	}
 
 }

@@ -5,9 +5,9 @@
     <insert id="add">
         INSERT INTO sys_role_permission (`role_id`,`permission_key`)
         VALUES
-            <foreach collection="permValues" item="permValue" separator=",">
-                (#{roleId},#{permValue})
-            </foreach>
+        <foreach collection="permValues" item="permValue" separator=",">
+            (#{roleId},#{permValue})
+        </foreach>
     </insert>
 
     <delete id="deleteByRoleId">
@@ -17,21 +17,21 @@
     <select id="findByRoleId" resultType="com.jzy.api.model.auth.SysRolePermission">
         SELECT
             role_id AS roleId,
-            permission_key AS permissionKey,
-            permission_type AS permissionType
+            permission_key AS permissionKey
         WHERE role_id = #{roleId}
     </select>
     <select id="findByRoleIds" resultType="com.jzy.api.model.auth.SysRolePermission">
         SELECT
             role_id AS roleId,
-            permission_key AS permissionKey,
-            permission_type AS permissionType
+            permission_key AS permissionKey
         FROM `sys_role_permission`
-        WHERE role_id IN
-        (
+        <where>
+            role_id IN
+            (
             <foreach collection="roleIds" separator="," item="roleId">
                 #{roleId}
             </foreach>
-        )
+            )
+        </where>
     </select>
 </mapper>

@@ -213,7 +213,7 @@
     </bean>
 
     <bean id="defaultWebSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" ref="customRealm"/>
+        <property name="realm" value="com.jzy.api.shiro.CustomRealm"/>
     </bean>
 
 
@@ -229,7 +229,7 @@
             <value>
                 /sys/unauthorized=anon
                 /sys/login=anon
-                /sys/logout=logout
+                /sys/logout=anon
                 /** =authc
             </value>
         </constructor-arg>
