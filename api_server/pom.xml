@@ -665,6 +665,13 @@
              </exclusions>
          </dependency>
 
+        <!-- https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+
         <!--swagger 依赖-->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.plugin</groupId>-->
@@ -773,7 +780,7 @@
                     <target>1.8</target>
                     <skip>false</skip>
                     <compilerArguments>
-                        <extdirs>src\main\webapp\WEB-INF\lib</extdirs>
+                        <extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs>
                     </compilerArguments>
                 </configuration>
             </plugin>

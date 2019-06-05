@@ -73,6 +73,11 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
         return tradeRecordMapper.updateBgRespByOperatorStatus(markId, status, bgRespData, operator, oldStatus);
     }
 
+    @Override
+    public int updateXimeiPayCallbackStatus(String markId, Integer status, String bgRespData, String operator, Integer oldStatus) {
+        return tradeRecordMapper.updateXimeiPayCallbackStatus(markId, status, bgRespData, operator, oldStatus);
+    }
+
     /**
      * <b>功能描述：</b>查询<br>
      * <b>修订记录：</b><br>
@@ -111,6 +116,16 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
     @Override
     public TradeRecord queryRefundCodeByOutTradeNo(String orderId) {
         return tradeRecordMapper.queryRefundCodeByOutTradeNo(orderId);
+    }
+
+    @Override
+    public TradeRecord queryInfoByParams(Map<String, Object> paramsMap) {
+        return tradeRecordMapper.queryInfoByParams(paramsMap);
+    }
+
+    @Override
+    public int updateXimeiRefundCallbackStatus(String markId, Integer status, String bgRespData, String operator) {
+        return tradeRecordMapper.updateXimeiRefundCallbackStatus(markId, status, bgRespData, operator);
     }
 
     @Override

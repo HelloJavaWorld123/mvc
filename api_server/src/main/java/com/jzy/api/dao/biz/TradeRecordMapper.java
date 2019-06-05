@@ -98,4 +98,13 @@ public interface TradeRecordMapper extends GenericMapper<TradeRecord> {
      * @return java.lang.String
      */
     String queryIdByParams(Map<String, Object> paramsMap);
+
+    int updateXimeiPayCallbackStatus(@Param("markId") String markId, @Param("status") Integer status,
+                                      @Param("respData") String respData, @Param("operator") String operator,
+                                      @Param("oldStatus") Integer oldStatus);
+
+    TradeRecord queryInfoByParams(Map<String, Object> paramsMap);
+
+    int updateXimeiRefundCallbackStatus(@Param("markId") String markId, @Param("status") Integer status,
+                                        @Param("bgRespData") String bgRespData, @Param("operator") String operator);
 }

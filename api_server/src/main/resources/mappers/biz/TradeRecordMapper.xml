@@ -61,6 +61,20 @@
          id = #{id}
     </select>
 
+    <!---->
+    <update id="updateXimeiPayCallbackStatus">
+        UPDATE
+        trade_record
+        SET mark_id =  #{markId},
+        status =  #{status},
+        bg_resp_time =  now(),
+        bg_resp_data = #{respData}
+        WHERE
+        operator = #{operator}
+        AND status = #{oldStatus}
+        AND trusteeship = 2
+    </update>
+
     <!-- 更新交易记录_支付宝支付完成回调 -->
     <update id="updateAliPayCallbackStatus">
         UPDATE
@@ -135,5 +149,33 @@
             and trusteeship = #{trusteeship}
          </if>
     </select>
+
+    <select id="queryInfoByParams" parameterType="java.util.Map" resultType="com.jzy.api.model.biz.TradeRecord">
+        select id,`status` from trade_record where 1=1
+        <if test="markId !=null and markId != ''">
+          and mark_id = #{markId}
+        </if>
+        <if test="trusteeship !=null">
+            and trusteeship = #{trusteeship}
+        </if>
+        <if test="type !=null">
+            and type = #{type}
+        </if>
+        <if test="outTradeNo">
+
+        </if>
+    </select>
+
+    <update id="updateXimeiRefundCallbackStatus">
+        UPDATE
+        trade_record
+        SET mark_id =  #{markId},
+        status =  #{status},
+        bg_resp_time =  now(),
+        bg_resp_data = #{respData}
+        WHERE
+        operator = #{operator}
+        AND trusteeship = 2
+    </update>
 
 </mapper>

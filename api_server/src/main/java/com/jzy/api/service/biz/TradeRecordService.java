@@ -82,4 +82,20 @@ public interface TradeRecordService extends GenericService<TradeRecord> {
     String queryIdByOutTradeNo(String outTradeNo);
 
     String queryIdByParams(Map<String, Object> paramsMap);
+
+    int updateXimeiPayCallbackStatus(String tradeNo, Integer status, String respData, String operator, Integer oldStatus);
+
+    TradeRecord queryInfoByParams(Map<String, Object> paramsMap);
+    /**
+     * @Description
+     * @Author lchl
+     * @Date 2019/6/5 11:36 AM
+     * @param tranSerialNo
+     * @param status
+     * @param toJSONString
+     * @param outTradeNo
+     * @return void
+     */
+
+    int updateXimeiRefundCallbackStatus(String tranSerialNo, Integer status, String toJSONString, String outTradeNo);
 }

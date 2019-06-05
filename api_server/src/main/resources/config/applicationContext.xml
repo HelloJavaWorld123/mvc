@@ -147,6 +147,9 @@
                 <entry key="1">
                     <bean class="com.jzy.api.service.biz.impl.AliPayServiceImpl"/>
                 </entry>
+                <entry key="2">
+                    <bean class="com.jzy.api.service.biz.impl.XimeiPayServiceImpl"/>
+                </entry>
             </map>
         </property>
     </bean>

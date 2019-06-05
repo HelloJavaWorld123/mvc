@@ -31,7 +31,7 @@ public class PayCnd extends GenericCnd {
      * 支付方式
      * 0微信,1支付宝
      */
-    @Range(max = 1)
+    @Range(max = 2)
     @NotNull
     private Integer tradeMethod;
     /**
