@@ -1,8 +1,10 @@
 package com.jzy.api.dao.home;
 
+import com.jzy.api.cnd.home.DialogBannerCnd;
 import com.jzy.api.cnd.home.HomeHotListCnd;
 import com.jzy.api.cnd.home.HomeRecommendHotCnd;
 import com.jzy.api.model.Home.*;
+import com.jzy.api.vo.home.DialogBannerVo;
 import com.jzy.api.vo.home.HomeHotInfoVo;
 import com.jzy.api.vo.home.HomeHotVo;
 import com.jzy.api.vo.home.HomeRecommendCateVo;
@@ -101,4 +103,6 @@ public interface HomeRecommendHotMapper extends GenericMapper<HomeRecommendHot> 
     void edit(HomeRecommendHotCnd homeRecommendHotCnd);
 
     Integer queryExistById(Map<String, Object> paramsMap);
+
+    int getByGroupIdAndStatus(@Param("groupId") Long groupId);
 }

@@ -3,6 +3,7 @@ package com.jzy.api.service.home.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.jzy.api.cnd.home.DialogBannerCnd;
 import com.jzy.api.cnd.home.HomeHotListCnd;
 import com.jzy.api.cnd.home.HomeRecommendHotCnd;
 import com.jzy.api.constant.HomeEnums;
@@ -14,6 +15,7 @@ import com.jzy.api.model.sys.SysImages;
 import com.jzy.api.service.home.HomeRecommendHotService;
 import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.service.sys.SysImagesService;
+import com.jzy.api.vo.home.DialogBannerVo;
 import com.jzy.api.vo.home.HomeHotInfoVo;
 import com.jzy.api.vo.home.HomeHotVo;
 import com.jzy.api.vo.home.HomeRecommendHotVo;
@@ -203,11 +205,11 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
             if(homeRecommendHotCnd.getImageUrl()!=null&&homeRecommendHotCnd.getFileInfo()!=null) {
                 //生成图片信息对象
                 SysImages images = getSystemImagesMapper(homeRecommendHotCnd, mfile);
-                //homeRecommendHotCnd.setImageId(images.getId().toString());
                 //添加新的图片信息
                 sysImagesService.save(images);
             }
         }
+        homeRecommendHotCnd.setState(1);
         //修改人id
         homeRecommendHotCnd.setModifierId(getDealerId().longValue());
         //修改时间
@@ -237,6 +239,11 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
     @Override
     public void delateBatch(List<String> result) {
         homeRecommendHotMapper.deleteBatch(result);
+    }
+
+    @Override
+    public int getByGroupIdAndStatus(Long groupId) {
+        return homeRecommendHotMapper.getByGroupIdAndStatus(groupId);
     }
 
     @Override

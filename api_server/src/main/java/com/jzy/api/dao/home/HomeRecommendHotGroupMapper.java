@@ -60,5 +60,5 @@ public interface HomeRecommendHotGroupMapper extends GenericMapper<HomeRecommend
      * <b>修订记录：</b><br>
      * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    void setStatus(@Param("id") Long id, @Param("state") String state);
+    int setStatus(@Param("id") Long id, @Param("state") String state);
 }

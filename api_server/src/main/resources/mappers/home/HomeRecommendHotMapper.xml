@@ -14,7 +14,6 @@
 <mapper namespace="com.jzy.api.dao.home.HomeRecommendHotMapper">
     <resultMap id="personalHistoryAffairMapper" type="com.jzy.api.model.Home.HomeRecommendHotDetail">
         <result column="rci_name" property="rciName"></result>
-        <result column="image_id" property="imageId"></result>
         <result column="image_url" property="imageUrl"></result>
         <result column="go_type" property="goType"></result>
         <result column="go_id" property="goId"></result>
@@ -119,10 +118,10 @@
 
     <!--首页分组推荐-->
     <select id="getHomeRecommendHotDetails" resultMap="personalHistoryAffairMapper">
-        select  ai.name,ai.icon,appinfo.rci_name,appinfo.image_id,appinfo.image_url,
+        select  ai.name,ai.icon,appinfo.rci_name,appinfo.image_url,
         appinfo.go_type,appinfo.go_id,appinfo.go_name,appinfo.state,appinfo.position,apt.name as type_name,
         apt.unit,dapi.ai_id,dapi.number,dapi.price,dapi.pay_price,dapi.discount from
-        (select a.dealer_id,b.rci_name,b.image_id,b.image_url,b.go_type,b.go_id,b.go_name,a.state,b.position from
+        (select a.dealer_id,b.rci_name,b.image_url,b.go_type,b.go_id,b.go_name,a.state,b.position from
         (select id,dealer_id,state from  home_recommend_hot_group where id=#{groupId} and state=1) a inner join
         home_recommend_hot b on a.id=b.group_id) appinfo left join dealer_app_price_info dapi on appinfo.go_id=dapi.id
         left join  app_price_type apt on apt.id = dapi.apt_id
@@ -192,6 +191,9 @@
         <if test="position!=null">
             position=#{position},
         </if>
+        <if test="state!=null">
+            state=#{state},
+        </if>
         `modifier_id` =  #{modifierId},
         `modify_time` =  #{modifyTime}
         where
@@ -247,5 +249,9 @@
                  item="item">
             #{item}
         </foreach>
+    </select>
+
+    <select id="getByGroupIdAndStatus" resultType="java.lang.Integer">
+        select count(1) from home_recommend_hot where group_id=#{groupId} and state=0;
     </select>
 </mapper>

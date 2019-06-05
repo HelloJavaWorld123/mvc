@@ -137,8 +137,19 @@ public class HomeRecommendHotGroupServiceImpl extends GenericServiceImpl<HomeRec
      * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @Override
-    public void setStatus(HomeRecommendHotGroupCnd homeRecommendHotGroupCnd) {
-        homeRecommendHotGroupMapper.setStatus(homeRecommendHotGroupCnd.getId(),homeRecommendHotGroupCnd.getState());
+    public int setStatus(HomeRecommendHotGroupCnd homeRecommendHotGroupCnd) {
+        //启用的时候，需要判断所有商品是否全部启用
+        int updateCount=0;
+        int count=0;
+        if(homeRecommendHotGroupCnd.getState().equals("1")) {
+            //查询商品是否全部启用
+            count = homeRecommendHotService.getByGroupIdAndStatus(homeRecommendHotGroupCnd.getId());
+        }
+        if(count==0) {
+            updateCount = homeRecommendHotGroupMapper.setStatus(homeRecommendHotGroupCnd.getId(), homeRecommendHotGroupCnd.getState());
+        }
+        return updateCount;
+
     }
 
 

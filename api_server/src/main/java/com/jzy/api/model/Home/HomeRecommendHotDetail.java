@@ -20,11 +20,6 @@ public class HomeRecommendHotDetail {
     private String rciName;
 
     /**
-     * 主图图片id
-     */
-    private String imageId;
-
-    /**
      * 主图图片url
      */
     private String imageUrl;

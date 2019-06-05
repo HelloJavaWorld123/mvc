@@ -51,5 +51,5 @@ public interface HomeRecommendHotGroupService extends GenericService<HomeRecomme
      * <b>修订记录：</b><br>
      * <li>20190515&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    void setStatus(HomeRecommendHotGroupCnd homeRecommendHotGroupCnd);
+    int setStatus(HomeRecommendHotGroupCnd homeRecommendHotGroupCnd);
 }

@@ -1,8 +1,11 @@
 package com.jzy.api.service.home;
 
+import com.jzy.api.cnd.home.DialogBannerCnd;
 import com.jzy.api.cnd.home.HomeHotListCnd;
 import com.jzy.api.cnd.home.HomeRecommendHotCnd;
 import com.jzy.api.model.Home.HomeRecommendHot;
+import com.jzy.api.model.Home.HomeRecommendHotDetail;
+import com.jzy.api.vo.home.DialogBannerVo;
 import com.jzy.api.vo.home.HomeHotInfoVo;
 import com.jzy.api.vo.home.HomeHotVo;
 import com.jzy.api.vo.home.HomeRecommendHotVo;
@@ -71,4 +74,6 @@ public interface HomeRecommendHotService extends GenericService<HomeRecommendHot
      * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     void delateBatch(List<String> result);
+
+    int getByGroupIdAndStatus(Long id);
 }

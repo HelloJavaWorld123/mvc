@@ -139,7 +139,10 @@ public class HomeRecommendHotGroupController {
     @RequestMapping("admin/setState")
     public ApiResult setStatus(@RequestBody HomeRecommendHotGroupCnd homeRecommendHotGroupCnd) {
         try {
-            homeRecommendHotGroupService.setStatus(homeRecommendHotGroupCnd);
+            int count = homeRecommendHotGroupService.setStatus(homeRecommendHotGroupCnd);
+            if(count==0){
+                return new ApiResult<>().fail("分组商品必须全部配置完成才能启用");
+            }
         }catch (BusException e){
             return new ApiResult().fail(e.getMessage());
         }catch (Exception e){
