@@ -5,8 +5,10 @@ import com.jzy.api.annos.DeleteValidator;
 import com.jzy.api.annos.IDValidator;
 import com.jzy.api.annos.UpdateValidator;
 import com.jzy.api.cnd.auth.SysEmpCnd;
+import com.jzy.api.constant.ApiRedisCacheConstant;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.auth.SysEmp;
+import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.service.auth.SysEmpRoleService;
 import com.jzy.api.service.auth.SysEmpService;
 import com.jzy.api.service.auth.SysRoleService;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.xml.ws.RespectBinding;
 import java.util.List;
 import java.util.Objects;
 
@@ -128,6 +131,14 @@ public class SysEmpController {
 		SysEmpVo vo = sysEmpService.findById(sysEmpCnd.getId());
 		return new ApiResult<SysEmpVo>().success(vo);
 	}
+
+
+	@RequestMapping("/role")
+	public ApiResult userRoleInfo(@RequestBody @Validated(IDValidator.class) SysEmpCnd sysEmpCnd){
+		List<SysEmpRole> empId = sysEmpRoleService.findByEmpId(sysEmpCnd.getId());
+		return new ApiResult<>().success(empId);
+	}
+
 
 	/**
 	 * 检查用户名是否已经存在
