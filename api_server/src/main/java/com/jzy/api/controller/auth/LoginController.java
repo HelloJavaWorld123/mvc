@@ -1,4 +1,4 @@
-package com.jzy.api.controller.sys;
+package com.jzy.api.controller.auth;
 
 import com.jzy.api.annos.WithoutLogin;
 import com.jzy.api.cnd.admin.LoginCnd;

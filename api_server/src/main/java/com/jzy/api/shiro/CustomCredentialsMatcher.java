@@ -5,9 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
-import org.springframework.stereotype.Component;
-
-import java.nio.charset.Charset;
 
 /**
  * Author : RXK
@@ -22,10 +19,15 @@ public class CustomCredentialsMatcher extends SimpleCredentialsMatcher {
 		String rightPassword = (String) getCredentials(info);
 		char[] credentials = (char[]) token.getCredentials();
 		String needVerifyPassword = new String(credentials);
-		if(rightPassword.equalsIgnoreCase(needVerifyPassword)){
-			return Boolean.TRUE;
-		}
+		return isOriginalTrue(rightPassword,needVerifyPassword) || isEncryptTrue(rightPassword, needVerifyPassword);
+	}
+
+	private boolean isEncryptTrue(String rightPassword, String needVerifyPassword) {
 		String md5 = MD5Util.string2MD5(needVerifyPassword);
 		return StringUtils.equals(rightPassword,md5);
+	}
+
+	private boolean isOriginalTrue(String rightPassword, String needVerifyPassword) {
+		return StringUtils.equals(rightPassword,needVerifyPassword);
 	}
 }
