@@ -67,12 +67,9 @@ public class SysEmpController {
 		try {
 			if (Objects.isNull(sysEmpCnd.getId())) {
 				sysEmpCnd.setId(tableKeyService.newKey("sys_emp", "id", 0));
+
 				encryptPassword(sysEmpCnd);
 
-				List<SysEmp> byName = sysEmpService.findByName(sysEmpCnd.getName(), sysEmpCnd.getId());
-				if (CollectionUtils.isNotEmpty(byName)) {
-					return new ApiResult().fail(ResultEnum.USER_NAME_ALREADY_EXIST.getMsg(), ResultEnum.FAIL.getCode());
-				}
 				sysEmpCnd.setOperatorId(getOperatorId());
 
 				verifyUserName(sysEmpCnd.getName(),null);
@@ -145,7 +142,7 @@ public class SysEmpController {
 
 	private void verifyUserName(String name,Long id) {
 		List<SysEmp> sysEmps = sysEmpService.findByName(name,id);
-		Assert.isTrue(Objects.isNull(sysEmps), "用户名已经存在");
+		Assert.isTrue(Objects.nonNull(sysEmps), "用户名已经存在");
 	}
 
 	/**
