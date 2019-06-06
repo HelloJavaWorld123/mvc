@@ -128,12 +128,19 @@ public class SysRoleController {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
 		Assert.isTrue(Objects.nonNull(role), "角色参数错误");
 
-		List<SysPermission> permValues = getPermValues(sysRoleCnd.getPermIds());
-		List<RolePermPo> rolePermPos = RolePermPo.build(sysRoleCnd.getId(), permValues);
+		List<RolePermPo> rolePermPos = null;
+		if (CollectionUtils.isNotEmpty(sysRoleCnd.getPermIds())) {
+			List<SysPermission> permValues = getPermValues(sysRoleCnd.getPermIds());
+			rolePermPos = RolePermPo.build(sysRoleCnd.getId(), permValues);
+		}
 
-		sysRolePermissionService.deleteByRoleIdAndPermType(sysRoleCnd.getId(),sysRoleCnd.getPermType());
-		Integer result = sysRolePermissionService.add(rolePermPos);
-		return result >= 1 ? new ApiResult<>().success(ResultEnum.SUCCESS) : new ApiResult().fail(ResultEnum.FAIL);
+		sysRolePermissionService.deleteByRoleIdAndPermType(sysRoleCnd.getId(), sysRoleCnd.getPermType());
+
+		if (CollectionUtils.isNotEmpty(rolePermPos)) {
+			Integer result = sysRolePermissionService.add(rolePermPos);
+			return result >= 1 ? new ApiResult<>().success(ResultEnum.SUCCESS) : new ApiResult().fail(ResultEnum.FAIL);
+		}
+		return getResultEnum(1);
 
 	}
 
