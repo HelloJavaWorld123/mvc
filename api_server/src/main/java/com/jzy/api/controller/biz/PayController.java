@@ -50,7 +50,7 @@ public class PayController extends GenericController {
         //获取用户某个商品下单成功次数
         Boolean orderCount = orderService.getByOrderCount(payCnd.getOrderId(),payCnd.getAppId());
         if(orderCount){
-            throw new BusException("商品超过购买次数");
+            throw new BusException("已达到今日限购次数");
         }
         // 数据一致性校验
         if (StringUtils.isEmpty(payCnd.getOrderId())) {
