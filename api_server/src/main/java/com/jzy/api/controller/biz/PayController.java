@@ -48,7 +48,7 @@ public class PayController extends GenericController {
         log.debug("支付请求参数为：" + payCnd.toString());
 
         //获取用户某个商品下单成功次数
-        Boolean orderCount = orderService.getByOrderCount(payCnd.getAppId());
+        Boolean orderCount = orderService.getByOrderCount(payCnd.getOrderId(),payCnd.getAppId());
         if(orderCount){
             throw new BusException("商品超过购买次数");
         }

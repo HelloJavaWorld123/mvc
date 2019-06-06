@@ -208,5 +208,5 @@ public interface OrderService extends GenericService<Order> {
 
     String queryOrderIdByoutTradeNo(String outTradeNo);
 
-    boolean getByOrderCount(Long appId);
+    boolean getByOrderCount(String orderId,Long appId);
 }

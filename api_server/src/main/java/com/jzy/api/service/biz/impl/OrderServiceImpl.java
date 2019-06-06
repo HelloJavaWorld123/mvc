@@ -582,21 +582,26 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      * @return
      */
     @Override
-    public boolean getByOrderCount(Long appId) {
-        //获取所有限购次数的商品,用一个map集合ai_id的值作为key，不用for循环比较。
-        Map<String, Map<String,Object>> map = orderMapper.appInfoBuyTimes();
+    public boolean getByOrderCount(String orderId,Long appId) {
+        //是否是待支付订单
+        Order order = orderMapper.queryOrderById(orderId);
         //该商品是否为限制下单次数商品
-        boolean outCount=false;
-        if(map!=null&&map.size()>0) {
-            Map<String, Object> infoMap = map.get(MyStringUtil.getString(appId));
-            if(infoMap!=null&&infoMap.get("ai_id")!=null) {
-                //商品限制次数
-                int count = MyStringUtil.getInteger(map.get(MyStringUtil.getString(appId)).get("count")).intValue();
-                //获取该账号下面该商品当天的购买次数
-                int orderCount = orderMapper.getOrderUserCount(getFrontDealerId(),getUserId(),appId);
-                if(orderCount>=count){
-                    //超过限购次数
-                    outCount = true;
+        boolean outCount = false;
+        //不是待支付订单，需要判断订单是否超过限购次数
+        if (order == null){
+            //获取所有限购次数的商品,用一个map集合ai_id的值作为key，不用for循环比较。
+            Map<String, Map<String, Object>> map = orderMapper.appInfoBuyTimes();
+            if (map != null && map.size() > 0) {
+                Map<String, Object> infoMap = map.get(MyStringUtil.getString(appId));
+                if (infoMap != null && infoMap.get("ai_id") != null) {
+                    //商品限制次数
+                    int count = MyStringUtil.getInteger(map.get(MyStringUtil.getString(appId)).get("count")).intValue();
+                    //获取该账号下面该商品当天的购买次数
+                    int orderCount = orderMapper.getOrderUserCount(getFrontDealerId(), getUserId(), appId);
+                    if (orderCount >= count) {
+                        //超过限购次数
+                        outCount = true;
+                    }
                 }
             }
         }
