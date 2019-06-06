@@ -10,7 +10,7 @@ import org.apache.shiro.web.mgt.DefaultWebSubjectFactory;
  * Version: V1.0.0
  * Desc:
  **/
-public class SubjectFactory extends DefaultWebSubjectFactory {
+public class CustomWebSubjectFactory extends DefaultWebSubjectFactory {
 
 	@Override
 	public Subject createSubject(SubjectContext context) {

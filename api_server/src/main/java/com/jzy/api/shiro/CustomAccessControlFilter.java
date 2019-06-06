@@ -25,7 +25,7 @@ import java.util.Objects;
  * Version: V1.0.0
  * Desc:
  **/
-public class AuthFilter extends AccessControlFilter {
+public class CustomAccessControlFilter extends AccessControlFilter {
 
 	@Autowired
 	private SysEmpService sysEmpService;

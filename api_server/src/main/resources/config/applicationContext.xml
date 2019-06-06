@@ -257,9 +257,9 @@
     </bean>
 
 
-    <bean id="subjectFactory" class="com.jzy.api.shiro.SubjectFactory"/>
+    <bean id="subjectFactory" class="com.jzy.api.shiro.CustomWebSubjectFactory"/>
     <bean id="anon" class="org.apache.shiro.web.filter.authc.AnonymousFilter"/>
-    <bean id="authFilter" class="com.jzy.api.shiro.AuthFilter"/>
-    <bean id="customRealm" class="com.jzy.api.shiro.CustomRealm"/>
+    <bean id="authFilter" class="com.jzy.api.shiro.CustomAccessControlFilter"/>
+    <bean id="customRealm" class="com.jzy.api.shiro.CustomAuthorizingRealm"/>
 
 </beans>
