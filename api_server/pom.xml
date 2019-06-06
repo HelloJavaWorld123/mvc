@@ -672,6 +672,37 @@
             <version>3.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>payment</groupId>
+            <artifactId>merapi</artifactId>
+            <version>4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.cfca</groupId>
+            <artifactId>PKIBaseRRTX</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.topca.api</groupId>
+            <artifactId>top-certapi</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.topca.security</groupId>
+            <artifactId>top-security</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.topca</groupId>
+            <artifactId>top-commons</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.topca</groupId>
+            <artifactId>top-core</artifactId>
+            <version>1.0</version>
+        </dependency>
+
         <!--swagger 依赖-->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.plugin</groupId>-->
