@@ -37,6 +37,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * <b>功能：</b>渠道商首页推荐Hot<br>
@@ -264,8 +265,22 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
     @Override
     public List<HomeRecommendHotDetail> getLikeAppInfo(IdCnd idCnd) {
         List<HomeRecommendHotDetail> list = new ArrayList<HomeRecommendHotDetail>();
-        //查询所有猜你喜欢的商品
         List<HomeRecommendHotDetail> likerAppInfoList = homeRecommendHotMapper.getLikeAppInfo(idCnd.getId());
+        //随机查询4条猜你喜欢的商品
+        int count = 4;
+        Random random=new Random();
+        List<Integer> tempList=new ArrayList<Integer>();
+        List<HomeRecommendHotDetail> newlikerAppInfoList=new ArrayList<HomeRecommendHotDetail>();
+        int temp=0;
+        for(int i=0;i<count;i++){
+            temp=random.nextInt(likerAppInfoList.size());//将产生的随机数作为被抽list的索引
+            if(!tempList.contains(temp)){
+                tempList.add(temp);
+                newlikerAppInfoList.add(likerAppInfoList.get(temp));
+            } else{
+                i--;
+            }
+        }
         for(HomeRecommendHotDetail deatil:likerAppInfoList){
             //查出商品充值类型
             List<AppPriceTypePo> appPriceTypelist = appPriceTypeMapper.getAppPriceTypePolist(Long.valueOf(deatil.getAiId()), Long.valueOf(getFrontDealerId()));
