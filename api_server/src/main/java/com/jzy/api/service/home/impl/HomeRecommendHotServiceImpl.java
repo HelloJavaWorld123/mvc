@@ -266,25 +266,17 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
     public List<HomeRecommendHotDetail> getLikeAppInfo(IdCnd idCnd) {
         List<HomeRecommendHotDetail> list = new ArrayList<HomeRecommendHotDetail>();
         List<HomeRecommendHotDetail> likerAppInfoList = homeRecommendHotMapper.getLikeAppInfo(idCnd.getId());
-        //随机查询4条猜你喜欢的商品
-        int count = 4;
-        Random random=new Random();
-        List<Integer> tempList=new ArrayList<Integer>();
-        List<HomeRecommendHotDetail> newlikerAppInfoList=new ArrayList<HomeRecommendHotDetail>();
-        int temp=0;
-        for(int i=0;i<count;i++){
-            temp=random.nextInt(likerAppInfoList.size());//将产生的随机数作为被抽list的索引
-            if(!tempList.contains(temp)){
-                tempList.add(temp);
-                newlikerAppInfoList.add(likerAppInfoList.get(temp));
-            } else{
-                i--;
-            }
-        }
+
         for(HomeRecommendHotDetail deatil:likerAppInfoList){
             //查出商品充值类型
             List<AppPriceTypePo> appPriceTypelist = appPriceTypeMapper.getAppPriceTypePolist(Long.valueOf(deatil.getAiId()), Long.valueOf(getFrontDealerId()));
-            List<HomeRecommendHotDetail> homeRecommendHotDetailsList = homeRecommendHotMapper.getLikeAppInfoPrice(deatil.getAiId(),appPriceTypelist.get(0).getTypeId(),getFrontDealerId());
+            List<HomeRecommendHotDetail> homeRecommendHotDetailsList = null;
+            for(AppPriceTypePo appPriceTypePo:appPriceTypelist){
+                homeRecommendHotDetailsList = homeRecommendHotMapper.getLikeAppInfoPrice(deatil.getAiId(),appPriceTypePo.getTypeId(),getFrontDealerId());
+                if(homeRecommendHotDetailsList!=null&&homeRecommendHotDetailsList.size()>0){
+                    break;
+                }
+            }
             if(homeRecommendHotDetailsList!=null&&homeRecommendHotDetailsList.size()>0) {
                 deatil.setGoId(homeRecommendHotDetailsList.get(0).getGoId());
                 //获取商品定价信息
@@ -293,6 +285,21 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
                 list.add(deatil);
             }
         }
+        //随机查询4条猜你喜欢的商品
+//        int count = 4;
+//        Random random=new Random();
+//        List<Integer> tempList=new ArrayList<Integer>();
+//        List<HomeRecommendHotDetail> newlikerAppInfoList=new ArrayList<HomeRecommendHotDetail>();
+//        int temp=4;
+//        for(int i=0;i<count;i++){
+//            temp=random.nextInt(list.size());//将产生的随机数作为被抽list的索引
+//            if(!tempList.contains(temp)){
+//                tempList.add(temp);
+//                newlikerAppInfoList.add(list.get(temp));
+//            } else{
+//                i--;
+//            }
+//        }
         return list;
     }
 
