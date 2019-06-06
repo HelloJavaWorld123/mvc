@@ -3,8 +3,8 @@ package com.jzy.api.dao.biz;
 import com.jzy.api.model.biz.Order;
 import com.jzy.api.po.biz.BackOrderCountPo;
 import com.jzy.framework.dao.GenericMapper;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.access.method.P;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -240,4 +240,22 @@ public interface OrderMapper extends GenericMapper<Order> {
      * @return java.lang.Integer
      */
     Integer queryCountByParams(Map<String, Object> paramsMap);
+
+    /**
+     * 查询所有限购次数商品
+     * @return
+     */
+    @MapKey("ai_id")
+    Map<String, Map<String, Object>> appInfoBuyTimes();
+
+    /**
+     * 查询限购次数商品已经下单次数
+     * @param dealerId
+     * @param userId
+     * @param appId
+     * @return
+     */
+    int getOrderUserCount(@Param("dealerId") Integer dealerId,
+                                           @Param("userId")String userId,
+                                           @Param("appId") Long appId);
 }

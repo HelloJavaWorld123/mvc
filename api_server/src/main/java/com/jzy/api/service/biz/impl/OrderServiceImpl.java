@@ -7,10 +7,7 @@ import com.jzy.api.cnd.biz.MonthOrderCnd;
 import com.jzy.api.cnd.biz.RunMonthOrderCnd;
 import com.jzy.api.dao.biz.OrderMapper;
 import com.jzy.api.dao.biz.SupRecordMapper;
-import com.jzy.api.model.biz.CardPwd;
-import com.jzy.api.model.biz.Order;
-import com.jzy.api.model.biz.SupRecord;
-import com.jzy.api.model.biz.TradeRecord;
+import com.jzy.api.model.biz.*;
 import com.jzy.api.model.dealer.Dealer;
 import com.jzy.api.po.biz.BackOrderCountPo;
 import com.jzy.api.service.arch.DealerService;
@@ -18,6 +15,7 @@ import com.jzy.api.service.biz.*;
 import com.jzy.api.util.CommUtils;
 import com.jzy.api.util.DateUtils;
 import com.jzy.api.util.DesUtil;
+import com.jzy.api.util.MyStringUtil;
 import com.jzy.api.vo.biz.FrontOrderVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
@@ -35,10 +33,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static com.jzy.api.model.biz.Order.TradeStatusConst.REFUND_SICCESS;
 
@@ -165,6 +160,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         if (isTempOrder) {
             // 保存或更新Order订单数据
             insert(order);
+
         } else {
             // 重新支付，更新订单的支付方式
             updateStatusTradeMethod(order.getOrderId(), order.getStatus(), order.getTradeMethod(), order.getOutTradeNo());
@@ -578,6 +574,30 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     @Override
     public String queryOrderIdByoutTradeNo(String outTradeNo) {
         return orderMapper.queryOrderIdByoutTradeNo(outTradeNo);
+    }
+
+    /**
+     * 判断商品的下单次数是否超过限制次数
+     * @param appId
+     * @return
+     */
+    @Override
+    public boolean getByOrderCount(Long appId) {
+        //获取所有限购次数的商品,用一个map集合ai_id的值作为key，不用for循环比较。
+        Map<String, Map<String,Object>> map = orderMapper.appInfoBuyTimes();
+        //该商品是否为限制下单次数商品
+        boolean outCount=false;
+        if(map.size()>0&&map.get(MyStringUtil.getString(appId)).get("ai_id")!=null) {
+            //商品限制次数
+            int count = MyStringUtil.getInteger(map.get(MyStringUtil.getString(appId)).get("count")).intValue();
+            //获取该账号下面该商品当天的购买次数
+            int orderCount = orderMapper.getOrderUserCount(getFrontDealerId(),getUserId(),appId);
+            if(orderCount>=count){
+                //超过限购次数
+                outCount = true;
+            }
+        }
+        return outCount;
     }
 
     /**

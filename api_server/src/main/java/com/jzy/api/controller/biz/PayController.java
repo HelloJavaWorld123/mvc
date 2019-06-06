@@ -46,6 +46,12 @@ public class PayController extends GenericController {
     @RequestMapping("/pay")
     public ApiResult pay(@RequestBody PayCnd payCnd, HttpServletRequest request) {
         log.debug("支付请求参数为：" + payCnd.toString());
+
+        //获取用户某个商品下单成功次数
+        Boolean orderCount = orderService.getByOrderCount(payCnd.getAppId());
+        if(orderCount){
+            throw new BusException("商品超过购买次数");
+        }
         // 数据一致性校验
         if (StringUtils.isEmpty(payCnd.getOrderId())) {
             validate(payCnd);
@@ -57,6 +63,8 @@ public class PayController extends GenericController {
         log.debug("支付返回url地址为: " + linkUrl);
         return apiResult.success();
     }
+
+
 
     /**
      * <b>功能描述：</b>数据一致性校验<br>

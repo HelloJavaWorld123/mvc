@@ -251,7 +251,31 @@
         </foreach>
     </select>
 
+    <select id="getDialogBanner" parameterType="com.jzy.api.cnd.home.DialogBannerCnd"
+            resultMap="personalHistoryAffairMapper">
+         select  ai.name,ai.icon,appinfo.go_type,appinfo.go_id,appinfo.status as state,appinfo.image_url,
+         appinfo.go_name,apt.name as type_name,apt.unit,dapi.ai_id,dapi.number,dapi.price,dapi.pay_price,dapi.discount from
+        (select image_url,go_id,go_type,status,go_name from dialog_banner where type=#{type} and now() between start_time and end_time
+        ) appinfo left join dealer_app_price_info dapi on appinfo.go_id=dapi.id
+        left join  app_price_type apt on apt.id = dapi.apt_id
+        and dapi.ai_id = apt.ai_id  left join app_info ai on apt.ai_id = ai.id
+    </select>
+
+    <select id="getLikeAppInfoPrice" resultMap="personalHistoryAffairMapper">
+       select ai.name,ai.icon,dapi.id as go_id,apt.name as type_name,
+        apt.unit,dapi.ai_id,dapi.number,dapi.price,dapi.pay_price,dapi.discount from
+        (select id,ai_id,apt_id,number,price,pay_price,discount from dealer_app_price_info where dealer_id=#{dealerId}
+        and apt_id=#{typeId} and ai_id=#{aiId} and status=1)
+        dapi left join  app_price_type apt on apt.id = dapi.apt_id
+        and dapi.ai_id = apt.ai_id  left join app_info ai on apt.ai_id = ai.id
+    </select>
+
     <select id="getByGroupIdAndStatus" resultType="java.lang.Integer">
         select count(1) from home_recommend_hot where group_id=#{groupId} and state=0;
+    </select>
+
+    <select id="getLikeAppInfo" resultType="com.jzy.api.model.Home.HomeRecommendHotDetail">
+        select go_id as aiId,go_type as goType,status as state from liker_app_info where now() between start_time and end_time
+        and go_id!=#{aiId}
     </select>
 </mapper>

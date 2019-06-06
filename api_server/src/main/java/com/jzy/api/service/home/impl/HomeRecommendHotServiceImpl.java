@@ -7,18 +7,20 @@ import com.jzy.api.cnd.home.DialogBannerCnd;
 import com.jzy.api.cnd.home.HomeHotListCnd;
 import com.jzy.api.cnd.home.HomeRecommendHotCnd;
 import com.jzy.api.constant.HomeEnums;
+import com.jzy.api.dao.app.AppPriceTypeMapper;
 import com.jzy.api.dao.home.AppCateMapper;
 import com.jzy.api.dao.home.HomeRecommendHotMapper;
 import com.jzy.api.model.Home.*;
 import com.jzy.api.model.app.FileInfo;
 import com.jzy.api.model.sys.SysImages;
+import com.jzy.api.po.arch.AppPriceTypePo;
 import com.jzy.api.service.home.HomeRecommendHotService;
 import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.service.sys.SysImagesService;
-import com.jzy.api.vo.home.DialogBannerVo;
 import com.jzy.api.vo.home.HomeHotInfoVo;
 import com.jzy.api.vo.home.HomeHotVo;
 import com.jzy.api.vo.home.HomeRecommendHotVo;
+import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
@@ -58,6 +60,9 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
     private TableKeyService tableKeyService;
 
     @Resource AppCateMapper appCateMapper;
+
+    @Resource
+    private AppPriceTypeMapper appPriceTypeMapper;
 
     /**
      * <b>功能描述：</b>首页查询商品推荐列表<br>
@@ -239,6 +244,41 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
     @Override
     public void delateBatch(List<String> result) {
         homeRecommendHotMapper.deleteBatch(result);
+    }
+
+    /**
+     * 弹窗和banner
+     * @return
+     */
+    @Override
+    public List<HomeRecommendHotDetail> getDialogBanner(DialogBannerCnd dialogBannerCnd) {
+        //获取活动页信息
+        List<HomeRecommendHotDetail> dialogBannerVoList = homeRecommendHotMapper.getDialogBanner(dialogBannerCnd);
+        return dialogBannerVoList;
+    }
+
+    /**
+     * 猜你喜欢商品
+     * @return
+     */
+    @Override
+    public List<HomeRecommendHotDetail> getLikeAppInfo(IdCnd idCnd) {
+        List<HomeRecommendHotDetail> list = new ArrayList<HomeRecommendHotDetail>();
+        //查询所有猜你喜欢的商品
+        List<HomeRecommendHotDetail> likerAppInfoList = homeRecommendHotMapper.getLikeAppInfo(idCnd.getId());
+        for(HomeRecommendHotDetail deatil:likerAppInfoList){
+            //查出商品充值类型
+            List<AppPriceTypePo> appPriceTypelist = appPriceTypeMapper.getAppPriceTypePolist(Long.valueOf(deatil.getAiId()), Long.valueOf(getFrontDealerId()));
+            List<HomeRecommendHotDetail> homeRecommendHotDetailsList = homeRecommendHotMapper.getLikeAppInfoPrice(deatil.getAiId(),appPriceTypelist.get(0).getTypeId(),getFrontDealerId());
+            if(homeRecommendHotDetailsList!=null&&homeRecommendHotDetailsList.size()>0) {
+                deatil.setGoId(homeRecommendHotDetailsList.get(0).getGoId());
+                //获取商品定价信息
+                deatil.setHotAppInfoDetail(homeRecommendHotDetailsList.get(0).getHotAppInfoDetail());
+                //放入返回给客户的集合
+                list.add(deatil);
+            }
+        }
+        return list;
     }
 
     @Override

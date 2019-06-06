@@ -118,4 +118,26 @@ public class HomeRecommendHotController {
         }
         return new ApiResult<>();
     }
+
+    /**
+     * <b>功能描述：</b>618活动弹出和banner<br>
+     * <b>修订记录：</b><br>
+     * <li>20190604&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("getDialogAndBanner")
+    public ApiResult getDialogAndBanner(@RequestBody DialogBannerCnd dialogBannerCnd) {
+        List<HomeRecommendHotDetail> dialogBannerVoList = homeRecommendHotService.getDialogBanner(dialogBannerCnd);
+        return new ApiResult<>(dialogBannerVoList);
+    }
+
+    /**
+     * <b>功能描述：</b>猜你喜欢商品<br>
+     * <b>修订记录：</b><br>
+     * <li>20190604&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("getLikeAppInfo")
+    public ApiResult getLikeAppInfo(@RequestBody IdCnd idCnd) {
+        List<HomeRecommendHotDetail> dialogBannerVoList = homeRecommendHotService.getLikeAppInfo(idCnd);
+        return new ApiResult<>(dialogBannerVoList);
+    }
 }

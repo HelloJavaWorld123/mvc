@@ -9,6 +9,7 @@ import com.jzy.api.vo.home.DialogBannerVo;
 import com.jzy.api.vo.home.HomeHotInfoVo;
 import com.jzy.api.vo.home.HomeHotVo;
 import com.jzy.api.vo.home.HomeRecommendHotVo;
+import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.service.GenericService;
 
@@ -74,6 +75,10 @@ public interface HomeRecommendHotService extends GenericService<HomeRecommendHot
      * <li>20190516&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     void delateBatch(List<String> result);
+
+    List<HomeRecommendHotDetail> getDialogBanner(DialogBannerCnd dialogBannerCnd);
+
+    List<HomeRecommendHotDetail> getLikeAppInfo(IdCnd idCnd);
 
     int getByGroupIdAndStatus(Long id);
 }

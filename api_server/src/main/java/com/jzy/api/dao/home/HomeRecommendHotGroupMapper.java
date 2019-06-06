@@ -25,7 +25,7 @@ public interface HomeRecommendHotGroupMapper extends GenericMapper<HomeRecommend
      * <b>修订记录：</b><br>
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    int getByName(@Param("groupName") String groupName,@Param("dealerId") String dealerId);
+    int getByName(@Param("groupName") String groupName, @Param("dealerId") String dealerId);
 
     /**
      * <b>功能描述：</b>根据id查询启用分组数量<br>
@@ -46,7 +46,7 @@ public interface HomeRecommendHotGroupMapper extends GenericMapper<HomeRecommend
      * <b>修订记录：</b><br>
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    int getCountByNameNoId(@Param("groupName") String groupName, @Param("id") Long id,@Param("dealerId") String dealerId);
+    int getCountByNameNoId(@Param("groupName") String groupName, @Param("id") Long id, @Param("dealerId") String dealerId);
 
     /**
      * <b>功能描述：</b>根据name和id查询分组数量<br>

@@ -104,5 +104,13 @@ public interface HomeRecommendHotMapper extends GenericMapper<HomeRecommendHot> 
 
     Integer queryExistById(Map<String, Object> paramsMap);
 
+    List<HomeRecommendHotDetail> getDialogBanner(DialogBannerCnd dialogBannerCnd);
+
+    //List<HomeRecommendHotDetail> getLikeAppInfo(@Param("dealerId") Integer dealerId);
+
     int getByGroupIdAndStatus(@Param("groupId") Long groupId);
+
+    List<HomeRecommendHotDetail> getLikeAppInfo(@Param("aiId") Long aiId);
+
+    List<HomeRecommendHotDetail> getLikeAppInfoPrice(@Param("aiId") String aiId, @Param("typeId") String typeId,@Param("dealerId") Integer dealerId);
 }

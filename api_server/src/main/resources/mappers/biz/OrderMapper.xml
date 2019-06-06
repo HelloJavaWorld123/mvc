@@ -566,4 +566,16 @@
         and  dealer_id = #{dealerId}
         </if>
     </select>
+
+    <!--获取所有限制次数的商品-->
+    <select id="appInfoBuyTimes" resultType="java.util.Map">
+         select ai_id,count from app_info_buy_times where status=1
+    </select>
+
+    <!--查询商品下单次数-->
+    <select id="getOrderUserCount" resultType="java.lang.Integer">
+        select count(1) from `order` where dealer_id=#{dealerId}
+        and user_id=#{userId} and app_id=#{appId} and to_days(create_time)=to_days(now())
+        and (status=0 or status=1 or status=2)
+    </select>
 </mapper>
