@@ -16,6 +16,7 @@ import com.jzy.framework.cache.EmpCache;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.CredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -121,25 +122,27 @@ public class LoginController extends GenericController {
 	@WithoutLogin
 	@RequestMapping("/logout")
 	public ApiResult logout(HttpServletRequest request) {
-		deleteToken(request);
-		deleteUserCache();
+		String empId = deleteToken(request);
+		deleteUserCache(empId);
 		return new ApiResult().success();
 	}
 
-	private void deleteUserCache() {
-		SysEmp sysEmp = (SysEmp) SecurityUtils.getSubject()
-											  .getPrincipal();
-		if (Objects.nonNull(sysEmp)) {
-			sysEmpService.deleteCache(sysEmp.getId());
+	private void deleteUserCache(String empId) {
+		if (StringUtils.isNotBlank(empId)) {
+			sysEmpService.deleteCache(Long.parseLong(empId));
 		}
 	}
 
-	private void deleteToken(HttpServletRequest request) {
+	private String deleteToken(HttpServletRequest request) {
 		String token = request.getHeader(AccessToken.EMP.getValue());
 		RBucket<EmpCache> bucket = redissonClient.getBucket(token);
+		String empId = null;
 		if(bucket.isExists()){
+			empId = bucket.get()
+						  .getEmpId();
 			bucket.deleteAsync();
 		}
+		return empId;
 	}
 
 

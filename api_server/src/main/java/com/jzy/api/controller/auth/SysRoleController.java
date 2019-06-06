@@ -5,6 +5,7 @@ import com.jzy.api.annos.DeleteValidator;
 import com.jzy.api.annos.IDValidator;
 import com.jzy.api.annos.UpdateValidator;
 import com.jzy.api.cnd.auth.SysRoleCnd;
+import com.jzy.api.constant.ApiRedisCacheConstant;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.model.auth.SysPermission;
@@ -21,6 +22,9 @@ import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.redisson.api.BatchOptions;
+import org.redisson.api.RBatch;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
@@ -28,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,6 +49,9 @@ public class SysRoleController {
 
 	@Autowired
 	private SysRoleService sysRoleService;
+
+	@Resource
+	private RedissonClient redissonClient;
 
 	@Autowired
 	private SysEmpRoleService sysEmpRoleService;
@@ -140,8 +148,22 @@ public class SysRoleController {
 			Integer result = sysRolePermissionService.add(rolePermPos);
 			return result >= 1 ? new ApiResult<>().success(ResultEnum.SUCCESS) : new ApiResult().fail(ResultEnum.FAIL);
 		}
+
+		deleteCache(sysRoleCnd.getId());
+
 		return getResultEnum(1);
 
+	}
+
+	private void deleteCache(Long id) {
+		List<SysEmpRole> sysEmpRoles = sysEmpRoleService.findByRoleId(id);
+		if(CollectionUtils.isNotEmpty(sysEmpRoles)){
+			sysEmpRoles.forEach(item ->{
+				String key = ApiRedisCacheConstant.USER_PERMISSION_CACHE + item.getEmpId();
+				redissonClient.getBucket(key)
+							  .deleteAsync();
+			});
+		}
 	}
 
 	private List<SysPermission> getPermValues(List<Long> permIds) {
