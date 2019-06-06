@@ -37,4 +37,9 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
 	public Integer add(List<RolePermPo> rolePermPos) {
 		return sysRolePermissionMapper.batchAdd(rolePermPos);
 	}
+
+	@Override
+	public void deleteByRoleIdAndPermType(Long roleId, Integer permType) {
+		sysRolePermissionMapper.deleteByRoleId(roleId,permType);
+	}
 }

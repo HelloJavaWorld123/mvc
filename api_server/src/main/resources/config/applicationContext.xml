@@ -15,7 +15,8 @@
     <context:component-scan base-package="com.jzy.api.base,
                                           com.jzy.api.dao,
                                           com.jzy.api.model,
-                                          com.jzy.api.service">
+                                          com.jzy.api.service,
+                                          com.jzy.api.shiro">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
@@ -201,25 +202,36 @@
     </bean>
 
 
-    <bean id="authorizationAttributeSourceAdvisor"
-          class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="defaultWebSecurityManager"/>
-    </bean>
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="defaultWebSecurityManager"/>
         <property name="loginUrl" value="/sys/unauthorized"/>
+        <property name="filters">
+            <map>
+                <entry key="authFilter" value-ref="authFilter"/>
+            </map>
+        </property>
         <property name="filterChainDefinitions" ref="customFilterChain"/>
     </bean>
 
     <bean id="defaultWebSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="customRealm"/>
-<!--        <property name="cacheManager" ref="redisCacheManager"/>-->
+        <property name="subjectFactory" ref="subjectFactory"/>
+        <property name="subjectDAO" ref="defaultSubjectDAO"/>
+        <property name="sessionManager" ref="defaultSessionManager"/>
     </bean>
 
-    <bean id="redisCacheManager" class="com.jzy.api.shiro.RedisCacheManager"/>
-    <bean id="customRealm" class="com.jzy.api.shiro.CustomRealm"/>
+    <bean id="defaultSubjectDAO" class="org.apache.shiro.mgt.DefaultSubjectDAO">
+        <property name="sessionStorageEvaluator" ref="defaultSessionStorageEvaluator"/>
+    </bean>
 
+    <bean id="defaultSessionStorageEvaluator" class="org.apache.shiro.mgt.DefaultSessionStorageEvaluator">
+        <property name="sessionStorageEnabled" value="false"/>
+    </bean>
+
+    <bean id="defaultSessionManager" class="org.apache.shiro.session.mgt.DefaultSessionManager">
+        <property name="sessionValidationSchedulerEnabled" value="false"/>
+    </bean>
 
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
@@ -227,8 +239,9 @@
         <property name="proxyTargetClass" value="true"/>
     </bean>
 
-    <bean id="manager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-        <property name="cacheManager" ref="redisCacheManager"/>
+    <bean id="authorizationAttributeSourceAdvisor"
+          class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="defaultWebSecurityManager"/>
     </bean>
 
 
@@ -238,9 +251,15 @@
                 /sys/unauthorized=anon
                 /sys/login=anon
                 /sys/logout=anon
-                /** =authc
+                /** =authFilter
             </value>
         </constructor-arg>
     </bean>
+
+
+    <bean id="subjectFactory" class="com.jzy.api.shiro.SubjectFactory"/>
+    <bean id="anon" class="org.apache.shiro.web.filter.authc.AnonymousFilter"/>
+    <bean id="authFilter" class="com.jzy.api.shiro.AuthFilter"/>
+    <bean id="customRealm" class="com.jzy.api.shiro.CustomRealm"/>
 
 </beans>

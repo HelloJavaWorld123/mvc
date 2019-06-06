@@ -78,10 +78,10 @@ public class SysEmpServiceImpl implements SysEmpService {
 		return sysEmpMapper.findByName(name,userId);
 	}
 
-	private void deleteCache(Long id) {
+	public void deleteCache(Long id) {
 		String userRoleIdsKey = ApiRedisCacheConstant.USER_ROLE_IDS_CACHE+id;
-		String userPermKey = ApiRedisCacheConstant.USER_PERMISSION_CACHE + id;
-		String userRoleKey = ApiRedisCacheConstant.USER_ROLE_CACHE + id;
+		String userPermKey = ApiRedisCacheConstant.USER_PERMISSION_CACHE +id;
+		String userRoleKey = ApiRedisCacheConstant.USER_ROLE_CACHE+id;
 		redissonClient.getBucket(userRoleIdsKey).deleteAsync();
 		redissonClient.getBucket(userPermKey)
 					  .deleteAsync();

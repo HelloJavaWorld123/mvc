@@ -24,4 +24,11 @@ public interface SysRolePermissionService {
 	 * 更具角色id  查询所有的资源key
 	 */
 	List<SysRolePermission> findByRoleIds(List<Long> roleIds);
+
+	/**
+	 * 根据角色id 以及 类型删除 已经分配的资源
+	 * @param roleId ： 角色id
+	 * @param permType ：资源类型
+	 */
+	void deleteByRoleIdAndPermType(Long roleId, Integer permType);
 }

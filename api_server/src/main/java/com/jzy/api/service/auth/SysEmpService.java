@@ -51,4 +51,9 @@ public interface SysEmpService {
 	 * @return
 	 */
 	List<SysEmp> findByName(String name, Long userId);
+
+	/**
+	 * 删除当前用户的id
+	 */
+	void deleteCache(Long id);
 }

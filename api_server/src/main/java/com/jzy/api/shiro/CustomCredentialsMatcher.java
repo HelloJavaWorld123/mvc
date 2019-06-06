@@ -1,4 +1,4 @@
-package com.jzy.api.service.auth;
+package com.jzy.api.shiro;
 
 import com.jzy.api.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
@@ -19,9 +19,13 @@ public class CustomCredentialsMatcher extends SimpleCredentialsMatcher {
 
 	@Override
 	public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
-		String tokenPassword = (String) getCredentials(info);
+		String rightPassword = (String) getCredentials(info);
 		char[] credentials = (char[]) token.getCredentials();
-		String md5 = MD5Util.string2MD5(new String(credentials));
-		return StringUtils.equals(tokenPassword,md5);
+		String needVerifyPassword = new String(credentials);
+		if(rightPassword.equalsIgnoreCase(needVerifyPassword)){
+			return Boolean.TRUE;
+		}
+		String md5 = MD5Util.string2MD5(needVerifyPassword);
+		return StringUtils.equals(rightPassword,md5);
 	}
 }

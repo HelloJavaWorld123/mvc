@@ -24,6 +24,12 @@ public class ApiRedisCacheConstant {
      */
     public static final String CACHE_DEALER_ANALYSIS_INFO = "cache_dealer_analysis_info_" + VERSION + ":";
 
+
+    /**
+     * 后台用户基本信息缓存
+     */
+    public static final String USER_BASE_INFO_CACHE = "user_base_info_cache_";
+
     /**
      * 当前用户角色id的缓存
      */
@@ -39,6 +45,6 @@ public class ApiRedisCacheConstant {
      */
     public static final String USER_PERMISSION_CACHE = "user_permission_cache_";
 
-    public static final String ADMIN_SHIRO_CACHE = "admin_shiro_cache:";
+    public static final String ADMIN_SHIRO_CACHE = "shiro_session:";
 
 }

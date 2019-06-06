@@ -71,7 +71,6 @@ public class SysRoleController {
 	}
 
 
-
 	@RequestMapping("/update")
 	public ApiResult update(@RequestBody @Validated(value = {UpdateValidator.class}) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
@@ -85,7 +84,6 @@ public class SysRoleController {
 		Integer result = sysRoleService.updateById(update);
 		return getResultEnum(result);
 	}
-
 
 
 	@RequestMapping("/delete")
@@ -105,9 +103,8 @@ public class SysRoleController {
 	}
 
 
-
 	@RequestMapping("/check")
-	public ApiResult roleValueCheck(@RequestBody @Validated(SysRoleCnd.RoleValueExist.class) SysRoleCnd sysRoleCnd){
+	public ApiResult roleValueCheck(@RequestBody @Validated(SysRoleCnd.RoleValueExist.class) SysRoleCnd sysRoleCnd) {
 		verifyRoleValue(sysRoleCnd, sysRoleCnd.getId());
 		return new ApiResult().success();
 	}
@@ -120,7 +117,7 @@ public class SysRoleController {
 	}
 
 	@RequestMapping("/perm")
-	public ApiResult getPermByRoleId(@RequestBody @Validated(IDValidator.class) SysRoleCnd sysRoleCnd){
+	public ApiResult getPermByRoleId(@RequestBody @Validated(IDValidator.class) SysRoleCnd sysRoleCnd) {
 		List<SysRolePermission> rolePermissions = sysRolePermissionService.findByRoleId(sysRoleCnd.getId());
 		return new ApiResult<>().success(rolePermissions);
 	}
@@ -129,18 +126,20 @@ public class SysRoleController {
 	@RequestMapping("/allot/perm")
 	public ApiResult allotPermission(@RequestBody @Validated(SysRoleCnd.Allot.class) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
-		Assert.isTrue(Objects.nonNull(role),"角色参数错误");
+		Assert.isTrue(Objects.nonNull(role), "角色参数错误");
 
 		List<SysPermission> permValues = getPermValues(sysRoleCnd.getPermIds());
 		List<RolePermPo> rolePermPos = RolePermPo.build(sysRoleCnd.getId(), permValues);
+
+		sysRolePermissionService.deleteByRoleIdAndPermType(sysRoleCnd.getId(),sysRoleCnd.getPermType());
 		Integer result = sysRolePermissionService.add(rolePermPos);
 		return result >= 1 ? new ApiResult<>().success(ResultEnum.SUCCESS) : new ApiResult().fail(ResultEnum.FAIL);
 
 	}
 
 	private List<SysPermission> getPermValues(List<Long> permIds) {
-		List<SysPermission> sysPermissionList =  sysPermissionService.findByIds(permIds);
-		Assert.isTrue(CollectionUtils.isNotEmpty(sysPermissionList) && sysPermissionList.size() == permIds.size(),"角色参数有误");
+		List<SysPermission> sysPermissionList = sysPermissionService.findByIds(permIds);
+		Assert.isTrue(CollectionUtils.isNotEmpty(sysPermissionList) && sysPermissionList.size() == permIds.size(), "角色参数有误");
 		return sysPermissionList;
 	}
 

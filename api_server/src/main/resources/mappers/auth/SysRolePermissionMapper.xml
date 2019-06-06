@@ -12,7 +12,10 @@
 
     <delete id="deleteByRoleId">
         DELETE FROM sys_role_permission
-        WHERE role_id = #{roleId}
+        WHERE
+            role_id = #{roleId}
+        AND
+            permission_type = #{permType}
     </delete>
     <select id="findByRoleId" resultType="com.jzy.api.model.auth.SysRolePermission">
         SELECT

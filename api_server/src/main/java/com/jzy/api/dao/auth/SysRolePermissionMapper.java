@@ -14,7 +14,7 @@ import java.util.List;
  **/
 public interface SysRolePermissionMapper {
 
-	void deleteByRoleId(Long roleId);
+	void deleteByRoleId(@Param("roleId") Long roleId, @Param("permType") Integer permType);
 
 	List<SysRolePermission> findByRoleId(@Param("roleId") Long roleId);
 

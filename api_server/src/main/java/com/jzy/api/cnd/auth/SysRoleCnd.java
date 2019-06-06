@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.ibatis.annotations.Delete;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -44,8 +45,11 @@ public class SysRoleCnd extends PageCnd {
 
 	private Integer delFlag;
 
-	@NotEmpty(groups = {Allot.class},message = "权限值不能为空")
 	private List<Long> permIds;
+
+	@NotNull(groups = {Allot.class},message = "资源类型不能为空")
+	@Range(groups = {Allot.class},min = 0,max = 3,message = "请输入正确范围内的数字")
+	private Integer permType;
 
 	private Date createTime;
 
