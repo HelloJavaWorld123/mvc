@@ -116,6 +116,12 @@
         del_flag = 1
         WHERE
         id = #{id}
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
+        <if test="dealerId != null">
+            AND dealer_id = #{dealerId}
+        </if>
     </update>
 
     <!-- 根据订单id查询订单详情 -->
@@ -218,6 +224,12 @@
         status = #{status}
         WHERE
         id = #{id}
+        <if test="userId != null">
+          and user_id = #{userId}
+        </if>
+        <if test="dealerId != null">
+            AND dealer_id = #{dealerId}
+        </if>
     </update>
 
     <!-- 更新订单交易状态 -->

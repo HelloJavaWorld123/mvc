@@ -106,8 +106,6 @@ public interface HomeRecommendHotMapper extends GenericMapper<HomeRecommendHot> 
 
     List<HomeRecommendHotDetail> getDialogBanner(DialogBannerCnd dialogBannerCnd);
 
-    //List<HomeRecommendHotDetail> getLikeAppInfo(@Param("dealerId") Integer dealerId);
-
     int getByGroupIdAndStatus(@Param("groupId") Long groupId);
 
     List<HomeRecommendHotDetail> getLikeAppInfo(@Param("aiId") Long aiId);

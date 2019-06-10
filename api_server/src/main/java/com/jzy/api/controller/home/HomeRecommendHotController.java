@@ -7,8 +7,10 @@ import com.jzy.api.cnd.home.HomeRecommendHotGroupCnd;
 import com.jzy.api.model.Home.HomeRecommendHot;
 import com.jzy.api.model.Home.HomeRecommendHotDetail;
 import com.jzy.api.model.Home.HomeRecommendHotGroup;
+import com.jzy.api.service.arch.DealerAppPriceInfoService;
 import com.jzy.api.service.home.HomeRecommendHotService;
 import com.jzy.api.service.key.TableKeyService;
+import com.jzy.api.vo.app.AppDetailVo;
 import com.jzy.api.vo.home.DialogBannerVo;
 import com.jzy.api.vo.home.HomeHotInfoVo;
 import com.jzy.api.vo.home.HomeHotVo;
@@ -54,7 +56,7 @@ public class HomeRecommendHotController {
     private HomeRecommendHotService homeRecommendHotService;
 
     @Resource
-    private TableKeyService tableKeyService;
+    private DealerAppPriceInfoService dealerAppPriceInfoService;
 
     /**
      * <b>功能描述：</b>首页查询商品推荐列表<br>
@@ -126,7 +128,21 @@ public class HomeRecommendHotController {
      */
     @RequestMapping("getDialogAndBanner")
     public ApiResult getDialogAndBanner(@RequestBody DialogBannerCnd dialogBannerCnd) {
-        List<HomeRecommendHotDetail> dialogBannerVoList = homeRecommendHotService.getDialogBanner(dialogBannerCnd);
+        //默认dialog和banner显示
+        boolean dialogBanner=true;
+        //判断商品id是否有值
+        if(dialogBannerCnd.getAiId()!=null&&!dialogBannerCnd.getAiId().equals("")){
+            AppDetailVo appDetail = dealerAppPriceInfoService.getAppDetail(dialogBannerCnd.getAiId());
+            if(appDetail.getAppDetailPoList().size()==0){
+                dialogBanner=false;
+            }
+        }
+        List<HomeRecommendHotDetail> dialogBannerVoList = null;
+        if(dialogBanner){
+            //如果商品没有下架，可以显示banner和dialog
+            dialogBannerVoList = homeRecommendHotService.getDialogBanner(dialogBannerCnd);
+
+        }
         return new ApiResult<>(dialogBannerVoList);
     }
 

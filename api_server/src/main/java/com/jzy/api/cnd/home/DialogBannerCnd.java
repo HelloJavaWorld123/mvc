@@ -21,4 +21,16 @@ public class DialogBannerCnd {
      * 1弹窗，2banner
      */
     private String type;
+
+    /**
+     * 渠道商id
+     */
+    private Long dealerId;
+
+    /**
+     * 商品id
+     */
+    private String aiId;
+
+
 }

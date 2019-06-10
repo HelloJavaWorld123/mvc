@@ -254,8 +254,15 @@ public class HomeRecommendHotServiceImpl extends GenericServiceImpl<HomeRecommen
     @Override
     public List<HomeRecommendHotDetail> getDialogBanner(DialogBannerCnd dialogBannerCnd) {
         //获取活动页信息
+        List<HomeRecommendHotDetail> list = new ArrayList<HomeRecommendHotDetail>();
+        dialogBannerCnd.setDealerId(Long.valueOf(getFrontDealerId()));
         List<HomeRecommendHotDetail> dialogBannerVoList = homeRecommendHotMapper.getDialogBanner(dialogBannerCnd);
-        return dialogBannerVoList;
+        if(dialogBannerVoList.size()>1){
+            list.add(dialogBannerVoList.get(0));
+            return list;
+        }else {
+            return dialogBannerVoList;
+        }
     }
 
     /**

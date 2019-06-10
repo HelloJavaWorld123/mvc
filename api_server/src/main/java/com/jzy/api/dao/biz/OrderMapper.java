@@ -57,7 +57,7 @@ public interface OrderMapper extends GenericMapper<Order> {
      * <b>修订记录：</b><br>
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
-     * @param id 订单id
+     * @param cardPwdId 订单id
      */
     String queryCardPwdByIdAndCardNo(@Param("cardPwdId") String cardPwdId, @Param("cardNo") String cardNo);
 
@@ -68,7 +68,7 @@ public interface OrderMapper extends GenericMapper<Order> {
      *
      * @param id 订单id
      */
-    int updateOrderClose(String id);
+    //int updateOrderClose(String id);
 
     /**
      * <b>功能描述：</b>删除订单<br>
@@ -77,14 +77,14 @@ public interface OrderMapper extends GenericMapper<Order> {
      *
      * @param id 订单id
      */
-    int updateOrderDelFlag(String id);
+    int updateOrderDelFlag(@Param("id") String id,@Param("userId") String userId,@Param("dealerId") String dealerId);
 
     /**
      * <b>功能描述：</b>更新订单状态<br>
      * <b>修订记录：</b><br>
      * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    int updateStatus(@Param("id") String id, @Param("status") Integer status);
+    int updateStatus(@Param("id") String id, @Param("status") Integer status,@Param("userId") String userId,@Param("dealerId") String dealerId);
 
     /**
      * <b>功能描述：</b>更新订单状态<br>
@@ -223,7 +223,7 @@ public interface OrderMapper extends GenericMapper<Order> {
      * <b>修订记录：</b><br>
      * <li>20190518&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      *
-     * @param orderId 订单id
+     * @param id 订单id
      * @param status 0：待支付；1：充值中
      * @param payTime 支付时间
      */

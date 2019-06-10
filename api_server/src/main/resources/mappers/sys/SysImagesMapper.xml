@@ -81,7 +81,7 @@
 			where
 			rel_id=#{aiId}
 			and  type in
-			(1,6)
+			(6)
 			order  by modify_time desc
 	</select>
     <!--	商品详情图片列表物理删除-->
