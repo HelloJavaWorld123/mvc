@@ -62,9 +62,4 @@ public class SysPermissionServiceImpl implements SysPermissionService {
 	public List<SysPermission> findByIds(List<Long> permIds) {
 		return sysPermissionMapper.findByIds(permIds);
 	}
-
-	@Override
-	public List<SysPermission> findAllApiList() {
-		return sysPermissionMapper.findAllApi();
-	}
 }

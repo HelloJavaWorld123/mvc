@@ -24,7 +24,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class SysEmp extends GenericModel implements Serializable {
 
-	static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8829951463593067822L;
 
 	private String name;
 

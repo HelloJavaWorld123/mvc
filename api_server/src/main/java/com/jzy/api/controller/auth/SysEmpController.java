@@ -139,18 +139,6 @@ public class SysEmpController {
 		return new ApiResult<>().success(empId);
 	}
 
-
-	/**
-	 * 检查用户名是否已经存在
-	 *
-	 * @param sysEmpCnd ：用户名称
-	 */
-	@RequestMapping("/check")
-	public ApiResult userNameExist(@RequestBody @Validated(SysEmpCnd.NameExistValidator.class) SysEmpCnd sysEmpCnd) {
-		verifyUserName(sysEmpCnd.getName(),sysEmpCnd.getId());
-		return new ApiResult().success();
-	}
-
 	private void verifyUserName(String name,Long id) {
 		List<SysEmp> sysEmps = sysEmpService.findByName(name,id);
 		Assert.isTrue(Objects.nonNull(sysEmps), "用户名已经存在");

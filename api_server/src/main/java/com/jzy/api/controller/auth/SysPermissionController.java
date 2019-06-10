@@ -90,20 +90,6 @@ public class SysPermissionController {
 		return new ApiResult<>().success(vo);
 	}
 
-	@RequestMapping("/api/list")
-	public ApiResult apiList(){
-		List<SysPermission> sysPermissions =  sysPermissionService.findAllApiList();
-		List<SysPermissionVo> result = sysPermissions.stream()
-													  .map(item -> {
-														  SysPermissionVo vo = new SysPermissionVo();
-														  BeanUtils.copyProperties(item, vo);
-														  return vo;
-													  })
-													  .collect(Collectors.toList());
-		return new ApiResult<>().success(result);
-	}
-
-
 	private void isLeafNode(@Validated({CreateValidator.class}) @RequestBody SysPermissionCnd permissionCnd) {
 		if (StringUtils.isNotBlank(permissionCnd.getParentKey())) {
 			permissionCnd.setLeafNode(NumberUtils.INTEGER_ONE);

@@ -79,7 +79,7 @@
 
     <!-- Excel导出支持异步方法执行 -->
     <task:annotation-driven executor="excelExportAsyncExecutor"/>
-    <task:executor id="excelExportAsyncExecutor" pool-size="5"/>
+    <task:executor id="excelExportAsyncExecutor" pool-size="5" rejection-policy="CALLER_RUNS" queue-capacity="5"/>
 
     <!-- 配置和mybatis的整合 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

@@ -4,6 +4,7 @@ import com.jzy.api.cnd.auth.SysEmpCnd;
 import com.jzy.api.dao.auth.SysEmpRoleMapper;
 import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.service.auth.SysEmpRoleService;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,6 +34,7 @@ public class SysEmpRoleServiceImpl implements SysEmpRoleService {
 	}
 
 	@Override
+	@Async(value = "excelExportAsyncExecutor")
 	public void deleteByEmpId(Long id) {
 		sysEmpRoleMapper.deleteByEmpId(id);
 	}

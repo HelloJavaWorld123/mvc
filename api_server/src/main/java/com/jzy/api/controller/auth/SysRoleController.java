@@ -108,14 +108,6 @@ public class SysRoleController {
 		return getResultEnum(result);
 	}
 
-
-	@RequestMapping("/check")
-	public ApiResult roleValueCheck(@RequestBody @Validated(SysRoleCnd.RoleValueExist.class) SysRoleCnd sysRoleCnd) {
-		verifyRoleValue(sysRoleCnd, sysRoleCnd.getId());
-		return new ApiResult().success();
-	}
-
-
 	@RequestMapping("/id")
 	public ApiResult getById(@RequestBody @Validated(IDValidator.class) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
