@@ -270,7 +270,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      */
     @Override
     public int delete(String id) {
-        return orderMapper.updateOrderDelFlag(id,getUserId(),getFrontDealerId()+"");
+        return orderMapper.updateOrderDelFlag(id);
     }
 
     /**
@@ -331,7 +331,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
      */
     @Override
     public int updateStatus(String id, Integer status) {
-        return orderMapper.updateStatus(id, status, getUserId(),getFrontDealerId()+"");
+        return orderMapper.updateStatus(id, status);
     }
 
     /**

@@ -77,14 +77,14 @@ public interface OrderMapper extends GenericMapper<Order> {
      *
      * @param id 订单id
      */
-    int updateOrderDelFlag(@Param("id") String id,@Param("userId") String userId,@Param("dealerId") String dealerId);
+    int updateOrderDelFlag(@Param("id") String id);
 
     /**
      * <b>功能描述：</b>更新订单状态<br>
      * <b>修订记录：</b><br>
      * <li>20190429&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
-    int updateStatus(@Param("id") String id, @Param("status") Integer status,@Param("userId") String userId,@Param("dealerId") String dealerId);
+    int updateStatus(@Param("id") String id, @Param("status") Integer status);
 
     /**
      * <b>功能描述：</b>更新订单状态<br>

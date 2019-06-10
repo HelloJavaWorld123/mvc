@@ -263,7 +263,7 @@
     </select>
 
     <select id="getLikeAppInfoPrice" resultMap="personalHistoryAffairMapper">
-       select ai.name,ai.icon,appinfo.go_id,apt.name as type_name,
+       select ai.name,ai.icon,dapi.id as go_id,apt.name as type_name,
         apt.unit,dapi.ai_id,dapi.number,dapi.price,dapi.pay_price,dapi.discount from
         (select id,ai_id,apt_id,number,price,pay_price,discount from dealer_app_price_info where dealer_id=#{dealerId}
         and apt_id=#{typeId} and ai_id=#{aiId} and status=1)
