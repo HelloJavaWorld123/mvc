@@ -1,5 +1,6 @@
 package com.jzy.api.controller.home;
 
+import com.jzy.api.cnd.arch.GetPriceCnd;
 import com.jzy.api.cnd.home.DialogBannerCnd;
 import com.jzy.api.cnd.home.HomeHotListCnd;
 import com.jzy.api.cnd.home.HomeRecommendHotCnd;
@@ -7,6 +8,9 @@ import com.jzy.api.cnd.home.HomeRecommendHotGroupCnd;
 import com.jzy.api.model.Home.HomeRecommendHot;
 import com.jzy.api.model.Home.HomeRecommendHotDetail;
 import com.jzy.api.model.Home.HomeRecommendHotGroup;
+import com.jzy.api.po.arch.AppDetailPo;
+import com.jzy.api.po.arch.AppPriceTypePo;
+import com.jzy.api.po.arch.DealerAppPriceInfoPo;
 import com.jzy.api.service.arch.DealerAppPriceInfoService;
 import com.jzy.api.service.home.HomeRecommendHotService;
 import com.jzy.api.service.key.TableKeyService;
@@ -131,11 +135,28 @@ public class HomeRecommendHotController {
     public ApiResult getDialogAndBanner(@RequestBody DialogBannerCnd dialogBannerCnd) {
         //默认dialog和banner显示
         boolean dialogBanner=true;
-        //判断商品id是否有值
+        //判断商品id是否商家并且是启用状态
         if(dialogBannerCnd.getAiId()!=null&&!dialogBannerCnd.getAiId().equals("")){
             AppDetailVo appDetail = dealerAppPriceInfoService.getAppDetail(dialogBannerCnd.getAiId());
-            if(appDetail.getAppDetailPoList().size()==0){
-                dialogBanner=false;
+            if(appDetail.getAppDetailPoList().size()>0){
+                List<DealerAppPriceInfoPo> dealerAppPriceInfoPoList = null;
+                for(AppDetailPo list:appDetail.getAppDetailPoList()){
+                    String aptId = "";
+                    for(AppPriceTypePo appPriceTypePo:list.getAppPriceTypePoList()){
+                        aptId = appPriceTypePo.getTypeId();
+                        break;
+                    }
+                    GetPriceCnd getPriceCnd = new GetPriceCnd();
+                    getPriceCnd.setAiId(dialogBannerCnd.getAiId());
+                    getPriceCnd.setAptId(aptId);
+                    dealerAppPriceInfoPoList = dealerAppPriceInfoService.getPrice(getPriceCnd);
+                    if(dealerAppPriceInfoPoList.size()>0){
+                        break;
+                    }
+                }
+                if(dealerAppPriceInfoPoList.size()==0){
+                    dialogBanner=false;
+                }
             }
         }
         List<HomeRecommendHotDetail> dialogBannerVoList = new ArrayList<HomeRecommendHotDetail>();
