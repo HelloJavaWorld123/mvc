@@ -52,6 +52,17 @@ public class AppDetailPo {
      */
     private String accMainMsg;
 
+    /**
+     * 主帐号最大长度
+     */
+    private Integer accMainMaxlen;
+
+    /**
+     *副帐号最大长度
+     */
+    private Integer accSubMaxlen;
+
+
 
     /**
      * 游戏id

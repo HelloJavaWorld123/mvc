@@ -364,7 +364,9 @@ WHERE
         aa.main_msg AS accMainMsg,
         aa.sub_name AS accSubName,
         aa.sub_regular AS accSubRegular,
-        aa.sub_msg AS accSubMsg
+        aa.sub_msg AS accSubMsg,
+        aa.main_maxlen as accMainMaxlen,
+        aa.sub_maxlen as accSubMaxlen
         FROM dealer_app_info dai
         LEFT JOIN app_info ai ON dai.ai_id = ai.id
         LEFT JOIN app_accttype aa ON ai.acct_id = aa.id
