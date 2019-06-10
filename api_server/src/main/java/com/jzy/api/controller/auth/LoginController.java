@@ -108,13 +108,7 @@ public class LoginController extends GenericController {
 
 	@WithoutLogin
 	@RequestMapping("/unauthorized")
-	public ApiResult unauthorized(HttpServletResponse response) {
-		try {
-			WebUtils.toHttp(response)
-					.sendError(ResultEnum.SESSION_VALID.getCode());
-		} catch (IOException e) {
-			return new ApiResult().fail(ResultEnum.SESSION_VALID);
-		}
+	public ApiResult unauthorized() {
 		return new ApiResult().fail(ResultEnum.SESSION_VALID);
 	}
 

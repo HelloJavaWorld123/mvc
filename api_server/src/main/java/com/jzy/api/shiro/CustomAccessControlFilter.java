@@ -56,6 +56,13 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 		return false;
 	}
 
+	@Override
+	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+		String loginUrl = super.getLoginUrl();
+		WebUtils.issueRedirect(request,response,loginUrl);
+		return false;
+	}
+
 	private SysEmpVo getByToken(String apiEmpToken) {
 		EmpCache empCache = getFromRedis(apiEmpToken);
 		if (Objects.nonNull(empCache)) {
@@ -79,12 +86,5 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 
 	private boolean isAdminRequest(String value) {
 		return Integer.parseInt(value) == 2;
-	}
-
-	@Override
-	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-		String loginUrl = super.getLoginUrl();
-		WebUtils.issueRedirect(request,response,loginUrl);
-		return false;
 	}
 }
