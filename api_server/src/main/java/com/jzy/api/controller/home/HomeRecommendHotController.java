@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -137,7 +138,7 @@ public class HomeRecommendHotController {
                 dialogBanner=false;
             }
         }
-        List<HomeRecommendHotDetail> dialogBannerVoList = null;
+        List<HomeRecommendHotDetail> dialogBannerVoList = new ArrayList<HomeRecommendHotDetail>();
         if(dialogBanner){
             //如果商品没有下架，可以显示banner和dialog
             dialogBannerVoList = homeRecommendHotService.getDialogBanner(dialogBannerCnd);

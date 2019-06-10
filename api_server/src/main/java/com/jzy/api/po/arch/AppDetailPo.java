@@ -55,12 +55,12 @@ public class AppDetailPo {
     /**
      * 主帐号最大长度
      */
-    private Integer accMainMaxlen;
+    private String accMainMaxlen;
 
     /**
      *副帐号最大长度
      */
-    private Integer accSubMaxlen;
+    private String accSubMaxlen;
 
 
 
@@ -170,5 +170,26 @@ public class AppDetailPo {
             return "";
         }
         return accSubMsg;
+    }
+
+    public String getGameId() {
+        if (gameId == null) {
+            return "";
+        }
+        return gameId;
+    }
+
+    public String getAccMainMaxlen() {
+        if (accMainMaxlen == null) {
+            return "";
+        }
+        return accMainMaxlen;
+    }
+
+    public String getAccSubMaxlen() {
+        if (accSubMaxlen == null) {
+            return "";
+        }
+        return accSubMaxlen;
     }
 }
