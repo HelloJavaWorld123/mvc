@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Author : RXK
@@ -52,14 +53,6 @@ public class SysPermissionController {
 		return result >= 1 ? new ApiResult<>().success(ResultEnum.SUCCESS) : new ApiResult<>().fail(ResultEnum.FAIL);
 	}
 
-	private void isLeafNode(@Validated({CreateValidator.class}) @RequestBody SysPermissionCnd permissionCnd) {
-		if (StringUtils.isNotBlank(permissionCnd.getParentKey())) {
-			permissionCnd.setLeafNode(NumberUtils.INTEGER_ONE);
-		} else {
-			permissionCnd.setLeafNode(NumberUtils.INTEGER_ZERO);
-		}
-	}
-
 
 	@RequestMapping("/update")
 	public ApiResult update(@RequestBody @Validated(value = {UpdateValidator.class}) SysPermissionCnd permissionCnd) {
@@ -77,15 +70,6 @@ public class SysPermissionController {
 		return result(result);
 	}
 
-	private void verifyPermissionValue(SysPermissionCnd permissionCnd) {
-		SysPermission sysPermission = sysPermissionService.findByUniqueKey(permissionCnd.getUniqueKey());
-		if (Objects.nonNull(sysPermission) && sysPermission.getId().compareTo(permissionCnd.getId()) != 0) {
-			Assert.isTrue(StringUtils.isBlank(permissionCnd.getParentKey()) && StringUtils.isNotBlank(sysPermission.getParentKey())
-								  || StringUtils.isNotBlank(permissionCnd.getParentKey()) && StringUtils.isBlank(sysPermission.getParentKey())
-								  || StringUtils.isNotBlank(permissionCnd.getParentKey()) && StringUtils.isNotBlank(sysPermission.getParentKey()) && !permissionCnd.getParentKey()
-																																																																																												  .equalsIgnoreCase(sysPermission.getParentKey()), "同级别下不能存在相同的key");
-		}
-	}
 
 
 	@RequestMapping("/delete")
@@ -105,6 +89,40 @@ public class SysPermissionController {
 		BeanUtils.copyProperties(permission, vo);
 		return new ApiResult<>().success(vo);
 	}
+
+	@RequestMapping("/api/list")
+	public ApiResult apiList(){
+		List<SysPermission> sysPermissions =  sysPermissionService.findAllApiList();
+		List<SysPermissionVo> result = sysPermissions.stream()
+													  .map(item -> {
+														  SysPermissionVo vo = new SysPermissionVo();
+														  BeanUtils.copyProperties(item, vo);
+														  return vo;
+													  })
+													  .collect(Collectors.toList());
+		return new ApiResult<>().success(result);
+	}
+
+
+	private void isLeafNode(@Validated({CreateValidator.class}) @RequestBody SysPermissionCnd permissionCnd) {
+		if (StringUtils.isNotBlank(permissionCnd.getParentKey())) {
+			permissionCnd.setLeafNode(NumberUtils.INTEGER_ONE);
+		} else {
+			permissionCnd.setLeafNode(NumberUtils.INTEGER_ZERO);
+		}
+	}
+
+
+	private void verifyPermissionValue(SysPermissionCnd permissionCnd) {
+		SysPermission sysPermission = sysPermissionService.findByUniqueKey(permissionCnd.getUniqueKey());
+		if (Objects.nonNull(sysPermission) && sysPermission.getId().compareTo(permissionCnd.getId()) != 0) {
+			Assert.isTrue(StringUtils.isBlank(permissionCnd.getParentKey()) && StringUtils.isNotBlank(sysPermission.getParentKey())
+								  || StringUtils.isNotBlank(permissionCnd.getParentKey()) && StringUtils.isBlank(sysPermission.getParentKey())
+								  || StringUtils.isNotBlank(permissionCnd.getParentKey()) && StringUtils.isNotBlank(sysPermission.getParentKey()) && !permissionCnd.getParentKey()
+																																								   .equalsIgnoreCase(sysPermission.getParentKey()), "同级别下不能存在相同的key");
+		}
+	}
+
 
 	private ApiResult result(int result) {
 		return result == 1 ? new ApiResult<>().success(ResultEnum.SUCCESS) : new ApiResult().fail(ResultEnum.FAIL);

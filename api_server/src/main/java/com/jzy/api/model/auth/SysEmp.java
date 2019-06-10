@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +22,9 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class SysEmp extends GenericModel {
+public class SysEmp extends GenericModel implements Serializable {
+
+	static final long serialVersionUID = 1L;
 
 	private String name;
 

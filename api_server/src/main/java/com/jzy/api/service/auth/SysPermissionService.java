@@ -59,4 +59,11 @@ public interface SysPermissionService {
 	 * @param permIds ：id值
 	 */
 	List<SysPermission> findByIds(List<Long> permIds);
+
+	/**
+	 * 查询所有的API接口
+	 * @return ：
+	 */
+	List<SysPermission> findAllApiList();
+
 }

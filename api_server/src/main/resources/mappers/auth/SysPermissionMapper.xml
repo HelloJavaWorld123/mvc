@@ -50,7 +50,7 @@
             permission_status AS permissionStatus,
             description
         FROM `sys_permission`
-        WHERE permission_status = 0 AND del_flag = 0
+        WHERE permission_status = 0 AND del_flag = 0 AND id != 0
         ORDER BY id DESC
     </select>
     <select id="findById" resultType="com.jzy.api.model.auth.SysPermission">
@@ -121,6 +121,18 @@
             permission_status = 0
         AND
             del_flag = 0
+    </select>
+    <select id="findAllApi" resultType="com.jzy.api.model.auth.SysPermission">
+        SELECT
+            id,
+            unique_key AS uniqueKey,
+            parent_key AS parentKey,
+            permission_name AS permissionName,
+            permission_type AS permissionType,
+            leaf_node AS leafNode,
+            permission_status AS permissionStatus
+        FROM sys_permission
+        WHERE permission_type = 2 AND id != 0
     </select>
 
 

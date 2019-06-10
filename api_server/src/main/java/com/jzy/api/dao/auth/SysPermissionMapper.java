@@ -49,4 +49,6 @@ public interface SysPermissionMapper {
 	SysPermission findByUniqueKey(String uniqueKey);
 
 	List<SysPermission> findByIds(@Param("permIds") List<Long> permIds);
+
+	List<SysPermission> findAllApi();
 }

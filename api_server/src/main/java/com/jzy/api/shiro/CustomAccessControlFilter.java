@@ -83,8 +83,8 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-		WebUtils.toHttp(response)
-				.sendError(ResultEnum.SESSION_VALID.getCode());
+		String loginUrl = super.getLoginUrl();
+		WebUtils.issueRedirect(request,response,loginUrl);
 		return false;
 	}
 }
