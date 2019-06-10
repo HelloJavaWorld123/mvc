@@ -18,10 +18,7 @@ import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.CredentialsException;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
@@ -95,9 +92,11 @@ public class LoginController extends GenericController {
 
 		try {
 			subject.login(token);
-		} catch (UnknownAccountException | CredentialsException | LockedAccountException | UnauthorizedException e) {
+		} catch (IncorrectCredentialsException | UnknownAccountException | LockedAccountException e) {
 			log.error("用户登录异常：", e);
-			return new ApiResult().fail(e.getMessage());
+			return new ApiResult().fail("账号或者密码错误");
+		}catch (UnauthorizedException | AuthenticationException e){
+			return new ApiResult().fail("账号没有正确授权,请联系管理员");
 		}
 
 		SysEmp sysEmp = (SysEmp) subject.getPrincipal();
