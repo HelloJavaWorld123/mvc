@@ -6,10 +6,7 @@ import com.jzy.api.annos.IDValidator;
 import com.jzy.api.annos.UpdateValidator;
 import com.jzy.api.cnd.auth.SysRoleCnd;
 import com.jzy.api.constant.ApiRedisCacheConstant;
-import com.jzy.api.model.auth.Role;
-import com.jzy.api.model.auth.SysEmpRole;
-import com.jzy.api.model.auth.SysPermission;
-import com.jzy.api.model.auth.SysRolePermission;
+import com.jzy.api.model.auth.*;
 import com.jzy.api.po.auth.RolePermPo;
 import com.jzy.api.service.auth.SysEmpRoleService;
 import com.jzy.api.service.auth.SysPermissionService;
@@ -21,6 +18,7 @@ import com.jzy.framework.bean.cnd.PageCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +40,7 @@ import java.util.Objects;
  **/
 @RestController
 @RequestMapping("/sys/role")
-@RequiresRoles(value = {"admin"})
+@RequiresRoles(value = {"root"})
 public class SysRoleController {
 
 	@Autowired
@@ -72,6 +70,8 @@ public class SysRoleController {
 
 		verifyRoleValue(sysRoleCnd, null);
 
+		sysRoleCnd.setOperatorId(getOperatorId());
+
 		Integer result = sysRoleService.add(sysRoleCnd);
 		return getResultEnum(result);
 	}
@@ -85,6 +85,8 @@ public class SysRoleController {
 		}
 
 		verifyRoleValue(sysRoleCnd, sysRoleCnd.getId());
+
+		sysRoleCnd.setOperatorId(getOperatorId());
 
 		Role update = Role.update(sysRoleCnd);
 		Integer result = sysRoleService.updateById(update);
@@ -170,6 +172,12 @@ public class SysRoleController {
 	private void verifyRoleValue(@Validated({UpdateValidator.class}) @RequestBody SysRoleCnd sysRoleCnd, Long id) {
 		Role value = sysRoleService.findByRoleValue(sysRoleCnd.getRoleValue(), id);
 		Assert.isTrue(Objects.isNull(value), "角色值已经存在");
+	}
+
+	private Long getOperatorId(){
+		SysEmp sysEmp = (SysEmp) SecurityUtils.getSubject()
+											  .getPrincipal();
+		return sysEmp.getId();
 	}
 
 }

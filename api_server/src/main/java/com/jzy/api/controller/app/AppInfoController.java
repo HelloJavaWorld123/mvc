@@ -79,7 +79,7 @@ public class AppInfoController {
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/getAppInfo")
-    @RequiresPermissions(value = {"a:goods:list:getAppInfo"})
+    @RequiresPermissions(value = {"a:appInfo:getAppInfo"})
     public ApiResult getAppInfo(@RequestBody IdCnd idCnd) {
         AppInfoDetailVo appInfoDetailVo;
         try {
@@ -100,6 +100,7 @@ public class AppInfoController {
      */
     @Transactional
     @RequestMapping("admin/save")
+    @RequiresPermissions(value = "a:appInfo:save")
     public ApiResult save(@RequestBody SaveAppInfoCnd saveAppInfoCnd) {
         appInfoService.saveAppInfo(saveAppInfoCnd);
         return new ApiResult<>();
@@ -111,6 +112,7 @@ public class AppInfoController {
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/updateStatusBatch")
+    @RequiresPermissions(value = "a:appInfo:updateStatusBatch")
     public ApiResult updateStatusBatch(@RequestBody UpdateStatusBatchCnd updateStatusBatchCnd) {
         appInfoService.updateStatusBatch(updateStatusBatchCnd);
 //        try {
@@ -131,6 +133,7 @@ public class AppInfoController {
      */
     @Transactional
     @RequestMapping("admin/deleteBatch")
+    @RequiresPermissions(value = "a:appInfo:deleteBatch")
     public ApiResult deleteBatch(@RequestBody AppBatchDeleteCnd appBatchDeleteCnd) {
         appInfoService.delete(appBatchDeleteCnd);
         return new ApiResult<>();

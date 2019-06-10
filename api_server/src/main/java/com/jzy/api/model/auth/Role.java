@@ -39,16 +39,12 @@ public class Role extends GenericModel {
     }
 
 
-    private Role(String roleName, String roleValue, String description, int status) {
-        this(0, new Date(), 1L, new Date(), 1L,roleName,roleValue,description,status);
-    }
-
 
     public static Role build(SysRoleCnd sysRoleCnd) {
-        return new Role(sysRoleCnd.getName(), sysRoleCnd.getRoleValue(), sysRoleCnd.getDescription(), sysRoleCnd.getStatus());
+        return new Role(0,new Date(),sysRoleCnd.getOperatorId(),new Date(),sysRoleCnd.getOperatorId(),sysRoleCnd.getName(), sysRoleCnd.getRoleValue(), sysRoleCnd.getDescription(), sysRoleCnd.getStatus());
     }
 
     public static Role update(SysRoleCnd sysRoleCnd) {
-        return new Role(sysRoleCnd.getId(),new Date(),2L,sysRoleCnd.getName(),sysRoleCnd.getRoleValue(),sysRoleCnd.getDescription(),sysRoleCnd.getStatus());
+        return new Role(sysRoleCnd.getId(),new Date(),sysRoleCnd.getOperatorId(),sysRoleCnd.getName(),sysRoleCnd.getRoleValue(),sysRoleCnd.getDescription(),sysRoleCnd.getStatus());
     }
 }

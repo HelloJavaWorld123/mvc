@@ -34,8 +34,7 @@
          WHERE `id` = #{permission.id};
     </update>
     <delete id="delete">
-        UPDATE sys_permission
-        SET del_flag = 1
+        DELETE FROM sys_permission
         WHERE id = #{id}
     </delete>
 

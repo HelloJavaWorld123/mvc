@@ -11,6 +11,7 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.result.ApiResult;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,6 +77,7 @@ public class DealerAppPriceInfoController {
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/getList")
+    @RequiresPermissions(value = "a:dealAppPriceInfo:getList")
     public ApiResult getList(@RequestBody GetDealerAppListCnd getDealerAppListCnd) {
         PageVo pageVo = dealerAppPriceInfoService.getList(getDealerAppListCnd);
         return new ApiResult<>(pageVo);
@@ -88,6 +90,7 @@ public class DealerAppPriceInfoController {
      * <li>20190425&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/getDealerAppDetail")
+    @RequiresPermissions(value = "a:dealAppPriceInfo:getDealerAppDetail")
     public ApiResult getDealerAppDetail(@RequestBody GetPriceInfoCnd getPriceInfoCnd) {
         DealerAppPriceInfoDetailVo dealerAppPriceInfoDetailVo = dealerAppPriceInfoService.getDealerAppDetail(getPriceInfoCnd);
         return new ApiResult<>(dealerAppPriceInfoDetailVo);
@@ -100,6 +103,7 @@ public class DealerAppPriceInfoController {
      */
 
     @RequestMapping("admin/save")
+    @RequiresPermissions(value = "a:dealAppPriceInfo:save")
     public ApiResult save(@RequestBody SavePriceInfoCnd savePriceInfoCnd) {
         dealerAppPriceInfoService.save(savePriceInfoCnd);
         return new ApiResult<>();
@@ -111,6 +115,7 @@ public class DealerAppPriceInfoController {
      * <li>20190426&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/batchUpdateStatus")
+    @RequiresPermissions(value = "a:dealAppPriceInfo:batchUpdateStatus")
     public ApiResult batchUpdateStatus(@RequestBody BatchUpdateStatusCnd batchUpdateStatusCnd) {
         dealerAppPriceInfoService.updateStatus(batchUpdateStatusCnd);
         return new ApiResult<>();

@@ -14,6 +14,7 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.result.ApiResult;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -51,6 +52,7 @@ public class DealerController {
      * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/getList")
+    @RequiresPermissions(value = "a:dealer:getList")
     public ApiResult getList(@RequestBody DealerListCnd dealerListCnd) {
         PageVo pageVo = dealerService.getList(dealerListCnd);
         return new ApiResult<>(pageVo);
@@ -63,6 +65,7 @@ public class DealerController {
      * <li>20190422&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/save")
+    @RequiresPermissions(value = "a:dealer:save")
     public ApiResult save(@RequestBody SaveDealerCnd saveDealerCnd){
 
         String telephone = saveDealerCnd.getDealerBaseInfoMapper().getDealerTelephone();
@@ -84,6 +87,7 @@ public class DealerController {
      * <li>20190520&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/updateDealerPubAndPriKey")
+    @RequiresPermissions(value = "a:dealer:updateDealerPubAndPriKey")
     public ApiResult updateDealerPubAndPriKey(@RequestBody IdCnd idCnd)  {
         int count = dealerService.updateDealerPubAndPriKey(idCnd.getId());
         if(1==count){
@@ -102,6 +106,7 @@ public class DealerController {
      * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/detail")
+    @RequiresPermissions(value = "a:dealer:detail")
     public ApiResult detail(@RequestBody IdCnd idCnd) {
         DealerDetailVo dealerDetailVo = dealerService.detail(idCnd.getId().toString());
         return new ApiResult(dealerDetailVo);
@@ -114,6 +119,7 @@ public class DealerController {
      * <li>20190511&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/updateDealerStatus")
+    @RequiresPermissions(value = "a:dealer:updateDealerStatus")
     public ApiResult updateDealerStatus(@RequestBody UpdateDealerStatusCnd updateDealerStatusCnd) {
         dealerService.updateStatus(updateDealerStatusCnd);
         return new ApiResult();

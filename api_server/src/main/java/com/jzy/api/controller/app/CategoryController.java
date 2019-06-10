@@ -68,6 +68,7 @@ public class CategoryController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/index")
+    @RequiresPermissions(value = "a:category:index")
     public ApiResult index(@RequestBody CategoryListCnd categoryListCnd) {
         PageVo<CategoryVo> result;
         try {
@@ -115,6 +116,7 @@ public class CategoryController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/save")
+    @RequiresPermissions(value = "a:category:save")
     public ApiResult save(@RequestBody CategoryCnd categoryCnd) {
         try {
             Category category = new Category();
@@ -138,6 +140,7 @@ public class CategoryController {
      * @return {@l}ink ApiResult
      */
     @RequestMapping("admin/delete")
+    @RequiresPermissions(value = "a:category:delete")
     public ApiResult deleteBatch(@RequestBody IdCnd idCnd) {
         try {
             categoryService.delete(Long.valueOf(idCnd.getId()));
@@ -156,6 +159,7 @@ public class CategoryController {
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/update")
+    @RequiresPermissions(value = "a:category:update")
     public ApiResult update(@RequestBody CategoryCnd categoryCnd) {
         try {
             Category category = new Category();

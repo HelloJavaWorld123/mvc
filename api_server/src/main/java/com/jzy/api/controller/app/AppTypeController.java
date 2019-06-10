@@ -73,6 +73,7 @@ public class AppTypeController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/index")
+    @RequiresPermissions(value = "a:appType:index")
     public ApiResult index(@RequestBody AppTypeListCnd appTypeListCnd) {
         PageVo<AppTypeVo> result;
         try {
@@ -90,6 +91,7 @@ public class AppTypeController {
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/save")
+    @RequiresPermissions(value = "a:appType:save")
     public ApiResult save(@RequestBody AppTypeCnd appTypeCnd) {
         try {
             AppType appType = new AppType();
@@ -115,6 +117,7 @@ public class AppTypeController {
      * @return {@l}ink ApiResult
      */
     @RequestMapping("admin/delete")
+    @RequiresPermissions(value = "a:appType:delete")
     public ApiResult deleteBatch(@RequestBody IdCnd idCnd) {
         try {
             appTypeService.delete(idCnd.getId());

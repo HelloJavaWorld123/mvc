@@ -2,6 +2,7 @@ package com.jzy.api.controller.auth;
 
 import com.jzy.api.annos.*;
 import com.jzy.api.cnd.auth.SysPermissionCnd;
+import com.jzy.api.model.auth.SysEmp;
 import com.jzy.api.model.auth.SysPermission;
 import com.jzy.api.service.auth.SysPermissionService;
 import com.jzy.api.vo.auth.SysPermissionVo;
@@ -10,6 +11,7 @@ import com.jzy.framework.result.ApiResult;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.BeanUtils;
@@ -32,7 +34,7 @@ import java.util.stream.Collectors;
  **/
 @RestController
 @RequestMapping("/sys/permission")
-@RequiresRoles(value = {"admin"})
+@RequiresRoles(value = {"root"})
 public class SysPermissionController {
 
 	@Autowired
@@ -47,6 +49,8 @@ public class SysPermissionController {
 	@RequestMapping("/add")
 	public ApiResult add(@RequestBody @Validated(value = {CreateValidator.class}) SysPermissionCnd permissionCnd) {
 		isLeafNode(permissionCnd);
+
+		permissionCnd.setOperatorId(getOperatorId());
 
 		SysPermission permission = SysPermission.build(permissionCnd);
 		Integer result = sysPermissionService.add(permission);
@@ -64,6 +68,8 @@ public class SysPermissionController {
 		verifyPermissionValue(permissionCnd);
 
 		isLeafNode(permissionCnd);
+
+		permissionCnd.setOperatorId(getOperatorId());
 
 		SysPermission permission = SysPermission.update(permissionCnd);
 		Integer result = sysPermissionService.update(permission);
@@ -113,6 +119,13 @@ public class SysPermissionController {
 	private ApiResult result(int result) {
 		return result == 1 ? new ApiResult<>().success(ResultEnum.SUCCESS) : new ApiResult().fail(ResultEnum.FAIL);
 	}
+
+	private Long getOperatorId() {
+		SysEmp sysEmp = (SysEmp) SecurityUtils.getSubject()
+											  .getPrincipal();
+		return sysEmp.getId();
+	}
+
 
 
 }

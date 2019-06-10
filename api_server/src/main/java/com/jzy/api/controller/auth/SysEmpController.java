@@ -42,7 +42,7 @@ import java.util.Objects;
  **/
 @RestController
 @RequestMapping("/sys/user")
-@RequiresRoles(value = {"admin"})
+@RequiresRoles(value = {"root"})
 public class SysEmpController {
 
 	@Autowired
@@ -73,9 +73,9 @@ public class SysEmpController {
 
 				encryptPassword(sysEmpCnd);
 
-				sysEmpCnd.setOperatorId(getOperatorId());
-
 				verifyUserName(sysEmpCnd.getName(),null);
+
+				sysEmpCnd.setOperatorId(getOperatorId());
 			}
 
 

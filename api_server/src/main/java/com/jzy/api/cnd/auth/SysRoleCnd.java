@@ -54,4 +54,6 @@ public class SysRoleCnd extends PageCnd {
 	private Date createTime;
 
 	private Long createId;
+
+	private Long operatorId;
 }

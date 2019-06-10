@@ -70,6 +70,7 @@ public class AppAccttypeController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/index")
+    @RequiresPermissions(value = "a:appAcctType:index")
     public ApiResult index(@RequestBody AppAccttypeListCnd appAccttypeListCnd) {
         PageVo<AppAccttypeVo> result;
         try {
@@ -87,6 +88,7 @@ public class AppAccttypeController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/save")
+    @RequiresPermissions(value = "a:appAcctType:save")
     public ApiResult save(@RequestBody AppAccttypeCnd appAccttypeCnd) {
         try {
             AppAccttype appAccttype = new AppAccttype();
@@ -110,6 +112,7 @@ public class AppAccttypeController {
      * @return {@l}ink ApiResult
      */
     @RequestMapping("admin/delete")
+    @RequiresPermissions(value = "a:appAcctType:delete")
     public ApiResult deleteBatch(@RequestBody IdCnd idCnd) {
         try {
             appAccttypeService.delete(idCnd.getId());
@@ -128,6 +131,7 @@ public class AppAccttypeController {
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/update")
+    @RequiresPermissions(value = "a:appAcctType:update")
     public ApiResult update(@RequestBody AppAccttypeCnd appAccttypeCnd) {
         try {
             AppAccttype appAccttype = new AppAccttype();
