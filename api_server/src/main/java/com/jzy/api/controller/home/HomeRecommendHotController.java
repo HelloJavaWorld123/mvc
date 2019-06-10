@@ -157,6 +157,8 @@ public class HomeRecommendHotController {
                 if(dealerAppPriceInfoPoList.size()==0){
                     dialogBanner=false;
                 }
+            }else {
+                dialogBanner=false;
             }
         }
         List<HomeRecommendHotDetail> dialogBannerVoList = new ArrayList<HomeRecommendHotDetail>();
