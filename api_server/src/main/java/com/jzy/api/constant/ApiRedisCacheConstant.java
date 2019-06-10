@@ -45,6 +45,4 @@ public class ApiRedisCacheConstant {
      */
     public static final String USER_PERMISSION_CACHE = "user_permission_cache_";
 
-    public static final String ADMIN_SHIRO_CACHE = "shiro_session:";
-
 }

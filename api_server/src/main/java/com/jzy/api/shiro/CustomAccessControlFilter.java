@@ -4,6 +4,7 @@ import com.jzy.api.constant.AccessToken;
 import com.jzy.api.service.auth.SysEmpService;
 import com.jzy.api.vo.auth.SysEmpVo;
 import com.jzy.common.enums.ResultEnum;
+import com.jzy.common.enums.TerminalTypeEnum;
 import com.jzy.framework.cache.EmpCache;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -85,6 +86,6 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 	}
 
 	private boolean isAdminRequest(String value) {
-		return Integer.parseInt(value) == 2;
+		return Integer.parseInt(value) == TerminalTypeEnum.ADMIN.getType();
 	}
 }

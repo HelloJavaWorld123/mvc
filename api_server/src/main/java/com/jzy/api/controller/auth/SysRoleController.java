@@ -22,8 +22,6 @@ import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.redisson.api.BatchOptions;
-import org.redisson.api.RBatch;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
