@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jzy.api.dao.auth.SysRoleMapper">
     <insert id="add" parameterType="com.jzy.api.model.auth.Role">
-        INSERT INTO `sys_role`(`name`, `role_value`, `description`, `status`, `create_time`, `modify_time`, `create_id`, `modify_id`, `del_flag`)
+        INSERT INTO `sys_role`(`name`, `role_value`, `description`, `status`, `create_time`, `modify_time`, `create_id`, `modifier_id`, `del_flag`)
         VALUES
         (
             #{role.name},
@@ -26,7 +26,7 @@
             `description` = #{role.description},
             `status` = #{role.status},
             `modify_time` = #{role.modifyTime},
-            `modify_id` = #{role.modifierId}
+            `modifier_id` = #{role.modifierId}
         WHERE `id`= #{role.id};
     </update>
     <update id="updateDelFLag">
@@ -94,10 +94,14 @@
             description,
             status
         FROM sys_role
-        WHERE
+        <where>
             role_value = #{roleValue}
         AND
             del_flag = 0
+        <if test="roleId != null">
+            AND id != #{roleId}
+        </if>
+        </where>
     </select>
     <select id="findByRoleName" resultType="com.jzy.api.model.auth.Role">
         SELECT

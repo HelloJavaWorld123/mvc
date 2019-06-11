@@ -13,6 +13,8 @@ public class SysRolePermission {
 
 	private Long roleId;
 
+	private Long permissionId;
+
 	private String permissionKey;
 
 	private String permissionType;

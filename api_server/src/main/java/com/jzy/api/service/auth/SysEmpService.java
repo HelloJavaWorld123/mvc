@@ -42,7 +42,7 @@ public interface SysEmpService {
 	/**
 	 * 逻辑删除用户
 	 */
-	Integer deleteById(Long id);
+	Integer deleteById(Long id, Long operatorId);
 
 	/**
 	 * 根据用户名 查询
@@ -50,5 +50,10 @@ public interface SysEmpService {
 	 * 当不包括 已经删除的用户
 	 * @return
 	 */
-	List<SysEmp> findByName(String name);
+	List<SysEmp> findByName(String name, Long userId);
+
+	/**
+	 * 删除当前用户的id
+	 */
+	void deleteCache(Long id);
 }

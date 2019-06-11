@@ -17,6 +17,7 @@ public interface SysRoleMapper{
 
 	/**
 	 * 角色新增
+	 * @return
 	 */
 	Integer add(@Param("role") Role role);
 
@@ -42,7 +43,7 @@ public interface SysRoleMapper{
 
 	List<Role> findByIds(@Param("roleList") List<Long> roleList);
 
-	Role findByRoleValue(String roleValue);
+	Role findByRoleValue(@Param("roleValue") String roleValue, @Param("roleId") Long roleId);
 
 	Role findByRoleName(String name);
 }

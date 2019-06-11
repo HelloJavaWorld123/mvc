@@ -702,6 +702,11 @@
             <artifactId>top-core</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>1.4.1</version>
+        </dependency>
 
         <!--swagger 依赖-->
 <!--        <dependency>-->

@@ -1,9 +1,14 @@
 package com.jzy.api.vo.sys;
 
 import com.jzy.api.model.auth.Role;
+import com.jzy.api.model.auth.SysEmp;
+import com.jzy.api.model.sys.Emp;
 import com.jzy.framework.bean.vo.GenericVo;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,17 +21,38 @@ import java.util.Set;
  * </ul>
  */
 @Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class EmpVo extends GenericVo {
     /**
      * 用户名
      */
     private String name;
-    /**
-     * 职务id
-     */
-    private String roleName;
+
     /**
      * token
      */
     private String apiEmpToken;
+
+    /**
+     * 当前用户的 权限集合
+     */
+    private Set<String> permValues;
+
+	private EmpVo(String name, String apiEmpToken) {
+		this.name = name;
+		this.apiEmpToken = apiEmpToken;
+	}
+
+	private EmpVo(Set<String> permValues) {
+		this.permValues = permValues;
+	}
+
+	public static EmpVo build(SysEmp sysEmp,String apiEmpToken){
+		return new EmpVo(sysEmp.getName(),apiEmpToken);
+	}
+
+	public static EmpVo build(Set<String> permissionValues) {
+		return new EmpVo(permissionValues);
+	}
 }

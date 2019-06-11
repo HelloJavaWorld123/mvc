@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.ibatis.annotations.Delete;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -27,13 +28,15 @@ public class SysRoleCnd extends PageCnd {
 
 	public interface Allot{}
 
+	public interface RoleValueExist{}
+
 	@NotNull(groups = {UpdateValidator.class, DeleteValidator.class, IDValidator.class,Allot.class},message = "主键不能为空")
 	private Long id;
 
 	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class},message = "角色名称不能为空")
 	private String name;
 
-	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class},message = "角色值不能为空")
+	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class,RoleValueExist.class},message = "角色值不能为空")
 	private String roleValue;
 
 	private String description;
@@ -42,13 +45,15 @@ public class SysRoleCnd extends PageCnd {
 
 	private Integer delFlag;
 
-	@NotEmpty(groups = {Allot.class},message = "权限值不能为空")
-	private List<String> permValues;
+	private List<Long> permIds;
 
-	@NotNull(groups = {Allot.class},message = "权限类型不能为空")
+	@NotNull(groups = {Allot.class},message = "资源类型不能为空")
+	@Range(groups = {Allot.class},min = 0,max = 3,message = "请输入正确范围内的数字")
 	private Integer permType;
 
 	private Date createTime;
 
 	private Long createId;
+
+	private Long operatorId;
 }

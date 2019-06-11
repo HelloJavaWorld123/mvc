@@ -10,6 +10,7 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,7 @@ public class ManageCarouselController {
     private DealerHomeCateService dealerHomeCateService;
 
     @RequestMapping("index")
+    @RequiresPermissions(value = "a:manageCarousel:index")
     public ApiResult index(@RequestBody DealerHomeCateListCnd listCnd) {
         PageVo<DealerHomeCateVo> result;
         try {
@@ -60,6 +62,7 @@ public class ManageCarouselController {
     }
 
     @RequestMapping("save")
+    @RequiresPermissions(value = "a:manageCarousel:save")
     public ApiResult save(@RequestBody DealerHomeCateSaveCnd infoCnd) {
         ApiResult apiResult = null;
         try {
@@ -73,6 +76,7 @@ public class ManageCarouselController {
     }
 
     @RequestMapping("updateStatusBatch")
+    @RequiresPermissions(value = "a:manageCarousel:updateStatusBatch")
     public ApiResult updateStatusBatch(@RequestBody CommonUpdateStatusCnd updateStatusBatchCnd) {
         dealerHomeCateService.updateStatusBatch(updateStatusBatchCnd);
         return new ApiResult<>();
@@ -80,6 +84,7 @@ public class ManageCarouselController {
 
     @Transactional
     @RequestMapping("deleteBatch")
+    @RequiresPermissions(value = "a:manageCarousel:deleteBatch")
     public ApiResult deleteBatch(@RequestBody CommonDeleteBatchCnd commonDeleteBatchCnd) {
         List<Long> ids = commonDeleteBatchCnd.getIds();
         for (Long id : ids) {

@@ -15,6 +15,7 @@ public interface SysEmpRoleService {
 
 	/**
 	 * 为指定的用户 新增角色
+	 * @return
 	 */
 	Integer add(SysEmpCnd sysEmpCnd);
 
@@ -32,4 +33,11 @@ public interface SysEmpRoleService {
 	 * @param id ：角色id
 	 */
 	List<SysEmpRole> findByRoleId(Long id);
+
+	/**
+	 * 查询当前用户 所有的角色id
+	 * @param id ：当前用户的id
+	 * @return ：null 暂无分配角色
+	 */
+	List<Long> findRoleIdsByEmpId(Long id);
 }

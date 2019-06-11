@@ -57,4 +57,9 @@ public class SysPermissionServiceImpl implements SysPermissionService {
 	public SysPermission findByUniqueKey(String uniqueKey) {
 		return sysPermissionMapper.findByUniqueKey(uniqueKey);
 	}
+
+	@Override
+	public List<SysPermission> findByIds(List<Long> permIds) {
+		return sysPermissionMapper.findByIds(permIds);
+	}
 }

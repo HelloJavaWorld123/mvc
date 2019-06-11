@@ -12,6 +12,7 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -67,6 +68,7 @@ public class CategoryController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/index")
+    @RequiresPermissions(value = "a:category:index")
     public ApiResult index(@RequestBody CategoryListCnd categoryListCnd) {
         PageVo<CategoryVo> result;
         try {
@@ -84,6 +86,7 @@ public class CategoryController {
     * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
     */
     @RequestMapping("admin/list")
+    @RequiresPermissions("a:category:list")
     public ApiResult getList() {
         List<CategoryVo> categoryList;
         try {
@@ -113,6 +116,7 @@ public class CategoryController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/save")
+    @RequiresPermissions(value = "a:category:save")
     public ApiResult save(@RequestBody CategoryCnd categoryCnd) {
         try {
             Category category = new Category();
@@ -136,6 +140,7 @@ public class CategoryController {
      * @return {@l}ink ApiResult
      */
     @RequestMapping("admin/delete")
+    @RequiresPermissions(value = "a:category:delete")
     public ApiResult deleteBatch(@RequestBody IdCnd idCnd) {
         try {
             categoryService.delete(Long.valueOf(idCnd.getId()));
@@ -154,6 +159,7 @@ public class CategoryController {
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/update")
+    @RequiresPermissions(value = "a:category:update")
     public ApiResult update(@RequestBody CategoryCnd categoryCnd) {
         try {
             Category category = new Category();

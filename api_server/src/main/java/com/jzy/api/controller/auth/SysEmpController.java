@@ -1,9 +1,14 @@
 package com.jzy.api.controller.auth;
 
-import com.jzy.api.annos.*;
+import com.jzy.api.annos.CreateValidator;
+import com.jzy.api.annos.DeleteValidator;
+import com.jzy.api.annos.IDValidator;
+import com.jzy.api.annos.UpdateValidator;
 import com.jzy.api.cnd.auth.SysEmpCnd;
+import com.jzy.api.constant.ApiRedisCacheConstant;
 import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.auth.SysEmp;
+import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.service.auth.SysEmpRoleService;
 import com.jzy.api.service.auth.SysEmpService;
 import com.jzy.api.service.auth.SysRoleService;
@@ -14,16 +19,18 @@ import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.PageCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import org.apache.commons.collections4.CollectionUtils;
-import org.checkerframework.checker.units.qual.A;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.xml.ws.RespectBinding;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +42,7 @@ import java.util.Objects;
  **/
 @RestController
 @RequestMapping("/sys/user")
+@RequiresRoles(value = {"root"})
 public class SysEmpController {
 
 	@Autowired
@@ -62,15 +70,15 @@ public class SysEmpController {
 		try {
 			if (Objects.isNull(sysEmpCnd.getId())) {
 				sysEmpCnd.setId(tableKeyService.newKey("sys_emp", "id", 0));
+
 				encryptPassword(sysEmpCnd);
 
-				List<SysEmp> byName = sysEmpService.findByName(sysEmpCnd.getName());
-				if (CollectionUtils.isNotEmpty(byName)) {
-					return new ApiResult().fail(ResultEnum.USER_NAME_ALREADY_EXIST.getMsg(), ResultEnum.FAIL.getCode());
-				}
+				verifyUserName(sysEmpCnd.getName(),null);
+
+				sysEmpCnd.setOperatorId(getOperatorId());
 			}
 
-			//todo
+
 			SysEmp sysEmp = SysEmp.build(sysEmpCnd);
 			result = sysEmpService.add(sysEmp);
 		} catch (DuplicateKeyException e) {
@@ -80,6 +88,14 @@ public class SysEmpController {
 		return returnResult(result);
 	}
 
+	private Long getOperatorId() {
+		Long operatorId;
+		SysEmp sysEmp = (SysEmp) SecurityUtils.getSubject()
+											  .getPrincipal();
+		operatorId = sysEmp.getId();
+		return operatorId;
+	}
+
 
 	@RequestMapping("/update")
 	public ApiResult update(@RequestBody @Validated(value = {UpdateValidator.class}) SysEmpCnd sysEmpCnd) {
@@ -87,7 +103,11 @@ public class SysEmpController {
 		if (Objects.isNull(sysEmp)) {
 			return new ApiResult().fail(ResultEnum.FAIL);
 		}
+
+		verifyUserName(sysEmp.getName(),sysEmp.getId());
+
 		encryptPassword(sysEmpCnd);
+		sysEmpCnd.setOperatorId(getOperatorId());
 		Integer result = sysEmpService.update(sysEmpCnd);
 		return returnResult(result);
 	}
@@ -99,7 +119,7 @@ public class SysEmpController {
 			return new ApiResult().fail(ResultEnum.FAIL);
 		}
 
-		Integer result = sysEmpService.deleteById(sysEmpCnd.getId());
+		Integer result = sysEmpService.deleteById(sysEmpCnd.getId(), getOperatorId());
 		if (result == 1) {
 			sysEmpRoleService.deleteByEmpId(sysEmpCnd.getId());
 		}
@@ -112,20 +132,16 @@ public class SysEmpController {
 		return new ApiResult<SysEmpVo>().success(vo);
 	}
 
-	/**
-	 * 检查用户名是否已经存在
-	 *
-	 * @param sysEmpCnd ：用户名称
-	 */
-	@RequestMapping("/check")
-	public ApiResult userNameExist(@RequestBody @Validated(SysEmpCnd.NameExistValidator.class) SysEmpCnd sysEmpCnd) {
-		List<SysEmp> sysEmps = sysEmpService.findByName(sysEmpCnd.getName());
 
-		if (CollectionUtils.isNotEmpty(sysEmps)) {
-			return new ApiResult().success();
-		} else {
-			return new ApiResult().fail(ResultEnum.FAIL);
-		}
+	@RequestMapping("/role")
+	public ApiResult userRoleInfo(@RequestBody @Validated(IDValidator.class) SysEmpCnd sysEmpCnd){
+		List<SysEmpRole> empId = sysEmpRoleService.findByEmpId(sysEmpCnd.getId());
+		return new ApiResult<>().success(empId);
+	}
+
+	private void verifyUserName(String name,Long id) {
+		List<SysEmp> sysEmps = sysEmpService.findByName(name,id);
+		Assert.isTrue(Objects.isNull(sysEmps), "用户名已经存在");
 	}
 
 	/**
@@ -134,14 +150,13 @@ public class SysEmpController {
 	@RequestMapping("/allot/role")
 	public ApiResult userAddRole(@RequestBody @Validated(value = SysEmpCnd.AllotValidator.class) SysEmpCnd sysEmpCnd) {
 		List<Role> roleList = sysRoleService.findByIds(sysEmpCnd.getRoleList());
-		if (CollectionUtils.isEmpty(roleList) && roleList.size() != sysEmpCnd.getRoleList()
-																			 .size()) {
-			return new ApiResult().fail("角色信息有误", ResultEnum.FAIL.getCode());
-		}
+
+		Assert.isTrue(CollectionUtils.isNotEmpty(roleList) && roleList.size() == sysEmpCnd.getRoleList()
+																						  .size(), "角色信息有误");
+
 		SysEmpVo sysEmpVo = sysEmpService.findById(sysEmpCnd.getId());
-		if (Objects.isNull(sysEmpVo)) {
-			return new ApiResult().fail("用户信息有误", ResultEnum.FAIL.getCode());
-		}
+		Assert.isTrue(Objects.nonNull(sysEmpVo), "用户信息有误");
+
 		Integer result = sysEmpRoleService.add(sysEmpCnd);
 		return result >= 1 ? new ApiResult<>().success(ResultEnum.SUCCESS) : new ApiResult().fail(ResultEnum.FAIL);
 	}

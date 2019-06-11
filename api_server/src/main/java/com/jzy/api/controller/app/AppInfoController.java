@@ -1,31 +1,26 @@
 package com.jzy.api.controller.app;
 
 import com.jzy.api.annos.WithoutLogin;
-import com.jzy.api.cnd.app.*;
-import com.jzy.api.dao.app.AppInfoMapper;
-import com.jzy.api.model.app.AppInfo;
+import com.jzy.api.cnd.app.AppBatchDeleteCnd;
+import com.jzy.api.cnd.app.AppInfoListCnd;
+import com.jzy.api.cnd.app.SaveAppInfoCnd;
+import com.jzy.api.cnd.app.UpdateStatusBatchCnd;
 import com.jzy.api.model.app.FileInfo;
-import com.jzy.api.model.sys.SysImages;
 import com.jzy.api.service.app.AppInfoService;
-import com.jzy.api.service.app.AppPriceTypeService;
 import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.service.oss.AliyunOssService;
-import com.jzy.api.service.sys.SysImagesService;
-import com.jzy.api.util.HanyuPinyinUtil;
-import com.jzy.api.util.RegexUtils;
 import com.jzy.api.vo.app.AppInfoDetailVo;
 import com.jzy.api.vo.app.AppInfoListVo;
 import com.jzy.common.enums.DirectoryEnum;
 import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
-import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,8 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 应用controller
@@ -68,6 +61,7 @@ public class AppInfoController {
      * <li>2019.05.01&nbsp;&nbsp;|&nbsp;&nbsp;贾昭凯&nbsp;&nbsp;|&nbsp;&nbsp;修改SQL对于新数据库的错误，添加分页实体结构</li><br>
      */
     @RequestMapping("admin/index")
+    @RequiresPermissions(value = {"a:appInfo:list"})
     public ApiResult index(@RequestBody AppInfoListCnd appInfoListCnd) {
         PageVo<AppInfoListVo> result;
         try {
@@ -85,6 +79,7 @@ public class AppInfoController {
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/getAppInfo")
+    @RequiresPermissions(value = {"a:appInfo:getAppInfo"})
     public ApiResult getAppInfo(@RequestBody IdCnd idCnd) {
         AppInfoDetailVo appInfoDetailVo;
         try {
@@ -105,6 +100,7 @@ public class AppInfoController {
      */
     @Transactional
     @RequestMapping("admin/save")
+    @RequiresPermissions(value = "a:appInfo:save")
     public ApiResult save(@RequestBody SaveAppInfoCnd saveAppInfoCnd) {
         appInfoService.saveAppInfo(saveAppInfoCnd);
         return new ApiResult<>();
@@ -116,6 +112,7 @@ public class AppInfoController {
      * <li>20190420&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/updateStatusBatch")
+    @RequiresPermissions(value = "a:appInfo:updateStatusBatch")
     public ApiResult updateStatusBatch(@RequestBody UpdateStatusBatchCnd updateStatusBatchCnd) {
         appInfoService.updateStatusBatch(updateStatusBatchCnd);
 //        try {
@@ -136,6 +133,7 @@ public class AppInfoController {
      */
     @Transactional
     @RequestMapping("admin/deleteBatch")
+    @RequiresPermissions(value = "a:appInfo:deleteBatch")
     public ApiResult deleteBatch(@RequestBody AppBatchDeleteCnd appBatchDeleteCnd) {
         appInfoService.delete(appBatchDeleteCnd);
         return new ApiResult<>();

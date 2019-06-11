@@ -20,6 +20,7 @@ import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.cache.UserCache;
 import com.jzy.framework.exception.BusException;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,7 @@ import java.util.concurrent.TimeUnit;
  * </ul>
  */
 @Service
+@Slf4j
 public class HomeAnalysisServiceImpl implements HomeAnalysisService {
 
 
@@ -87,8 +89,11 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
             //非微信
             homeAnalysisInfoVo.setUserId(dataInfo.getUserId());
 
-            // 存储用户信息到本地数据库中
-            insertUserAuth(homeAnalysisInfoVo.getUserId(), homeAnalysisCnd.getIsWxAuth(), dealerAnalysisInfoPo.getDealerId());
+            UserAuth userAuthTemp = userAuthService.queryUserAuthByUserId(homeAnalysisInfoVo.getUserId(),Integer.parseInt(dealerAnalysisInfoPo.getDealerId()));
+            if (null==userAuthTemp){
+                insertUserAuth(homeAnalysisInfoVo.getUserId(), homeAnalysisCnd.getIsWxAuth(), dealerAnalysisInfoPo.getDealerId());
+            }
+
         }
 
         redisUserCache(token,homeAnalysisInfoVo.getUserId(), Integer.parseInt(dealerAnalysisInfoPo.getDealerId()));
@@ -132,10 +137,11 @@ public class HomeAnalysisServiceImpl implements HomeAnalysisService {
         userAuth.setUserId(userId);
         userAuth.setIsWxAuth(isWxAuth);
         userAuth.setDealerId(Integer.parseInt(dealerId));
-        try{
-            userAuthService.insert(userAuth);
-        } catch (Exception ignore) {
-        }
+//        try{
+        userAuthService.insert(userAuth);
+//        } catch (Exception ignore) {
+//            log.info("yichangshi:",ignore);
+//        }
 
     }
 

@@ -2,11 +2,16 @@ package com.jzy.api.model.auth;
 
 import com.jzy.api.cnd.auth.SysEmpCnd;
 import com.jzy.framework.bean.model.GenericModel;
+import com.jzy.framework.cache.ContextHolder;
+import com.jzy.framework.cache.EmpCache;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Author : RXK
@@ -17,7 +22,9 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class SysEmp extends GenericModel {
+public class SysEmp extends GenericModel implements Serializable {
+
+	private static final long serialVersionUID = -8829951463593067822L;
 
 	private String name;
 
@@ -26,6 +33,10 @@ public class SysEmp extends GenericModel {
 	private int status;
 
 	private Long dealerId;
+
+	private Set<String> roleValues;
+
+	private Set<String> permValues;
 
 	private SysEmp(Long id,Integer delFlag, Date createTime, Long creatorId, Date modifyTime, Long modifierId, String name, String password, int status, Long dealerId) {
 		super(id,delFlag, createTime, creatorId, modifyTime, modifierId);
@@ -45,10 +56,10 @@ public class SysEmp extends GenericModel {
 	}
 
 	public static SysEmp build(SysEmpCnd sysEmpCnd) {
-		return new SysEmp(sysEmpCnd.getId(),0,new Date(),1L,new Date(),1L,sysEmpCnd.getName(),sysEmpCnd.getPassword(),sysEmpCnd.getStatus(),sysEmpCnd.getDealerId());
+		return new SysEmp(sysEmpCnd.getId(),0,new Date(),sysEmpCnd.getOperatorId(),new Date(),sysEmpCnd.getOperatorId(),sysEmpCnd.getName(),sysEmpCnd.getPassword(),sysEmpCnd.getStatus(),sysEmpCnd.getDealerId());
 	}
 
 	public static SysEmp update(SysEmpCnd sysEmpCnd) {
-		return new SysEmp(sysEmpCnd.getId(),new Date(),2L,sysEmpCnd.getName(),sysEmpCnd.getPassword(),sysEmpCnd.getStatus(),sysEmpCnd.getDealerId());
+		return new SysEmp(sysEmpCnd.getId(),new Date(),sysEmpCnd.getOperatorId(),sysEmpCnd.getName(),sysEmpCnd.getPassword(),sysEmpCnd.getStatus(),sysEmpCnd.getDealerId());
 	}
 }

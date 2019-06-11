@@ -14,6 +14,15 @@ import java.util.Locale;
 
 public class DateUtils {
 
+    public static final long HOURES_PER_DAY = 24;
+
+    public static final long SECONDS_PER_MINUTE = 60;
+
+    public static final long SECONDS_PER_HOURE = SECONDS_PER_MINUTE * SECONDS_PER_MINUTE;
+
+    public static final long SECONDS_PER_DAY = HOURES_PER_DAY * SECONDS_PER_HOURE;
+
+
     /**
      * yyyy-MM-dd
      */

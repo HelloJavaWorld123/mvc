@@ -17,6 +17,7 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -84,6 +85,7 @@ public class AppGameController {
      * <li>20190508&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/getList")
+    @RequiresPermissions(value = "a:appGame:list")
     public ApiResult getList(@RequestBody GameListCnd gameListCnd) {
         List<AppGamePo> gameList;
         try {
@@ -101,6 +103,7 @@ public class AppGameController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/index")
+    @RequiresPermissions(value = "a:appGame:index")
     public ApiResult index(@RequestBody AppGameListCnd appGameListCnd) {
         PageVo<AppGameVo> result;
         try {
@@ -118,6 +121,7 @@ public class AppGameController {
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/save")
+    @RequiresPermissions(value = "a:appGame:save")
     public ApiResult save(@RequestBody AppGameCnd appGameCnd) {
         try {
             AppGame appGame = new AppGame();
@@ -141,6 +145,7 @@ public class AppGameController {
      * @return {@l}ink ApiResult
      */
     @RequestMapping("admin/delete")
+    @RequiresPermissions(value = "a:appGame:delete")
     public ApiResult deleteBatch(@RequestBody IdCnd idCnd) {
         try {
             appGameService.delete(idCnd.getId());
@@ -159,6 +164,7 @@ public class AppGameController {
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/update")
+    @RequiresPermissions(value = "a:appGame:update")
     public ApiResult update(@RequestBody AppGameCnd appGameCnd) {
         try {
             AppGame appGame = appGameService.getById(appGameCnd.getId());

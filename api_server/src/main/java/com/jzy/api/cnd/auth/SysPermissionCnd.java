@@ -43,4 +43,5 @@ public class SysPermissionCnd extends PageCnd {
 	@NotNull(groups = {CreateValidator.class,UpdateValidator.class},message = "资源的状态不能为空")
 	private Integer permStatus;
 
+	private Long operatorId;
 }

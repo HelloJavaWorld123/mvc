@@ -2,36 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jzy.api.dao.auth.SysRolePermissionMapper">
-    <insert id="add">
-        INSERT INTO sys_role_permission (`role_id`,`permission_key`,`permission_type`)
+    <insert id="batchAdd" parameterType="list">
+        INSERT INTO sys_role_permission (`role_id`,`permission_id`,`permission_key`,`permission_type`)
         VALUES
-            <foreach collection="permValues" item="permValue" separator=",">
-                (#{roleId},#{permValue},#{permType})
-            </foreach>
+        <foreach collection="rolePermPos" separator="," item="rolePerm">
+            (#{rolePerm.roleId},#{rolePerm.permissionId},#{rolePerm.permissionKey},#{rolePerm.permissionType})
+        </foreach>
     </insert>
 
     <delete id="deleteByRoleId">
         DELETE FROM sys_role_permission
-        WHERE role_id = #{roleId}
+        WHERE
+            role_id = #{roleId}
+        AND
+            permission_type = #{permType}
     </delete>
     <select id="findByRoleId" resultType="com.jzy.api.model.auth.SysRolePermission">
         SELECT
             role_id AS roleId,
+            permission_id AS permissionId,
             permission_key AS permissionKey,
             permission_type AS permissionType
+        FROM sys_role_permission
         WHERE role_id = #{roleId}
     </select>
     <select id="findByRoleIds" resultType="com.jzy.api.model.auth.SysRolePermission">
         SELECT
             role_id AS roleId,
+            permission_id AS permissionId,
             permission_key AS permissionKey,
             permission_type AS permissionType
         FROM `sys_role_permission`
-        WHERE role_id IN
-        (
+        <where>
+            role_id IN
+            (
             <foreach collection="roleIds" separator="," item="roleId">
                 #{roleId}
             </foreach>
-        )
+            )
+        </where>
     </select>
 </mapper>

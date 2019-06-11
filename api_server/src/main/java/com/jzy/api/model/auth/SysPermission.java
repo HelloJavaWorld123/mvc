@@ -57,10 +57,10 @@ public class SysPermission extends GenericModel {
 	}
 
 	public static SysPermission build(SysPermissionCnd permissionCnd) {
-		return new SysPermission(0, new Date(), 1L, new Date(), 1L, permissionCnd.getUniqueKey(), permissionCnd.getParentKey(), permissionCnd.getPermName(), permissionCnd.getPermType(), permissionCnd.getLeafNode(), permissionCnd.getPermStatus(),permissionCnd.getDescription());
+		return new SysPermission(0, new Date(), permissionCnd.getOperatorId(), new Date(), permissionCnd.getOperatorId(), permissionCnd.getUniqueKey(), permissionCnd.getParentKey(), permissionCnd.getPermName(), permissionCnd.getPermType(), permissionCnd.getLeafNode(), permissionCnd.getPermStatus(),permissionCnd.getDescription());
 	}
 
 	public static SysPermission update(SysPermissionCnd permissionCnd) {
-		return new SysPermission(permissionCnd.getId(), new Date(), 2L, permissionCnd.getUniqueKey(), permissionCnd.getParentKey(), permissionCnd.getPermName(), permissionCnd.getPermType(),permissionCnd.getLeafNode(), permissionCnd.getPermStatus(),permissionCnd.getDescription());
+		return new SysPermission(permissionCnd.getId(), new Date(), permissionCnd.getOperatorId(), permissionCnd.getUniqueKey(), permissionCnd.getParentKey(), permissionCnd.getPermName(), permissionCnd.getPermType(),permissionCnd.getLeafNode(), permissionCnd.getPermStatus(),permissionCnd.getDescription());
 	}
 }

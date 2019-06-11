@@ -12,6 +12,7 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -52,6 +53,7 @@ public class AppAccttypeController {
    * <li>20190507&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
    */
     @RequestMapping("admin/list")
+    @RequiresPermissions(value = {"a:appAcctType:list"})
     public ApiResult list() {
         List<AppAccttypeListPo> acctList = new ArrayList<>();
         try {
@@ -68,6 +70,7 @@ public class AppAccttypeController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/index")
+    @RequiresPermissions(value = "a:appAcctType:index")
     public ApiResult index(@RequestBody AppAccttypeListCnd appAccttypeListCnd) {
         PageVo<AppAccttypeVo> result;
         try {
@@ -85,6 +88,7 @@ public class AppAccttypeController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/save")
+    @RequiresPermissions(value = "a:appAcctType:save")
     public ApiResult save(@RequestBody AppAccttypeCnd appAccttypeCnd) {
         try {
             AppAccttype appAccttype = new AppAccttype();
@@ -108,6 +112,7 @@ public class AppAccttypeController {
      * @return {@l}ink ApiResult
      */
     @RequestMapping("admin/delete")
+    @RequiresPermissions(value = "a:appAcctType:delete")
     public ApiResult deleteBatch(@RequestBody IdCnd idCnd) {
         try {
             appAccttypeService.delete(idCnd.getId());
@@ -126,6 +131,7 @@ public class AppAccttypeController {
      * <li>20190513&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("admin/update")
+    @RequiresPermissions(value = "a:appAcctType:update")
     public ApiResult update(@RequestBody AppAccttypeCnd appAccttypeCnd) {
         try {
             AppAccttype appAccttype = new AppAccttype();

@@ -9,6 +9,7 @@ import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,6 +36,7 @@ public class OrderController extends GenericController {
     private OrderService orderService;
 
     @RequestMapping("/updateSupStatus")
+    @RequiresPermissions(value = "a:order:updateSupStatus")
     public ApiResult updateSupStatus(@RequestBody SupStatusCnd supStatusCnd) {
         orderService.handUpdateSupStatus(supStatusCnd.getOrderId(), supStatusCnd.getSupStatus());
         SupStatusVo supStatusVo = new SupStatusVo();
@@ -50,6 +52,7 @@ public class OrderController extends GenericController {
      */
     @ResponseBody
     @RequestMapping(path = "/queryBackOrderById")
+    @RequiresPermissions(value = "a:order:queryBackOrderById")
     public ApiResult queryBackOrderById(@RequestBody CodeCnd codeCnd) {
         Order order = orderService.queryBackOrderById(codeCnd.getOrderId());
         BackOrderDetailVo orderDetailVo = convert(order, BackOrderDetailVo.class);
@@ -63,6 +66,7 @@ public class OrderController extends GenericController {
      */
     @ResponseBody
     @RequestMapping(path = "/queryBackOrderList")
+    @RequiresPermissions(value = "a:order:queryBackOrderList")
     public ApiResult queryBackOrderList(@RequestBody BackOrderCnd backOrderCnd) {
         PageVo<Order> orderPageVo = orderService.queryBackOrderList(backOrderCnd);
         PageVo<BackOrderListVo> pageVo = new PageVo<>();
@@ -81,6 +85,7 @@ public class OrderController extends GenericController {
      */
     @ResponseBody
     @RequestMapping(path = "/queryBackOrderCount")
+    @RequiresPermissions(value = "a:order:queryBackOrderCount")
     public ApiResult queryBackOrderCount(@RequestBody BackOrderCnd backOrderCnd) {
         BackOrderCountPo orderCountPo = orderService.queryBackOrderCount(backOrderCnd);
         BackOrderCountVo backOrderCountVo = convert(orderCountPo, BackOrderCountVo.class);
@@ -94,6 +99,7 @@ public class OrderController extends GenericController {
      */
     @ResponseBody
     @RequestMapping(path = "/queryMonthOrderList")
+    @RequiresPermissions(value = "a:order:queryMonthOrderList")
     public ApiResult queryMonthOrderList(@RequestBody MonthOrderCnd monthOrderCnd) {
         PageVo<Order> orderPageVo = orderService.queryMonthOrderList(monthOrderCnd);
         PageVo<BackMonthListVo> pageVo = new PageVo<>(orderPageVo.getPage(), orderPageVo.getLimit(), orderPageVo.getTotalCount());
@@ -109,6 +115,7 @@ public class OrderController extends GenericController {
      */
     @ResponseBody
     @RequestMapping(path = "/runMonthOrderList")
+    @RequiresPermissions(value = "a:order:runMonthOrderList")
     public ApiResult runMonthOrderList(@RequestBody RunMonthOrderCnd runMonthOrderCnd) {
         orderService.runMonthOrderList(runMonthOrderCnd);
         return new ApiResult<>().success();

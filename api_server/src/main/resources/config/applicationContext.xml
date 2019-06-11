@@ -4,19 +4,19 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:task="http://www.springframework.org/schema/task"
-       xsi:schemaLocation="
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       xmlns:task="http://www.springframework.org/schema/task" xmlns:util="http://redisson.org/schema/redisson"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd http://redisson.org/schema/redisson http://redisson.org/schema/redisson/redisson.xsd">
 
     <!-- 自动扫描 -->
     <context:component-scan base-package="com.jzy.api.base,
                                           com.jzy.api.dao,
                                           com.jzy.api.model,
-                                          com.jzy.api.service">
+                                          com.jzy.api.service,
+                                          com.jzy.api.shiro">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
@@ -79,7 +79,7 @@
 
     <!-- Excel导出支持异步方法执行 -->
     <task:annotation-driven executor="excelExportAsyncExecutor"/>
-    <task:executor id="excelExportAsyncExecutor" pool-size="5"/>
+    <task:executor id="excelExportAsyncExecutor" pool-size="5" rejection-policy="CALLER_RUNS" queue-capacity="5"/>
 
     <!-- 配置和mybatis的整合 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -202,6 +202,68 @@
                 <value>${wx_notify_url}</value>
             </list>
         </property>
+    </bean>
+
+
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="defaultWebSecurityManager"/>
+        <property name="loginUrl" value="/sys/unauthorized"/>
+        <property name="filters">
+            <map>
+                <entry key="authFilter" value-ref="authFilter"/>
+            </map>
+        </property>
+        <property name="filterChainDefinitions" ref="customFilterChain"/>
+    </bean>
+
+    <bean id="defaultWebSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="customRealm"/>
+        <property name="subjectFactory" ref="subjectFactory"/>
+        <property name="subjectDAO" ref="defaultSubjectDAO"/>
+        <property name="sessionManager" ref="defaultSessionManager"/>
+    </bean>
+
+    <bean id="defaultSubjectDAO" class="org.apache.shiro.mgt.DefaultSubjectDAO">
+        <property name="sessionStorageEvaluator" ref="defaultSessionStorageEvaluator"/>
+    </bean>
+
+    <bean id="defaultSessionStorageEvaluator" class="org.apache.shiro.mgt.DefaultSessionStorageEvaluator">
+        <property name="sessionStorageEnabled" value="false"/>
+    </bean>
+
+    <bean id="defaultSessionManager" class="org.apache.shiro.session.mgt.DefaultSessionManager">
+        <property name="sessionValidationSchedulerEnabled" value="false"/>
+    </bean>
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+
+    <bean id="authorizationAttributeSourceAdvisor"
+          class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="defaultWebSecurityManager"/>
+    </bean>
+
+
+    <bean id="customFilterChain" class="java.lang.String">
+        <constructor-arg>
+            <value>
+                /sys/unauthorized=anon
+                /sys/login=anon
+                /sys/logout=anon
+                /** =authFilter
+            </value>
+        </constructor-arg>
+    </bean>
+
+
+    <bean id="subjectFactory" class="com.jzy.api.shiro.CustomWebSubjectFactory"/>
+    <bean id="anon" class="org.apache.shiro.web.filter.authc.AnonymousFilter"/>
+    <bean id="authFilter" class="com.jzy.api.shiro.CustomAccessControlFilter"/>
+    <bean id="customRealm" class="com.jzy.api.shiro.CustomAuthorizingRealm">
     </bean>
 
 </beans>
