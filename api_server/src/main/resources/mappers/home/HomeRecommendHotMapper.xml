@@ -256,7 +256,8 @@
             resultMap="personalHistoryAffairMapper">
          select  ai.name,ai.icon,appinfo.go_type,appinfo.go_id,appinfo.status as state,appinfo.image_url,
          appinfo.go_name,apt.name as type_name,apt.unit,dapi.ai_id,dapi.number,dapi.price,dapi.pay_price,dapi.discount from
-        (select image_url,go_id,go_type,status,go_name from dialog_banner where type=#{type} and now() between start_time and end_time
+        (select image_url,go_id,go_type,status,go_name from dialog_banner where type=#{type}
+        and now() between start_time and end_time order by id asc
         ) appinfo left join (select * from dealer_app_price_info  where dealer_id=#{dealerId} and status=1) dapi on appinfo.go_id=dapi.ai_id
         left join  app_price_type apt on apt.id = dapi.apt_id
         and dapi.ai_id = apt.ai_id  left join app_info ai on apt.ai_id = ai.id

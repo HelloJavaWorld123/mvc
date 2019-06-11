@@ -221,13 +221,13 @@ public class XimeiPayServiceImpl implements XimeiPayService {
                 Map<String,String> tranDataMap = null;
                 try {
                     tranDataMap = WXPayUtil.xmlToMap(tranDataStr);
+                    log.debug(JSON.toJSONString(tranDataMap));
+                    String tranStat = tranDataMap.get("tranStat");
+                    if ("1".equals(tranStat)){
+                        return 1;
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
-                log.debug(JSON.toJSONString(tranDataMap));
-                String tranStat = resultMap.get("tranStat");
-                if ("1".equals(tranStat)){
-                    return 1;
                 }
             }
         }
