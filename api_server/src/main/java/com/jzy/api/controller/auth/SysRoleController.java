@@ -135,13 +135,13 @@ public class SysRoleController {
 		}
 
 		sysRolePermissionService.deleteByRoleIdAndPermType(sysRoleCnd.getId(), sysRoleCnd.getPermType());
+		deleteCache(sysRoleCnd.getId());
 
 		if (CollectionUtils.isNotEmpty(rolePermPos)) {
 			Integer result = sysRolePermissionService.add(rolePermPos);
 			return result >= 1 ? new ApiResult<>().success(ResultEnum.SUCCESS) : new ApiResult().fail(ResultEnum.FAIL);
 		}
 
-		deleteCache(sysRoleCnd.getId());
 
 		return getResultEnum(1);
 
