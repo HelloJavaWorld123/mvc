@@ -217,7 +217,13 @@ public class XimeiPayServiceImpl implements XimeiPayService {
             if((null!=returnCode && !"".equals(returnCode)) || (null!=returnMessage && !"".equals(returnMessage))){
             }else{
                 String tranDataStr = new String(ProcessMessage.Base64Decode(resultMap.get("tranData")));
-                Map<String, String> tranDataMap = (Map<String, String>) JSON.parse(tranDataStr);
+                //Map<String, String> tranDataMap = (Map<String, String>) JSON.parse(tranDataStr);
+                Map<String,String> tranDataMap = null;
+                try {
+                    tranDataMap = WXPayUtil.xmlToMap(tranDataStr);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 log.debug(JSON.toJSONString(tranDataMap));
                 String tranStat = resultMap.get("tranStat");
                 if ("1".equals(tranStat)){

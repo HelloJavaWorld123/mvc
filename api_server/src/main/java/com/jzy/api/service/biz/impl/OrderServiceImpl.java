@@ -416,8 +416,11 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
         if(3==supStatus.intValue()) {
             Order order = this.queryOrderById(id);
             List<TradeRecord> tradeRecord = tradeRecordService.getTradeRecord(id);
-            if (tradeRecord.size()==0){
+            //如果没有退款记录并且订单状态是非5退款成功状态
+            if (tradeRecord.size()==0&&order.getStatus()!=5){
                 tradeRefund(order);
+            }else{
+                orderMapper.updateSupStatus(id, 5, supStatus, new Date());
             }
             supRecord.setRemark("失败");
         }else if(2==supStatus.intValue()){
