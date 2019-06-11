@@ -36,19 +36,19 @@ public class GlobalException {
 	@ExceptionHandler(value = {UnauthorizedException.class})
 	public ApiResult handleUnauthorizedException(UnauthorizedException e){
 		log.info("授权失败异常:",e);
-		return new ApiResult().fail(e.getMessage());
+		return new ApiResult().fail("用户暂无权限");
 	}
 
 	@ExceptionHandler(value = {LockedAccountException.class})
 	public ApiResult handleLockedAccountException(LockedAccountException e){
 		log.info("账号异常:",e);
-		return new ApiResult().fail(e.getMessage());
+		return new ApiResult().fail("用户账号或者秘密错误");
 	}
 
 	@ExceptionHandler(value = {UnknownAccountException.class})
 	public ApiResult handleUnknownAccountException(UnknownAccountException e){
 		log.info("账号异常:",e);
-		return new ApiResult().fail(e.getMessage());
+		return new ApiResult().fail("");
 	}
 
 	@ExceptionHandler(value = IllegalArgumentException.class)

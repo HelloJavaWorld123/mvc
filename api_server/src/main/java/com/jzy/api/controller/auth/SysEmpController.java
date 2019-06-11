@@ -141,7 +141,7 @@ public class SysEmpController {
 
 	private void verifyUserName(String name,Long id) {
 		List<SysEmp> sysEmps = sysEmpService.findByName(name,id);
-		Assert.isTrue(Objects.nonNull(sysEmps), "用户名已经存在");
+		Assert.isTrue(Objects.isNull(sysEmps), "用户名已经存在");
 	}
 
 	/**
