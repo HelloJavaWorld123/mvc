@@ -8,7 +8,9 @@ import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.auth.SysEmp;
 import com.jzy.api.model.sys.Emp;
 import com.jzy.api.service.auth.EmpService;
+import com.jzy.api.service.auth.SysEmpRoleService;
 import com.jzy.api.service.auth.SysEmpService;
+import com.jzy.api.service.auth.SysRolePermissionService;
 import com.jzy.api.util.MD5Util;
 import com.jzy.api.vo.sys.EmpVo;
 import com.jzy.common.enums.ResultEnum;
@@ -16,6 +18,7 @@ import com.jzy.framework.cache.EmpCache;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -25,6 +28,8 @@ import org.apache.shiro.web.util.WebUtils;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
+import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,9 +39,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author : RXK
@@ -56,6 +59,12 @@ public class LoginController extends GenericController {
 
 	@Resource
 	private RedissonClient redissonClient;
+
+	@Autowired
+	private SysEmpRoleService sysEmpRoleService;
+
+	@Autowired
+	private SysRolePermissionService sysRolePermissionService;
 
 	/**
 	 * <b>功能描述：</b>获取用户资源列表<br>
@@ -101,7 +110,7 @@ public class LoginController extends GenericController {
 
 		SysEmp sysEmp = (SysEmp) subject.getPrincipal();
 		String apiEmpToken = cacheSysEmpInfo(sysEmp);
-		EmpVo empVo = EmpVo.build(sysEmp, apiEmpToken);
+		EmpVo empVo = EmpVo.build(sysEmp,apiEmpToken);
 		return new ApiResult<>().success(empVo);
 	}
 
@@ -119,6 +128,38 @@ public class LoginController extends GenericController {
 		deleteUserCache(empId);
 		return new ApiResult().success();
 	}
+
+	@RequestMapping("/query")
+	public ApiResult userPermissions(HttpServletRequest request){
+		EmpCache empCache = getEmpCache(request);
+
+		Set<String> permissionValues = getPermissionValues(empCache);
+
+		EmpVo empVo = EmpVo.build(permissionValues);
+
+		return new ApiResult<>().success(empVo);
+	}
+
+	private Set<String> getPermissionValues(EmpCache empCache) {
+		Set<String> permissionValues = new HashSet<>();
+		List<Long> roleIds = sysEmpRoleService.findRoleIdsByEmpId(Long.parseLong(empCache.getEmpId()));
+		if(CollectionUtils.isNotEmpty(roleIds)){
+			permissionValues = sysRolePermissionService.findByPermissionKeyByRoleIds(roleIds, Long.parseLong(empCache.getEmpId()));
+		}
+		return permissionValues;
+	}
+
+
+	private EmpCache getEmpCache(HttpServletRequest request){
+		String token = request.getHeader(AccessToken.EMP.getValue());
+		Assert.isTrue(StringUtils.isBlank(token),"无权限访问");
+
+		RBucket<EmpCache> bucket = redissonClient.getBucket(token);
+		Assert.isTrue(bucket.isExists(),"登录信息有误");
+
+		return bucket.get();
+	}
+
 
 	private void deleteUserCache(String empId) {
 		if (StringUtils.isNotBlank(empId)) {

@@ -6,6 +6,7 @@ import com.jzy.api.vo.auth.SysRoleVo;
 import com.jzy.framework.bean.vo.PageVo;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Author : RXK
@@ -62,4 +63,12 @@ public interface SysRoleService{
 	 * @param name ： 角色名称
 	 */
 	Role findByName(String name);
+
+	/**
+	 * 根据角色id 查询所有的角色值
+	 * @param roleIds ：角色id
+	 * @param id ：当前用户的id
+	 * @return ：null 当前用户分配的角色id 有问题
+	 */
+	Set<String> findRoleValueByRoleIds(List<Long> roleIds, Long id);
 }

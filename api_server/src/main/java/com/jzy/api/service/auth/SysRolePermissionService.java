@@ -4,6 +4,7 @@ import com.jzy.api.model.auth.SysRolePermission;
 import com.jzy.api.po.auth.RolePermPo;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Author : RXK
@@ -31,4 +32,12 @@ public interface SysRolePermissionService {
 	 * @param permType ：资源类型
 	 */
 	void deleteByRoleIdAndPermType(Long roleId, Integer permType);
+
+	/**
+	 * 根据角色id 查询 当前用户拥有的资源key
+	 * @param roleIds :角色ids
+	 * @param id :当前用户的id
+	 * @return null 没有分配权限
+	 */
+	Set<String> findByPermissionKeyByRoleIds(List<Long> roleIds, Long id);
 }
