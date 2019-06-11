@@ -58,6 +58,34 @@ public class HomeRecommendHotDetail {
      * 0上中  1左上 2左下 3 右上 4 右下
      */
     private Integer position;
+
+    public String getRciName() {
+        if (rciName == null) {
+            return "";
+        }
+        return rciName;
+    }
+
+    public String getImageUrl() {
+        if (imageUrl == null) {
+            return "";
+        }
+        return imageUrl;
+    }
+
+    public String getGoName() {
+        if (goName == null) {
+            return "";
+        }
+        return goName;
+    }
+
+    public String getAiId() {
+        if (aiId == null) {
+            return "";
+        }
+        return aiId;
+    }
 }
 
 
