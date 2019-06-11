@@ -272,7 +272,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     public int delete(String id) {
         //判断当前用户更新的订单是否属于自己订单
         Order order = orderMapper.queryOrderById(id);
-        if(order!=null&&order.getUserId().equals(getUserId())&&order.getDealerId().equals(getFrontDealerId())) {
+        if(order!=null&&order.getUserId().equals(getUserId())&&order.getDealerId().equals(String.valueOf(getFrontDealerId()))) {
             return orderMapper.updateOrderDelFlag(id);
         }else {
             return 0;
@@ -338,7 +338,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     @Override
     public int updateStatus(String id, Integer status) {
         Order order = orderMapper.queryOrderById(id);
-        if(order!=null&&order.getUserId().equals(getUserId())&&order.getDealerId().equals(getFrontDealerId())) {
+        if(order!=null&&order.getUserId().equals(getUserId())&&order.getDealerId().equals(String.valueOf(getFrontDealerId()))) {
             return orderMapper.updateStatus(id, status);
         }else {
             return 0;
