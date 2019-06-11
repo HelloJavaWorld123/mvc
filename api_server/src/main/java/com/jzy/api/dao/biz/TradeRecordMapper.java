@@ -4,6 +4,7 @@ import com.jzy.api.model.biz.TradeRecord;
 import com.jzy.framework.dao.GenericMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -107,4 +108,6 @@ public interface TradeRecordMapper extends GenericMapper<TradeRecord> {
 
     int updateXimeiRefundCallbackStatus(@Param("markId") String markId, @Param("status") Integer status,
                                         @Param("bgRespData") String bgRespData, @Param("operator") String operator);
+
+    List<TradeRecord> getTradeRecord(@Param("id") String id);
 }

@@ -135,39 +135,44 @@ public class HomeRecommendHotController {
     public ApiResult getDialogAndBanner(@RequestBody DialogBannerCnd dialogBannerCnd) {
         //默认dialog和banner显示
         boolean dialogBanner=true;
-        //判断商品id是否商家并且是启用状态
-        if(dialogBannerCnd.getAiId()!=null&&!dialogBannerCnd.getAiId().equals("")){
-            AppDetailVo appDetail = dealerAppPriceInfoService.getAppDetail(dialogBannerCnd.getAiId());
-            if(appDetail.getAppDetailPoList().size()>0){
-                List<DealerAppPriceInfoPo> dealerAppPriceInfoPoList = null;
-                for(AppDetailPo list:appDetail.getAppDetailPoList()){
-                    String aptId = "";
-                    for(AppPriceTypePo appPriceTypePo:list.getAppPriceTypePoList()){
-                        aptId = appPriceTypePo.getTypeId();
-                        break;
+       //是否有弹窗和banner活动
+        List<HomeRecommendHotDetail> dialogBannerVoList = homeRecommendHotService.getDialogBanner(dialogBannerCnd);
+        if(dialogBannerVoList.size()>0) {
+            //判断商品id是否商家并且是启用状态
+            if (dialogBannerCnd.getAiId() != null && !dialogBannerCnd.getAiId().equals("")) {
+                AppDetailVo appDetail = dealerAppPriceInfoService.getAppDetail(dialogBannerCnd.getAiId());
+                if (appDetail.getAppDetailPoList().size() > 0) {
+                    List<DealerAppPriceInfoPo> dealerAppPriceInfoPoList = null;
+                    for (AppDetailPo list : appDetail.getAppDetailPoList()) {
+                        String aptId = "";
+                        for (AppPriceTypePo appPriceTypePo : list.getAppPriceTypePoList()) {
+                            aptId = appPriceTypePo.getTypeId();
+                            break;
+                        }
+                        GetPriceCnd getPriceCnd = new GetPriceCnd();
+                        getPriceCnd.setAiId(dialogBannerCnd.getAiId());
+                        getPriceCnd.setAptId(aptId);
+                        dealerAppPriceInfoPoList = dealerAppPriceInfoService.getPrice(getPriceCnd);
+                        if (dealerAppPriceInfoPoList.size() > 0) {
+                            break;
+                        }
                     }
-                    GetPriceCnd getPriceCnd = new GetPriceCnd();
-                    getPriceCnd.setAiId(dialogBannerCnd.getAiId());
-                    getPriceCnd.setAptId(aptId);
-                    dealerAppPriceInfoPoList = dealerAppPriceInfoService.getPrice(getPriceCnd);
-                    if(dealerAppPriceInfoPoList.size()>0){
-                        break;
+                    if (dealerAppPriceInfoPoList.size() == 0) {
+                        dialogBanner = false;
                     }
+                } else {
+                    dialogBanner = false;
                 }
-                if(dealerAppPriceInfoPoList.size()==0){
-                    dialogBanner=false;
-                }
-            }else {
-                dialogBanner=false;
             }
+        }else {
+            dialogBanner = false;
         }
-        List<HomeRecommendHotDetail> dialogBannerVoList = new ArrayList<HomeRecommendHotDetail>();
+        List<HomeRecommendHotDetail> list = new ArrayList<HomeRecommendHotDetail>();
         if(dialogBanner){
             //如果商品没有下架，可以显示banner和dialog
-            dialogBannerVoList = homeRecommendHotService.getDialogBanner(dialogBannerCnd);
-
+            list.add(dialogBannerVoList.get(0));
         }
-        return new ApiResult<>(dialogBannerVoList);
+        return new ApiResult<>(list);
     }
 
     /**

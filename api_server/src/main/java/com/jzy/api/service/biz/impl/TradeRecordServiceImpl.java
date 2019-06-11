@@ -5,9 +5,11 @@ import com.jzy.api.model.biz.TradeRecord;
 import com.jzy.api.service.biz.TradeRecordService;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.service.impl.GenericServiceImpl;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -126,6 +128,11 @@ public class TradeRecordServiceImpl extends GenericServiceImpl<TradeRecord> impl
     @Override
     public int updateXimeiRefundCallbackStatus(String markId, Integer status, String bgRespData, String operator) {
         return tradeRecordMapper.updateXimeiRefundCallbackStatus(markId, status, bgRespData, operator);
+    }
+
+    @Override
+    public List<TradeRecord> getTradeRecord(String id) {
+        return tradeRecordMapper.getTradeRecord(id);
     }
 
     @Override

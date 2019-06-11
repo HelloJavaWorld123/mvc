@@ -143,8 +143,9 @@ public class XimeiPayServiceImpl implements XimeiPayService {
      */
     @Override
     public boolean orderBack(Order order) {
-
-        order.setStatus(3);
+        //0待支付，1支付中，2支付成功，3退款中，4充值关闭，5退款成功
+        order.setStatus(3);//退款中
+        //0未提交,1已提交,2充值成功，3充值失败
         order.setSupStatus(3);
 
         String responseStr = doRefundRequest(order);
@@ -179,8 +180,8 @@ public class XimeiPayServiceImpl implements XimeiPayService {
 
                     }else{
                         order.setTradeStatus(Order.TradeStatusConst.WAIT_REFUND);
-                        order.setStatus(6);//待退款
-                        order.setSupStatus(3);//sup 充值失败
+                        //order.setStatus(6);//待退款
+                        //order.setSupStatus(3);//sup 充值失败
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

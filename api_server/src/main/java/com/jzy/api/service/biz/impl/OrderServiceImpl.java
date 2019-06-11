@@ -413,9 +413,12 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     public int handUpdateSupStatus(String id, Integer supStatus) {
         // 获取SUP充值记录
         SupRecord supRecord = supRecordMapper.querySupRecordByOrderId(id);
-        if(3==supStatus.intValue()){
+        if(3==supStatus.intValue()) {
             Order order = this.queryOrderById(id);
-            tradeRefund(order);
+            List<TradeRecord> tradeRecord = tradeRecordService.getTradeRecord(id);
+            if (tradeRecord.size()==0){
+                tradeRefund(order);
+            }
             supRecord.setRemark("失败");
         }else if(2==supStatus.intValue()){
             orderMapper.updateSupStatus(id, supStatus, supStatus, new Date());

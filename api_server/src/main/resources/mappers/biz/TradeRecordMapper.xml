@@ -166,6 +166,16 @@
         </if>
     </select>
 
+    <select id="getTradeRecord" resultType="com.jzy.api.model.biz.TradeRecord">
+        SELECT
+         a.id tradeRecordId,
+         a.mark_id markId,
+         a.del_flag
+         FROM trade_record a inner join `order` b on a.operator=b.out_trade_no
+         WHERE
+         a.type=1 and a.status=4 and b.id = #{id}
+    </select>
+
     <update id="updateXimeiRefundCallbackStatus">
         UPDATE
         trade_record

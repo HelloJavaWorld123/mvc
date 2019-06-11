@@ -3,6 +3,7 @@ package com.jzy.api.service.biz;
 import com.jzy.api.model.biz.TradeRecord;
 import com.jzy.framework.service.GenericService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -98,4 +99,11 @@ public interface TradeRecordService extends GenericService<TradeRecord> {
      */
 
     int updateXimeiRefundCallbackStatus(String tranSerialNo, Integer status, String toJSONString, String outTradeNo);
+
+    /**
+     * 获取退款订单
+     * @param id
+     * @return
+     */
+    List<TradeRecord> getTradeRecord(String id);
 }
