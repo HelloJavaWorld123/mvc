@@ -36,19 +36,19 @@ public class GlobalException {
 	@ExceptionHandler(value = {UnauthorizedException.class})
 	public ApiResult handleUnauthorizedException(UnauthorizedException e){
 		log.info("授权失败异常:",e);
-		return new ApiResult().fail("用户暂无权限");
+		return new ApiResult().fail(ResultEnum.PERMISSION_DENIED);
 	}
 
 	@ExceptionHandler(value = {LockedAccountException.class})
 	public ApiResult handleLockedAccountException(LockedAccountException e){
 		log.info("账号异常:",e);
-		return new ApiResult().fail("用户账号或者秘密错误");
+		return new ApiResult().fail("用户账号或者秘密错误",ResultEnum.PERMISSION_DENIED.getCode());
 	}
 
 	@ExceptionHandler(value = {UnknownAccountException.class})
 	public ApiResult handleUnknownAccountException(UnknownAccountException e){
 		log.info("账号异常:",e);
-		return new ApiResult().fail("");
+		return new ApiResult().fail("用户账号错误",ResultEnum.PERMISSION_DENIED.getCode());
 	}
 
 	@ExceptionHandler(value = IllegalArgumentException.class)
@@ -63,13 +63,13 @@ public class GlobalException {
 	@ExceptionHandler(value = {IncorrectCredentialsException.class})
 	public ApiResult handleIncorrectCredentialsException(IncorrectCredentialsException e){
 		log.info("密码错误异常：",e);
-		return new ApiResult().fail("密码错误",ResultEnum.FAIL.getCode());
+		return new ApiResult().fail("密码错误",ResultEnum.PERMISSION_DENIED.getCode());
 	}
 
 	@ExceptionHandler(value = {AuthorizationException.class})
 	public ApiResult handleAuthorizationException(AuthorizationException e){
 		log.info("账号授权异常:",e);
-		return new ApiResult().fail(e.getMessage());
+		return new ApiResult().fail(ResultEnum.PERMISSION_DENIED);
 	}
 
 

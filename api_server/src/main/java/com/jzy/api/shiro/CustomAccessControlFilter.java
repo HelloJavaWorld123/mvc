@@ -10,9 +10,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.checkerframework.checker.units.qual.A;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.util.AntPathMatcher;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
@@ -38,6 +41,9 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
 		HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
+		if(isIgnoreUri(httpServletRequest)){
+			return true;
+		}
 		String parameter = httpServletRequest.getHeader(AccessToken.APP.getValue());
 		if (StringUtils.isNotBlank(parameter)) {
 			if (isAdminRequest(parameter)) {
@@ -55,6 +61,12 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 			}
 		}
 		return false;
+	}
+
+	private boolean isIgnoreUri(HttpServletRequest httpServletRequest) {
+		String requestURI = httpServletRequest.getRequestURI();
+		AntPathMatcher antPathMatcher = new AntPathMatcher();
+		return antPathMatcher.match("/analysis/**", requestURI);
 	}
 
 	@Override

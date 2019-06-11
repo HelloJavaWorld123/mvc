@@ -103,9 +103,9 @@ public class LoginController extends GenericController {
 			subject.login(token);
 		} catch (IncorrectCredentialsException | UnknownAccountException | LockedAccountException e) {
 			log.error("用户登录异常：", e);
-			return new ApiResult().fail("账号或者密码错误");
+			return new ApiResult().fail("账号或者密码错误",ResultEnum.PERMISSION_DENIED.getCode());
 		}catch (UnauthorizedException | AuthenticationException e){
-			return new ApiResult().fail("账号没有正确授权,请联系管理员");
+			return new ApiResult().fail("账号没有正确授权,请联系管理员",ResultEnum.PERMISSION_DENIED.getCode());
 		}
 
 		SysEmp sysEmp = (SysEmp) subject.getPrincipal();
@@ -117,7 +117,7 @@ public class LoginController extends GenericController {
 	@WithoutLogin
 	@RequestMapping("/unauthorized")
 	public ApiResult unauthorized() {
-		return new ApiResult().fail(ResultEnum.SESSION_VALID);
+		return new ApiResult().fail(ResultEnum.PERMISSION_DENIED);
 	}
 
 

@@ -217,8 +217,9 @@
     <bean id="defaultWebSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="customRealm"/>
         <property name="subjectFactory" ref="subjectFactory"/>
-        <property name="subjectDAO" ref="defaultSubjectDAO"/>
+        <property name="subjectDAO" ref="customSubjectDAO"/>
         <property name="sessionManager" ref="defaultSessionManager"/>
+        <property name="cacheManager" ref="redisCacheManager"/>
     </bean>
 
     <bean id="defaultSubjectDAO" class="org.apache.shiro.mgt.DefaultSubjectDAO">
@@ -248,6 +249,7 @@
     <bean id="customFilterChain" class="java.lang.String">
         <constructor-arg>
             <value>
+                /=anon
                 /sys/unauthorized=anon
                 /sys/login=anon
                 /sys/logout=anon
@@ -260,6 +262,15 @@
     <bean id="subjectFactory" class="com.jzy.api.shiro.CustomWebSubjectFactory"/>
     <bean id="anon" class="org.apache.shiro.web.filter.authc.AnonymousFilter"/>
     <bean id="authFilter" class="com.jzy.api.shiro.CustomAccessControlFilter"/>
-    <bean id="customRealm" class="com.jzy.api.shiro.CustomAuthorizingRealm"/>
+    <bean id="customRealm" class="com.jzy.api.shiro.CustomAuthorizingRealm">
+        <property name="cacheManager" ref="redisCacheManager"/>
+        <property name="authenticationCachingEnabled" value="true"/>
+        <property name="authorizationCachingEnabled" value="true"/>
+        <property name="authenticationCacheName" value="userAuthentication"/>
+        <property name="cachingEnabled" value="true"/>
+        <property name="authorizationCacheName" value="userAuthorization"/>
+    </bean>
+    <bean id="redisCacheManager" class="com.jzy.api.shiro.RedisCacheManager"/>
+    <bean id="customSubjectDAO" class="com.jzy.api.shiro.CustomSubjectDAO"/>
 
 </beans>
