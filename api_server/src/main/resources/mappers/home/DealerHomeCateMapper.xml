@@ -41,7 +41,7 @@
         <if test="dealerId!=null">
             and hrc.dealer_id = #{dealerId}
         </if>
-        ORDER BY hrc.create_time, hrc.sort_desc
+        ORDER BY hrc.state desc, hrc.sort_desc asc
 
     </select>
     <select id="listPageCount" parameterType="com.jzy.api.cnd.home.DealerHomeCateListCnd"

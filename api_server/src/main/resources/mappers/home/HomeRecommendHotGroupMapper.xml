@@ -84,7 +84,7 @@
         <if test="groupName!=null">
             and group_name like CONCAT('%',#{groupName},'%')
         </if>
-        order by group_sort asc
+        order by state desc,group_sort asc
     </select>
 
     <!--启用停用-->
