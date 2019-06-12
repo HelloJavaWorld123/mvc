@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * Author : RXK
+ * @Author : RXK
  * Date : 2019/5/29 17:14
  * Version: V1.0.0
  * Desc: 权限资源表
@@ -31,10 +31,8 @@ public class SysPermission extends GenericModel {
 
 	private int permissionStatus;
 
-	private String description;
 
-
-	private SysPermission(Integer delFlag, Date createTime, Long creatorId, Date modifyTime, Long modifierId, String uniqueKey, String parentKey, String permissionName, int permissionType, int leafNode,int permissionStatus, String description) {
+	private SysPermission(Integer delFlag, Date createTime, Long creatorId, Date modifyTime, Long modifierId, String uniqueKey, String parentKey, String permissionName, int permissionType, int leafNode,int permissionStatus) {
 		super(delFlag, createTime, creatorId, modifyTime, modifierId);
 		this.uniqueKey = uniqueKey;
 		this.parentKey = parentKey;
@@ -42,10 +40,9 @@ public class SysPermission extends GenericModel {
 		this.permissionType = permissionType;
 		this.leafNode = leafNode;
 		this.permissionStatus = permissionStatus;
-		this.description = description;
 	}
 
-	private SysPermission(Long id, Date modifyTime, Long modifierId, String uniqueKey, String parentKey, String permissionName, int permissionType, int leafNode, int permissionStatus,String description) {
+	private SysPermission(Long id, Date modifyTime, Long modifierId, String uniqueKey, String parentKey, String permissionName, int permissionType, int leafNode, int permissionStatus) {
 		super(id, modifyTime, modifierId);
 		this.uniqueKey = uniqueKey;
 		this.parentKey = parentKey;
@@ -53,14 +50,13 @@ public class SysPermission extends GenericModel {
 		this.permissionType = permissionType;
 		this.leafNode = leafNode;
 		this.permissionStatus = permissionStatus;
-		this.description = description;
 	}
 
 	public static SysPermission build(SysPermissionCnd permissionCnd) {
-		return new SysPermission(0, new Date(), permissionCnd.getOperatorId(), new Date(), permissionCnd.getOperatorId(), permissionCnd.getUniqueKey(), permissionCnd.getParentKey(), permissionCnd.getPermName(), permissionCnd.getPermType(), permissionCnd.getLeafNode(), permissionCnd.getPermStatus(),permissionCnd.getDescription());
+		return new SysPermission(0, new Date(), permissionCnd.getOperatorId(), new Date(), permissionCnd.getOperatorId(), permissionCnd.getUniqueKey(), permissionCnd.getParentKey(), permissionCnd.getPermName(), permissionCnd.getPermType(), permissionCnd.getLeafNode(), permissionCnd.getPermStatus());
 	}
 
 	public static SysPermission update(SysPermissionCnd permissionCnd) {
-		return new SysPermission(permissionCnd.getId(), new Date(), permissionCnd.getOperatorId(), permissionCnd.getUniqueKey(), permissionCnd.getParentKey(), permissionCnd.getPermName(), permissionCnd.getPermType(),permissionCnd.getLeafNode(), permissionCnd.getPermStatus(),permissionCnd.getDescription());
+		return new SysPermission(permissionCnd.getId(), new Date(), permissionCnd.getOperatorId(), permissionCnd.getUniqueKey(), permissionCnd.getParentKey(), permissionCnd.getPermName(), permissionCnd.getPermType(),permissionCnd.getLeafNode(), permissionCnd.getPermStatus());
 	}
 }

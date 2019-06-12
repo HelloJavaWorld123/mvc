@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jzy.api.dao.auth.SysPermissionMapper">
     <insert id="add" parameterType="com.jzy.api.model.auth.SysPermission">
-        INSERT INTO `sys_permission`(`unique_key`, `parent_key`, `permission_name`, `permission_type`, `leaf_node`, `permission_status`, `description`, `del_flag`, `create_time`, `modify_time`, `create_id`, `modifier_id`)
+        INSERT INTO `sys_permission`(`unique_key`, `parent_key`, `permission_name`, `permission_type`, `leaf_node`, `permission_status`, `del_flag`, `create_time`, `modify_time`, `create_id`, `modifier_id`)
         VALUES (
             #{permission.uniqueKey},
             #{permission.parentKey},
@@ -11,7 +11,6 @@
             #{permission.permissionType},
             #{permission.leafNode},
             #{permission.permissionStatus},
-            #{permission.description},
             #{permission.delFlag},
             #{permission.createTime},
             #{permission.modifyTime},
@@ -28,7 +27,6 @@
             `permission_type` = #{permission.permissionType},
             `leaf_node` = #{permission.leafNode},
             `permission_status` = #{permission.permissionStatus},
-            `description` = #{permission.description},
             `modify_time` = #{permission.modifyTime},
             `modifier_id` = #{permission.modifierId}
          WHERE `id` = #{permission.id};
@@ -46,8 +44,7 @@
             permission_name AS permissionName,
             permission_type AS permissionType,
             leaf_node AS leafNode,
-            permission_status AS permissionStatus,
-            description
+            permission_status AS permissionStatus
         FROM `sys_permission`
         WHERE permission_status = 0 AND del_flag = 0 AND id != 0
         ORDER BY id DESC
@@ -60,8 +57,7 @@
             permission_name AS permissionName,
             permission_type AS permissionType,
             leaf_node AS leafNode,
-            permission_status AS permissionStatus,
-            description
+            permission_status AS permissionStatus
         FROM sys_permission
         WHERE
             id = #{id}
@@ -108,8 +104,7 @@
             permission_name AS permissionName,
             permission_type AS permissionType,
             leaf_node AS leafNode,
-            permission_status AS permissionStatus,
-            description
+            permission_status AS permissionStatus
         FROM sys_permission
         WHERE
             id IN

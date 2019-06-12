@@ -39,8 +39,6 @@ public class SysRoleCnd extends PageCnd {
 	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class,RoleValueExist.class},message = "角色值不能为空")
 	private String roleValue;
 
-	private String description;
-
 	private Integer status = 0;
 
 	private Integer delFlag;

@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
- * Author : RXK
+ * @Author : RXK
  * Date : 2019/5/29 19:06
  * Version: V1.0.0
  * Desc: 权限资源入参
@@ -26,7 +26,9 @@ public class SysPermissionCnd extends PageCnd {
 	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class},message = "资源唯一key不能为空")
 	private String uniqueKey;
 
-	//没有的话 传0
+	/**
+	 * 没有的话 传0
+	 */
 	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class},message = "父级唯一key不能为空")
 	private String parentKey;
 
@@ -37,8 +39,6 @@ public class SysPermissionCnd extends PageCnd {
 	private Integer permType;
 
 	private Integer leafNode;
-
-	private String description;
 
 	@NotNull(groups = {CreateValidator.class,UpdateValidator.class},message = "资源的状态不能为空")
 	private Integer permStatus;

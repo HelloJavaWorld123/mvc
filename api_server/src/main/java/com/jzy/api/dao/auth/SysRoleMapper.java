@@ -34,7 +34,7 @@ public interface SysRoleMapper{
 	/**
 	 * 逻辑删除
 	 */
-	Integer updateDelFLag(@Param("id") Long id);
+	Integer deleteById(@Param("id") Long id);
 
 	/**
 	 * 角色列表查询

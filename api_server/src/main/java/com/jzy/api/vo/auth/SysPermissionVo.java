@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * Author : RXK
+ * @Author : RXK
  * Date : 2019/5/30 10:19
  * Version: V1.0.0
  * Desc:
@@ -24,9 +24,5 @@ public class SysPermissionVo {
 	private int permissionType;
 
 	private int leafNode;
-
-	private String description;
-
-	private List<SysPermissionVo> child;
 
 }

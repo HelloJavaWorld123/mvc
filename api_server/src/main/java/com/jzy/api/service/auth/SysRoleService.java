@@ -18,19 +18,16 @@ public interface SysRoleService{
 
 	/**
 	 * 分页查询 角色列表
-	 * @return
 	 */
 	PageVo<SysRoleVo> list(SysRoleCnd sysRoleCnd);
 
 	/**
 	 * 角色新增
-	 * @return
 	 */
 	Integer add(SysRoleCnd sysRoleCnd);
 
 	/**
 	 * 根据id 查询角色
-	 * @param roleId
 	 */
 	Role queryById(Long roleId);
 
@@ -42,7 +39,6 @@ public interface SysRoleService{
 
 	/**
 	 * 逻辑删除角色
-	 * @param roleId
 	 */
 	Integer deleteById(Long roleId);
 
@@ -54,7 +50,6 @@ public interface SysRoleService{
 	/**
 	 * 根据角色值 查询
 	 * @param roleValue ：角色值
-	 * @param roleId
 	 */
 	Role findByRoleValue(String roleValue, Long roleId);
 

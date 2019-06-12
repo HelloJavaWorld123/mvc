@@ -3,12 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jzy.api.dao.auth.SysRoleMapper">
     <insert id="add" parameterType="com.jzy.api.model.auth.Role">
-        INSERT INTO `sys_role`(`name`, `role_value`, `description`, `status`, `create_time`, `modify_time`, `create_id`, `modifier_id`, `del_flag`)
+        INSERT INTO `sys_role`(`name`, `role_value`,`status`, `create_time`, `modify_time`, `create_id`, `modifier_id`, `del_flag`)
         VALUES
         (
             #{role.name},
             #{role.roleValue},
-            #{role.description},
             #{role.status},
             #{role.createTime},
             #{role.modifyTime},
@@ -23,16 +22,13 @@
         SET
             `name` = #{role.name},
             `role_value` = #{role.roleValue},
-            `description` = #{role.description},
             `status` = #{role.status},
             `modify_time` = #{role.modifyTime},
             `modifier_id` = #{role.modifierId}
         WHERE `id`= #{role.id};
     </update>
-    <update id="updateDelFLag">
-        UPDATE `sys_role`
-        SET `del_flag` = 1
-        WHERE `id` = #{id};
+    <update id="deleteById">
+        DELETE FROM sys_role WHERE id = #{id}
     </update>
 
 
@@ -41,7 +37,6 @@
             id,
             name,
             role_value AS roleValue,
-            description,
             status,
             del_flag AS delFlag
         FROM `sys_role`
@@ -54,7 +49,6 @@
         id,
         name,
         role_value AS roleValue,
-        description,
         `status`
         FROM `sys_role`
         <where>
@@ -75,7 +69,6 @@
         SELECT
             name,
             role_value AS roleValue,
-            description,
             status,
             del_flag AS delFlag
         FROM sys_role
@@ -91,7 +84,6 @@
             id,
             name,
             role_value AS roleValue,
-            description,
             status
         FROM sys_role
         <where>
@@ -108,7 +100,6 @@
             id,
             name,
             role_value AS roleValue,
-            description,
             status
         FROM sys_role
         WHERE
