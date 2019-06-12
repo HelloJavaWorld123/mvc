@@ -24,11 +24,9 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.util.WebUtils;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,9 +35,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author : RXK
@@ -71,6 +70,7 @@ public class LoginController extends GenericController {
 	 * <b>修订记录：</b><br>
 	 * <li>20190424&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
 	 */
+	@Deprecated
 	@WithoutLogin
 	@RequestMapping(path = "/managerLogin")
 	public ApiResult managerLogin(@RequestBody LoginCnd loginCnd) {
@@ -189,7 +189,9 @@ public class LoginController extends GenericController {
 		return token;
 	}
 
-	//TODO 后期统一数据类型 目前兼容
+	/**
+	 * TODO 后期统一数据类型 目前兼容
+	 */
 	private EmpCache getEmpCache(SysEmp sysEmp) {
 		EmpCache cache = new EmpCache();
 		cache.setEmpId(sysEmp.getId()

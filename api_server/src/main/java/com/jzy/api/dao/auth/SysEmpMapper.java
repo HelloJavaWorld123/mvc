@@ -2,6 +2,7 @@ package com.jzy.api.dao.auth;
 
 import com.jzy.api.cnd.auth.SysEmpCnd;
 import com.jzy.api.model.auth.SysEmp;
+import com.jzy.api.model.sys.Emp;
 import com.jzy.api.vo.auth.SysEmpVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DuplicateKeyException;
@@ -26,4 +27,6 @@ public interface SysEmpMapper {
 	Integer deleteById(@Param("id") Long id, @Param("operatorId") Long operatorId);
 
 	List<SysEmp> findByName(@Param("name") String name, @Param("userId") Long userId);
+
+	List<Emp> findNameByDealerId(@Param("name") String name, @Param("dealerId") Long dealerId);
 }

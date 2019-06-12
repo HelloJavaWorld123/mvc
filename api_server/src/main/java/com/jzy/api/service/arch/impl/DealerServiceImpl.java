@@ -8,8 +8,8 @@ import com.jzy.api.cnd.arch.UpdateDealerStatusCnd;
 import com.jzy.api.dao.arch.DealerBaseInfoMapper;
 import com.jzy.api.dao.arch.DealerMapper;
 import com.jzy.api.dao.arch.DealerParamMapper;
-import com.jzy.api.dao.biz.OrderMapper;
 import com.jzy.api.dao.auth.SysEmpRoleMapper;
+import com.jzy.api.dao.biz.OrderMapper;
 import com.jzy.api.model.app.FileInfo;
 import com.jzy.api.model.auth.SysEmpRole;
 import com.jzy.api.model.dealer.Dealer;
@@ -23,13 +23,12 @@ import com.jzy.api.po.dealer.DealerListPo;
 import com.jzy.api.service.arch.DealerBaseInfoService;
 import com.jzy.api.service.arch.DealerParamService;
 import com.jzy.api.service.arch.DealerService;
-import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.service.auth.EmpService;
+import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.service.sys.SysImagesService;
 import com.jzy.api.util.MD5Util;
 import com.jzy.api.util.MyEncrypt;
 import com.jzy.api.vo.dealer.DealerDetailVo;
-import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
@@ -96,6 +95,7 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
      * <b>修订记录：</b><br>
      * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
+    @Override
     public DealerAnalysisInfoPo getAnalysisInfo(String businessId) {
         return dealerMapper.getAnalysisInfo(businessId);
 

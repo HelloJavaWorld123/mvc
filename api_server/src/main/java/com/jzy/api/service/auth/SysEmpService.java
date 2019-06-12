@@ -2,6 +2,7 @@ package com.jzy.api.service.auth;
 
 import com.jzy.api.cnd.auth.SysEmpCnd;
 import com.jzy.api.model.auth.SysEmp;
+import com.jzy.api.model.sys.Emp;
 import com.jzy.api.vo.auth.SysEmpVo;
 import com.jzy.framework.bean.vo.PageVo;
 import org.springframework.dao.DuplicateKeyException;
@@ -48,7 +49,6 @@ public interface SysEmpService {
 	 * 根据用户名 查询
 	 * 包括用户状态 为 1 的账户
 	 * 当不包括 已经删除的用户
-	 * @return
 	 */
 	List<SysEmp> findByName(String name, Long userId);
 
@@ -56,4 +56,9 @@ public interface SysEmpService {
 	 * 删除当前用户的id
 	 */
 	void deleteCache(Long id);
+
+	/**
+	 * 渠道商的用户名是否已经存在
+	 */
+	List<Emp> findNameByDealerId(String name,Long dealerId);
 }

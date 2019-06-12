@@ -6,6 +6,7 @@ import com.jzy.api.cnd.auth.SysEmpCnd;
 import com.jzy.api.constant.ApiRedisCacheConstant;
 import com.jzy.api.dao.auth.SysEmpMapper;
 import com.jzy.api.model.auth.SysEmp;
+import com.jzy.api.model.sys.Emp;
 import com.jzy.api.service.auth.SysEmpService;
 import com.jzy.api.vo.auth.SysEmpVo;
 import com.jzy.framework.bean.vo.PageVo;
@@ -78,6 +79,7 @@ public class SysEmpServiceImpl implements SysEmpService {
 		return sysEmpMapper.findByName(name,userId);
 	}
 
+	@Override
 	public void deleteCache(Long id) {
 		String userRoleIdsKey = ApiRedisCacheConstant.USER_ROLE_IDS_CACHE+id;
 		String userPermKey = ApiRedisCacheConstant.USER_PERMISSION_CACHE +id;
@@ -89,4 +91,8 @@ public class SysEmpServiceImpl implements SysEmpService {
 					  .deleteAsync();
 	}
 
+	@Override
+	public List<Emp> findNameByDealerId(String name, Long dealerId) {
+		return sysEmpMapper.findNameByDealerId(name,dealerId);
+	}
 }

@@ -74,4 +74,18 @@
         </if>
         </where>
     </select>
+    <select id="findNameByDealerId" resultType="com.jzy.api.model.sys.Emp">
+        SELECT
+            name,
+            pwd
+        FROM
+            sys_emp
+        WHERE
+            name=#{name}
+        AND
+            del_flag = 0
+        <if test="dealerId!=null">
+            AND dealer_id!=#{dealerId}
+        </if>
+    </select>
 </mapper>
