@@ -4,18 +4,14 @@ import com.jzy.api.annos.WithoutLogin;
 import com.jzy.api.cnd.admin.LoginCnd;
 import com.jzy.api.constant.AccessToken;
 import com.jzy.api.constant.ApiRedisCacheConstant;
-import com.jzy.api.model.auth.Role;
 import com.jzy.api.model.auth.SysEmp;
-import com.jzy.api.model.sys.Emp;
-import com.jzy.api.service.auth.EmpService;
 import com.jzy.api.service.auth.SysEmpRoleService;
 import com.jzy.api.service.auth.SysEmpService;
 import com.jzy.api.service.auth.SysRolePermissionService;
 import com.jzy.api.util.MD5Util;
-import com.jzy.api.vo.sys.EmpVo;
+import com.jzy.api.vo.auth.LogInVo;
 import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.cache.EmpCache;
-import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -35,7 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -85,8 +80,8 @@ public class LoginController{
 
 		SysEmp sysEmp = (SysEmp) subject.getPrincipal();
 		String apiEmpToken = cacheSysEmpInfo(sysEmp);
-		EmpVo empVo = EmpVo.build(sysEmp,apiEmpToken);
-		return new ApiResult<>().success(empVo);
+		LogInVo logInVo = LogInVo.build(sysEmp, apiEmpToken);
+		return new ApiResult<>().success(logInVo);
 	}
 
 	@WithoutLogin
@@ -110,9 +105,9 @@ public class LoginController{
 
 		Set<String> permissionValues = getPermissionValues(empCache);
 
-		EmpVo empVo = EmpVo.build(permissionValues);
+		LogInVo logInVo = LogInVo.build(permissionValues);
 
-		return new ApiResult<>().success(empVo);
+		return new ApiResult<>().success(logInVo);
 	}
 
 	private Set<String> getPermissionValues(EmpCache empCache) {
