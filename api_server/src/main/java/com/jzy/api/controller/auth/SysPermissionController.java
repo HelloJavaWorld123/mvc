@@ -27,7 +27,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * Author : RXK
+ * @Author : RXK
  * Date : 2019/5/29 19:05
  * Version: V1.0.0
  * Desc: 权限资源管理

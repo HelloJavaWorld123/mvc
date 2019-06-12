@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Author : RXK
+ * @Author : RXK
  * Date : 2019/5/31 14:31
  * Version: V1.0.0
  * Desc: 用户授权 以及 权限资源获取

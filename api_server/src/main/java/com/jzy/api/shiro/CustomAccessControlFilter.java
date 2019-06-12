@@ -5,6 +5,7 @@ import com.jzy.api.service.auth.SysEmpService;
 import com.jzy.api.vo.auth.SysEmpVo;
 import com.jzy.common.enums.TerminalTypeEnum;
 import com.jzy.framework.cache.EmpCache;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.web.filter.AccessControlFilter;
@@ -14,6 +15,7 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.AntPathMatcher;
+import sun.rmi.runtime.Log;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
@@ -29,6 +31,7 @@ import java.util.Objects;
  * Desc:
  *
  */
+@Slf4j
 public class CustomAccessControlFilter extends AccessControlFilter {
 
 	@Autowired
@@ -44,6 +47,7 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
 		HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
+		log.info("请求的uri是:{}",httpServletRequest.getRequestURI());
 		if(isIgnoreUri(httpServletRequest)){
 			return true;
 		}

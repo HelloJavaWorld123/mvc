@@ -18,6 +18,9 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author ：RXK
+ */
 @Slf4j
 @Service
 public class AuthServiceImpl extends GenericServiceImpl<Auth> implements AuthService {

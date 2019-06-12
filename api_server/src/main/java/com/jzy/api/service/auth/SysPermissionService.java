@@ -8,7 +8,7 @@ import com.jzy.framework.bean.vo.PageVo;
 import java.util.List;
 
 /**
- * Author : RXK
+ * @Author : RXK
  * Date : 2019/5/30 10:08
  * Version: V1.0.0
  * Desc: 权限资源相关方法

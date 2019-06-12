@@ -7,7 +7,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 
 /**
- * Author : RXK
+ * @Author : RXK
  * Date : 2019/5/31 17:06
  * Version: V1.0.0
  * Desc: 自定义密码比对
