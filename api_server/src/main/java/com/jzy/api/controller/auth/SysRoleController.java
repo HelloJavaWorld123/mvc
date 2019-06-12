@@ -124,7 +124,7 @@ public class SysRoleController {
 
 
 	@RequestMapping("/allot/perm")
-	public ApiResult allotPermission(@RequestBody @Validated(SysRoleCnd.Allot.class) SysRoleCnd sysRoleCnd) {
+	public ApiResult allotPermission(@RequestBody @Validated(SysRoleCnd.AllotPermValidator.class) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
 		Assert.isTrue(Objects.nonNull(role), "角色参数错误");
 

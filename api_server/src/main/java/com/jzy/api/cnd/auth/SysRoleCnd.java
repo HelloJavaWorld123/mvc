@@ -7,16 +7,15 @@ import com.jzy.api.annos.UpdateValidator;
 import com.jzy.framework.bean.cnd.PageCnd;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.apache.ibatis.annotations.Delete;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.List;
 
 /**
- * Author : RXK
+ * @Author : RXK
  * Date : 2019/5/29 17:47
  * Version: V1.0.0
  * Desc:
@@ -26,17 +25,17 @@ import java.util.List;
 public class SysRoleCnd extends PageCnd {
 
 
-	public interface Allot{}
+	public interface AllotPermValidator {}
 
-	public interface RoleValueExist{}
-
-	@NotNull(groups = {UpdateValidator.class, DeleteValidator.class, IDValidator.class,Allot.class},message = "主键不能为空")
+	@NotNull(groups = {UpdateValidator.class, DeleteValidator.class, IDValidator.class, AllotPermValidator.class},message = "主键不能为空")
 	private Long id;
 
 	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class},message = "角色名称不能为空")
+	@Length(groups = {CreateValidator.class, UpdateValidator.class},max = 20,message = "角色名称最长不超过20个字符")
 	private String name;
 
-	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class,RoleValueExist.class},message = "角色值不能为空")
+	@NotEmpty(groups = {CreateValidator.class,UpdateValidator.class},message = "角色值不能为空")
+	@Length(groups = {CreateValidator.class, UpdateValidator.class},max = 20,message = "角色值不能超过20个字符")
 	private String roleValue;
 
 	private Integer status = 0;
@@ -45,13 +44,9 @@ public class SysRoleCnd extends PageCnd {
 
 	private List<Long> permIds;
 
-	@NotNull(groups = {Allot.class},message = "资源类型不能为空")
-	@Range(groups = {Allot.class},min = 0,max = 3,message = "请输入正确范围内的数字")
+	@NotNull(groups = {AllotPermValidator.class},message = "资源类型不能为空")
+	@Range(groups = {AllotPermValidator.class},min = 0,max = 3,message = "请输入正确范围内的数字")
 	private Integer permType;
-
-	private Date createTime;
-
-	private Long createId;
 
 	private Long operatorId;
 }

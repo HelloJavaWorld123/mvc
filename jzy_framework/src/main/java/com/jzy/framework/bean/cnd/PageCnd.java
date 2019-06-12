@@ -2,6 +2,7 @@ package com.jzy.framework.bean.cnd;
 
 import javax.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * <b>功能：</b>分页参数基类<br>
@@ -13,6 +14,7 @@ import lombok.Data;
  * </ul>
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class PageCnd extends GenericCnd {
 
     public interface PageValidator{
