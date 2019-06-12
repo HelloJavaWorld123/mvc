@@ -46,9 +46,9 @@ public class ApiRedisCacheConstant {
     public static final String USER_PERMISSION_CACHE = "user_permission_cache_";
 
     /**
-     * shiro 的subject 缓存
+     * 单纯缓存 资源列表
      */
-    public static final String SHIRO_SUBJECT_CACHE = "shiro_subject_cache_";
+    public static final String PERMISSION_LIST_CACHE = "permission_list_cache";
 
 
 }
