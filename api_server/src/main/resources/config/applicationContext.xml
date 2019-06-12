@@ -208,7 +208,7 @@
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="defaultWebSecurityManager"/>
-        <property name="loginUrl" value="/sys/unauthorized"/>
+        <property name="loginUrl" value="/api-server/sys/unauthorized"/>
         <property name="filters">
             <map>
                 <entry key="authFilter" value-ref="authFilter"/>
@@ -219,7 +219,7 @@
 
     <bean id="defaultWebSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="customRealm"/>
-        <property name="subjectFactory" ref="subjectFactory"/>
+<!--        <property name="subjectFactory" ref="subjectFactory"/>-->
         <property name="subjectDAO" ref="defaultSubjectDAO"/>
         <property name="sessionManager" ref="defaultSessionManager"/>
     </bean>
@@ -251,16 +251,16 @@
     <bean id="customFilterChain" class="java.lang.String">
         <constructor-arg>
             <value>
-                /sys/unauthorized=anon
-                /sys/login=anon
-                /sys/logout=anon
-                /** =authFilter
+                /api-server/sys/unauthorized=anon
+                /api-server/sys/login=anon
+                /api-server/sys/logout=anon
+                /api-server/** =authFilter
             </value>
         </constructor-arg>
     </bean>
 
 
-    <bean id="subjectFactory" class="com.jzy.api.shiro.CustomWebSubjectFactory"/>
+<!--    <bean id="subjectFactory" class="com.jzy.api.shiro.CustomWebSubjectFactory"/>-->
     <bean id="anon" class="org.apache.shiro.web.filter.authc.AnonymousFilter"/>
     <bean id="authFilter" class="com.jzy.api.shiro.CustomAccessControlFilter"/>
     <bean id="customRealm" class="com.jzy.api.shiro.CustomAuthorizingRealm">
