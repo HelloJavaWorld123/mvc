@@ -31,7 +31,6 @@ import java.util.Objects;
  * Desc:
  *
  */
-@Slf4j
 public class CustomAccessControlFilter extends AccessControlFilter {
 
 	@Autowired
@@ -47,7 +46,6 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
 		HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
-		log.info("请求的uri是:{}",httpServletRequest.getRequestURI());
 		if(isIgnoreUri(httpServletRequest)){
 			return true;
 		}
@@ -74,13 +72,12 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 		String requestURI = httpServletRequest.getRequestURI();
 		AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-		int i = 0;
 		for(String ignoreUris : ignoreUris){
 			if(antPathMatcher.match(ignoreUris,requestURI)){
-				i++;
+				return true;
 			}
 		}
-		return i != 0;
+		return false;
 	}
 
 	@Override
