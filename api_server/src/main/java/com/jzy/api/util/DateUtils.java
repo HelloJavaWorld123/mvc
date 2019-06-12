@@ -14,13 +14,17 @@ import java.util.Locale;
 
 public class DateUtils {
 
-    public static final long HOURES_PER_DAY = 24;
+    private static final long HOURES_PER_DAY = 24;
 
-    public static final long SECONDS_PER_MINUTE = 60;
+    private static final long DAY_ONE_WEEK = 7;
 
-    public static final long SECONDS_PER_HOURE = SECONDS_PER_MINUTE * SECONDS_PER_MINUTE;
+    private static final long SECONDS_PER_MINUTE = 60;
+
+    private static final long SECONDS_PER_HOURE = SECONDS_PER_MINUTE * SECONDS_PER_MINUTE;
 
     public static final long SECONDS_PER_DAY = HOURES_PER_DAY * SECONDS_PER_HOURE;
+
+    public static final long SECONDES_ONE_WEEK = DAY_ONE_WEEK * HOURES_PER_DAY * SECONDS_PER_HOURE;
 
 
     /**
