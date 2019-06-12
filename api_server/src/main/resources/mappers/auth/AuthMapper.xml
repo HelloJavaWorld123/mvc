@@ -23,28 +23,6 @@
         sys_auth
     </select>
 
-    <!--  根据用户id获取角色信息 -->
-    <select id="queryRoleList" resultType="com.jzy.api.model.auth.Role">
-        SELECT
-            role.id,
-            role.name,
-            role.role_value AS roleValue,
-            role.description,
-            role.status
-        FROM
-        sys_role role
-        WHERE
-            EXISTS (
-                SELECT
-                  1
-                FROM
-                sys_emp_role empRole
-                WHERE
-                    empRole.role_id = role.id
-                AND empRole.emp_id = #{empId}
-            )
-    </select>
-
     <!-- 根据角色id获取所有权限信息  -->
     <select id="queryPermissionList" resultType="java.lang.String">
         SELECT

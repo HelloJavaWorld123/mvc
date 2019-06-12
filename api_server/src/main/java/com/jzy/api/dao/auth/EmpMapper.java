@@ -18,14 +18,6 @@ import java.util.List;
 public interface EmpMapper extends GenericMapper<Emp> {
 
     /**
-     * <b>功能描述：</b>根据用户名查询用户<br>
-     * <b>修订记录：</b><br>
-     * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-     */
-    Emp queryEmpByUsername(String username);
-
-
-    /**
      * <b>功能描述：</b>用户名称校验<br>
      * <b>修订记录：</b><br>
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>

@@ -47,11 +47,8 @@ import java.util.Set;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = {"/login", "/sys"})
-public class LoginController extends GenericController {
-
-	@Resource
-	private EmpService userService;
+@RequestMapping("/sys")
+public class LoginController{
 
 	@Autowired
 	private SysEmpService sysEmpService;
@@ -64,28 +61,6 @@ public class LoginController extends GenericController {
 
 	@Autowired
 	private SysRolePermissionService sysRolePermissionService;
-
-	/**
-	 * <b>功能描述：</b>获取用户资源列表<br>
-	 * <b>修订记录：</b><br>
-	 * <li>20190424&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
-	 */
-	@Deprecated
-	@WithoutLogin
-	@RequestMapping(path = "/managerLogin")
-	public ApiResult managerLogin(@RequestBody LoginCnd loginCnd) {
-		ApiResult<EmpVo> apiResult = new ApiResult<>();
-		Emp emp = userService.login(loginCnd.getUsername(), loginCnd.getPwd());
-		EmpVo empVo = new EmpVo();
-		empVo.setName(emp.getName());
-		// TODO: 2019/4/28 目前只返回一个角色名即可
-		List<Role> roleList = new ArrayList<>(emp.getRoles());
-		if (!roleList.isEmpty()) {
-			//            empVo.setRoleName(roleList.get(0).getName());
-		}
-		empVo.setApiEmpToken(emp.getApiEmpToken());
-		return apiResult.success(empVo);
-	}
 
 
 	/**

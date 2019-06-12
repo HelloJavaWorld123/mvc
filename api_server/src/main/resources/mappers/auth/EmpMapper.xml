@@ -13,19 +13,6 @@
 
 <mapper namespace="com.jzy.api.dao.auth.EmpMapper">
 
-    <!-- 根据用户名查询用户 -->
-    <select id="queryEmpByUsername" resultType="com.jzy.api.model.sys.Emp">
-        SELECT
-        id,
-        name,
-        pwd,
-        dealer_id dealerId
-        FROM
-        sys_emp
-        WHERE
-        name = #{username}
-    </select>
-
     <insert id="insert" parameterType="com.jzy.api.model.sys.Emp">
             INSERT INTO  sys_emp (
             `id`,
