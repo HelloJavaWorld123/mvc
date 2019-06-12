@@ -3,32 +3,32 @@ package com.jzy.api.shiro;
 import com.jzy.api.constant.AccessToken;
 import com.jzy.api.service.auth.SysEmpService;
 import com.jzy.api.vo.auth.SysEmpVo;
-import com.jzy.common.enums.ResultEnum;
 import com.jzy.common.enums.TerminalTypeEnum;
 import com.jzy.framework.cache.EmpCache;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.checkerframework.checker.units.qual.A;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.AntPathMatcher;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Objects;
 
 /**
- * Author : RXK
+ * @author : RXK
  * Date : 2019/6/6 10:30
  * Version: V1.0.0
  * Desc:
- **/
+ *
+ */
 public class CustomAccessControlFilter extends AccessControlFilter {
 
 	@Autowired
@@ -36,6 +36,9 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 
 	@Resource
 	private RedissonClient redissonClient;
+
+	@Value("#{'${anonUri}'.split(',')}")
+	private List<String> ignoreUris;
 
 
 	@Override
@@ -66,7 +69,14 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 	private boolean isIgnoreUri(HttpServletRequest httpServletRequest) {
 		String requestURI = httpServletRequest.getRequestURI();
 		AntPathMatcher antPathMatcher = new AntPathMatcher();
-		return antPathMatcher.match("/analysis/**", requestURI);
+
+		int i = 0;
+		for(String ignoreUris : ignoreUris){
+			if(antPathMatcher.match(ignoreUris,requestURI)){
+				i++;
+			}
+		}
+		return i != 0;
 	}
 
 	@Override

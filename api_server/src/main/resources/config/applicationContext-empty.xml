@@ -10,7 +10,7 @@
 
     <!-- 读取系统配置信息 -->
     <context:property-placeholder
-            location="classpath:config/applicationContextCfg-dev.properties"
+            location="classpath:config/applicationContextCfg-alidev.properties"
             file-encoding="UTF-8"/>
 
 </beans>
