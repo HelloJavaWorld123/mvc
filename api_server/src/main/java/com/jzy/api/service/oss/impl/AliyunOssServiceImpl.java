@@ -227,11 +227,13 @@ public class AliyunOssServiceImpl implements AliyunOssService {
         String ossCallbackBody = OssUtil.GetPostBody(request.getInputStream(),
                 Integer.parseInt(request.getHeader("content-length")));
         boolean ret = OssUtil.VerifyOSSCallbackRequest(request, ossCallbackBody);
-        System.out.println("verify result : " + ret);
+        logger.debug("ossCallBack verify result : " + ret);
         // System.out.println("OSS Callback Body:" + ossCallbackBody);
         if (ret) {
+            logger.debug("ossCallBack OK: " + ret);
             OssUtil.response(request, response, "{\"Status\":\"OK\"}", HttpServletResponse.SC_OK);
         } else {
+            logger.error("ossCallBack not ok: " + ret);
             OssUtil.response(request, response, "{\"Status\":\"verdify not ok\"}", HttpServletResponse.SC_BAD_REQUEST);
         }
     }
