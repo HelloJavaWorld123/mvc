@@ -138,7 +138,16 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
             String outTradeNo = DateUtils.getFormatDate(new Date(),"yyyyMMdd").concat(dealer.getIdnum().replace("Num","")).concat(genCode(order.getDealerId())+"");
             //订单编号规则改变
             order.setOutTradeNo(outTradeNo);
+        }else{
+            if(2==payWayId){
+                Dealer dealer = dealerService.queryDealer(order.getDealerId());
+                String outTradeNo = DateUtils.getFormatDate(new Date(),"yyyyMMdd").concat(dealer.getIdnum().replace("Num","")).concat(genCode(order.getDealerId())+"");
+                //订单编号规则改变
+                order.setOutTradeNo(outTradeNo);
+
+            }
         }
+
 
 //        Dealer dealer = dealerService.queryDealer(order.getDealerId());
 //        order.setOutTradeNo(DateUtils.getFormatDate(new Date(),"yyyyMMdd").concat(dealer.getIdnum().replace("Num","")).concat(genCode(order.getDealerId())+""));
