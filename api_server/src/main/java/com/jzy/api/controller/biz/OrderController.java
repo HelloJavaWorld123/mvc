@@ -36,7 +36,7 @@ public class OrderController extends GenericController {
     private OrderService orderService;
 
     @RequestMapping("/updateSupStatus")
-    //@RequiresPermissions(value = "a:order:updateSupStatus")
+    @RequiresPermissions(value = "a:order:updateSupStatus")
     public ApiResult updateSupStatus(@RequestBody SupStatusCnd supStatusCnd) {
         orderService.handUpdateSupStatus(supStatusCnd.getOrderId(), supStatusCnd.getSupStatus());
         SupStatusVo supStatusVo = new SupStatusVo();
