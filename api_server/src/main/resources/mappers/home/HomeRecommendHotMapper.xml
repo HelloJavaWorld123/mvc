@@ -53,7 +53,7 @@
     <select id="getGroupeList"
             resultType="com.jzy.api.model.Home.GroupeDetail">
          select id as groupeId,group_name as groupeName,group_sort as groupSort
-         from home_recommend_hot_group where dealer_id =#{dealerId} and state=1
+         from home_recommend_hot_group where dealer_id =#{dealerId} and state=1 order by group_sort
     </select>
 
 
