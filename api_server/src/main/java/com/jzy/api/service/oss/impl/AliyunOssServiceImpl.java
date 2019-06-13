@@ -208,6 +208,7 @@ public class AliyunOssServiceImpl implements AliyunOssService {
             ossPolicyVo.setDir(msg);
             ossPolicyVo.setHost(ossFileURIPre);
             ossPolicyVo.setExpire(String.valueOf(expireEndTime / 1000));
+            ossPolicyVo.setCallbackUrl(callbackUrl);
 
             JSONObject jasonCallback = new JSONObject();
             jasonCallback.put("callbackUrl", callbackUrl);
