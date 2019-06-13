@@ -29,7 +29,7 @@
             1 = 1
         AND cate.dealer_id =#{dealerId}
         AND cate.type =#{type}
-        AND cate.state = 1
+        AND cate.state = 1 order by sort_desc asc
 
 </select>
 
