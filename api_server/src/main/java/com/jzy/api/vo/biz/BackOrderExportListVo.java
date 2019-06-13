@@ -99,6 +99,11 @@ public class BackOrderExportListVo extends GenericVo{
         }
         if (payWayId == 1) {
             this.payWayName = "支付宝";
+            return;
+        }
+        if (payWayId == 2) {
+            this.payWayName = "西煤支付";
+            return;
         }
     }
 
