@@ -46,7 +46,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/sys")
 @Api(tags = "后端-权限")
-public class LoginController{
+public class LoginController {
 
 	@Autowired
 	private SysEmpService sysEmpService;
@@ -66,7 +66,7 @@ public class LoginController{
 	 */
 	@WithoutLogin
 	@RequestMapping("/login")
-	@ApiOperation(httpMethod="POST" ,value = "登录")
+	@ApiOperation(httpMethod = "POST", value = "登录")
 	public ApiResult login(@RequestBody @Validated(LoginCnd.LoginValidator.class) LoginCnd loginCnd) {
 		UsernamePasswordToken token = new UsernamePasswordToken(loginCnd.getUsername()
 																		.trim(), loginCnd.getPwd()
@@ -77,9 +77,9 @@ public class LoginController{
 			subject.login(token);
 		} catch (IncorrectCredentialsException | UnknownAccountException | LockedAccountException e) {
 			log.error("用户登录异常：", e);
-			return new ApiResult().fail("账号或者密码错误",ResultEnum.PERMISSION_DENIED.getCode());
-		}catch (UnauthorizedException | AuthenticationException e){
-			return new ApiResult().fail("账号没有正确授权,请联系管理员",ResultEnum.PERMISSION_DENIED.getCode());
+			return new ApiResult().fail("账号或者密码错误", ResultEnum.PERMISSION_DENIED.getCode());
+		} catch (UnauthorizedException | AuthenticationException e) {
+			return new ApiResult().fail("账号没有正确授权,请联系管理员", ResultEnum.PERMISSION_DENIED.getCode());
 		}
 
 		SysEmp sysEmp = (SysEmp) subject.getPrincipal();
@@ -97,16 +97,18 @@ public class LoginController{
 
 	@WithoutLogin
 	@RequestMapping("/logout")
-	@ApiOperation(httpMethod="POST" ,value = "登出")
+	@ApiOperation(httpMethod = "POST", value = "登出")
 	public ApiResult logout(HttpServletRequest request) {
-		String empId = deleteToken(request);
-		deleteUserCache(empId);
+		String empId = findEmpId(request);
+		if (StringUtils.isNotBlank(empId)) {
+			deleteUserCache(empId);
+		}
 		return new ApiResult().success();
 	}
 
 	@RequestMapping("/query")
-	@ApiOperation(httpMethod="POST" ,value = "查询权限")
-	public ApiResult userPermissions(HttpServletRequest request){
+	@ApiOperation(httpMethod = "POST", value = "查询权限")
+	public ApiResult userPermissions(HttpServletRequest request) {
 		EmpCache empCache = getEmpCache(request);
 
 		Set<String> permissionValues = getPermissionValues(empCache);
@@ -119,19 +121,19 @@ public class LoginController{
 	private Set<String> getPermissionValues(EmpCache empCache) {
 		Set<String> permissionValues = new HashSet<>();
 		List<Long> roleIds = sysEmpRoleService.findRoleIdsByEmpId(Long.parseLong(empCache.getEmpId()));
-		if(CollectionUtils.isNotEmpty(roleIds)){
+		if (CollectionUtils.isNotEmpty(roleIds)) {
 			permissionValues = sysRolePermissionService.findByPermissionKeyByRoleIds(roleIds, Long.parseLong(empCache.getEmpId()));
 		}
 		return permissionValues;
 	}
 
 
-	private EmpCache getEmpCache(HttpServletRequest request){
+	private EmpCache getEmpCache(HttpServletRequest request) {
 		String token = request.getHeader(AccessToken.EMP.getValue());
-		Assert.isTrue(StringUtils.isNotBlank(token),"无权限访问");
+		Assert.isTrue(StringUtils.isNotBlank(token), "无权限访问");
 
 		RBucket<EmpCache> bucket = redissonClient.getBucket(token);
-		Assert.isTrue(bucket.isExists(),"登录信息有误");
+		Assert.isTrue(bucket.isExists(), "登录信息有误");
 
 		return bucket.get();
 	}
@@ -143,14 +145,13 @@ public class LoginController{
 		}
 	}
 
-	private String deleteToken(HttpServletRequest request) {
+	private String findEmpId(HttpServletRequest request) {
 		String token = request.getHeader(AccessToken.EMP.getValue());
 		RBucket<EmpCache> bucket = redissonClient.getBucket(token);
 		String empId = null;
-		if(bucket.isExists()){
+		if (bucket.isExists()) {
 			empId = bucket.get()
 						  .getEmpId();
-			bucket.deleteAsync();
 		}
 		return empId;
 	}
