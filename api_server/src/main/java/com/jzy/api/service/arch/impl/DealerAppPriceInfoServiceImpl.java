@@ -434,10 +434,19 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
         String dealerId = batchUpdateStatusCnd.getDealerId();
         Integer status = batchUpdateStatusCnd.getStatus();
         for (String aiId : aiIdList) {
-            dealerAppInfoMapper.updateStatus(status, aiId, dealerId);
+            //获取商品的配价是否启用
+            int count=1;
+            if(status==1) {
+                //查询商品启用面值数量
+                count = dealerAppInfoMapper.getStatusCount(status,aiId,dealerId);
+            }
+            //有商品配价
+            if(count>0) {
+                dealerAppInfoMapper.updateStatus(status, aiId, dealerId);
+            }else {
+                throw new BusException("存在商品未配价，不能启用!");
+            }
         }
-
-
     }
 
     /**

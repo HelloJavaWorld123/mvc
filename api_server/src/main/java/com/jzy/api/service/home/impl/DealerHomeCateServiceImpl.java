@@ -127,6 +127,9 @@ public class DealerHomeCateServiceImpl extends GenericServiceImpl<HomeRecommendC
             goName = appCateMapper.getAppName(infoCnd.getGoId());
         }else if(infoCnd.getGoType() ==2){
             goName = appCateMapper.getAppCateName(infoCnd.getGoId());
+            if(goName==null){
+                goName="推荐专区";
+            }
         }else{
             goName = infoCnd.getGoName();
             HRC.setGoId("0");

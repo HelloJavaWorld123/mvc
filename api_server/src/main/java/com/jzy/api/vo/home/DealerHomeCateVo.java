@@ -62,4 +62,11 @@ public class DealerHomeCateVo {
      * 最后修改时间
      */
     private Date modifyTime;
+
+    public String getGoName() {
+        if (goName == null) {
+            return "";
+        }
+        return goName;
+    }
 }

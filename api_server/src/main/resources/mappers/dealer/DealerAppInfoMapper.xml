@@ -135,4 +135,7 @@
         AND dealer_id = #{dealerId}
     </select>
 
+    <select id="getStatusCount" resultType="java.lang.Integer">
+        select count(1) from dealer_app_price_info where ai_id=#{aiId} and dealer_id=#{dealerId} and status=#{status}
+    </select>
 </mapper>

@@ -44,4 +44,12 @@ public interface DealerAppInfoMapper extends GenericMapper<DealerAppInfo> {
      */
       AppStatus queryAppStatus(@Param("appId") Long appId, @Param("dealerId") Integer dealerId);
 
+    /**
+     *  查询定价商品面值中商品启用数量
+     * @param status
+     * @param aiId
+     * @param dealerId
+     * @return
+     */
+      int getStatusCount(@Param("status") Integer status, @Param("aiId") String aiId,@Param("dealerId") String dealerId);
 }
