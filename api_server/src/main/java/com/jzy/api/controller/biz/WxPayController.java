@@ -12,6 +12,7 @@ import com.jzy.api.util.MyHttp;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -37,6 +38,7 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping(path="/wx")
+@Api(tags = "支付")
 public class WxPayController extends GenericController {
 
     @Resource

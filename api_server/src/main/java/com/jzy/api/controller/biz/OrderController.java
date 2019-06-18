@@ -8,6 +8,8 @@ import com.jzy.api.vo.biz.*;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +32,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping(path = "/order")
+@Api(tags = "订单管理")
 public class OrderController extends GenericController {
 
     @Resource
@@ -37,6 +40,7 @@ public class OrderController extends GenericController {
 
     @RequestMapping("/updateSupStatus")
     @RequiresPermissions(value = "a:order:updateSupStatus")
+    @ApiOperation(httpMethod="POST" ,value = "订单sup状态更新")
     public ApiResult updateSupStatus(@RequestBody SupStatusCnd supStatusCnd) {
         orderService.handUpdateSupStatus(supStatusCnd.getOrderId(), supStatusCnd.getSupStatus());
         SupStatusVo supStatusVo = new SupStatusVo();
@@ -53,6 +57,7 @@ public class OrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/queryBackOrderById")
     @RequiresPermissions(value = "a:order:queryBackOrderById")
+    @ApiOperation(httpMethod="POST" ,value = "订单详情")
     public ApiResult queryBackOrderById(@RequestBody CodeCnd codeCnd) {
         Order order = orderService.queryBackOrderById(codeCnd.getOrderId());
         BackOrderDetailVo orderDetailVo = convert(order, BackOrderDetailVo.class);
@@ -67,6 +72,7 @@ public class OrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/queryBackOrderList")
     @RequiresPermissions(value = "a:order:queryBackOrderList")
+    @ApiOperation(httpMethod="POST" ,value = "订单列表")
     public ApiResult queryBackOrderList(@RequestBody BackOrderCnd backOrderCnd) {
         PageVo<Order> orderPageVo = orderService.queryBackOrderList(backOrderCnd);
         PageVo<BackOrderListVo> pageVo = new PageVo<>();
@@ -86,6 +92,7 @@ public class OrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/queryBackOrderCount")
     @RequiresPermissions(value = "a:order:queryBackOrderCount")
+    @ApiOperation(httpMethod="POST" ,value = "订单列表已完成订单统计")
     public ApiResult queryBackOrderCount(@RequestBody BackOrderCnd backOrderCnd) {
         BackOrderCountPo orderCountPo = orderService.queryBackOrderCount(backOrderCnd);
         BackOrderCountVo backOrderCountVo = convert(orderCountPo, BackOrderCountVo.class);
@@ -100,6 +107,7 @@ public class OrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/queryMonthOrderList")
     @RequiresPermissions(value = "a:order:queryMonthOrderList")
+    @ApiOperation(httpMethod="POST" ,value = "月订单列表查询")
     public ApiResult queryMonthOrderList(@RequestBody MonthOrderCnd monthOrderCnd) {
         PageVo<Order> orderPageVo = orderService.queryMonthOrderList(monthOrderCnd);
         PageVo<BackMonthListVo> pageVo = new PageVo<>(orderPageVo.getPage(), orderPageVo.getLimit(), orderPageVo.getTotalCount());
@@ -116,6 +124,7 @@ public class OrderController extends GenericController {
     @ResponseBody
     @RequestMapping(path = "/runMonthOrderList")
     @RequiresPermissions(value = "a:order:runMonthOrderList")
+    @ApiOperation(httpMethod="POST" ,value = "归档月账单数据")
     public ApiResult runMonthOrderList(@RequestBody RunMonthOrderCnd runMonthOrderCnd) {
         orderService.runMonthOrderList(runMonthOrderCnd);
         return new ApiResult<>().success();

@@ -24,6 +24,8 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +53,7 @@ import java.util.List;
 @Controller
 @ResponseBody
 @RequestMapping("HomeRecommendHot")
+@Api(tags = "渠道商-首页推荐-分组商品")
 public class HomeRecommendHotController {
 
     private final static Logger logger = LoggerFactory.getLogger(HomeRecommendHotController.class);
@@ -70,6 +73,7 @@ public class HomeRecommendHotController {
      * <li>20190428&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("getList")
+    @ApiOperation(httpMethod="POST" ,value = "前端-首页推荐热门产品")
     public ApiResult getList() {
         List<HomeRecommendHotVo> homeRecommendHotVoList = homeRecommendHotService.getList();
         return new ApiResult<>(homeRecommendHotVoList);
@@ -82,6 +86,7 @@ public class HomeRecommendHotController {
      */
     @RequestMapping("admin/index")
     @RequiresPermissions(value = "a:HomeRecommendHot:index")
+    @ApiOperation(httpMethod="POST" ,value = "商品列表查询")
     public ApiResult index(@RequestBody HomeHotListCnd homeHotListCnd) {
         PageVo<HomeHotVo> result;
         try {
@@ -100,6 +105,7 @@ public class HomeRecommendHotController {
      */
     @RequestMapping("admin/getHomeHot")
     @RequiresPermissions(value = "a:HomeRecommendHot:getHomeHot")
+    @ApiOperation(httpMethod="POST" ,value = "分组商品详情")
     public ApiResult getHomeHot(@RequestBody IdCnd idCnd) {
         HomeHotInfoVo homeHotInfoVo;
         try {
@@ -118,6 +124,7 @@ public class HomeRecommendHotController {
      */
     @RequestMapping("admin/update")
     @RequiresPermissions(value = "a:HomeRecommendHot:update")
+    @ApiOperation(httpMethod="POST" ,value = "分组商品修改")
     public ApiResult update(@RequestBody HomeRecommendHotCnd homeRecommendHotCnd) {
         try {
             homeRecommendHotService.edit(homeRecommendHotCnd);
@@ -136,6 +143,7 @@ public class HomeRecommendHotController {
      * <li>20190604&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("getDialogAndBanner")
+    @ApiOperation(httpMethod="POST" ,value = "前端-618活动弹出和banner")
     public ApiResult getDialogAndBanner(@RequestBody DialogBannerCnd dialogBannerCnd) {
         //默认dialog和banner显示
         boolean dialogBanner=true;
@@ -185,6 +193,7 @@ public class HomeRecommendHotController {
      * <li>20190604&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("getLikeAppInfo")
+    @ApiOperation(httpMethod="POST" ,value = "前端-猜你喜欢商品")
     public ApiResult getLikeAppInfo(@RequestBody IdCnd idCnd) {
         List<HomeRecommendHotDetail> dialogBannerVoList = homeRecommendHotService.getLikeAppInfo(idCnd);
         return new ApiResult<>(dialogBannerVoList);

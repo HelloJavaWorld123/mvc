@@ -19,6 +19,8 @@ import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.PageCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -43,6 +45,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/sys/user")
 @RequiresRoles(value = {"root"})
+@Api(tags = "后端-权限")
 public class SysEmpController {
 
 	@Autowired
@@ -59,12 +62,14 @@ public class SysEmpController {
 
 
 	@RequestMapping("/list")
+	@ApiOperation(httpMethod="POST" ,value = "列表")
 	public ApiResult list(@RequestBody @Validated(value = {PageCnd.PageValidator.class}) SysEmpCnd sysEmpCnd) {
 		PageVo<SysEmpVo> result = sysEmpService.list(sysEmpCnd);
 		return new ApiResult<>(result);
 	}
 
 	@RequestMapping("/add")
+	@ApiOperation(httpMethod="POST" ,value = "添加")
 	public ApiResult add(@RequestBody @Validated(value = {CreateValidator.class}) SysEmpCnd sysEmpCnd) {
 		Integer result = 0;
 		try {
@@ -98,6 +103,7 @@ public class SysEmpController {
 
 
 	@RequestMapping("/update")
+	@ApiOperation(httpMethod="POST" ,value = "更新")
 	public ApiResult update(@RequestBody @Validated(value = {UpdateValidator.class}) SysEmpCnd sysEmpCnd) {
 		SysEmpVo sysEmp = sysEmpService.findById(sysEmpCnd.getId());
 		if (Objects.isNull(sysEmp)) {
@@ -113,6 +119,7 @@ public class SysEmpController {
 	}
 
 	@RequestMapping("/delete")
+	@ApiOperation(httpMethod="POST" ,value = "删除")
 	public ApiResult delete(@RequestBody @Validated(value = {DeleteValidator.class}) SysEmpCnd sysEmpCnd) {
 		SysEmpVo emp = sysEmpService.findById(sysEmpCnd.getId());
 		if (Objects.isNull(emp)) {
@@ -134,6 +141,7 @@ public class SysEmpController {
 
 
 	@RequestMapping("/role")
+	@ApiOperation(httpMethod="POST" ,value = "用户角色信息")
 	public ApiResult userRoleInfo(@RequestBody @Validated(IDValidator.class) SysEmpCnd sysEmpCnd){
 		List<SysEmpRole> empId = sysEmpRoleService.findByEmpId(sysEmpCnd.getId());
 		return new ApiResult<>().success(empId);
@@ -148,6 +156,7 @@ public class SysEmpController {
 	 * 为用户分配角色
 	 */
 	@RequestMapping("/allot/role")
+	@ApiOperation(httpMethod="POST" ,value = "保存角色信息")
 	public ApiResult userAddRole(@RequestBody @Validated(value = SysEmpCnd.AllotValidator.class) SysEmpCnd sysEmpCnd) {
 		List<Role> roleList = sysRoleService.findByIds(sysEmpCnd.getRoleList());
 

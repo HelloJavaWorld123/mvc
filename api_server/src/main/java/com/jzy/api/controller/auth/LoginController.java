@@ -13,6 +13,8 @@ import com.jzy.api.vo.auth.LogInVo;
 import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.cache.EmpCache;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -43,6 +45,7 @@ import java.util.Set;
 @Slf4j
 @RestController
 @RequestMapping("/sys")
+@Api(tags = "后端-权限")
 public class LoginController{
 
 	@Autowired
@@ -63,6 +66,7 @@ public class LoginController{
 	 */
 	@WithoutLogin
 	@RequestMapping("/login")
+	@ApiOperation(httpMethod="POST" ,value = "登录")
 	public ApiResult login(@RequestBody @Validated(LoginCnd.LoginValidator.class) LoginCnd loginCnd) {
 		UsernamePasswordToken token = new UsernamePasswordToken(loginCnd.getUsername()
 																		.trim(), loginCnd.getPwd()
@@ -93,6 +97,7 @@ public class LoginController{
 
 	@WithoutLogin
 	@RequestMapping("/logout")
+	@ApiOperation(httpMethod="POST" ,value = "登出")
 	public ApiResult logout(HttpServletRequest request) {
 		String empId = deleteToken(request);
 		deleteUserCache(empId);
@@ -100,6 +105,7 @@ public class LoginController{
 	}
 
 	@RequestMapping("/query")
+	@ApiOperation(httpMethod="POST" ,value = "查询权限")
 	public ApiResult userPermissions(HttpServletRequest request){
 		EmpCache empCache = getEmpCache(request);
 

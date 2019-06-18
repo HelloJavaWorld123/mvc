@@ -12,7 +12,10 @@ import com.jzy.api.vo.biz.StatusVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,6 +35,7 @@ import javax.annotation.Resource;
 @Slf4j
 @RestController
 @RequestMapping(path = "/frontOrder")
+@Api(tags = "前端-订单")
 public class FrontOrderController extends GenericController {
 
     @Resource
@@ -44,6 +48,7 @@ public class FrontOrderController extends GenericController {
      */
     @ResponseBody
     @RequestMapping(path = "/queryOrderList")
+    @ApiOperation(httpMethod="POST" ,value = "订单列表")
     public ApiResult queryOrderList(@RequestBody OrderListCnd orderListCnd) {
         PageVo<FrontOrderVo> pageVo = orderService.queryFrontOrderList(orderListCnd.getPage(), orderListCnd.getLimit(),
                 orderListCnd.getStatus());
@@ -57,6 +62,7 @@ public class FrontOrderController extends GenericController {
      */
     @ResponseBody
     @RequestMapping(path = "/queryOrderDetail")
+    @ApiOperation(httpMethod="POST" ,value = "订单详情")
     public ApiResult queryOrderDetail(@RequestBody CodeCnd codeCnd) {
         Order order = orderService.queryOrderDetail(codeCnd.getOrderId());
         return new ApiResult<>().success(getOrderDetailVo(order));
@@ -103,6 +109,7 @@ public class FrontOrderController extends GenericController {
      * <li>20190419&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("/queryOrderStatus")
+    @ApiOperation(httpMethod="POST" ,value = "订单列表")
     public ApiResult queryOrderStatus(@RequestBody CodeCnd codeCnd) {
         Order order = orderService.queryOrderStatus(codeCnd.getOrderId());
         StatusVo statusVo = new StatusVo();

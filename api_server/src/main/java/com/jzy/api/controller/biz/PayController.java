@@ -13,6 +13,8 @@ import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +29,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping(path = "/pay")
+@Api(tags = "前端-下单流程")
 public class PayController extends GenericController {
 
     @Resource
@@ -44,6 +47,7 @@ public class PayController extends GenericController {
      * <li>20190419&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("/pay")
+    @ApiOperation(httpMethod="POST" ,value = "请求支付下单")
     public ApiResult pay(@RequestBody PayCnd payCnd, HttpServletRequest request) {
         log.debug("支付请求参数为：" + payCnd.toString());
 
@@ -123,6 +127,7 @@ public class PayController extends GenericController {
      * <li>20190419&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("/updateOrderStatusByActiveQuery")
+    @ApiOperation(httpMethod="POST" ,value = "主动去查询订单状态")
     public ApiResult updateOrderStatusByActiveQuery(@RequestBody CodeCnd codeCnd) {
         ApiResult<StatusVo> apiResult = new ApiResult<>();
         Order order = orderService.updateOrderStatusByActiveQuery(codeCnd.getOrderId());

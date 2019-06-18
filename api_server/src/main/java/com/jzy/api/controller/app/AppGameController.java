@@ -17,6 +17,8 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +48,7 @@ import static com.jzy.common.enums.ResultEnum.OPERATION_FAILED;
 @Controller
 @ResponseBody
 @RequestMapping("appGame")
+@Api(tags="游戏区服")
 public class AppGameController {
 
     private final static Logger logger = LoggerFactory.getLogger(AppGameController.class);
@@ -63,6 +66,7 @@ public class AppGameController {
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("getAreaInfo")
+    @ApiOperation(httpMethod="POST" ,value = "前端-渠道商对应商品查询区")
     public ApiResult getAreaInfo(@RequestBody IdCnd idCnd) {
         AppGameListVo appGameListVo = appGameService.getAreaInfo(idCnd.getId());
         return new ApiResult(appGameListVo);
@@ -74,6 +78,7 @@ public class AppGameController {
      * <li>20190430&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("getServInfo")
+    @ApiOperation(httpMethod="POST" ,value = "前端-渠道商对应商品查询服")
     public ApiResult getServInfo(@RequestBody GetServInfoCnd getServInfoCnd) {
         AppGameListVo appGameListVo = appGameService.getServInfo(getServInfoCnd);
         return new ApiResult(appGameListVo);
@@ -86,6 +91,7 @@ public class AppGameController {
      */
     @RequestMapping("admin/getList")
     @RequiresPermissions(value = "a:appGame:list")
+    @ApiOperation(httpMethod="POST" ,value = "游戏列表查询")
     public ApiResult getList(@RequestBody GameListCnd gameListCnd) {
         List<AppGamePo> gameList;
         try {
@@ -104,6 +110,7 @@ public class AppGameController {
      */
     @RequestMapping("admin/index")
     @RequiresPermissions(value = "a:appGame:index")
+    @ApiOperation(httpMethod="POST" ,value = "游戏大区分页查询")
     public ApiResult index(@RequestBody AppGameListCnd appGameListCnd) {
         PageVo<AppGameVo> result;
         try {
@@ -122,6 +129,7 @@ public class AppGameController {
      */
     @RequestMapping("admin/save")
     @RequiresPermissions(value = "a:appGame:save")
+    @ApiOperation(httpMethod="POST" ,value = "根据厂商添加游戏")
     public ApiResult save(@RequestBody AppGameCnd appGameCnd) {
         try {
             AppGame appGame = new AppGame();
@@ -146,6 +154,7 @@ public class AppGameController {
      */
     @RequestMapping("admin/delete")
     @RequiresPermissions(value = "a:appGame:delete")
+    @ApiOperation(httpMethod="POST" ,value = "游戏，大区，服务，物理删除")
     public ApiResult deleteBatch(@RequestBody IdCnd idCnd) {
         try {
             appGameService.delete(idCnd.getId());
@@ -165,6 +174,7 @@ public class AppGameController {
      */
     @RequestMapping("admin/update")
     @RequiresPermissions(value = "a:appGame:update")
+    @ApiOperation(httpMethod="POST" ,value = "游戏，大区，服务，更新")
     public ApiResult update(@RequestBody AppGameCnd appGameCnd) {
         try {
             AppGame appGame = appGameService.getById(appGameCnd.getId());

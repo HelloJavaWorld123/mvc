@@ -8,6 +8,8 @@ import com.jzy.api.service.auth.SysPermissionService;
 import com.jzy.api.vo.auth.SysPermissionVo;
 import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -35,18 +37,21 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/sys/permission")
 @RequiresRoles(value = {"root"})
+@Api(tags = "后端-权限")
 public class SysPermissionController {
 
 	@Autowired
 	private SysPermissionService sysPermissionService;
 
 	@RequestMapping("/list")
+	@ApiOperation(httpMethod="POST" ,value = "权限列表")
 	public ApiResult list(@RequestBody SysPermissionCnd permissionCnd) {
 		List<SysPermissionVo> pageList = sysPermissionService.list(permissionCnd);
 		return new ApiResult<>().success(pageList);
 	}
 
 	@RequestMapping("/add")
+	@ApiOperation(httpMethod="POST" ,value = "添加权限")
 	public ApiResult add(@RequestBody @Validated(value = {CreateValidator.class}) SysPermissionCnd permissionCnd) {
 		isLeafNode(permissionCnd);
 
@@ -59,6 +64,7 @@ public class SysPermissionController {
 
 
 	@RequestMapping("/update")
+	@ApiOperation(httpMethod="POST" ,value = "更新权限")
 	public ApiResult update(@RequestBody @Validated(value = {UpdateValidator.class}) SysPermissionCnd permissionCnd) {
 		SysPermission serviceById = sysPermissionService.findById(permissionCnd.getId());
 		if (Objects.isNull(serviceById)) {
@@ -79,6 +85,7 @@ public class SysPermissionController {
 
 
 	@RequestMapping("/delete")
+	@ApiOperation(httpMethod="POST" ,value = "删除权限")
 	public ApiResult delete(@RequestBody @Validated(value = {DeleteValidator.class}) SysPermissionCnd permissionCnd) {
 		SysPermission sysPermission = sysPermissionService.findById(permissionCnd.getId());
 		if (Objects.isNull(sysPermission)) {
@@ -89,6 +96,7 @@ public class SysPermissionController {
 	}
 
 	@RequestMapping("/id")
+	@ApiOperation(httpMethod="POST" ,value = "查询权限")
 	public ApiResult getById(@RequestBody @Validated(IDValidator.class) SysPermissionCnd permissionCnd) {
 		SysPermission permission = sysPermissionService.findById(permissionCnd.getId());
 		SysPermissionVo vo = new SysPermissionVo();

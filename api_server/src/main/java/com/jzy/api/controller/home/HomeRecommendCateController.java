@@ -4,6 +4,8 @@ import com.jzy.api.cnd.home.HomeRecommendHotListCnd;
 import com.jzy.api.service.home.HomeRecommendCateService;
 import com.jzy.api.vo.home.HomeRecommendCateVo;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,7 @@ import java.util.List;
 @Controller
 @ResponseBody
 @RequestMapping("HomeRecommendCate")
+@Api(tags = "前端-首页推荐")
 public class HomeRecommendCateController {
 
     // @Resource
@@ -39,6 +42,7 @@ public class HomeRecommendCateController {
     @CrossOrigin
     @ResponseBody
     @RequestMapping(value = "getList")
+    @ApiOperation(httpMethod="POST" ,value = "推荐轮播图和推荐分类")
     public ApiResult getList(@RequestBody HomeRecommendHotListCnd homeRecommendHotListCnd) {
 
         Integer type = homeRecommendHotListCnd.getType();

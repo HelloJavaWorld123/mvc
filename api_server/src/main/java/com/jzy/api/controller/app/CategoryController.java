@@ -12,6 +12,8 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,7 @@ import static com.jzy.common.enums.ResultEnum.OPERATION_FAILED;
 @Controller
 @ResponseBody
 @RequestMapping("category")
+@Api(tags = "分类")
 public class CategoryController {
 
     private final static Logger logger = LoggerFactory.getLogger(CategoryController.class);
@@ -51,6 +54,7 @@ public class CategoryController {
      * @return {@link ApiResult}
      */
     @RequestMapping("list")
+    @ApiOperation(httpMethod="POST" ,value = "前端-产品分类列表")
     public ApiResult list() {
         List<CategoryVo> categoryList;
         try {
@@ -69,6 +73,7 @@ public class CategoryController {
      */
     @RequestMapping("admin/index")
     @RequiresPermissions(value = "a:category:index")
+    @ApiOperation(httpMethod="POST" ,value = "产品分类分页列表")
     public ApiResult index(@RequestBody CategoryListCnd categoryListCnd) {
         PageVo<CategoryVo> result;
         try {
@@ -87,6 +92,7 @@ public class CategoryController {
     */
     @RequestMapping("admin/list")
     @RequiresPermissions("a:category:list")
+    @ApiOperation(httpMethod="POST" ,value = "产品分类列表")
     public ApiResult getList() {
         List<CategoryVo> categoryList;
         try {
@@ -99,6 +105,7 @@ public class CategoryController {
     }
 
     @RequestMapping("dealerAppList")
+    @ApiOperation(httpMethod="POST" ,value = "前端-产品分类--商品列表")
     public ApiResult dealerAppList(@RequestBody DealerAppListCnd dealerAppListCnd) {
         Map<String, Object> dealerAppList;
         try {
@@ -117,6 +124,7 @@ public class CategoryController {
      */
     @RequestMapping("admin/save")
     @RequiresPermissions(value = "a:category:save")
+    @ApiOperation(httpMethod="POST" ,value = "保存")
     public ApiResult save(@RequestBody CategoryCnd categoryCnd) {
         try {
             Category category = new Category();
@@ -141,6 +149,7 @@ public class CategoryController {
      */
     @RequestMapping("admin/delete")
     @RequiresPermissions(value = "a:category:delete")
+    @ApiOperation(httpMethod="POST" ,value = "删除")
     public ApiResult deleteBatch(@RequestBody IdCnd idCnd) {
         try {
             categoryService.delete(Long.valueOf(idCnd.getId()));
@@ -160,6 +169,7 @@ public class CategoryController {
      */
     @RequestMapping("admin/update")
     @RequiresPermissions(value = "a:category:update")
+    @ApiOperation(httpMethod="POST" ,value = "更新")
     public ApiResult update(@RequestBody CategoryCnd categoryCnd) {
         try {
             Category category = new Category();

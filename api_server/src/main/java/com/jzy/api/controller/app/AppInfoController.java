@@ -16,6 +16,8 @@ import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +42,7 @@ import java.io.FileOutputStream;
 @Controller
 @ResponseBody
 @RequestMapping("appInfo")
+@Api(tags = "商品管理")
 public class AppInfoController {
 
     private final static Logger logger = LoggerFactory.getLogger(AppInfoController.class);
@@ -62,6 +65,7 @@ public class AppInfoController {
      */
     @RequestMapping("admin/index")
     @RequiresPermissions(value = {"a:appInfo:list"})
+    @ApiOperation(httpMethod="POST" ,value = "分页查询")
     public ApiResult index(@RequestBody AppInfoListCnd appInfoListCnd) {
         PageVo<AppInfoListVo> result;
         try {
@@ -80,6 +84,7 @@ public class AppInfoController {
      */
     @RequestMapping("admin/getAppInfo")
     @RequiresPermissions(value = {"a:appInfo:getAppInfo"})
+    @ApiOperation(httpMethod="POST" ,value = "商品详情")
     public ApiResult getAppInfo(@RequestBody IdCnd idCnd) {
         AppInfoDetailVo appInfoDetailVo;
         try {
@@ -101,6 +106,7 @@ public class AppInfoController {
     @Transactional
     @RequestMapping("admin/save")
     @RequiresPermissions(value = "a:appInfo:save")
+    @ApiOperation(httpMethod="POST" ,value = "商品保存/更新")
     public ApiResult save(@RequestBody SaveAppInfoCnd saveAppInfoCnd) {
         appInfoService.saveAppInfo(saveAppInfoCnd);
         return new ApiResult<>();
@@ -113,6 +119,7 @@ public class AppInfoController {
      */
     @RequestMapping("admin/updateStatusBatch")
     @RequiresPermissions(value = "a:appInfo:updateStatusBatch")
+    @ApiOperation(httpMethod="POST" ,value = "修改状态")
     public ApiResult updateStatusBatch(@RequestBody UpdateStatusBatchCnd updateStatusBatchCnd) {
         appInfoService.updateStatusBatch(updateStatusBatchCnd);
 //        try {
@@ -134,6 +141,7 @@ public class AppInfoController {
     @Transactional
     @RequestMapping("admin/deleteBatch")
     @RequiresPermissions(value = "a:appInfo:deleteBatch")
+    @ApiOperation(httpMethod="POST" ,value = "删除")
     public ApiResult deleteBatch(@RequestBody AppBatchDeleteCnd appBatchDeleteCnd) {
         appInfoService.delete(appBatchDeleteCnd);
         return new ApiResult<>();
@@ -171,6 +179,7 @@ public class AppInfoController {
      */
     @WithoutLogin
     @RequestMapping("admin/uploadFile")
+    @ApiOperation(httpMethod="POST" ,value = "oss后端上传通用方法")
     public ApiResult uploadFile(@RequestParam(value = "file", required = true) MultipartFile mfile
             , @RequestParam(value = "directoryType") Integer directoryType) {
 

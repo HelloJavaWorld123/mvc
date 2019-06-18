@@ -225,6 +225,7 @@ public class AliyunOssServiceImpl implements AliyunOssService {
 
     @Override
     public void ossCallBack(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        logger.debug("-----ossCallBack---request---");
         String ossCallbackBody = OssUtil.GetPostBody(request.getInputStream(),
                 Integer.parseInt(request.getHeader("content-length")));
         boolean ret = OssUtil.VerifyOSSCallbackRequest(request, ossCallbackBody);

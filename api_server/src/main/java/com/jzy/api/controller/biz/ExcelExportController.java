@@ -15,6 +15,8 @@ import com.jzy.framework.bean.cnd.PageCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.controller.GenericController;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +39,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping(path = "/excelExport")
+@Api(tags = "excel操作")
 public class ExcelExportController extends GenericController {
 
     @Resource
@@ -54,6 +57,7 @@ public class ExcelExportController extends GenericController {
      * <li>20190514&nbsp;&nbsp;|&nbsp;&nbsp;邓冲&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping(path = "/orderListExcelExport")
+    @ApiOperation(httpMethod="POST" ,value = "订单导出")
     public ApiResult orderListExcelExport(@RequestBody BackOrderCnd backOrderCnd) {
         List<Order> orderList = orderService.queryExcelExportBackOrderList(backOrderCnd);
         if (orderList == null || orderList.isEmpty()) {
@@ -77,6 +81,7 @@ public class ExcelExportController extends GenericController {
      */
     @ResponseBody
     @RequestMapping(path = "/queryExcelExportList")
+    @ApiOperation(httpMethod="POST" ,value = "查询订单导出列表")
     public ApiResult queryExcelExportList(@RequestBody PageCnd pageCnd) {
         PageVo<ExcelExport> exportPageVo = excelExportService.queryExcelExportList(pageCnd);
         PageVo<ExcelExportVo> pageVo = new PageVo<>(exportPageVo.getPage(), exportPageVo.getLimit());

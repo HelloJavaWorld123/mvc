@@ -10,6 +10,9 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.models.HttpMethod;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +29,7 @@ import java.util.List;
  * <b>功能：后台管理轮播图</b>
  * add by jiazk 2019.05.01
  */
+@Api(tags = "渠道商管理-首页分组/轮播图")
 @Controller
 @ResponseBody
 @RequestMapping("ManageCarousel")
@@ -38,6 +42,7 @@ public class ManageCarouselController {
 
     @RequestMapping("index")
     @RequiresPermissions(value = "a:manageCarousel:index")
+    @ApiOperation(httpMethod="POST" ,value = "列表分页查询")
     public ApiResult index(@RequestBody DealerHomeCateListCnd listCnd) {
         PageVo<DealerHomeCateVo> result;
         try {
@@ -50,6 +55,7 @@ public class ManageCarouselController {
     }
 
     @RequestMapping("getAppInfo")
+    @ApiOperation(httpMethod="POST" ,value = "商品详情")
     public ApiResult getAppInfo(@RequestBody IdCnd idCnd) {
         DealerHomeCateVo detailVo;
         try {
@@ -63,6 +69,7 @@ public class ManageCarouselController {
 
     @RequestMapping("save")
     @RequiresPermissions(value = "a:manageCarousel:save")
+    @ApiOperation(httpMethod="POST" ,value = "保存")
     public ApiResult save(@RequestBody DealerHomeCateSaveCnd infoCnd) {
         ApiResult apiResult = null;
         try {
@@ -77,6 +84,7 @@ public class ManageCarouselController {
 
     @RequestMapping("updateStatusBatch")
     @RequiresPermissions(value = "a:manageCarousel:updateStatusBatch")
+    @ApiOperation(httpMethod="POST" ,value = "更新状态")
     public ApiResult updateStatusBatch(@RequestBody CommonUpdateStatusCnd updateStatusBatchCnd) {
         dealerHomeCateService.updateStatusBatch(updateStatusBatchCnd);
         return new ApiResult<>();
@@ -85,6 +93,7 @@ public class ManageCarouselController {
     @Transactional
     @RequestMapping("deleteBatch")
     @RequiresPermissions(value = "a:manageCarousel:deleteBatch")
+    @ApiOperation(httpMethod="POST" ,value = "删除")
     public ApiResult deleteBatch(@RequestBody CommonDeleteBatchCnd commonDeleteBatchCnd) {
         List<Long> ids = commonDeleteBatchCnd.getIds();
         for (Long id : ids) {
@@ -104,6 +113,7 @@ public class ManageCarouselController {
      * @return com.jzy.framework.result.ApiResult
      */
     @RequestMapping("getAppCate")
+    @ApiOperation(httpMethod="GET" ,value = "商品分类")
     public ApiResult getAppCate(){
         GetDealerAppOrCateCnd getDealerAppOrCateCnd = new GetDealerAppOrCateCnd();
         List<DealerAppCateVo>  resultList = dealerHomeCateService.getAppCate(getDealerAppOrCateCnd);
@@ -117,6 +127,7 @@ public class ManageCarouselController {
      * @return com.jzy.framework.result.ApiResult
      */
     @RequestMapping("getDealerAppList")
+    @ApiOperation(httpMethod="POST" ,value = "商品信息列表")
     public ApiResult getDealerAppList(@RequestBody GetDealerAppOrCateCnd getDealerAppOrCateCnd){
 
         List<DealerAppInfoVo>  resultList = dealerHomeCateService.getDealerAppList(getDealerAppOrCateCnd);
@@ -130,6 +141,7 @@ public class ManageCarouselController {
      * @return com.jzy.framework.result.ApiResult
      */
     @RequestMapping("getDealerAppPriceList")
+    @ApiOperation(httpMethod="POST" ,value = "商品定价信息列表")
     public ApiResult getDealerAppPriceList(@RequestBody GetDealerAppOrCateCnd getDealerAppOrCateCnd){
 
         List<DealerAppInfoVo>  resultList = dealerHomeCateService.getDealerAppPriceList(getDealerAppOrCateCnd);

@@ -11,6 +11,8 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +34,7 @@ import java.util.List;
 @Controller
 @ResponseBody
 @RequestMapping("dealAppPriceInfo")
+@Api(tags = "渠道商商品定价")
 public class DealerAppPriceInfoController {
 
 
@@ -44,6 +47,7 @@ public class DealerAppPriceInfoController {
      * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("getPrice")
+    @ApiOperation(httpMethod="POST" ,value = "前端-查询商品价格")
     public ApiResult getPrice(@RequestBody GetPriceCnd getPriceCnd) {
         List<DealerAppPriceInfoPo> dealerAppPriceInfoPoList = dealerAppPriceInfoService.getPrice(getPriceCnd);
         return new ApiResult<>(dealerAppPriceInfoPoList);
@@ -55,6 +59,7 @@ public class DealerAppPriceInfoController {
      * <li>20190505&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("getAppDetail")
+    @ApiOperation(httpMethod="POST" ,value = "前端-商品详情")
     public ApiResult getAppDetail(@RequestBody IdCnd idCnd) {
         AppDetailVo appDetail = dealerAppPriceInfoService.getAppDetail(idCnd.getId().toString());
         return new ApiResult<>(appDetail);
@@ -66,6 +71,7 @@ public class DealerAppPriceInfoController {
      * <li>20190506&nbsp;&nbsp;|&nbsp;&nbsp;唐永刚&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
      */
     @RequestMapping("appSearchList")
+    @ApiOperation(httpMethod="POST" ,value = "前端-渠道商商品热门搜索")
     public ApiResult appSearchList(@RequestBody AppSearchListCnd appSearchListCnd) {
         PageVo pageInfo = dealerAppPriceInfoService.appSearchList(appSearchListCnd);
         return new ApiResult<>(pageInfo);
@@ -78,6 +84,7 @@ public class DealerAppPriceInfoController {
      */
     @RequestMapping("admin/getList")
     @RequiresPermissions(value = "a:dealAppPriceInfo:getList")
+    @ApiOperation(httpMethod="POST" ,value = "查询渠道商下对应的商品列表")
     public ApiResult getList(@RequestBody GetDealerAppListCnd getDealerAppListCnd) {
         PageVo pageVo = dealerAppPriceInfoService.getList(getDealerAppListCnd);
         return new ApiResult<>(pageVo);

@@ -17,6 +17,8 @@ import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.bean.cnd.PageCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -41,6 +43,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/sys/role")
 @RequiresRoles(value = {"root"})
+@Api(tags = "后端-权限")
 public class SysRoleController {
 
 	@Autowired
@@ -59,6 +62,7 @@ public class SysRoleController {
 	private SysRolePermissionService sysRolePermissionService;
 
 	@RequestMapping("/list")
+	@ApiOperation(httpMethod="POST" ,value = "角色列表")
 	public ApiResult list(@RequestBody @Validated(value = {PageCnd.PageValidator.class}) SysRoleCnd sysRoleCnd) {
 		PageVo<SysRoleVo> sysRoleVos = sysRoleService.list(sysRoleCnd);
 		return new ApiResult<>(sysRoleVos);
@@ -66,6 +70,7 @@ public class SysRoleController {
 
 
 	@RequestMapping("/add")
+	@ApiOperation(httpMethod="POST" ,value = "保存角色")
 	public ApiResult add(@RequestBody @Validated(value = {CreateValidator.class}) SysRoleCnd sysRoleCnd) {
 
 		verifyRoleValue(sysRoleCnd, null);
@@ -78,6 +83,7 @@ public class SysRoleController {
 
 
 	@RequestMapping("/update")
+	@ApiOperation(httpMethod="POST" ,value = "更新角色")
 	public ApiResult update(@RequestBody @Validated(value = {UpdateValidator.class}) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
 		if (Objects.isNull(role)) {
@@ -95,6 +101,7 @@ public class SysRoleController {
 
 
 	@RequestMapping("/delete")
+	@ApiOperation(httpMethod="POST" ,value = "删除角色")
 	public ApiResult delete(@RequestBody @Validated(value = {DeleteValidator.class}) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
 		if (null == role) {
@@ -111,12 +118,14 @@ public class SysRoleController {
 	}
 
 	@RequestMapping("/id")
+	@ApiOperation(httpMethod="POST" ,value = "角色详情")
 	public ApiResult getById(@RequestBody @Validated(IDValidator.class) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
 		return new ApiResult<>().success(role);
 	}
 
 	@RequestMapping("/perm")
+	@ApiOperation(httpMethod="POST" ,value = "角色权限列表")
 	public ApiResult getPermByRoleId(@RequestBody @Validated(IDValidator.class) SysRoleCnd sysRoleCnd) {
 		List<SysRolePermission> rolePermissions = sysRolePermissionService.findByRoleId(sysRoleCnd.getId());
 		return new ApiResult<>().success(rolePermissions);
@@ -124,6 +133,7 @@ public class SysRoleController {
 
 
 	@RequestMapping("/allot/perm")
+	@ApiOperation(httpMethod="POST" ,value = "分配权限")
 	public ApiResult allotPermission(@RequestBody @Validated(SysRoleCnd.AllotPermValidator.class) SysRoleCnd sysRoleCnd) {
 		Role role = sysRoleService.queryById(sysRoleCnd.getId());
 		Assert.isTrue(Objects.nonNull(role), "角色参数错误");

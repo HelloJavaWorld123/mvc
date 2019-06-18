@@ -12,6 +12,8 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +39,7 @@ import static com.jzy.common.enums.ResultEnum.OPERATION_FAILED;
 @Controller
 @ResponseBody
 @RequestMapping("homeRecommendHotGroup")
+@Api(tags = "渠道商-首页推荐")
 public class HomeRecommendHotGroupController {
 
     private final static Logger logger = LoggerFactory.getLogger(HomeRecommendHotGroupController.class);
@@ -57,6 +60,7 @@ public class HomeRecommendHotGroupController {
      */
     @RequestMapping("admin/index")
     @RequiresPermissions(value = "a:homeRecommendHotGroup:index")
+    @ApiOperation(httpMethod="POST" ,value = "分页查询")
     public ApiResult index(@RequestBody HomeHotGroupCnd homeHotGroupCnd) {
         PageVo<HomeHotGroupVo> result;
         try {
@@ -75,6 +79,7 @@ public class HomeRecommendHotGroupController {
      */
     @RequestMapping("admin/save")
     @RequiresPermissions(value = "a:homeRecommendHotGroup:save")
+    @ApiOperation(httpMethod="POST" ,value = "分组保存")
     public ApiResult save(@RequestBody HomeRecommendHotGroupCnd homeRecommendHotGroupCnd) {
         try {
             HomeRecommendHotGroup homeRecommendHotGroup = new HomeRecommendHotGroup();
@@ -99,6 +104,7 @@ public class HomeRecommendHotGroupController {
      */
     @RequestMapping("admin/delete")
     @RequiresPermissions(value = "a:homeRecommendHotGroup:delete")
+    @ApiOperation(httpMethod="POST" ,value = "分组删除")
     public ApiResult deleteBatch(@RequestBody IdCnd idCnd) {
         try {
             homeRecommendHotGroupService.delete(idCnd.getId());
@@ -118,6 +124,7 @@ public class HomeRecommendHotGroupController {
      */
     @RequestMapping("admin/update")
     @RequiresPermissions(value = "a:homeRecommendHotGroup:update")
+    @ApiOperation(httpMethod="POST" ,value = "分组更新")
     public ApiResult update(@RequestBody HomeRecommendHotGroupCnd homeRecommendHotGroupCnd) {
         try {
             HomeRecommendHotGroup homeRecommendHotGroup = new HomeRecommendHotGroup();
@@ -143,6 +150,7 @@ public class HomeRecommendHotGroupController {
      */
     @RequestMapping("admin/setState")
     @RequiresPermissions(value = "a:homeRecommendHotGroup:setState")
+    @ApiOperation(httpMethod="POST" ,value = "分组状态更新")
     public ApiResult setStatus(@RequestBody HomeRecommendHotGroupCnd homeRecommendHotGroupCnd) {
         try {
             int count = homeRecommendHotGroupService.setStatus(homeRecommendHotGroupCnd);

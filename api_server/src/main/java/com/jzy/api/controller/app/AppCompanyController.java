@@ -11,6 +11,8 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +35,7 @@ import java.util.List;
 @ResponseBody
 @RequestMapping("appCompany")
 @Controller
+@Api(tags="厂商")
 public class AppCompanyController {
 
     private final static Logger logger = LoggerFactory.getLogger(AppCompanyController.class);
@@ -47,6 +50,7 @@ public class AppCompanyController {
      */
     @RequestMapping("admin/list")
     @RequiresPermissions(value = {"a:appCompany:list"})
+    @ApiOperation(httpMethod="POST" ,value = "厂商列表")
     public ApiResult getList() {
         List<AppCompanyPo> appCompanyMapperList;
         try {
@@ -65,6 +69,7 @@ public class AppCompanyController {
      */
     @RequestMapping("admin/index")
     @RequiresPermissions(value = "a:appCompany:index")
+    @ApiOperation(httpMethod="POST" ,value = "分页查询")
     public ApiResult index(@RequestBody AppCompanyListCnd appCompanyListCnd) {
         PageVo<AppCompanyVo> result;
         try {
@@ -83,6 +88,7 @@ public class AppCompanyController {
      */
     @RequestMapping("admin/save")
     @RequiresPermissions(value = "a:appCompany:save")
+    @ApiOperation(httpMethod="POST" ,value = "保存")
     public ApiResult save(@RequestBody AppCompanyCnd appCompanyCnd) {
         try {
             AppCompany appCompany = new AppCompany();
@@ -106,6 +112,7 @@ public class AppCompanyController {
      */
     @RequestMapping("admin/delete")
     @RequiresPermissions(value = "a:appCompany:delete")
+    @ApiOperation(httpMethod="POST" ,value = "删除")
     public ApiResult deleteBatch(@RequestBody IdCnd idCnd) {
         try {
             appCompanyService.delete(idCnd.getId());
@@ -125,6 +132,7 @@ public class AppCompanyController {
      */
     @RequestMapping("admin/update")
     @RequiresPermissions(value = "a:appCompany:update")
+    @ApiOperation(httpMethod="POST" ,value = "更新")
     public ApiResult update(@RequestBody AppCompanyCnd appCompanyCnd) {
         try {
             AppCompany appCompany = new AppCompany();

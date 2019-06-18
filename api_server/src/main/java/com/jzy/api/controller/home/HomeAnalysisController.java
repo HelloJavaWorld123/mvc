@@ -9,6 +9,8 @@ import com.jzy.api.util.DesUtil;
 import com.jzy.api.util.MyEncrypt;
 import com.jzy.api.vo.home.HomeAnalysisInfoVo;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,7 @@ import java.util.Map;
 @Controller
 @ResponseBody
 @RequestMapping("analysis")
+@Api(tags = "前端-鉴权")
 public class HomeAnalysisController {
 
 
@@ -46,6 +49,7 @@ public class HomeAnalysisController {
      */
     @WithoutLogin
     @RequestMapping("getinfo")
+    @ApiOperation(httpMethod="POST" ,value = "解析加密信息")
     public ApiResult getInfo(@RequestBody HomeAnalysisCnd homeAnalysisCnd) {
         HomeAnalysisInfoVo homeAnalysisInfoVo = homeAnalysisService.update(homeAnalysisCnd);
         if (null == homeAnalysisInfoVo) {
@@ -62,6 +66,7 @@ public class HomeAnalysisController {
      */
     @WithoutLogin
     @RequestMapping("getauth")
+    @ApiOperation(httpMethod="POST" ,value = "加密渠道商信息")
     public ApiResult getauth(@RequestBody HomeAuthCnd homeAuthCnd) {
         String resultData = homeAnalysisService.getauth(homeAuthCnd);
 

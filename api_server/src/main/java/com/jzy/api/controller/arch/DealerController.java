@@ -14,6 +14,8 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.ExcelException;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +43,7 @@ import javax.xml.transform.Result;
 @Controller
 @ResponseBody
 @RequestMapping("dealer")
+@Api(tags = "渠道商")
 public class DealerController {
 
     @Resource
@@ -53,6 +56,7 @@ public class DealerController {
      */
     @RequestMapping("admin/getList")
     @RequiresPermissions(value = "a:dealer:getList")
+    @ApiOperation(httpMethod="POST" ,value = "列表查询")
     public ApiResult getList(@RequestBody DealerListCnd dealerListCnd) {
         PageVo pageVo = dealerService.getList(dealerListCnd);
         return new ApiResult<>(pageVo);
@@ -66,6 +70,7 @@ public class DealerController {
      */
     @RequestMapping("admin/save")
     @RequiresPermissions(value = "a:dealer:save")
+    @ApiOperation(httpMethod="POST" ,value = "保存、更新")
     public ApiResult save(@RequestBody SaveDealerCnd saveDealerCnd){
 
         String telephone = saveDealerCnd.getDealerBaseInfoMapper().getDealerTelephone();
@@ -88,6 +93,7 @@ public class DealerController {
      */
     @RequestMapping("admin/updateDealerPubAndPriKey")
     @RequiresPermissions(value = "a:dealer:updateDealerPubAndPriKey")
+    @ApiOperation(httpMethod="POST" ,value = "重置key")
     public ApiResult updateDealerPubAndPriKey(@RequestBody IdCnd idCnd)  {
         int count = dealerService.updateDealerPubAndPriKey(idCnd.getId());
         if(1==count){
@@ -107,6 +113,7 @@ public class DealerController {
      */
     @RequestMapping("admin/detail")
     @RequiresPermissions(value = "a:dealer:detail")
+    @ApiOperation(httpMethod="POST" ,value = "详情")
     public ApiResult detail(@RequestBody IdCnd idCnd) {
         DealerDetailVo dealerDetailVo = dealerService.detail(idCnd.getId().toString());
         return new ApiResult(dealerDetailVo);
@@ -120,6 +127,7 @@ public class DealerController {
      */
     @RequestMapping("admin/updateDealerStatus")
     @RequiresPermissions(value = "a:dealer:updateDealerStatus")
+    @ApiOperation(httpMethod="POST" ,value = "状态更新")
     public ApiResult updateDealerStatus(@RequestBody UpdateDealerStatusCnd updateDealerStatusCnd) {
         dealerService.updateStatus(updateDealerStatusCnd);
         return new ApiResult();

@@ -6,6 +6,8 @@ import com.jzy.api.vo.oss.OssPolicyVo;
 import com.jzy.common.enums.DirectoryEnum;
 import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -28,12 +30,15 @@ import java.io.IOException;
 @Controller
 @ResponseBody
 @RequestMapping("aliyoss")
+@Api(tags = "oss相关")
 public class OssController {
     private final static Logger logger = LoggerFactory.getLogger(OssController.class);
     @Resource
     private AliyunOssService aliyunOssService;
 
+    @WithoutLogin
     @RequestMapping("/getPolicy")
+    @ApiOperation(httpMethod="POST" ,value = "获取oss数据")
     public ApiResult getPolicy(@RequestParam(value = "directoryType") Integer directoryType){
         OssPolicyVo resultData = null;
         if(directoryType == DirectoryEnum.DIRECTORY_APP_ENUM.getCode()){

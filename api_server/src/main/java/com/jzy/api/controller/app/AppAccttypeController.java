@@ -12,6 +12,8 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,7 @@ import static com.jzy.common.enums.ResultEnum.OPERATION_FAILED;
 @Controller
 @ResponseBody
 @RequestMapping("appAccttype")
+@Api(tags="账号类型")
 public class AppAccttypeController {
 
     private final static Logger logger = LoggerFactory.getLogger(AppAccttypeController.class);
@@ -54,6 +57,7 @@ public class AppAccttypeController {
    */
     @RequestMapping("admin/list")
     @RequiresPermissions(value = {"a:appAcctType:list"})
+    @ApiOperation(httpMethod="POST" ,value = "列表查询")
     public ApiResult list() {
         List<AppAccttypeListPo> acctList = new ArrayList<>();
         try {
@@ -71,6 +75,7 @@ public class AppAccttypeController {
      */
     @RequestMapping("admin/index")
     @RequiresPermissions(value = "a:appAcctType:index")
+    @ApiOperation(httpMethod="POST" ,value = "分页查询")
     public ApiResult index(@RequestBody AppAccttypeListCnd appAccttypeListCnd) {
         PageVo<AppAccttypeVo> result;
         try {
@@ -89,6 +94,7 @@ public class AppAccttypeController {
      */
     @RequestMapping("admin/save")
     @RequiresPermissions(value = "a:appAcctType:save")
+    @ApiOperation(httpMethod="POST" ,value = "保存")
     public ApiResult save(@RequestBody AppAccttypeCnd appAccttypeCnd) {
         try {
             AppAccttype appAccttype = new AppAccttype();
@@ -113,6 +119,7 @@ public class AppAccttypeController {
      */
     @RequestMapping("admin/delete")
     @RequiresPermissions(value = "a:appAcctType:delete")
+    @ApiOperation(httpMethod="POST" ,value = "删除")
     public ApiResult deleteBatch(@RequestBody IdCnd idCnd) {
         try {
             appAccttypeService.delete(idCnd.getId());
@@ -132,6 +139,7 @@ public class AppAccttypeController {
      */
     @RequestMapping("admin/update")
     @RequiresPermissions(value = "a:appAcctType:update")
+    @ApiOperation(httpMethod="POST" ,value = "更新")
     public ApiResult update(@RequestBody AppAccttypeCnd appAccttypeCnd) {
         try {
             AppAccttype appAccttype = new AppAccttype();

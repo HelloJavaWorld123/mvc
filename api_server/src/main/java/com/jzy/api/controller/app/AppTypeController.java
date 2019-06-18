@@ -11,6 +11,8 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.result.ApiResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +40,7 @@ import static com.jzy.common.enums.ResultEnum.OPERATION_FAILED;
 @Controller
 @ResponseBody
 @RequestMapping("appType")
+@Api(tags = "产品类型")
 public class AppTypeController {
 
     private final static Logger logger = LoggerFactory.getLogger(AppTypeController.class);
@@ -56,6 +59,7 @@ public class AppTypeController {
      */
     @RequestMapping("admin/getList")
     @RequiresPermissions(value = {"a:appType:list"})
+    @ApiOperation(httpMethod="POST" ,value = "产品类型列表")
     public ApiResult getList() {
         List<AppTypePo> appTypeList;
         try {
@@ -74,6 +78,7 @@ public class AppTypeController {
      */
     @RequestMapping("admin/index")
     @RequiresPermissions(value = "a:appType:index")
+    @ApiOperation(httpMethod="POST" ,value = "产品类型分页列表")
     public ApiResult index(@RequestBody AppTypeListCnd appTypeListCnd) {
         PageVo<AppTypeVo> result;
         try {
@@ -92,6 +97,7 @@ public class AppTypeController {
      */
     @RequestMapping("admin/save")
     @RequiresPermissions(value = "a:appType:save")
+    @ApiOperation(httpMethod="POST" ,value = "保存")
     public ApiResult save(@RequestBody AppTypeCnd appTypeCnd) {
         try {
             AppType appType = new AppType();
@@ -118,6 +124,7 @@ public class AppTypeController {
      */
     @RequestMapping("admin/delete")
     @RequiresPermissions(value = "a:appType:delete")
+    @ApiOperation(httpMethod="POST" ,value = "删除")
     public ApiResult deleteBatch(@RequestBody IdCnd idCnd) {
         try {
             appTypeService.delete(idCnd.getId());

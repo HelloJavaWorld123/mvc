@@ -20,6 +20,7 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="assignable" expression="com.jzy.api.base.Swagger2Config"/>
     </context:component-scan>
 
     <!-- aop扫描拆分，cat的扫描在spring，参数校验的扫描放到spring mvc，规避参数校验的Validator报错 -->
@@ -204,6 +205,14 @@
         </property>
     </bean>
 
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="com.jzy.api.base.Swagger2Config.setOnline"/>
+        <property name="arguments">
+            <list>
+                <value>${swagger.online}</value>
+            </list>
+        </property>
+    </bean>
 
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
