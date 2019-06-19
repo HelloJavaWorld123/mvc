@@ -8,6 +8,7 @@ import com.jzy.framework.cache.EmpCache;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.util.RegExPatternMatcher;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.redisson.api.RBucket;
@@ -15,7 +16,6 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.AntPathMatcher;
-import sun.rmi.runtime.Log;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
@@ -23,6 +23,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 /**
  * @author : RXK
@@ -31,6 +32,7 @@ import java.util.Objects;
  * Desc:
  *
  */
+@Slf4j
 public class CustomAccessControlFilter extends AccessControlFilter {
 
 	@Autowired
@@ -39,16 +41,16 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 	@Resource
 	private RedissonClient redissonClient;
 
-	@Value("#{'${anonUri}'.split(',')}")
-	private List<String> ignoreUris;
-
-
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
 		HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
-		if(isIgnoreUri(httpServletRequest)){
-			return true;
+		if(isAdminRequestUri(httpServletRequest)){
+			return verifyUri(httpServletRequest, response);
 		}
+		return true;
+	}
+
+	private boolean verifyUri(HttpServletRequest httpServletRequest, ServletResponse response) {
 		String parameter = httpServletRequest.getHeader(AccessToken.APP.getValue());
 		if (StringUtils.isNotBlank(parameter)) {
 			if (isAdminRequest(parameter)) {
@@ -57,7 +59,7 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 					SysEmpVo sysEmpVo = getByToken(apiEmpToken);
 					if (Objects.nonNull(sysEmpVo)) {
 						UsernamePasswordToken token = new UsernamePasswordToken(sysEmpVo.getName(), sysEmpVo.getPassword());
-						getSubject(request, response).login(token);
+						getSubject(httpServletRequest, response).login(token);
 						return true;
 					}
 				}
@@ -68,16 +70,11 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 		return false;
 	}
 
-	private boolean isIgnoreUri(HttpServletRequest httpServletRequest) {
-		String requestURI = httpServletRequest.getRequestURI();
-		AntPathMatcher antPathMatcher = new AntPathMatcher();
-
-		for(String ignoreUris : ignoreUris){
-			if(antPathMatcher.match(ignoreUris,requestURI)){
-				return true;
-			}
-		}
-		return false;
+	private boolean isAdminRequestUri(HttpServletRequest httpServletRequest) {
+		String regex = "^/api-server/([a-zA-Z]+)?/admin(/[a-zA-Z]+){1,2}";
+		String regex1 = "^/api-server/sys(/[a-zA-Z]+){1,2}";
+		RegExPatternMatcher matcher = new RegExPatternMatcher();
+		return matcher.matches(regex, httpServletRequest.getRequestURI()) || matcher.matches(regex1,httpServletRequest.getRequestURI());
 	}
 
 	@Override
