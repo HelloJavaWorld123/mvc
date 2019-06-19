@@ -263,7 +263,8 @@
                 /sys/unauthorized=anon
                 /sys/login=anon
                 /sys/logout=anon
-                /** =authFilter
+                /**/admin/**=authFilter
+                /sys/**=authFilter
             </value>
         </constructor-arg>
     </bean>

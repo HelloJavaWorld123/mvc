@@ -30,7 +30,6 @@ import java.util.regex.Pattern;
  * Date : 2019/6/6 10:30
  * Version: V1.0.0
  * Desc:
- *
  */
 @Slf4j
 public class CustomAccessControlFilter extends AccessControlFilter {
@@ -44,10 +43,7 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
 		HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
-		if(isAdminRequestUri(httpServletRequest)){
-			return verifyUri(httpServletRequest, response);
-		}
-		return true;
+		return verifyUri(httpServletRequest, response);
 	}
 
 	private boolean verifyUri(HttpServletRequest httpServletRequest, ServletResponse response) {
@@ -70,17 +66,10 @@ public class CustomAccessControlFilter extends AccessControlFilter {
 		return false;
 	}
 
-	private boolean isAdminRequestUri(HttpServletRequest httpServletRequest) {
-		String regex = "^/api-server/([a-zA-Z]+)?/admin(/[a-zA-Z]+){1,2}";
-		String regex1 = "^/api-server/sys(/[a-zA-Z]+){1,2}";
-		RegExPatternMatcher matcher = new RegExPatternMatcher();
-		return matcher.matches(regex, httpServletRequest.getRequestURI()) || matcher.matches(regex1,httpServletRequest.getRequestURI());
-	}
-
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 		String loginUrl = super.getLoginUrl();
-		WebUtils.issueRedirect(request,response,loginUrl);
+		WebUtils.issueRedirect(request, response, loginUrl);
 		return false;
 	}
 
