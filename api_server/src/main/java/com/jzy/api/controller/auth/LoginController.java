@@ -8,6 +8,7 @@ import com.jzy.api.model.auth.SysEmp;
 import com.jzy.api.service.auth.SysEmpRoleService;
 import com.jzy.api.service.auth.SysEmpService;
 import com.jzy.api.service.auth.SysRolePermissionService;
+import com.jzy.api.util.DateUtils;
 import com.jzy.api.util.MD5Util;
 import com.jzy.api.vo.auth.LogInVo;
 import com.jzy.common.enums.ResultEnum;
@@ -36,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author : RXK
@@ -162,7 +164,7 @@ public class LoginController {
 		String token = MD5Util.string2MD5(key);
 		EmpCache value = getEmpCache(sysEmp);
 		RBucket<Object> bucket = redissonClient.getBucket(token);
-		bucket.set(value);
+		bucket.set(value, DateUtils.SECONDS_PER_DAY, TimeUnit.SECONDS);
 		return token;
 	}
 
