@@ -1,5 +1,7 @@
 package com.jzy.api.cnd.arch;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -13,11 +15,14 @@ import org.hibernate.validator.constraints.NotBlank;
  * </ul>
  */
 @Data
+@ApiModel(value="查询商品定价详情参数")
 public class GetPriceInfoCnd {
 
+    @ApiModelProperty(value = "商品主键id")
     @NotBlank
     private String aiId;
 
+    @ApiModelProperty(value = "渠道商主键id")
     @NotBlank
     private String dealerId;
 }

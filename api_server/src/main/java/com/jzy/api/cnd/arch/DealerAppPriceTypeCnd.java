@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.arch;
 
 import com.jzy.framework.bean.model.GenericModel;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -17,20 +19,23 @@ import java.util.List;
  * </ul>
  */
 @Data
+@ApiModel(value="渠道商商品配价充值类型信息")
 public class DealerAppPriceTypeCnd {
 
     /**
      * 充值类型主键
      */
+    @ApiModelProperty(value = "商品充值类型id")
     private String aptId;
 
 
     /**
      * 是否允许用户自定义输入金额
      */
+    @ApiModelProperty(value = "是否允许用户输入自定义金额")
     private Integer isCustom = 0;
 
-
+    @ApiModelProperty(value = "渠道商商品配价信息")
     private List<DealerAppPriceInfoCnd> dealerAppPriceInfoCnds = new ArrayList<>();
 
 

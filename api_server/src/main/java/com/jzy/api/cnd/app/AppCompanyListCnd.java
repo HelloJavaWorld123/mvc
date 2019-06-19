@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.app;
 
 import com.jzy.framework.bean.cnd.PageCnd;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -13,20 +15,24 @@ import lombok.Data;
  * </ul>
  */
 @Data
+@ApiModel(value="厂商分页查询参数")
 public class AppCompanyListCnd extends PageCnd {
 
     /**
      * 主键
      */
+    @ApiModelProperty(value = "主键id")
     private Long id;
 
     /**
      * 名称
      */
+    @ApiModelProperty(value = "厂商名称")
     private String name;
 
     /**
      * 厂商icon
      */
+    @ApiModelProperty(value = "厂商图片")
     private String icon;
 }

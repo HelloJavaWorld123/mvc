@@ -4,6 +4,8 @@ import com.jzy.api.model.app.FileInfo;
 import com.jzy.api.model.dealer.Dealer;
 import com.jzy.api.model.dealer.DealerBaseInfo;
 import com.jzy.api.model.dealer.DealerParam;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.List;
  * </ul>
  */
 @Data
+@ApiModel(value="渠道商保存更新参数")
 public class SaveDealerCnd {
     /**
      * 渠道商主表信息 ：关联dealer表

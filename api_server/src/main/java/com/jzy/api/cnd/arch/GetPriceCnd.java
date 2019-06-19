@@ -1,5 +1,7 @@
 package com.jzy.api.cnd.arch;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -12,15 +14,18 @@ import lombok.Data;
  * </ul>
  */
 @Data
+@ApiModel(value="查询商品价格参数")
 public class GetPriceCnd {
 
     /**
      * 商品主键
      */
+    @ApiModelProperty(value = "商品主键id")
     private String aiId;
     /**
      * 充值类型主键
      */
+    @ApiModelProperty(value = "商品充值类型主键id")
     private String aptId;
 
 

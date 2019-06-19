@@ -1,5 +1,7 @@
 package com.jzy.api.cnd.app;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -15,11 +17,13 @@ import java.util.List;
  * </ul>
  */
 @Data
+@ApiModel(value="商品逻辑删除")
 public class AppBatchDeleteCnd {
 
     /**
      * 商品主键列表
      */
+    @ApiModelProperty(value = "商品主键列表")
     private List<Long> aiIds = new ArrayList<>();
 
 

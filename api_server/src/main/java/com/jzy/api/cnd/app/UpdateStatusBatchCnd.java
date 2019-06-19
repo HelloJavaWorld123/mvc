@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.app;
 
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,16 +19,19 @@ import java.util.List;
  * </ul>
  */
 @Data
+@ApiModel(value="商品状态修改参数")
 public class UpdateStatusBatchCnd {
 
     /**
      * 是否启用  0是禁用   1是启用
      */
+    @ApiModelProperty(value = "0禁用，1启用")
     private Integer status;
 
     /**
      * 商品主键列表
      */
+    @ApiModelProperty(value = "商品主键列表")
     private List<Long> aiIds = new ArrayList<>();
 
 

@@ -4,6 +4,8 @@ package com.jzy.api.cnd.app;
 import com.jzy.api.model.app.AppInfo;
 import com.jzy.api.model.app.AppPriceType;
 import com.jzy.api.model.app.FileInfo;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.List;
  * </ul>
  */
 @Data
+@ApiModel(value="商品保存更新参数")
 public class SaveAppInfoCnd {
     /**
      * 商品基础信息
@@ -40,6 +43,4 @@ public class SaveAppInfoCnd {
      * 文件信息
      */
     private List<FileInfo> fileInfoList = new ArrayList<>();
-
-
 }

@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.home;
 
 import com.jzy.api.model.app.FileInfo;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -15,21 +17,25 @@ import java.util.Date;
  * </ul>
  */
 @Data
+@ApiModel(value="618活动弹出和banner参数")
 public class DialogBannerCnd {
 
     /**
      * 1弹窗，2banner
      */
+    @ApiModelProperty(value = "1弹窗，2banner")
     private String type;
 
     /**
      * 渠道商id
      */
+    @ApiModelProperty(value = "渠道商id")
     private Long dealerId;
 
     /**
      * 商品id
      */
+    @ApiModelProperty(value = "商品id")
     private String aiId;
 
 

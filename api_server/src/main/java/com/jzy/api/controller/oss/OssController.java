@@ -7,6 +7,7 @@ import com.jzy.common.enums.DirectoryEnum;
 import com.jzy.common.enums.ResultEnum;
 import com.jzy.framework.result.ApiResult;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,7 @@ public class OssController {
     @WithoutLogin
     @RequestMapping("/getPolicy")
     @ApiOperation(httpMethod="POST" ,value = "获取oss数据")
+    @ApiImplicitParam(name = "directoryType", value = "图片分类：1商品相关，2渠道相关，3轮播图首页分类，4首页推荐，5反馈，6多商品详情")
     public ApiResult getPolicy(@RequestParam(value = "directoryType") Integer directoryType){
         OssPolicyVo resultData = null;
         if(directoryType == DirectoryEnum.DIRECTORY_APP_ENUM.getCode()){

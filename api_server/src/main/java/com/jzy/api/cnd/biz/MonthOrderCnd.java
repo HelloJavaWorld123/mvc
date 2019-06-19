@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.biz;
 
 import com.jzy.framework.bean.cnd.ReportPageCnd;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -13,10 +15,12 @@ import lombok.Data;
  * </ul>
  */
 @Data
+@ApiModel(value="月订单列表查询参数")
 public class MonthOrderCnd extends ReportPageCnd {
     /**
      * 商户名称
      */
+    @ApiModelProperty(value = "模糊查询：渠道商名称")
     private String key;
 
 }

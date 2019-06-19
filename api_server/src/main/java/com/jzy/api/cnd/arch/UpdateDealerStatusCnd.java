@@ -1,5 +1,7 @@
 package com.jzy.api.cnd.arch;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -12,16 +14,19 @@ import lombok.Data;
  * </ul>
  */
 @Data
+@ApiModel(value="渠道商状态修改参数")
 public class UpdateDealerStatusCnd {
 
 
     /**
      * 渠道商Id
      */
+    @ApiModelProperty(value = "渠道商id")
     private String dealerId;
     /**
      * 渠道商状态
      */
+    @ApiModelProperty(value = "状态 0是禁用 1是启用，默认为1")
     private Integer state;
 }
 

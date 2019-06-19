@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.app;
 
 import com.jzy.framework.bean.cnd.PageCnd;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -13,10 +15,12 @@ import lombok.Data;
  * </ul>
  */
 @Data
+@ApiModel(value="渠道商商品热门搜索参数")
 public class AppSearchListCnd extends PageCnd {
 
     /**
      * 搜索名称
      */
+    @ApiModelProperty(value = "模糊搜索参数:商品名称，检索标签，商品全拼首字母")
     private String keyword;
 }
