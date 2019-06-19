@@ -444,7 +444,7 @@ public class DealerAppPriceInfoServiceImpl extends GenericServiceImpl<DealerAppP
             if(count>0) {
                 dealerAppInfoMapper.updateStatus(status, aiId, dealerId);
             }else {
-                throw new BusException("存在商品未配价，不能启用!");
+                throw new BusException("存在商品未配价，不能上架!");
             }
         }
     }
