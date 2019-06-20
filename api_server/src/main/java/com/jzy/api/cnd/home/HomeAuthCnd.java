@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.home;
 
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -14,16 +16,19 @@ import org.hibernate.validator.constraints.NotBlank;
  * </ul>
  */
 @Data
+@ApiModel(value="加密渠道商信息参数")
 public class HomeAuthCnd {
     /**
      * 经销商标识
      */
+    @ApiModelProperty(value = "渠道商唯一标识")
     @NotBlank
     private String businessID;
 
     /**
      * 用户UserId
      */
+    @ApiModelProperty(value = "用户id")
     @NotBlank
     private String userId;
 }

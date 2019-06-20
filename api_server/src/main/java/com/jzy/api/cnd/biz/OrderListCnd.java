@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.biz;
 
 import com.jzy.framework.bean.cnd.PageCnd;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -13,12 +15,14 @@ import lombok.Data;
  * </ul>
  */
 @Data
+@ApiModel(value="订单列表参数")
 public class OrderListCnd extends PageCnd {
 
     /**
      * 订单状态
      * 0：未支付 1：充值中 2：充值成功 3：充值失败 4：充值关闭
      */
+    @ApiModelProperty(value = "订单状态：0待支付,1充值中,2充值成功,空字符串全部")
     private Integer status;
 
 }

@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.biz;
 
 import com.jzy.framework.bean.cnd.GenericCnd;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
@@ -17,16 +19,19 @@ import javax.validation.constraints.NotNull;
  * </ul>
  */
 @Data
+@ApiModel(value="手动处理订单状态")
 public class SupStatusCnd extends GenericCnd {
     /**
      * 订单id
      */
+    @ApiModelProperty(value = "订单id")
     @NotBlank
     private String orderId;
     /**
      * sup状态
      * 2：成功；3：失败
      */
+    @ApiModelProperty(value = "状态：2成功，3失败")
     @Range(min = 2, max = 3)
     @NotNull
     private Integer supStatus = 0;

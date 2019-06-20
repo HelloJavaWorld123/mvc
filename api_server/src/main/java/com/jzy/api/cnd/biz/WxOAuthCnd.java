@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.biz;
 
 import com.jzy.framework.bean.cnd.GenericCnd;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -13,11 +15,13 @@ import lombok.Data;
  * </ul>
  */
 @Data
+@ApiModel(value="授权类型参数")
 public class WxOAuthCnd extends GenericCnd {
 
     /**
      * type 授权类型{"oauth":内置网页授权, "qroauth":网站应用授权}
      */
+    @ApiModelProperty(value = "oauth：内置网页授权,qroauth：网站应用授权")
     private String type = "oauth";
 
 }

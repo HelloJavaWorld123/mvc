@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.biz;
 
 import com.jzy.framework.bean.cnd.GenericCnd;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -14,10 +16,12 @@ import org.hibernate.validator.constraints.NotBlank;
  * </ul>
  */
 @Data
+@ApiModel(value="订单详情参数")
 public class CodeCnd extends GenericCnd {
     /**
      * 订单编号
      */
+    @ApiModelProperty(value = "订单id")
     @NotBlank
     private String orderId;
 

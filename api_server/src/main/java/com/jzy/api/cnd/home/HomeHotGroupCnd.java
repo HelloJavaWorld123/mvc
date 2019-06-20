@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.home;
 
 import com.jzy.framework.bean.cnd.PageCnd;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -13,30 +15,36 @@ import lombok.Data;
  * </ul>
  */
 @Data
+@ApiModel(value="首页推荐分页查询参数")
 public class HomeHotGroupCnd extends PageCnd {
 
     /**
      * 主键id
      */
+    @ApiModelProperty(value = "主键id")
     private Long id;
 
     /**
      * 商户信息id
      */
+    @ApiModelProperty(value = "渠道商id")
     private Long dealerId;
 
     /**
      * 分组名称
      */
+    @ApiModelProperty(value = "分组名称")
     private String groupName;
 
     /**
      * 排序
      */
+    @ApiModelProperty(value = "排序")
     private String groupSort;
 
     /**
-     * 状态1禁用，2启用
+     * 状态0禁用，1启用
      */
+    @ApiModelProperty(value = "0禁用，1启用")
     private String status;
 }

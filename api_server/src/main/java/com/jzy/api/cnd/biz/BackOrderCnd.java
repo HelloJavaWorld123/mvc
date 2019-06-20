@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.biz;
 
 import com.jzy.framework.bean.cnd.ReportPageCnd;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -13,22 +15,27 @@ import lombok.Data;
  * </ul>
  */
 @Data
+@ApiModel(value="订单导出参数")
 public class BackOrderCnd extends ReportPageCnd {
     /**
      * 渠道商id
      */
+    @ApiModelProperty(value = "渠道商id")
     private Integer dealerId;
     /**
      * 搜索框条件
      * 商户编号、订单编号、流水编号
      */
+    @ApiModelProperty(value = "模糊搜索：商户编号，订单编号，流水号")
     private String key;
     /**
      * sup状态
      */
+    @ApiModelProperty(value = "sup状态：0未提交1已提交2成功3失败")
     private Integer supStatus;
     /**
      * 订单状态
      */
+    @ApiModelProperty(value = "订单状态0待支付,1充值中,2充值成功,3充值失败,4充值关闭 5 退款成功")
     private Integer status;
 }

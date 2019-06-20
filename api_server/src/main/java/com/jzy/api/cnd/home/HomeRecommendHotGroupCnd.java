@@ -1,5 +1,7 @@
 package com.jzy.api.cnd.home;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,35 +16,42 @@ import java.util.Date;
  * </ul>
  */
 @Data
+@ApiModel(value="分组保存更新参数")
 public class HomeRecommendHotGroupCnd {
 
     /**
      * 主键id
      */
+    @ApiModelProperty(value = "主键id")
     private Long id;
 
     /**
      * 商户信息id
      */
+    @ApiModelProperty(value = "渠道商id")
     private String dealerId;
 
     /**
      * 分组名称
      */
+    @ApiModelProperty(value = "分组名称")
     private String groupName;
 
     /**
      * 排序
      */
+    @ApiModelProperty(value = "分组排序")
     private String groupSort;
 
     /**
-     * 状态1禁用，2启用
+     * 状态0禁用，1启用
      */
+    @ApiModelProperty(value = "0禁用，1启用")
     private String state;
 
     /**
      * 修改时间
      */
+    @ApiModelProperty(value = "修改时间")
     protected String modifyTime;
 }

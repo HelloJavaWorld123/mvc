@@ -265,6 +265,9 @@
                 /sys/logout=anon
                 /**/admin/**=authFilter
                 /sys/**=authFilter
+                /order/**=authFilter
+                /ManageCarousel/**=authFilter
+                /excelExport/**=authFilter
             </value>
         </constructor-arg>
     </bean>

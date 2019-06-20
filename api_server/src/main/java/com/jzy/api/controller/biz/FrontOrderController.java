@@ -125,6 +125,7 @@ public class FrontOrderController extends GenericController {
      */
     @ResponseBody
     @RequestMapping(path = "/delete")
+    @ApiOperation(httpMethod="POST" ,value = "订单删除")
     public ApiResult delete(@RequestBody CodeCnd codeCnd) {
         orderService.delete(codeCnd.getOrderId());
         return new ApiResult().success();
@@ -149,6 +150,7 @@ public class FrontOrderController extends GenericController {
      */
     @ResponseBody
     @RequestMapping(path = "/closeOrder")
+    @ApiOperation(httpMethod="POST" ,value = "订单关闭")
     public ApiResult closeOrder(@RequestBody CodeCnd codeCnd) {
         orderService.updateStatus(codeCnd.getOrderId(), 4);
         return new ApiResult().success();

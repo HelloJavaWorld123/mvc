@@ -17,6 +17,8 @@ import com.jzy.framework.bean.cnd.IdCnd;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.result.ApiResult;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -180,6 +182,10 @@ public class AppInfoController {
     @WithoutLogin
     @RequestMapping("admin/uploadFile")
     @ApiOperation(httpMethod="POST" ,value = "oss后端上传通用方法")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="mfile",value = "文件", required = true, dataType = "MultipartFile"),
+            @ApiImplicitParam(name="directoryType", value = "文件类型", required = true, dataType = "Integer")
+    })
     public ApiResult uploadFile(@RequestParam(value = "file", required = true) MultipartFile mfile
             , @RequestParam(value = "directoryType") Integer directoryType) {
 

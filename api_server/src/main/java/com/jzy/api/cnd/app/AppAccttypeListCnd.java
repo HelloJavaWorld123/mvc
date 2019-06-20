@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.app;
 
 import com.jzy.framework.bean.cnd.PageCnd;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -13,41 +15,49 @@ import lombok.Data;
  * </ul>
  */
 @Data
+@ApiModel(value="账号类型分页查询入参")
 public class AppAccttypeListCnd extends PageCnd {
 
     /**
      * 主键
      */
+    @ApiModelProperty(value = "主键id")
     private Long id;
 
     /**
      * 主账号名称
      */
+    @ApiModelProperty(value = "主账号名称")
     private String mainName;
 
     /**
      * 主账号正则
      */
+    @ApiModelProperty(value = "主账号正则表达式")
     private String mainRegular;
 
     /**
      * 主账号错误提示信息
      */
+    @ApiModelProperty(value = "主账号错误提示信息")
     private String mainMsg;
 
     /**
      * 副账号名称
      */
+    @ApiModelProperty(value = "副账号名称")
     private String subName;
 
     /**
      * 副账号正则
      */
+    @ApiModelProperty(value = "副账号正则表达式")
     private String subRegular;
 
     /**
      * 副账号错误提示信息
      */
+    @ApiModelProperty(value = "副账号错误提示信息")
     private String subMsg;
 
 

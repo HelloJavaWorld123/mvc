@@ -2,6 +2,8 @@ package com.jzy.api.cnd.app;
 
 import com.jzy.framework.bean.cnd.PageCnd;
 import com.jzy.framework.bean.vo.PageVo;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -14,36 +16,42 @@ import lombok.Data;
  * </ul>
  */
 @Data
+@ApiModel(value="游戏大区分页查询参数")
 public class AppGameListCnd extends PageCnd {
 
     /**
      * 主键
      */
-
+    @ApiModelProperty(value = "主键id")
     private Long id;
     /**
      * 父id
      */
+    @ApiModelProperty(value = "父id")
     private String pId;
 
     /**
      * 名称
      */
+    @ApiModelProperty(value = "区服名称")
     private String name;
 
     /**
      * 类型 0 游戏  1 大区   2服务器
      */
+    @ApiModelProperty(value = "类型：1游戏2大区3服务")
     private String type;
 
     /**
      * 状态：1有区有服  2有区没服  3有服没区(一个默认大区)
      */
+    @ApiModelProperty(value = "状态：1有区有服  2有区没服  3有服没区(一个默认大区)")
     private String status;
 
     /**
      * 排序
      */
+    @ApiModelProperty(value = "排序")
     private String sort;
 
 

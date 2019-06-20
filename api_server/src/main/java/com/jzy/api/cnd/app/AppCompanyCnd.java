@@ -1,5 +1,7 @@
 package com.jzy.api.cnd.app;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -12,20 +14,24 @@ import lombok.Data;
  * </ul>
  */
 @Data
+@ApiModel(value="厂商保存更新参数")
 public class AppCompanyCnd {
 
     /**
      * 主键
      */
+    @ApiModelProperty(value = "主键id")
     private Long id;
 
     /**
      * 名称
      */
+    @ApiModelProperty(value = "厂商名称")
     private String name;
 
     /**
      * 厂商icon
      */
+    @ApiModelProperty(value = "厂商图片")
     private String icon;
 }

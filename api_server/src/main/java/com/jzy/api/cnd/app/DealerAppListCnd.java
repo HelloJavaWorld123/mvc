@@ -1,5 +1,7 @@
 package com.jzy.api.cnd.app;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -12,10 +14,12 @@ import lombok.Data;
  * </ul>
  */
 @Data
+@ApiModel(value="前端-产品分类--商品列表参数")
 public class DealerAppListCnd {
 
     /**
      * 商品分类
      */
+    @ApiModelProperty(value = "商品分类主键id")
     private Long cateId;
 }

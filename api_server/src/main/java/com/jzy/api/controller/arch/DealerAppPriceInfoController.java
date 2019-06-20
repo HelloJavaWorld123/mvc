@@ -98,6 +98,7 @@ public class DealerAppPriceInfoController {
      */
     @RequestMapping("admin/getDealerAppDetail")
     @RequiresPermissions(value = "a:dealAppPriceInfo:getDealerAppDetail")
+    @ApiOperation(httpMethod="POST" ,value = "渠道商查询商品配价列表")
     public ApiResult getDealerAppDetail(@RequestBody GetPriceInfoCnd getPriceInfoCnd) {
         DealerAppPriceInfoDetailVo dealerAppPriceInfoDetailVo = dealerAppPriceInfoService.getDealerAppDetail(getPriceInfoCnd);
         return new ApiResult<>(dealerAppPriceInfoDetailVo);
@@ -111,6 +112,7 @@ public class DealerAppPriceInfoController {
 
     @RequestMapping("admin/save")
     @RequiresPermissions(value = "a:dealAppPriceInfo:save")
+    @ApiOperation(httpMethod="POST" ,value = "渠道商商品配价保存更新")
     public ApiResult save(@RequestBody SavePriceInfoCnd savePriceInfoCnd) {
         dealerAppPriceInfoService.save(savePriceInfoCnd);
         return new ApiResult<>();
@@ -123,6 +125,7 @@ public class DealerAppPriceInfoController {
      */
     @RequestMapping("admin/batchUpdateStatus")
     @RequiresPermissions(value = "a:dealAppPriceInfo:batchUpdateStatus")
+    @ApiOperation(httpMethod="POST" ,value = "渠道商商品批量上下架")
     public ApiResult batchUpdateStatus(@RequestBody BatchUpdateStatusCnd batchUpdateStatusCnd) {
         dealerAppPriceInfoService.updateStatus(batchUpdateStatusCnd);
         return new ApiResult<>();

@@ -1,6 +1,8 @@
 package com.jzy.api.cnd.arch;
 
 import com.jzy.api.cnd.app.DealerAppInfoCnd;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -16,13 +18,13 @@ import java.util.List;
  * </ul>
  */
 @Data
+@ApiModel(value="渠道商商品配价保存更新参数")
 public class SavePriceInfoCnd {
 
     /**
      * 渠道商商品表入参
      */
     private DealerAppInfoCnd dealerAppInfoCnd;
-
 
     private List<DealerAppPriceTypeCnd> dealerAppPriceTypeCndList = new ArrayList<>();
 

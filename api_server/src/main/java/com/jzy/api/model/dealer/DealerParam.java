@@ -1,6 +1,8 @@
 package com.jzy.api.model.dealer;
 
 import com.jzy.framework.bean.model.GenericModel;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,15 +17,20 @@ import java.io.Serializable;
  * </ul>
  */
 @Data
+@ApiModel(value="渠道商配置信息")
 public class DealerParam extends GenericModel implements Serializable {
     /*健*/
+    @ApiModelProperty(value = "配置参数")
     private String dealerKey;
     /*值*/
+    @ApiModelProperty(value = "配置参数值")
     private String dealerValue;
     /*备注*/
+    @ApiModelProperty(value = "备注")
     private String dealerNote;
     /**
      * 渠道商主键
      */
+    @ApiModelProperty(value = "渠道商id")
     private String dealerId;
 }

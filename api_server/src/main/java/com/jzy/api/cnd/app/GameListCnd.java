@@ -1,5 +1,7 @@
 package com.jzy.api.cnd.app;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -13,21 +15,25 @@ import org.springframework.web.bind.annotation.RequestParam;
  * </ul>
  */
 @Data
+@ApiModel(value="后台游戏列表查询参数")
 public class GameListCnd {
 
     /**
      * 父Id
      */
+    @ApiModelProperty(value = "游戏父id")
     private String pId;
 
     /**
      * 类型
      */
+    @ApiModelProperty(value = "类型：1游戏2大区3服务")
     private String type;
 
     /**
      * 名称模糊搜索
      */
+    @ApiModelProperty(value = "游戏区服名称模糊搜索")
     private String queryName;
 
 
