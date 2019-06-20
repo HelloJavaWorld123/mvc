@@ -47,7 +47,7 @@ public class SysPermissionCnd extends PageCnd {
 	@Length(groups = {CreateValidator.class,UpdateValidator.class},max = 20,message = "资源名称的长度不超过20个字符")
 	private String permName;
 
-	@ApiModelProperty(value = "权限类型：0菜单，1按钮，2接口，3特殊)")
+	@ApiModelProperty(value = "权限类型：0菜单，1按钮，2接口，3特殊")
 	@NotNull(groups = {CreateValidator.class,UpdateValidator.class},message = "权限类型不能为空")
 	@Range(groups = {CreateValidator.class,UpdateValidator.class},min = 0,max = 3,message = "请输入正确的权限类型")
 	private Integer permType;

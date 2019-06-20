@@ -15,7 +15,7 @@ import lombok.Data;
  * </ul>
  */
 @Data
-@ApiModel(value="订单导出参数")
+@ApiModel(value="订单参数")
 public class BackOrderCnd extends ReportPageCnd {
     /**
      * 渠道商id

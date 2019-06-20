@@ -53,6 +53,7 @@ public class SysEmpCnd extends PageCnd {
 	//当前操作的用户
 	@ApiModelProperty(value = "当前操作用户id")
 	private Long operatorId;
+
 	@ApiModelProperty(value = "渠道商id")
 	private Long dealerId = 0L;
 }
