@@ -1,12 +1,15 @@
 package com.jzy.api.controller.arch;
 
 
+import com.jzy.api.cnd.arch.DealerCnd;
 import com.jzy.api.cnd.arch.DealerListCnd;
 import com.jzy.api.cnd.arch.SaveDealerCnd;
 import com.jzy.api.cnd.arch.UpdateDealerStatusCnd;
+import com.jzy.api.cnd.home.HomeAuthCnd;
 import com.jzy.api.model.dealer.DealerBaseInfo;
 
 import com.jzy.api.service.arch.DealerService;
+import com.jzy.api.service.home.HomeAnalysisService;
 import com.jzy.api.util.PhoneCheckUtil;
 import com.jzy.api.vo.dealer.DealerDetailVo;
 import com.jzy.common.enums.ResultEnum;
@@ -20,6 +23,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -131,6 +135,19 @@ public class DealerController {
     public ApiResult updateDealerStatus(@RequestBody UpdateDealerStatusCnd updateDealerStatusCnd) {
         dealerService.updateStatus(updateDealerStatusCnd);
         return new ApiResult();
+    }
+
+    /**
+     * <b>功能描述：</b>渠道商预览客户端<br>
+     * <b>修订记录：</b><br>
+     * <li>20190511&nbsp;&nbsp;|&nbsp;&nbsp;鲁伟&nbsp;&nbsp;|&nbsp;&nbsp;创建方法</li><br>
+     */
+    @RequestMapping("admin/preview")
+    //@RequiresPermissions(value = "a:dealer:preview")
+    @ApiOperation(httpMethod="POST" ,value = "渠道商预览客户端")
+    public ApiResult preview(@RequestBody DealerCnd dealerCnd) {
+        String clientUrl = dealerService.preview(dealerCnd);
+        return new ApiResult(clientUrl);
     }
 
 }

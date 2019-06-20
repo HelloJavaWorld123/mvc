@@ -1,5 +1,6 @@
 package com.jzy.api.service.arch;
 
+import com.jzy.api.cnd.arch.DealerCnd;
 import com.jzy.api.cnd.arch.DealerListCnd;
 import com.jzy.api.cnd.arch.SaveDealerCnd;
 import com.jzy.api.cnd.arch.UpdateDealerStatusCnd;
@@ -81,5 +82,9 @@ public interface DealerService extends GenericService<Dealer> {
      */
     int updateDealerPubAndPriKey(Long dealerId);
 
-
+    /**
+     * 渠道商预览客户端，返回客户端url
+     * @return
+     */
+    String preview(DealerCnd dealerCnd);
 }

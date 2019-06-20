@@ -2,9 +2,11 @@ package com.jzy.api.service.arch.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.jzy.api.cnd.arch.DealerCnd;
 import com.jzy.api.cnd.arch.DealerListCnd;
 import com.jzy.api.cnd.arch.SaveDealerCnd;
 import com.jzy.api.cnd.arch.UpdateDealerStatusCnd;
+import com.jzy.api.cnd.home.HomeAuthCnd;
 import com.jzy.api.dao.arch.DealerBaseInfoMapper;
 import com.jzy.api.dao.arch.DealerMapper;
 import com.jzy.api.dao.arch.DealerParamMapper;
@@ -24,15 +26,18 @@ import com.jzy.api.service.arch.DealerBaseInfoService;
 import com.jzy.api.service.arch.DealerParamService;
 import com.jzy.api.service.arch.DealerService;
 import com.jzy.api.service.auth.EmpService;
+import com.jzy.api.service.home.HomeAnalysisService;
 import com.jzy.api.service.key.TableKeyService;
 import com.jzy.api.service.sys.SysImagesService;
 import com.jzy.api.util.MD5Util;
 import com.jzy.api.util.MyEncrypt;
+import com.jzy.api.util.MyStringUtil;
 import com.jzy.api.vo.dealer.DealerDetailVo;
 import com.jzy.framework.bean.vo.PageVo;
 import com.jzy.framework.dao.GenericMapper;
 import com.jzy.framework.exception.BusException;
 import com.jzy.framework.service.impl.GenericServiceImpl;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -84,6 +89,13 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
 
     @Resource
     private OrderMapper orderMapper;
+
+    @Resource
+    private HomeAnalysisService homeAnalysisService;
+
+    @Value("${h5_sit_dns}")
+    private String h5DomainUrl;
+
 
     @Override
     public Dealer queryDealer(String dealerId) {
@@ -325,6 +337,18 @@ public class DealerServiceImpl extends GenericServiceImpl<Dealer> implements Dea
         }else {
             return 0;
         }
+    }
+
+    @Override
+    public String preview(DealerCnd dealerCnd) {
+        HomeAuthCnd homeAuthCnd = new HomeAuthCnd();
+        homeAuthCnd.setBusinessID(dealerCnd.getIdNum());
+        homeAuthCnd.setUserId(dealerCnd.getDealerId());
+        String data = homeAnalysisService.getauth(homeAuthCnd);
+        StringBuffer clientUrl = new StringBuffer();
+        clientUrl.append(h5DomainUrl).append("/auth?BusinessID=")
+                .append(dealerCnd.getIdNum()).append("&Data=").append(data);
+        return clientUrl.toString();
     }
 
     @Override
