@@ -72,8 +72,16 @@ public class Swagger2Config {
                     .globalOperationParameters(
                             newArrayList(
                                     new ParameterBuilder()
-                                            .name("token")
-                                            .description("鉴权token")
+                                            .name("apiEmpToken")
+                                            .description("后台鉴权token")
+                                            .modelRef(new ModelRef("string"))
+                                            .parameterType("header")
+                                            .required(true)
+                                            .defaultValue("c2ea579f3f90258543e03352ea95b550")
+                                            .build(),
+                                    new ParameterBuilder()
+                                            .name("apiUserToken")
+                                            .description("前台鉴权token")
                                             .modelRef(new ModelRef("string"))
                                             .parameterType("header")
                                             .required(true)
@@ -85,7 +93,7 @@ public class Swagger2Config {
                                             .modelRef(new ModelRef("string"))
                                             .parameterType("header")
                                             .required(false)
-                                            .defaultValue("1")
+                                            .defaultValue("2")
                                             .build()
                             )
                     )
